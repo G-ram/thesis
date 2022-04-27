@@ -1,4 +1,5 @@
 PAPERNAME=paper
+TEX=tex
 
 all : paper.pdf
 
@@ -21,4 +22,7 @@ paper.pdf : figures
 
 clean :
 	$(MAKE) -C figures clean
-	rm paper.bbl paper.blg paper.log paper.out paper.pdf
+	find $(TEX) -name "*.aux" | xargs rm -f
+	rm -f paper.bbl paper.blg paper.log \
+		paper.out paper.pdf paper.aux \
+		paper.run.xml paper.toc paper.lof paper.lot

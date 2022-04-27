@@ -1,10 +1,14 @@
 .DS_Store
-paper.aux
 paper.bbl
 paper.blg
 paper.log
 paper.out
 paper.pdf
+*.aux
+paper.run.xml
+paper.toc
+paper.lof
+paper.lot
 figures/pdf
 figures/figures-crop.pdf
 figures/bld

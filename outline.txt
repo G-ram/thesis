@@ -1,0 +1,37 @@
+0. Abstract
+1. Introduction
+	a. Low-powered sensor devices are becoming popular
+	b. Many new applications, requiring sophisticated computation
+	c. Cloud offloading is not feasible
+		i. Range, limited bandwidth, privacy but mainly energy
+	d. Devices are severely resource and energy constrained
+		i. Battery-powered devices
+		ii. Energy-harvesting devices
+			- Challenges w/ intermittent execution
+	e. Existing devices are energy-inefficient
+		i. Stupid reasons
+		ii. Pay a huge cost for programmability
+	f. Specialization gains energy-efficiency at the expense of programmability
+		i. Premature
+		ii. NRE costs
+	g. ASICs & existing devices assume there is a trade-off
+		i. Flawed argument because of execution models
+	h. Needs to provide right interface for maintain programmability
+		i. Requiring applications to be rewritten is not scalable
+		ii. Need to be able to apply to existing embedded software
+	i. Objective of this work
+		i. Thesis
+		ii. SONIC
+		iii. MANIC
+		iv. SNAFU
+		v. Riptide 
+2. Background
+	1. Applications for low-power embedded sensors
+	2. Architectures of existing
+3. SONIC
+4. MANIC
+	a. MANIC Silicon
+5. SNAFU
+6. Riptide
+7. Future work
+8. Conclusion
