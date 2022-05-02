@@ -1,0 +1,264 @@
+\newcommand{\tabMotivateModel}{ 
+\begin{table}[t]
+	\centering
+	\resizebox{\linewidth}{!}{%
+	\begin{tabular}{c p{5in}}
+		\toprule
+		\bf Parameter & \bf Description \\
+		\midrule
+		\metric & Our figure of merit, the number of ``interesting'' messages sent per Joule of harvested energy. \\
+		$p$ & Base rate (probability) of ``interesting'' events. \\
+		$t_p$ & True positive rate in inference. \\
+		$t_n$ & True negative rate in inference. \\
+		$E_\text{sense}$ & Energy cost of sensing (e.g., taking a photo). \\
+		$E_\text{comm}$ & Energy cost of communicating one sensor reading. \\
+		$E_\text{infer}$ & Energy cost of a inference on one sensor reading. \\
+		\bottomrule
+	\end{tabular}}
+	\caption{Description of each parameter in our energy model.}
+	\label{tab:motivation:model}
+\end{table} 
+}
+
+\newcommand{\figMotivateImages}{
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.65\linewidth]{sonic/figures/pdf/motivation_images-crop.pdf}
+	\caption{Inference accuracy determines end-to-end system performance
+	in an example wildlife monitoring application.  Interesting events
+	are rare and communication is expensive; local inference ensures
+	that energy is only spent on interesting events.}
+	\label{fig:motivation:images}
+\end{figure}
+}
+
+\newcommand{\figMotivateResults}{
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.75\linewidth]{sonic/figures/pdf/motivation_results-crop.pdf}
+	\caption{Local inference (i.e. Naive and \sonictails) lets energy-harvesting devices communicate only \emph{results} of inference, enabling dramatic increases in end-to-end system performance.}
+	\label{fig:motivation:results}
+\end{figure}
+}
+
+\newcommand{\figOverview}{
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.95\linewidth]{sonic/figures/pdf/overview-crop}
+	\caption{\label{fig:overview} Overview of implementing a DNN application using \sonictails.
+	\genesis first compresses the network to optimize interesting messages sent per Joule (\metric).
+	\sonictails then ensure correct intermittent execution at high performance~\cite{Gobieski2018IntermittentDN}.
+}
+\end{figure}
+}
+
+\newcommand{\tableGenesisNNS}{
+\begin{table}[t]
+	\centering
+	\resizebox{\linewidth}{!}{
+	\begin{tabular}{ccccccc}
+	\toprule
+	\bf Network & \bf Layer & \bf Uncompressed & \bf Compression & \bf Compressed &
+	\bf Compression & \bf Accuracy \\
+	& & \bf Size & \bf Technique & \bf Size & &\\
+	\midrule
+	\multirow{4}{*}{\parbox{1.2in}{Image classification (MNIST)}}
+	& Conv & $20\times1\times5\times5$& HOOI & 3$\times$1D Conv & 11.4$\times$ &
+	\multirow{4}{*}{$99.00\%$}\\
+	& Conv & $100\times20\times5\times5$ & Pruning& 1253 & $39.9\times$ &\\
+	& FC & $200\times1600$ & Pruning, SVD & 5456 & $ 109\times$ &\\
+	& FC & $500\times200$ & Pruning, SVD & 1892 & --- &\\
+	& FC & $10\times500$ & --- & --- & --- &\\
+	\midrule
+	\multirow{4}{*}{\parbox{1.2in}{Human activity recognition (HAR)}}
+	& Conv & $98\times3\times1\times12$ & HOOI & 3$\times$1D Conv&
+	$2.25\times$
+	& \multirow{4}{*}{$88.0\%$}\\
+	& FC & $192\times2450$ & Pruning, SVD & 10804 & \multirow{2}{*}{$58.1\times$}&\\
+	& FC & $256\times192$ & Pruning, SVD & --- & --- & \\
+	& FC & $6\times256$ & --- & --- & --- & \\
+	\midrule
+	\multirow{4}{*}{\parbox{1.2in}{Google keyword spotting (OkG)}}
+	& Conv %% stride=(4,1)
+	       & $186\times1\times98\times8$ & HOOI, Pruning & 3$\times$1D Conv & 7.3x&
+	       \multirow{4}{*}{$84.0\%$}\\
+	& FC & $96\times1674$ & Pruning, SVD & 16362 & $11.8\times$&\\
+	& FC & $128\times96$ & Pruning, SVD & 2070 & --- &\\
+	& FC & $32\times 128$ & SVD & 4096 & 2$\times$ &\\
+	& FC & $128\times32$ & SVD & 4096 & --- &\\
+	& FC & $128\times12$  & --- & --- & --- &\\
+	\bottomrule
+	\end{tabular}}
+	\caption{Neural networks used in this paper.}
+	\label{tab:genesis:nns}
+\end{table}
+}
+
+\newcommand{\figGenesisNNs}{
+\begin{figure*}
+	\centering
+	\includegraphics[width=0.8\linewidth]{sonic/figures/pdf/train_legend-crop.pdf}
+	\vspace{0.25em}
+
+	\begin{minipage}{\linewidth}
+		\begin{subfigure}{0.32\linewidth}
+			\includegraphics[width=\linewidth]{sonic/figures/pdf/mnist_train-crop.pdf}
+			\caption{MNIST image recognition.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.32\linewidth}
+			\includegraphics[width=\linewidth]{sonic/figures/pdf/har_train-crop.pdf}
+			\caption{Human activity recognition (HAR).}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.32\linewidth}
+			\includegraphics[width=\linewidth]{sonic/figures/pdf/okg_train-crop.pdf}
+			\caption{Google keyword spotting (OkG).}
+		\end{subfigure}
+		\caption{\genesis explores the inference accuracy-cost tradeoff for different neural network configurations.}
+		\label{fig:genesis:train}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{\linewidth}
+		\begin{subfigure}{0.32\linewidth}
+			\includegraphics[width=\linewidth]{sonic/figures/pdf/mnist_train_perf-crop.pdf}
+			\caption{MNIST image recognition.}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.32\linewidth}
+			\includegraphics[width=\linewidth]{sonic/figures/pdf/har_train_perf-crop.pdf}
+			\caption{Human activity recognition (HAR).}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.32\linewidth}
+			\includegraphics[width=\linewidth]{sonic/figures/pdf/okg_train_perf-crop.pdf}
+			\caption{Google keyword spotting (OkG).}
+		\end{subfigure}
+		\caption{\genesis uses our end-to-end application performance
+		model (\autoref{eq:impj}) to select the best feasible network configuration.}
+		\label{fig:genesis:perf}
+	\end{minipage}
+\end{figure*}
+}
+
+\newcommand{\figCompDesigns}{
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{sonic/figures/pdf/comp_designs-crop}
+	\caption{Executing a loop using two fixed task-tilings and with 
+	\sonic's loop continuation mechanism. Loop continuation avoids the re-execution and non-termination costs of task-tiling.
+	\tails uses SIMD to perform more work in a fixed energy budget (\autoref{sonic:tails}).} 
+	\label{fig:looptrick} 
+\end{figure}
+}
+
+\newcommand{\figLoopContinuation}{
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.65\linewidth]{sonic/figures/pdf/tails_sonic-crop}
+	\caption{
+	\sonic uses \emph{loop continuation} and \emph{loop-ordered buffering} 
+	to reduce overheads of correct intermittent execution. \emph{Loop continuation}
+	\label{fig:tails_sonic}
+	maximizes the amount of computation done per task by allowing computation to
+	pick up where it left off before power failure.
+	}
+\end{figure}
+}
+
+\newcommand{\figMethod}{
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{sonic/figures/pdf/hardware-crop}
+	\caption{Diagram of the measurement setup.} 
+	\label{fig:hardware}
+\end{figure}
+}
+
+\newcommand{\figEvalTime}{
+\begin{figure*}
+	\centering
+	\includegraphics[height=0.3in]{sonic/figures/pdf/perf_legend-crop.pdf}
+
+	\vspace{0.25em}
+	\rotatebox{90}{\small\sf Time (s)}
+	\begin{subfigure}{0.45\linewidth}
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/cont_zoom-crop.pdf}
+		\caption{Continuous power.}
+		\label{fig:evaluation:time:cont}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.45\linewidth}
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/100uf_zoom-crop.pdf}
+		\caption{Intermittent power w/ 100\textmu F cap.}
+		\label{fig:evaluation:time:100uf}
+	\end{subfigure}
+
+	\vspace{0.25em}
+
+	\rotatebox{90}{\small\sf Time (s)}
+	\begin{subfigure}{0.55\linewidth}
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/mnist_zoom-crop.pdf}
+		\caption{MNIST image recognition.}
+		\label{fig:evaluation:time:mnist}
+	\end{subfigure}
+
+	\caption{Inference time on three neural networks.
+		The na\"ive baseline is fast, but does not tolerate intermittent execution.
+		Tiled implementations can ensure correct execution, but only at high cost (up to 19$\times$ slowdown) and sometimes do not complete.
+		\sonic ensures correct execution and is nearly as fast as the na\"ive baseline,
+		and \tails is even faster.
+		(\ref{fig:evaluation:time:cont}) All three networks on continuous power,
+		where \sonictails add dramatically lower overheads than prior task-based systems.
+		(\ref{fig:evaluation:time:100uf}) All three networks on intermittent power (100\textmu F capacitor),
+		where the baseline and most tiled implementations do not complete.
+		(\ref{fig:evaluation:time:mnist}) The MNIST network across all four power systems.
+		\sonictails always completes and has consistently good performance;
+		HAR and OkG show similar results.
+	}
+	\label{fig:evaluation:time}
+\end{figure*}}
+
+\newcommand{\figEvalOther}{
+\begin{figure*}
+	\centering
+	\vspace{-.75em}
+
+	\begin{subfigure}{.49\linewidth}
+		\centering
+		\includegraphics[height=0.5in]{sonic/figures/pdf/time_break_legend-crop.pdf}
+		
+		\vspace{0.5em}
+		
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/time_break-crop.pdf}
+		\caption{Proportions of time spent computing the kernel of a layer.
+		\sonictails add small overheads over a na\"ive baseline,
+		unlike prior task-based systems (Tile-32).}
+		\label{fig:evaluation:time:breakdown}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.49\linewidth}
+		\centering
+		\includegraphics[height=0.4in]{sonic/figures/pdf/perf2_legend-crop.pdf}
+		
+		\vspace{0.5em}
+
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/tails_energy-crop.pdf}
+		\caption{Energy of three neural networks with a 1mF capacitor. \sonictails
+		require substantially less energy than the state-of-the-art.}
+		\label{fig:evaluation:energy:measured}
+	\end{subfigure}
+
+	\begin{subfigure}{0.65\linewidth}
+		\centering
+		\includegraphics[height=0.4in]{sonic/figures/pdf/micro_energy_legend-crop.pdf}
+		
+		\vspace{0.5em}
+
+		\includegraphics[width=0.8\linewidth]{sonic/figures/pdf/micro_energy-crop.pdf}
+		\caption{Energy profile of \sonic broken down by operation and layer. Multiplication, control, and memory accesses represent significant overheads.}
+		\label{fig:evaluation:energy:micro}
+	\end{subfigure}
+
+\end{figure*}
+}

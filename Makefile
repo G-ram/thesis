@@ -6,6 +6,7 @@ all : paper.pdf
 .PHONY: figures
 figures:
 	$(MAKE) -C figures
+	$(MAKE) -C sonic/figures
 
 fast : figures
 	pdflatex $(PAPERNAME) </dev/null | tail -n 32
@@ -22,6 +23,7 @@ paper.pdf : figures
 
 clean :
 	$(MAKE) -C figures clean
+	$(MAKE) -C sonic/figures clean
 	find $(TEX) -name "*.aux" | xargs rm -f
 	rm -f paper.bbl paper.blg paper.log \
 		paper.out paper.pdf paper.aux \

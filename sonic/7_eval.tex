@@ -1,0 +1,136 @@
+\section{Evaluation}
+\label{sonic:evaluation}
+
+We ~now ~evaluate ~our ~prototype ~to ~demonstrate ~that:
+%
+\emph{(i)}~\sonictails guarantee correct intermittent execution;
+%
+\emph{(ii)}~\sonictails greatly reduce inference energy and time over
+the state-of-the-art; and
+%
+\emph{(iii)}~\sonictails perform well across a variety of networks
+without any hand-tuning.
+
+\subsection{\sonictails accelerates intermittent inference 
+v. state-of-the-art}
+
+\autoref{fig:evaluation:time} shows the inference time for the three
+networks we consider (\autoref{tab:genesis:nns}).
+%
+For each network, we evaluated six implementations running on four different power systems.
+%
+We break inference time into:
+dead time spent recharging;
+live time spent on each convolution layer (which dominates);
+live time spent on the fully-connected layers;
+and everything else.
+
+First, notice that \sonictails guarantees correct execution for every
+network on every power system.
+%
+This is not true of the na\"ive baseline, which does not run correctly
+on intermittent power, or of most tilings for prior task-based
+intermittent systems.
+%
+The only other implementation that reliably executes correctly is
+Tile-8, since its tiling is small enough to always complete within a
+single charge cycle.
+%
+The other tilings fail on some configurations: Tile-32 fails on
+MNIST with a 100\textmu F capacitor, and Tile-128 fails on all networks at 100\textmu
+F.
+
+\sonictails guarantee correct execution at much lower
+overheads than Tile-8.
+%
+Averaging across networks, Tile-8 is gmean $13.4\times$ slower than the
+na\"ive baseline on continuous power, whereas \sonic is $1.45\times$ slower and 
+\tails is actually $1.2\times$ \emph{faster} than the baseline.
+%
+That is to say, \sonic improves performance on average by $6.9\times$ over tiled Alpaca~\cite{alpaca},
+and \tails improves it by $12.2\times$.
+%
+Moreover, execution time is consistent across capacitor sizes for \sonictails.
+
+\figEvalOther
+
+Larger tile sizes amortize overheads somewhat, but since they do not
+complete on all networks or capacitor sizes, they are an unattractive
+implementation choice.
+%
+\sonictails guarantee correct intermittent execution across all capacitor
+sizes, while also being faster than the largest tilings: even compared
+to Tile-128, \sonic is on average $5.2\times$ faster on continuous power and \tails
+is $9.2\times$ faster.
+
+Both DMA and LEA improve \tails's efficiency. We tested configurations 
+where DMA and LEA are emulated by software and found that LEA consistently 
+improved performance by $1.4\times$, while DMA improved it by $14\%$ on average.
+
+Ultimately, these results indicate that inference is viable on
+commodity energy-harvesting devices, and \sonictails significantly reduce overheads over
+the state-of-the-art. 
+
+\subsection{Loop continuation nearly eliminate intermittence overheads}
+\autoref{fig:evaluation:time:breakdown} shows that the overheads of \sonictails come mainly
+from control required to support intermittence. 
+%
+The darker-hatched regions of the bars represent the proportion of time spent 
+computing a layer's kernel (i.e., the main loop), while the lighter regions represent control overheads (i.e., task transitions and setup/teardown).
+%
+Most of the difference in performance between the baseline and \sonic is attributable 
+to the lighter, control regions. 
+%
+This suggests that \sonic imposes small overhead
+over the na\"ive baseline, which accumulates values in registers and avoids memory writes (but does not tolerate intermittence).
+
+\tails's overhead also comes from control; \tails significantly accelerates kernels.
+%
+\tails's control overhead is large due to LEA's fixed-point representation,
+which forces \tails to bit-shift activations before invoking FIR-DTC.
+%
+Moreover, LEA does not have a left-shift operation (it does have a right-shift),
+so these shifts must be done in software.
+%
+These shifts account for most of the control time in \autoref{fig:evaluation:time:breakdown}.
+
+\autoref{fig:evaluation:time:breakdown} also shows the time breakdown for Tile-32.
+%
+Unlike \sonictails,
+Tile-32 spends significantly more time in both control and the kernel.
+%
+This is because Alpaca uses redo-logging on all written values to ensure idempotence,
+so every write requires dynamic buffering (kernel time)
+and committing when the task completes (control time).
+%
+\sonictails effectively eliminate redo-logging, avoiding these overheads.
+
+\subsection{\sonictails use much less energy than tiling}
+
+Energy-harvesting systems spend a majority of their time powered off
+recharging, so execution time is largely determined by energy
+efficiency.
+%
+\autoref{fig:evaluation:energy:measured} shows that \sonictails achieve high performance 
+because they require less energy than other schemes.
+%
+Inference energy is in direct proportion to the dead
+time spent recharging in \autoref{fig:evaluation:time}.
+%
+Since dead time dominates inference time, \sonictails get similar
+improvements in inference energy as they do in terms of inference
+time.
+
+\subsection{Where does \sonic's energy go?}
+\autoref{fig:evaluation:energy:micro} further characterizes \sonic by showing 
+the proportion of energy spent on different operations. 
+%
+The blue regions represent memory operations, the orange regions are control
+instructions, the green regions are arithmetic instructions within the kernels,
+the purple regions are the task-transition overhead, and the grey regions
+are the remaining, unaccounted-for energy. 
+%
+The control instructions account for 26\% of \sonic's energy,
+and a further 14\% of system energy comes from FRAM writes to loop indices.
+Ideally, these overheads would be amortized across many kernel operations,
+but doing this requires a more efficient architecture.

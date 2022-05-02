@@ -1,0 +1,11 @@
+{
+	"filter": {"eid":[1, 2, 5, 50, 51, 46, 13, 14, 15, 17, 52, 47, 37, 38, 39, 41, 54, 49]},
+	"src": ["../data/100uf"],
+	"minor_key": "backend",
+	"minor_label": ["Base", "Tile-8", "Tile-32", "Tile-128", "SONIC", "TAILS"],
+	"minor_order": ["base", "tile-8","tile-32", "tile-128", "flex", "lea_fir"],
+	"major_key": "target",
+	"major_label": ["MNIST", "HAR", "OkG"],
+	"major_order": ["mnist", "har", "okg"],
+	"colors": ["#4472C4", "#EB7D3C", "#2E9260", "#A068B0", "#A7A7A4"]
+}

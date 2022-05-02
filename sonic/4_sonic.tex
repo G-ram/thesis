@@ -1,0 +1,237 @@
+\section{Efficient intermittent inference with \sonic}
+\label{sonic:sonic}
+
+\sonic is the first software system optimized for inference on
+resource-constrained, intermittently operating devices.
+%
+\sonic supports operations common to most DNN computations,
+exposing them to the programmer through a simple API.
+%
+\sonic's functionality is implemented as a group of {\em tasks}
+supported by the \sonic runtime system, which is a modified version of the
+Alpaca runtime system~\cite{alpaca}.
+%
+These tasks implement DNN functionality, and the \sonic runtime system 
+guarantees correct intermittent operation.
+
+Specializing intermittence support for DNN inference yields large benefits.
+Prior task-based intermittent execution models~\cite{alpaca,chain} can degrade performance by up to 19$\times$
+and by 10$\times$ on average
+(\autoref{sonic:evaluation}).
+\sonic dramatically reduces these overheads to just 25\%--75\% over
+a standard baseline of DNN inference that does not tolerate intermittent operation.
+
+\sonic achieves these gains by eliminating the three major sources of overhead in prior task-based systems:
+redo-logging, task transitions, and wasted work (\autoref{sonic:background}).
+%
+Our key technique is \emph{loop continuation},
+which selectively violates the task abstraction
+for loop index variables.
+Loop continuation lets \sonic directly modify loop indices without frequent and expensive saving and restoring.
+By writing loop indices directly to non-volatile memory,
+\sonic checkpoints its progress after each loop iteration,
+eliminating expensive task transitions
+and wasting work upon power failure.
+
+Loop continuation is safe because \sonic
+ensures that each loop iteration is idempotent.
+\sonic ensures idempotence 
+in convolutional and fully-connected layers
+through \emph{loop-ordered buffering} and \emph{sparse undo-logging}.
+These two techniques ensure idempotence without statically privatizing or dynamically checkpointing data,
+avoiding the overheads imposed by prior task-based systems.
+
+\subsection{The \sonic API}
+
+The \sonic API lets the programmer describe a DNN's structure through 
+common linear algebra primitives.
+%
+Just as a programmer chains tasks together in a task-based intermittent
+programming model~\cite{chain,alpaca,mayfly}, the programmer chains \sonic's
+tasks together to represent the control and data flow of a DNN inference
+pipeline. 
+%
+\sonic's API exposes functionality that the programmer invokes like
+any other task in their program (specifically, a {\em modular task
+  group}~\cite{alpaca,chain}).
+%
+Though \sonic ``breaks the rules'' of a typical task-based
+intermittent system, the programmer does not need to reason about these
+differences when they are writing a program using the \sonic API.
+%
+The program-level behavioral guarantee that \sonic provides is the
+same as the one underlying other task-based intermittent execution
+models: a \sonic task will execute atomically despite power
+interruptions by ensuring that repeated, interrupted attempts to
+execute are idempotent.
+
+\subsection{The \sonic runtime implementation}
+\label{sonic:sonic:runtime}
+
+DNN inference is dominated by loops within each layer of the neural network.
+\sonic optimizes DNN inference by ensuring that these loops execute correctly
+on intermittent power while adding much less overhead than prior task-based systems.
+
+\paragraph{Loops in task-based systems}
+A typical task-based intermittent system sees two kinds of loops: {\em short
+loops} and {\em long loops}.  All iterations of a {\em short loop} fit in a
+single task and will complete without consuming more energy than the device can
+buffer.  A short loop maintains control state in volatile memory and these
+variables clear on power failure. When power resumes, the task restarts and
+completes.  Data manipulated by a short loop are usually non-volatile (i.e.,
+``task-shared''~\cite{alpaca}) and if read and updated, they must be backed up
+(either statically or dynamically) to ensure they remain consistent.  The
+problem with short loops is that they always restart from the beginning,
+wastefully repeating loop work that was already done. 
+%
+In contrast, a {\em long loop} with many iterations does not fit in a single
+task; a long loop demands more energy than the device can buffer and may never
+terminate. A programmer must split loop iterations across tasks, requiring a
+task transition on each iteration and requiring control state and data to be
+non-volatile and backed up.  
+%
+The problem with long loops is that may not terminate and, when
+split across tasks, impose hefty privatization and task transition overheads.
+
+\figCompDesigns
+
+{\em Task-tiling} is a simple way to split a loop's iterations into tasks.  A
+task-tiled loop executes a fixed number of iterations per task.  Task-tiling
+amortizes task transitioning overhead, but risks executing more iterations in a
+single task than the device's energy buffer can support, causing
+non-termination.  Figure~\ref{fig:looptrick} shows the intermittent execution
+(energy trace on left) of a loop computing a dot product using two
+fixed tile sizes of five (Tile-5) and twelve (Tile-12). Tile-5 wastes work when four
+iterations complete before a failure.  Tile-12 prevents forward
+progress because the device buffers insufficient energy to complete twelve
+iterations.
+
+\subsubsection{Loop continuation}
+
+\sonic's \emph{loop continuation} is an intermittence-safe optimization that avoids wasted work,
+unnecessary data privatization, and task transition overheads in tasks
+containing long-running loop nests. Loop continuation works by directly
+modifying loop control variables and memory manipulated in a loop nest, rather
+than splitting a long-running loop across tasks. 
+%
+Loop continuation
+permits loops of arbitrary iteration count within a single task, with neither
+non-termination nor excessive state management overhead.
+%
+Loop continuation stores a loop's control variables and data manipulated directly in non-volatile
+memory \emph{without backing either up}.  When a loop continuation task restarts, its
+(volatile) local variables are reinitialized at the task's start.  The loop
+control variables, however, retain their state and the loop continues from the
+last attempted iteration.
+(Pseudocode for \sonic's loop continuation can be found in our technical report~\cite{sonic-arxiv}.)
+
+\figLoopContinuation
+
+\autoref{fig:tails_sonic} shows how loop continuation
+works by storing the loop control state for \textsf{Task\_Convolve} in non-volatile memory.  
+%
+\sonic ensures that the loop's control variable {\tt\bfseries i} is correct by updating it at the end of the iteration and \emph{not resetting it upon re-execution.}
+A power failure during or after the update to
+the control variable may require the body of the loop nest to repeat a single
+iteration, but %% never leaves activation data inconsistent and 
+it never skips an iteration.
+
+Figure~\ref{fig:looptrick} shows \sonic executing using loop
+continuation.  Despite the power interruption, execution resumes on the ninth
+loop iteration, rather than restarting the entire loop nest or every fifth iteration
+like Tile-5 does.
+
+\subsubsection{Idempotence tricks}
+\label{sonic:sonic:idempotence}
+
+Normally, restarting from the middle of a loop nest could leave manipulated
+data partially updated and possibly inconsistent.  However, loop continuation
+is safe because \sonic's runtime system ensures each loop iteration is idempotent
+using either {\em loop-ordered buffering} or {\em sparse undo-logging}.
+%
+\sonic never requires an operation in an iteration to read a value
+produced by another operation in the same iteration.
+Thus, an iteration that repeatedly re-executes due to power interruption will always
+see correct values.
+
+\paragraph{Loop-ordered buffering}
+Loop-ordered buffering is a double-buffering mechanism used in convolutional
+layers (and dense fully-connected layers)
+that ensures each loop iteration is idempotent without expensive redo-logging (cf., \cite{alpaca}). 
+%
+Since the MSP430 devices do not possess sophisticated caching
+mechanisms, \emph{rather than optimizing for reuse and data locality, \sonic
+  optimizes the number of items needed to commit.}
+%
+By re-ordering the loops in DNN inference and double-buffering partial activations as needed,
+\sonic is able to \emph{completely eliminate} commits within a loop iteration.
+
+Evaluating a sparse or dense convolution requires \sonic to apply a filter to a
+layer's entire input activation matrix.  
+%
+\sonic orders loop iterations to apply each element of the filter to each
+element of the input activation (i.e., multiplying them) before moving on
+to the next element of the filter.
+%
+For idempotence,
+\sonic writes the partially accumulated value to an intermediate output buffer,
+rather than applying updates to the input matrix in-place.
+%
+After applying a single filter element to each entry in the input and storing
+the partial result in the intermediate buffer, \sonic swaps the input
+buffer with the intermediate buffer and moves on to the next filter value.
+
+Since \sonic never reads and then writes to the same memory locations within an iteration,
+it avoids the WAR problem described in \autoref{sonic:background}
+and loop iterations are thus idempotent.
+%
+\autoref{fig:tails_sonic} shows how under loop-ordered buffering, \sonic never 
+reads and writes to the same matrix buffer while computing a partial result in \textsf{Task\_Convolve}.
+After finishing this task, \sonic transitions to \textsf{Task\_Next\_Filter}, which swaps the buffer pointers
+and gets the next value to apply from the filter.
+
+\paragraph{Sparse undo-logging}
+While loop-ordered buffering is sufficient to ensure each loop iteration is idempotent,
+it is sometimes unnecessarily wasteful.
+%
+The problem arises because loop-ordered buffering swaps between buffers after every task,
+so it must copy data between buffers in case it is read in the future---even if the data has not been modified.
+%
+This copying is wasteful on sparse fully-connected layers,
+where most filter weights are pruned and thus few activations are modified in a single iteration.
+%
+With loop-ordered buffering, \sonic ends up spending most of its time 
+and energy copying unmodified activations between buffers.
+
+To eliminate this inefficiency, \sonic introduces \emph{sparse undo-logging}
+which ensures idempotence through undo-loggi\-ng instead of double buffering.
+To ensure atomicity, sparse undo-logging tracks its progress through the loop via two index variables,
+the \emph{read} and \emph{write} indices.
+When applying a filter,
+\sonic first copies the original, unmodified activation into a canonical memory location,
+and then increments the read index.
+\sonic then computes the modified activation and writes it back to the original activation buffer
+(there is no separate output buffer).
+Then it increments the write index and proceeds to the next iteration.
+This two-phase approach guarantees correct execution,
+since sparse undo-logging resumes computing the output value from the buffered original value if power fails in the middle of an update.
+
+Sparse undo-logging ensures that the work per task grows with the number of modifications made,
+not the size of the output buffer (unlike loop-ordered buffering).
+However, sparse undo-logging doubles the number of memory writes per modified element,
+so it is inefficient on dense layers where most data are modified.
+In those cases, loop-ordered buffering is significantly more efficient.
+We therefore only use sparse undo-logging in sparse fully-connected layers.
+Finally, unlike prior task-based systems such as Alpaca,
+sparse undo-logging ensures idempotence with \emph{constant} space overhead
+and \emph{no} task transition between iterations.
+
+\paragraph{Related work}
+Prior work in persistent memory~\cite{elnawawy2017efficient} uses techniques similar to
+our sparse undo-logging.
+This work is in the high-performance domain,
+and therefore focuses on cache locality and scheduling cache flushes and barriers.
+In contrast, our prototype has no caches,
+and we exploit this fact in loop-ordered buffering to re-arrange loops in a way that would destroy cache performance on conventional systems.
+Moreover, \sonic is more selective than~\cite{elnawawy2017efficient},
+only using undo-logging in sparse fully-connected layers where it outperforms double buffering.

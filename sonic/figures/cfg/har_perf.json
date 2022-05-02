@@ -1,0 +1,11 @@
+{
+	"filter": {"eid":[13, 14, 15, 17, 52, 47]},
+	"src": ["../data/50mf", "../data/1mf", "../data/cont", "../data/100uf"],
+	"minor_key": "backend",
+	"minor_label": ["Base", "Tile-8", "Tile-32", "Tile-128", "SONIC", "TAILS"],
+	"minor_order": ["base", "tile-8","tile-32", "tile-128", "flex", "lea_fir"],
+	"major_key": "cap",
+	"major_label": ["Cont", "50mF", "1mF", "100uF"],
+	"major_order": ["cont", "50mf", "1mf", "100uf"],
+	"colors": ["#4472C4", "#2E9260", "#A068B0", "#A7A7A4"]
+}

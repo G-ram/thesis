@@ -1,0 +1,248 @@
+\section{Motivation for intermittent inference}
+\label{sonic:motivation}
+
+Many attractive IoT applications will be impractical without
+intelligence ``beyond the edge.''
+%
+Communication is too expensive on these devices for
+solutions like cloud offloading to be practical.
+%
+Instead, energy-harvesting devices must decide \emph{locally} how to
+spend their energy, e.g., when to communicate sensor readings or when
+to activate an expensive sensor, such as a high-resolution camera.
+%
+
+This section makes the case for inference on energy-harvest\-ing,
+intermittently operating devices.
+%
+We show how communication dominates energy, even with
+state-of-the-art low-power networking,
+making cloud offloading impractical.
+%
+We analyze where energy is spent
+and show that, to a first order, \emph{inference accuracy determines
+  system performance},
+motivating the use of DNNs in these applications.
+%
+Using this analysis we will later compare different DNN
+configurations and find one that maximizes application
+performance (\autoref{sonic:genesis}).
+
+\subsection{The need for inference beyond the edge}
+%
+Many applications today offload most computation to the cloud by sending input data to the cloud and waiting for a response.
+Unfortunately, communication is not free.
+In fact, on energy-harvesting devices,
+communication costs orders-of-magnitude more energy than local computation and sensing.
+%
+These high costs mean that \emph{it is inefficient and impractical for
+  energy-harvesting devices to offload inference to the edge or
+  cloud}, even on today's most efficient network architectures.
+%
+For example, the recent OpenChirp network architecture lets sensors
+send data over long distances with extremely low power consumption.
+%
+To send an eight-byte packet, a terrestrial sensor draws 120mA for around
+800ms~\cite{dongare2017openchirp}.
+%
+Using the recent Capybara energy-harvesting power system~\cite{capybara}, such a
+sensor would require a {\em 900mF} capacitor bank to send a
+single eight-byte packet. 
+% 
+This large capacitor array imposes an effective duty cycle on the
+device, because the device must idle while charging before
+it can transmit. 
+%
+A Capybara sensor node with its
+2cm~$\times$~2cm solar array in direct sunlight (an optimistic setup) would take around 120 seconds
+to charge a 900mF capacitor bank~\cite{capybara}.
+%
+Hence, sending a single $28 \times 28$ image with 1B per pixel (e.g.,
+one MNIST image~\cite{lecun1998mnist}) to the cloud for inference would 
+take {\em over an hour}.
+
+In contrast, our full-system \sonic prototype performs inference locally
+in just 10 seconds operating on weak, harvested RF energy---an
+improvement of more than $360\times$. 
+%
+\sonictails thus open the door to entirely new classes of inference-driven
+applications on energy-harvesting devices.
+
+\subsection{Why accuracy matters}
+
+We now consider an example application to show how
+inference accuracy determines end-to-end application performance.
+%
+This analysis motivates the use of state-of-the-art inference
+techniques, namely DNNs, over less accurate but
+cheaper techniques like support-vector machines.
+
+To reach these conclusions, we employ a high-level analytical model,
+where energy in the system is divided between
+sensing, communication, and inference.
+%
+(Sensing includes all associated local processing, e.g., to set up the
+sensor and post-process readings.)
+%
+We use local inference to filter sensor readings so that only the
+``interesting'' sensor readings are communicated.
+%
+Our figure of merit is the number of interesting sensor readings
+that can be sent in a fixed amount of harvested energy
+(which is also a good proxy for execution time).
+%
+We denote this as \metric, or interesting messages per Joule.
+%
+Though this metric does not capture the interesting readings that are
+\emph{not} communicated due to inference error (i.e., false
+negatives), our analysis demonstrates the need for high accuracy,
+and hence false negatives are uncommon.
+
+This simple model captures many interesting applications of inference
+beyond the edge: e.g., wildlife monitoring, disaster recovery,
+wearables, military, etc.
+%
+For concreteness, we consider a wildlife-monitoring application where
+sensors with small cameras are deployed across a wide area with
+OpenChirp connectivity.
+%
+These sensors monitor a local population of, say, hedgehogs and send
+pictures over radio when they are detected.
+%
+The goal is to capture as many images of hedgehogs as
+possible, and images without have no value.
+
+\paragraph{Baseline without inference}
+Our baseline system does not support local inference, so it must
+communicate every image.
+%
+Communication is expensive, so this baseline
+system does not perform well.
+%
+Suppose sensing costs $E_\text{sense}$ energy,
+communicating one sensor reading costs $E_\text{comm}$ energy,
+and interesting events occur at a base rate of $p$
+(see \autoref{tab:motivation:model}).
+%
+Then the baseline system spends $E_\text{sense} + E_\text{comm}$ energy per
+event, only $p$ of which are worth communicating, and its \metric is:
+\begin{equation}
+  \text{Baseline} = \frac{p}{E_\text{sense} + E_\text{comm}}
+\end{equation}
+
+\tabMotivateModel
+
+\paragraph{Ideal}
+%
+Although impossible to build, an ideal system would communicate only
+the interesting sensor readings, i.e., a fraction $p$ of all events.
+%
+Hence, its \metric is:
+\begin{equation}
+  \text{Ideal}
+  %= \frac{1}{E_\text{sense} / p + E_\text{comm}}
+  = \frac{p}{E_\text{sense} + p \; E_\text{comm}}
+\end{equation}
+
+\paragraph{Local inference}
+%
+Finally, we consider a realistic system with local, imperfect inference.
+%
+In addition to sensing energy $E_\text{sense}$,
+each sensor reading requires $E_\text{infer}$ energy to decide whether it is worth communicating.
+%
+Suppose inference has a true positive rate
+%% (i.e., classifying interesting results as interesting)
+of $t_p$ and a true negative rate
+% (i.e., classifying uninteresting results as uninteresting)
+of $t_n$.
+%
+Since communication is very expensive, performance
+suffers from incorrectly communicated,
+uninteresting sensor readings at a rate of: $\left(1-p\right)\left(1-t_n\right) $.
+%
+Its \metric is:
+\vspace{-1em}
+\begin{align}
+  \label{eq:impj}
+  & \\[-0.85em]
+  \text{Inference}
+  %% &= \frac{p \; t_p}{p \; t_p + (1-p)(1-t_n)} \cdot
+  %% \frac{1}{\frac{E_\text{sense} + E_\text{infer}}{p \; t_p + (1-p)(1-t_n)} + E_\text{comm}} \\
+  &= \frac{p \; t_p}{\left(E_\text{sense} + E_\text{infer}\right) + \left(p \; t_p + \left(1-p\right)\left(1-t_n\right)\right) \; E_\text{comm}} \notag
+\end{align}
+
+\paragraph{Case study: Wildlife monitoring}
+%
+We now apply this model to the earlier wildlife monitoring example.
+%
+Hedgehogs are reclusive creatures, so ``interesting'' photos are rare,
+say $p = 0.05$.
+%
+Low-power cameras allow images to be taken at low energy, e.g.,
+$E_\text{sense} \approx 10$mJ~\cite{wispcam}.
+%
+As we saw above, communicating an image is expensive, taking
+$E_\text{comm} \approx 23,\!000$mJ over OpenChirp~\cite{dongare2017openchirp}.
+%
+Finally, we consider two systems with local inference:
+a na\"ive baseline implemented using prior task-based intermittence support (specifically Tile-8 in \autoref{sonic:sonic:runtime})
+and \sonictails, our proposed technique.
+Their inference energies are gathered from our prototype (\autoref{sonic:method}),
+taking $E_\text{infer,na\"ive} \approx 198$mJ and $E_\text{infer,\tails} \approx 26$mJ, respectively.
+
+\figMotivateImages
+
+\autoref{fig:motivation:images} shows each system's \metric after
+plugging these numbers into the model.
+%
+For simplicity, the figure assumes that true positive and negative
+rates are equal, termed ``accuracy''.
+%
+Since communication dominates the energy budget, local inference
+enables large end-to-end benefits on the order of $\left.1\middle/p\right. = 20\times$.
+%
+However, for these gains to be realized in practice, inference must be
+accurate, and the benefits quickly deteriorate as inference accuracy
+declines.
+%
+Qualitatively similar results are obtained when $p$ varies, though the
+magnitude of benefit changes (increasing with smaller $p$).
+
+This system is dominated by the energy of sending results.
+Inference is relatively inexpensive, so na\"ive local inference and \sonictails perform similarly
+(though \sonictails outperforms Na\"ive by up to $14\%$).
+To see the benefits of efficient inference, we must first address the system's communication bottleneck.
+
+\paragraph{Sending only inference results}
+%
+Depending on the application, even larger end-to-end improvements are
+possible by sending only the \emph{result} of inference rather than
+the full sensor reading.
+%
+For instance, in this wildlife monitoring example, the
+energy-harvesting device could send a single packet when hedgehogs
+were detected, rather than the full image.
+%
+The effect is to significantly decrease $E_\text{comm}$
+for the systems with local inference, mitigating the system's
+bottleneck.
+%
+In our wildlife monitoring example, $E_\text{comm}$ decreases by $98\times$.
+
+\figMotivateResults
+
+\autoref{fig:motivation:results} shows end-to-end performance when
+only sending inference results.
+%
+Local inference allows dramatic reductions in communication energy:
+\sonictails can detect and communicate $480\times$ more events than
+the baseline system without local inference.
+%
+These reductions also mean that inference is a non-negligible
+energy cost,
+and \emph{\sonictails outperform na\"ive local inference by $4.6\times$.}
+Finally, the gap between Ideal and \sonictails is $2.2\times$.
+%
+This gap is difficult to close further on current hardware;
+we discuss ways to address it in \autoref{sonic:panic}.

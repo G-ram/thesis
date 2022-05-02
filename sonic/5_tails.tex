@@ -1,0 +1,80 @@
+\section{Hardware acceleration with \tails}
+\label{sonic:tails}
+
+\tails improves on \sonic by incorporating widely available hardware acceleration
+to perform inference even more efficiently.
+%
+A programmer may optionally link their \sonic application to the \tails runtime
+system, enabling the application to use direct-memory access (DMA) hardware to
+optimize block data movement and to execute operation in parallel using a
+simple vector accelerator like the TI Low-Energy Accelerator
+(LEA)~\cite{lea}.
+%% DMA makes data movement substantially faster by eliminating software overheads.
+LEA supports finite-impulse-response discrete-time convolution (FIR
+DTC), which directly implements the convolutions needed in DNN inference.
+
+\tails's runtime system enables the effective use of LEA in an intermittent
+system by \emph{adaptively binding
+hardware parameters at run time to maximize operational throughput without
+exceeding the device's energy buffer}.
+%
+Our \tails prototype adaptively determines the DMA block size and LEA vector
+width based on the number of operations that successfully complete using the
+device's fixed energy buffer.
+%
+After calibrating these parameters, \tails uses them to configure available
+hardware units and execute inference thereafter. 
+
+\subsection{Automatic one-time calibration}
+Before its first execution, a \tails application runs a
+short, recursive calibration routine to determine DMA
+block size and LEA vector size.  The routine determines the
+maximum vector size that it is possible to DMA into LEA's operating buffer,
+process using FIR DTC, and DMA back to non-volatile memory without
+exceeding the device's energy buffer and impeding progress.  
+%
+If a tile size does not complete before power fails, the calibration task re-executes, 
+halving the tile size. 
+Calibration ends when a FIR DTC completes and \tails uses that tile size for subsequent computations.
+
+\subsection{Accelerating inference with LEA}
+Once \tails determines its tile size, the application runs, using DMA and LEA
+to compute dense and sparse convolutions and dense matrix multiplications.  
+%
+LEA has limitations: it only supports dense operations
+and can only read from the device's small 4KB SRAM (not the 256KB FRAM).
+%
+\tails uses DMA to move inputs into SRAM,
+invokes LEA,
+and DMAs the results back to FRAM.
+%
+Dense layers are natively supported:
+fully-connected layers use LEA's vector MAC operation,
+and convolutions use LEA's one-dimensional FIR DTC operation.
+%
+To support two- and three-dimensional convolutions, \tails iteratively 
+applies one-dimensional convolutions and accumulates those convolutions' results. 
+%
+\tails uses loop-ordered buffering to ensure that updates to
+the partially accumulated values are idempotent (\autoref{sonic:sonic:idempotence}).
+
+Sparse operations require more effort.
+%
+\tails uses LEA for sparse convolutions by first making filters dense (padding with zeros).
+%
+Making the filters dense is inexpensive % does not impose a significant overhead on \tails
+because each filter is reused many times, amortizing its creation cost.
+%
+However, %since LEA always performs dense operations, it does mean that
+this does mean that LEA performs unnecessary work, which sometimes hurts performance.
+%
+For this reason, we use LEA's dot-product operation instead of FIR-DTC for $1\times p\times 1$ factored convolutional layers.
+
+Finally, sparse fully-connected layers are inefficient on LEA
+because filters do not get reuse.
+%
+We found that \tails spent most of its time on padding filters,
+and, despite significant effort, we were unable to accelerate sparse fully-connected layers with LEA.
+%
+For this reason, \tails performs sparse fully-connected layers in software
+exactly like \sonic.

@@ -1,0 +1,46 @@
+\section{System overview}
+\label{sonic:overview}
+
+This paper describes the first system for performing DNN inference
+efficiently on intermittently-operating, energy-harvest\-ing
+devices. \autoref{fig:overview} shows the new system components in this work
+and how they produce an efficient, intermittence-safe executable starting from
+a high-level DNN model description.  There are three main components to the
+system: \genesis, \sonic, and \tails.
+
+\genesis ({\underline g}enerating {\underline e}nergy-aware {\underline n}etworks for {\underline
+  e}fficien{\underline s}y on {\underline i}ntermittent {\underline s}ystems) is a tool that automatically
+optimizes a DNN, starting from
+a programmer's high-level description of the network.  \genesis attempts to compress each layer of the network using well-known separation and pruning techniques.
+\genesis's goal is
+to \emph{find a network that optimizes \metric}
+while meeting resource
+constraints.  As \autoref{fig:overview} shows, \genesis's input is
+a network description and its output is an optimally compressed network. \autoref{sonic:genesis} describes \genesis.
+
+\sonic ({\underline s}oftware-{\underline o}nly {\underline n}eural {\underline i}ntermittent {\underline
+c}omputing) is an intermittence-safe,
+task-based API and runtime system that
+includes specialized support for DNN inference
+that \emph{safely ``breaks the rules'' of existing task-based systems
+to improve performance}.
+\sonic is compatible with existing task-based
+frameworks~\cite{chain,alpaca}, allowing seamless integration into larger applications.
+% 
+\autoref{sonic:sonic} describes \sonic in detail.
+
+\tails ({\underline t}ile-{\underline a}ccelerated {\underline i}ntermittent {\underline L}EA {\underline
+s}upport) is an alternative to the \sonic runtime library that
+leverages hardware vector acceleration, specifically targeting the TI Low
+Energy Accelerator (LEA)~\cite{lea}.  To use \tails, the
+programmer need only link their compiled binary to the \tails-enabled
+runtime system.  This runtime includes all of \sonic's optimizations and a
+suite of hardware-accelerated vector operations, such as convolutions. 
+% 
+\autoref{sonic:tails} describes \tails in detail.
+
+Starting with a high-level network description, a
+programmer can use \genesis, \sonic, and \tails to build an efficient,
+intermittent DNN-enabled application that meets resource constraints, is robust
+to intermittent operation, and leverages widely available hardware acceleration.
+Our code and datasets can be found at: \textsf{\href{https://github.com/CMUAbstract/SONIC}{https://github.com/CMUAbstract/SONIC}}. 

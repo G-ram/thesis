@@ -1,0 +1,69 @@
+[{
+"backend": "flex",
+"target": "har",
+"overall": {
+  "st": {"invocs": 231202, "ops": 231202},
+  "ld": {"invocs": 360427, "ops": 360427},
+  "mul": {"invocs": 11576, "ops": 11576},
+  "add": {"invocs": 503756, "ops": 503756},
+  "inc": {"invocs": 317049, "ops": 317049},
+  "MAT_GET_1D": {"invocs": 17947, "ops": 17947},
+  "MAT_GET_2D": {"invocs": 37662, "ops": 37662},
+  "loop_add": {"invocs": 158368, "ops": 158368},
+  "MAT_GET_3D": {"invocs": 1960, "ops": 1960},
+  "F_MUL": {"invocs": 168061, "ops": 168061},
+  "F_ADD": {"invocs": 154678, "ops": 154678},
+  "loop_inc": {"invocs": 50121, "ops": 50121},
+  "MAT_SET_2D": {"invocs": 21398, "ops": 21398},
+  "MAT_SET_3D": {"invocs": 98, "ops": 98},
+  "Transition": {"invocs": 0, "ops": 0.0033}
+},
+"sections": {
+ "conv1": {"idx": 0, "stats": {
+  "st": {"invocs": 172498, "ops": 172498},
+  "ld": {"invocs": 301282, "ops": 301282},
+  "mul": {"invocs": 11380, "ops": 11380},
+  "add": {"invocs": 481964, "ops": 481964},
+  "inc": {"invocs": 284494, "ops": 284494},
+  "MAT_GET_1D": {"invocs": 1568, "ops": 1568},
+  "MAT_GET_2D": {"invocs": 32536, "ops": 32536},
+  "loop_add": {"invocs": 158368, "ops": 158368},
+  "MAT_GET_3D": {"invocs": 1568, "ops": 1568},
+  "F_MUL": {"invocs": 150332, "ops": 150332},
+  "F_ADD": {"invocs": 137200, "ops": 137200},
+  "loop_inc": {"invocs": 19796, "ops": 19796},
+  "MAT_SET_2D": {"invocs": 19600, "ops": 19600},
+  "Transition": {"invocs": 0, "ops": 0.0033}
+ }},
+ "place1": {"idx": 0, "stats": {
+  "st": {"invocs": 9800, "ops": 9800},
+  "ld": {"invocs": 9996, "ops": 9996},
+  "mul": {"invocs": 196, "ops": 196},
+  "add": {"invocs": 20384, "ops": 20384},
+  "inc": {"invocs": 490, "ops": 490},
+  "MAT_GET_1D": {"invocs": 0, "ops": 0},
+  "MAT_GET_2D": {"invocs": 0, "ops": 0},
+  "loop_add": {"invocs": 0, "ops": 0},
+  "MAT_GET_3D": {"invocs": 392, "ops": 392},
+  "F_MUL": {"invocs": 0, "ops": 0},
+  "F_ADD": {"invocs": 0, "ops": 0},
+  "loop_inc": {"invocs": 10094, "ops": 10094},
+  "MAT_SET_2D": {"invocs": 0, "ops": 0}
+ }},
+ "fc": {"idx": 1, "stats": {
+  "st": {"invocs": 48904, "ops": 48904},
+  "ld": {"invocs": 49149, "ops": 49149},
+  "mul": {"invocs": 0, "ops": 0},
+  "add": {"invocs": 1408, "ops": 1408},
+  "inc": {"invocs": 32065, "ops": 32065},
+  "MAT_GET_1D": {"invocs": 16379, "ops": 16379},
+  "MAT_GET_2D": {"invocs": 5126, "ops": 5126},
+  "loop_add": {"invocs": 0, "ops": 0},
+  "MAT_GET_3D": {"invocs": 0, "ops": 0},
+  "F_MUL": {"invocs": 17729, "ops": 17729},
+  "F_ADD": {"invocs": 17478, "ops": 17478},
+  "loop_inc": {"invocs": 20231, "ops": 20231},
+  "MAT_SET_2D": {"invocs": 1798, "ops": 1798}
+ }}
+}
+}]

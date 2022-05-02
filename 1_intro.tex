@@ -1,0 +1,171 @@
+\chapter{Introduction}
+\label{chapter:intro}
+% 
+Ultra-low-power (ULP) sensor devices are increasingly being deployed for a variety of use-cases in many different environments. 
+% 
+The applications are wide-ranging and growing in complexity, including monitoring civil infrastructure, in-body health sensing and tiny, chip-scale satellites.
+% % 
+Increasingly these applications rely on sophisticated techniques like on-device machine inference and advanced digital signal processing to reason about sensor data.
+% 
+However, existing systems suffer fundamental inefficiencies that demand solutions across the compute stack: from software that enables sophisticated workloads on ULP devices to new, energy-minimal computer architectures.
+
+\section{Challenges}
+SOmething here
+
+\paragraph{Sensing workloads are increasingly sophisticated}
+Sensor devices collect data from a deployed environment and must process the 
+data to support applications.  Processing varies and may entail digital signal
+processing (DSP), computing statistics, sorting, or sophisticated computations
+such as machine learning (ML) inference using a deep neural network (DNN).
+%
+As processing sophistication has increased, sensor device capability also
+has matured to include high-definition image sensors~\cite{naderiparizi2018towards} and
+multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume. 
+
+This shift poses a challenge: how can we perform sophisticated computations
+on simple, ultra-low-power systems?
+One design is 
+to offload work by wirelessly transmitting data to a more powerful
+nearby computer (e.g., at the ``edge'' or cloud) for processing.  
+%
+In offloading, the more data a sensor produces, the more data the device must
+communicate. 
+%
+Unfortunately, transmitting data takes much more energy per byte than
+sensing, storing, or computing on those data~\cite{sonic,zebranet}.  
+%
+While a high-powered device like a smartphone, with a high-bandwidth,
+long-range radio, can afford to offload data to the edge or cloud,
+this is not practical for power-, energy-, and bandwidth-limited sensor devices~\cite{dongare2017openchirp,sonic}.
+
+\paragraph{Local compute reduces cost of communication}
+Since offloading is infeasible,
+the alternative is to process data \emph{locally} on the sensor node itself.
+% 
+My work, \sonic, demonstrates how systems can use commodity off-the-shelf microcontrollers (COTS MCU) to filter sensed data locally so that only meaningful data (as defined by the application) are transmitted.
+% 
+Processing data locally minimizes the high energy cost of communication, reducing energy by $\approx20\times$ compared to a design that always offloads, but makes the application highly sensitive to the energy-efficiency of computation.
+
+\paragraph{Energy-efficiency is critical to end-to-end system performance}
+Energy efficiency is the primary determinant of end-to-end system performance in ULP embedded systems.
+% 
+For battery-powered devices~\cite{culler2002mica,rowe2011sensor}, energy efficiency determines device lifetime: once a single-charge battery has been depleted the device is dead and it is impractical to replace the battery on millions of deployed devices.
+% 
+Even rechargeable batteries are limited in the number of recharge cycles, and a simple data-logging application can wear out the battery in just a few years~\cite{jackson_2019,nardello2019camaroptera}.
+% 
+For energy-harvesting devices~\cite{colin2018reconfigurable,hester2015tragedy,flicker,moo,windware}, energy efficiency determines device performance.
+% 
+These devices store energy in a capacitor and spend most of their time powered off, waiting for the capacitor to recharge.
+% 
+Greater energy efficiency leads to less time waiting and more time doing useful work~\cite{desai2020power}.
+
+\paragraph{Existing devices are energy-inefficient}
+However, ULP COTS MCUs used in many deeply embedded sensor nodes
+(e.g., TI MSP430, ARM M0+ \& M4+) are energy-inefficient.
+%
+These MCUs are general-purpose, programmable devices that support a variety of
+applications.
+% 
+But this generality comes at at a high power, energy, and performance cost.
+
+Programmability is expensive in two main ways~\cite{horowitz:isscc14:energy-keynote,hameed2010understanding,balfour_elm_thesis}.
+First, \emph{instruction supply} consumes significant energy: in the best case, the energy of
+an instruction cache hit, and in the worst case, the energy of a main memory
+read and instruction cache fill.  
+%
+Lacking sophisticated microarchitectural features such as superscalar and
+out-of-order execution pipelines~\cite{msp430fr5994,traber2016pulpino}, the energy overhead of
+instruction supply constitutes a significant fraction of total operating energy.
+%
+Second, data supply through \emph{register file (RF) access} also consumes significant energy.
+%
+Together, instruction and data supply can consume
+$54.4\%$ of the average execution energy across a variety of representative workloads for ULP devices.
+
+\paragraph{Specialization can limit programmability}
+To combat the energy costs of generality, some recent work has turned to
+microarchitectural specialization, making a system energy-efficient at the
+expense of generality and
+programmability~\cite{chen:isca16:eyeriss,chen:asplos14:diannao,du:isca15:shidiannao,liu:isca15:pudiannao,chen2014dadiannao,venkatesh2010conservation}.
+% 
+Specialization customizes a system's control and datapath to accommodate a
+particular workload (e.g., deep neural networks~\cite{chen:isca16:eyeriss,chen:asplos14:diannao}),
+eliminating inessential inefficiencies like instruction supply and RF access.
+% 
+The downsides of specialization are its high non-recurring engineering cost and its inability to support a wide range of applications.
+% 
+Given the emerging nature of applications in the ULP domain, specialization is premature, so new ULP, energy-efficient, but highly-programmable architectures are needed.
+
+\paragraph{Existing execution models are flawed}
+Furthermore, both fixed-function ASIC designs and COTS scalar designs assume a trade-off between programmability and energy-efficiency that may be questionable.
+% 
+The fixed-function execution model of ASIC designs limits programmability, while the scalar execution model of COTS MCUs wastes significant energy.
+% 
+These execution models are at the extremes; there is room in the middle for alternative execution models that balance programmability and energy-efficiency.
+% 
+For example, one starting point is vector execution, which slightly reduces programmability, but amortizes instruction supply energy improving overall energy-efficiency.
+% 
+Developing new execution models, therefore, is critical to resolving the tension between programmability and energy-efficiency.
+
+\paragraph{Choosing the right programming interface}
+
+% \figStack
+\section{Objective of this work}
+
+The objective of this work is to design a complete system stack that leverages new execution models to maximize energy-efficiency without sacrificing programmability.
+% 
+This approach enables new applications in the ULP domain as improved energy efficiency makes sophisticated workloads practical, while maintaining support for programmability allows for iteration, development of new algorithms, and quick deployment. 
+% 
+My existing work addresses two levels of the stack -- software and computer architecture -- while my proposed work will investigate compilation and silicon implementation.
+% 
+Together these works support the following thesis:
+
+\begin{adjustwidth}{1cm}{1cm}
+% New execution models integrated across the system stack from software to silicon can achieve high energy-efficiency without compromising on programmbality or generality.
+% 
+% 
+% Rethinking the execution model across the system stack from software to silicon achieves high energy efficiency without compromising on programmability or generality.
+% 
+High energy-efficiency can be achieved 
+% with new execution models integrated 
+across the system stack from software to silicon without compromising on programmability by leveraging new execution models to reduce instruction and data supply energies.
+% 
+
+\end{adjustwidth}
+% 
+The following contributions form the basis for the thesis and new system stack.
+
+\paragraph{\sonic is the first demonstration of DNN inference on energy-harvesting device}
+\sonic is an intermittence-aware software system with specialized support for DNN inference. 
+% 
+It runs optimized networks found using GENESIS, a tool that automatically compresses networks to balance inference accuracy and energy.
+% 
+\sonic introduces loop continuation, a new technique that dramatically reduces the cost of guaranteeing correct intermittent execution for loop-heavy code like DNN inference. 
+% 
+Across three neural networks on a commercially available MCU, \sonic reduces inference energy by $6.9\times$ over the state-of-the-art.
+
+\paragraph{\manic is energy-efficient vector-dataflow co-processor}
+\manic is an efficient vector-dataflow architecture for ultra-low-power embedded systems.  
+% 
+It achieves high energy-efficiency without sacrificing programmability and generality.
+% 
+\manic introduces \emph{vector-dataflow execution}, allowing it to exploit the
+dataflows in a sequence of vector instructions and amortize instruction
+fetch and decode over a whole vector of operations.
+%
+By forwarding values from producers to consumers, \manic avoids costly vector register file reads.
+% 
+By carefully scheduling code and avoiding dead register writes, \manic avoids costly vector register writes.
+% 
+On average, \manic is $2.8\times$ more energy efficient than a scalar baseline and $38.1\%$ more energy-efficient than a vector baseline.
+
+\paragraph{\snafu generates ULP CGRAs}
+\snafu builds on \manic's vector-dataflow execution model, generating ULP course-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
+% 
+In spatial-vector-dataflow execution, a dataflow graph (DFG) is mapped spatially across the fabric of processing elements, applying the same DFG to many input data values, and routing intermediate values directly from producers to consumers.
+% 
+This minimizes instruction and data-movement energy, just like \manic, and eliminates unnecessary switching activity because operations do not share execution hardware.
+% 
+\snafu uses 41$\%$ less energy and runs 4.4$\times$ faster than \manic.
+
+\paragraph{\riptide compiles code to ULP CGRAs}

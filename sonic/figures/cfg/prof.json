@@ -1,0 +1,15 @@
+{
+	"filter": {"eid":[1, 13, 37]},
+	"src": ["../data/1mf"],
+	"micro": "../data/micro",
+	"micro_filter": {
+		"eid": [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 33, 35, 37, 39, 
+				44, 45, 47, 49, 51, 52, 53, 54, 55, 56, 57, 58, 
+				59, 60, 61]
+	},
+	"prof": ["../data/prof"],
+	"minor_label": ["SONIC", "TAILS"],
+	"minor_order": ["flex", "lea_fir"],
+	"major_label": ["MNIST", "HAR", "OkG"],
+	"major_order": ["mnist", "har", "okg"]
+}

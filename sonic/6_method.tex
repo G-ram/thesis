@@ -1,0 +1,50 @@
+\section{Methodology}
+\label{sec:methodology}
+
+We implement \sonic and \tails on the TI-MSP430FR5994~\cite{msp430fr5994} at
+16MHz in the setup in \autoref{fig:hardware}.
+The board is connected to a
+Powercast P2210B~\cite{powercastboard} harvester 1m away from a 3W Powercaster
+transmitter~\cite{powercasttransmitter}. We ran all configurations on
+continuous power and on intermittent power with three different capacitor
+sizes: 1mF, 50mF, and 100\textmu F.
+
+\figMethod
+
+\figEvalTime
+
+\paragraph{Running code on the device}
+We compile with MSPGCC 6.4 and use TI's MSPDriverlib for DMA and TI's DSPLib
+for LEA. We use GCC instead of Alpaca's LLVM backend because LLVM lacks support
+for 20-bit addressing and produces slower code for MSP430 than GCC.
+
+\paragraph{Measurement}
+We use a second MSP430FR5994 to measure intermittent executions.
+%
+GPIO pins on the measurement MCU connect through a level-shifter to the
+intermittent device, allowing it to count reboots and signal when to start and
+stop timing.
+%
+We automate measurement with a combination of software and hardware that
+compiles a configuration binary, flashes the binary to the device, and
+communicates with the measurement MCU to collect results.
+%
+The system actuates a relay to switch between continuous power for reprogramming
+and intermittent power for testing.
+
+\paragraph{Measuring energy}
+By counting the number of charge cycles between GPIO pulses, we can determine
+the amount of energy consumed in different code regions.
+%
+For a more fine-grained approach, we built a suite of 
+microbenchmarks to count how many times a particular operation (e.g., a load from FRAM) can run in single charge cycle.
+%
+We then profile how many times each operation is invoked during inference
+and scale by per-operation energy to get a detailed energy breakdown.
+
+\paragraph{Baselines for comparison}
+We compare \sonictails to four DNN inference implementations. The first
+implementation is a standard, baseline implementation that does not tolerate
+intermittent operation (it does not terminate).
+The other three implementations are based on
+Alpaca~\cite{alpaca} and split up loops by tiling iterations, as in \autoref{fig:looptrick}.

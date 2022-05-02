@@ -1,0 +1,15 @@
+{
+	"filter": {"eid": [46, 50, 1, 5, 47, 15, 13, 17, 49, 39, 37, 41]},
+	"src": ["../data/cont"],
+	"traces_src": "../data/time",
+	"traces": ["46.csv", "50.csv", "1.csv", "5.csv", "47.csv", "15.csv", 
+		"13.csv", "17.csv", "49.csv", "39.csv", "37.csv", "41.csv"],
+	"minor_key": "backend",
+	"minor_label": ["Base", "Tile-32", "SONIC", "TAILS"],
+	"minor_order": ["base", "tile-32", "flex", "lea_fir"],
+	"major_key": "target",
+	"major_label": ["MNIST", "HAR", "OkG"],
+	"major_order": ["mnist", "har", "okg"],
+	"pulse": {"2": "Conv", "43": "DMul", "22": "SMul"},
+	"colors": ["#4472C4", "#EB7D3C", "#2E9260", "#A068B0", "#A7A7A4"]
+}

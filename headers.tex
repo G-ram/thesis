@@ -17,6 +17,42 @@
 \usepackage{wrapfig}
 \usepackage{lipsum}
 \usepackage{titlesec}
+\usepackage{changepage}
+
+%% https://tex.stackexchange.com/questions/55664/fake-small-caps-with-xetex-fontspec
+%% https://tex.stackexchange.com/questions/364994/putting-a-matrix-inside-of-caption-gives-caption-has-an-extra
+%% https://tex.stackexchange.com/questions/471070/is-there-a-latex-command-to-print-the-name-of-the-font-used-for-text-and-for-mat
+\makeatletter
+\newcommand*{\fauxsc}[1]{%
+  %% \fauxschelper{#1} \relax\relax
+  %%%%
+  \ifx\f@shape\my@test@it
+    \fauxschelper{#1} \relax\relax
+  \else\ifx\f@series\my@test@bf
+    \fauxschelper{#1} \relax\relax
+  \else
+    \textsc{#1}%
+  \fi\fi
+  %%%%
+  %% \ifx\f@shape\my@test@sc
+  %%   #1%
+  %% \else
+  %%   \fauxschelper{#1} \relax\relax
+  %% \fi
+}
+\newcommand*{\my@test@bf}{b}
+\newcommand*{\my@test@sc}{sc}
+\newcommand*{\my@test@it}{it}
+\makeatother
+\def\fauxschelper#1 #2\relax{%
+  \fauxschelphelp#1\relax\relax%
+  \if\relax#2\relax\else\ \fauxschelper#2\relax\fi%
+}
+\def\Hscale{.83}\def\Vscale{.76}\def\Cscale{1.00}
+\def\fauxschelphelp#1#2\relax{%
+  \ifnum`#1>``\ifnum`#1<`\{\scalebox{\Hscale}[\Vscale]{\uppercase{#1}}\else%
+    \scalebox{\Cscale}[1]{#1}\fi\else\scalebox{\Cscale}[1]{#1}\fi%
+  \ifx\relax#2\relax\else\fauxschelphelp#2\relax\fi}
 
 \newcommand{\manic}{{\protect\fauxsc{Manic}}\xspace}
 \newcommand{\sonic}{{\protect\fauxsc{Sonic}}\xspace}
@@ -29,7 +65,10 @@
 \captionsetup{compatibility=false}
 \captionsetup[table]{labelfont={bf},font={small},aboveskip=4pt,belowskip=0pt}
 \captionsetup[figure]{labelfont={bf},font={small},aboveskip=4pt,belowskip=0pt}
-\captionsetup[subfigure]{labelfont={},font={scriptsize,it},aboveskip=2pt,belowskip=-2pt}
+\captionsetup[subfigure]{labelfont={},font={footnotesize,it},aboveskip=2pt,belowskip=-2pt}
+
+\let\originalparagraph\paragraph
+\renewcommand{\paragraph}[2][:]{\originalparagraph{#2#1}}
 
 \addto\extrasenglish{
 \renewcommand{\chapterautorefname}{Ch.}
@@ -75,3 +114,5 @@ linecolor=orange,textsize=scriptsize,prependcaption]{todonotes}
 \else
 \newcommand{\graham}[1]{}
 \fi
+
+\captionsetup{justification=raggedright,singlelinecheck=false,width=\linewidth}

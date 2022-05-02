@@ -1,0 +1,135 @@
+\figGenesisNNs
+\section{Optimal DNN compression with \genesis}
+\label{sonic:genesis}
+
+The first challenge to overcome in \sonictails is fitting neural networks into the
+resource constraints of energy-harvesting systems.
+%
+In particular, the limited memory capacity of current microcontrollers
+imposes a hard constraint on networks.
+%
+We have developed a tool called \genesis
+that automatically
+explores different configurations of a baseline neural network,
+applying separation and pruning techniques (\autoref{sonic:background}) to reduce the network's resource requirements.
+%
+\genesis improves upon these known techniques by
+optimally balancing inference energy and true positive/negative rates to maximize \metric,
+building on the the model in \autoref{sonic:motivation}.
+
+\subsection{Neural networks considered in this paper}
+
+%
+This paper considers three networks, summarized in \autoref{tab:nns}.
+%
+To represent image-based applications (e.g., wildlife monitoring and
+disaster recovery), we consider MNIST~\cite{lecun1998mnist}. We consider
+MNIST instead of ImageNet because ImageNet's large images 
+do not fit in a resource-constrained device's memory.
+%
+To represent wearable applications, we consider human activity recognition
+(HAR). HAR classifies activities using accelerometer data~\cite{har}.
+%
+To represent audio applications, we consider Google keyword
+spotting (OkG)~\cite{okgoogle}, which classifies words in audio snippets.
+
+We also evaluated binary neural networks and several SVM models
+and found that they perform poorly on current energy-harvesting MCUs.
+%
+A 99\%-accurate binary network for MNIST required 4.4MB of weights~\cite{courbariaux2016binarized},
+exceeding the device's scant memory, and compressing this to 360KB lost nearly 10\% accuracy~\cite{binarynetgithub}.
+%
+Likewise, no SVM model that fit on the device was competitive with 
+the DNN models~\cite{lecun1998gradient}: measured by \metric, SVM under-performed 
+by 2$\times$ on MNIST and by 8$\times$ on HAR, and we could not find an SVM model 
+for OkG that performed anywhere close to the DNN.
+
+\subsection{Fitting networks on energy-harvesting systems}
+
+\genesis evaluates many compressed configurations of a 
+network and builds a Pareto frontier.
+%
+Compression has trade-offs in four dimensions, difficult to capture with a pareto curve;
+these include true negative rate, true positive rate, memory size (i.e.,
+parameters), and compute/energy (i.e., operations).
+%
+Fully-connected layers typically dominate memory, whereas convolutional layers
+dominate compute. \genesis compresses both.
+
+\genesis compresses each layer using two known techniques: separation and pruning.
+%
+Separation (or rank decomposition) splits an $m \times n$
+fully-connected layer into two $m \times k$ and $k \times n$ matrix
+multiplications, or an $m \times n \times k$ convolutional filter into three $m
+\times 1 \times 1$, $1 \times n \times 1$, and $1 \times 1 \times k$, 
+filters~\cite{chollet2016xception, bhattacharya2016sparsification}.
+%
+\genesis separates layers using the Tucker tensor decomposition,
+using the high-order orthogonal iteration algorithm~\cite{tucker1966some, de2000best, de2000multilinear}.
+%
+Pruning involves removing parameters below a given threshold, since
+they have small impact on results~\cite{nabhan1994toward, han:iclr16:deep-compression}.
+
+\genesis sweeps parameters for both separation and pruning across each layer of
+the network, re-training the network after compression to improve
+accuracy.
+%
+\genesis relies on the Ray Tune black box optimizer with the Median
+Stopping Rule to explore the configuration space~\cite{golovin2017google, moritz2017ray}.
+%
+\autoref{fig:genesis:train} shows the results for the networks in
+\autoref{tab:genesis:nns}.
+%
+Each marker on the figure represents one compressed configuration,
+shown by inference accuracy on the $y$-axis and inference energy on
+the $x$-axis.
+%
+Feasible configurations (i.e., ones that fit in our device's 
+small memory; see \autoref{sonic:methodology}) are shown as green
+circles and infeasible configurations are grey $\times$s.
+%
+Note that the original configuration (large $\times$) is infeasible for all three networks,
+meaning that they cannot be na\"ively ported to the device because their parameters would not fit in memory.
+
+\autoref{fig:genesis:train} also shows the Pareto frontier for each
+compression technique.
+%
+Generally, pruning is more effective than separation, but the
+techniques are complementary.
+
+\tableGenesisNNS
+
+\subsection{Choosing a neural network configuration}
+
+\genesis estimates a configuration's \metric using the model
+from \autoref{sonic:motivation}, specifically \autoref{eq:impj}.
+%
+The user specifies $E_\text{sense}$ and $E_\text{comm}$ for their
+application as well as per-compute-operation energy cost.
+%
+From these parameters, \genesis estimates $E_\text{infer}$ for each
+configuration, and uses the inference accuracy from the prior training step to
+estimate application performance.
+%
+The user can specify which class in the training set is
+``interesting,'' letting \genesis compute true positive $t_p$ and negative $t_n$ rates for the
+specific application.
+
+\autoref{fig:genesis:perf} shows the results by mapping each point in
+\autoref{fig:genesis:train} through the model.
+%
+For these results, we use $E_\text{sense}$ from
+\autoref{sonic:motivation}, per-operation energy from our \sonictails
+prototype in \autoref{sonic:methodology}, and estimate $E_\text{comm}$
+from input size assuming OpenChirp networking~\cite{dongare2017openchirp}.
+
+\genesis chooses the feasible configuration that maximizes
+estimated end-to-end performance (i.e., \metric).
+%
+\autoref{fig:genesis:perf} shows that this choice is non-trivial.
+%
+True positive, true negative, and inference energy affect end-to-end application
+performance in ways that are difficult to predict. Simply choosing the most accurate
+configuration, as the twisty blue curve suggests in \autoref{fig:genesis:perf}, 
+is insufficient since it may waste too much energy or underperform other 
+configurations on true positive or true negative rates.

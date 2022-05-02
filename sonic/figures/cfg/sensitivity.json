@@ -1,0 +1,11 @@
+{
+	"filter": {"eid":[1, 5, 10, 11, 13, 17, 22, 24, 37, 41, 43, 44]},
+	"src": ["../data/1mf"],
+	"minor_key": "backend",
+	"minor_label": ["SONIC", "NoDMA", "NoLEA", "TAILS"],
+	"minor_order": ["flex", "lea_firD0", "lea_firNo", "lea_fir"],
+	"major_key": "target",
+	"major_label": ["MNIST", "HAR", "Okg"],
+	"major_order": ["mnist", "har", "okg"],
+	"colors": ["#4472C4", "#EB7D3C", "#2E9260", "#A068B0", "#A7A7A4"]
+}

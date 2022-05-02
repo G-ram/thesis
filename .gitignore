@@ -9,8 +9,12 @@ paper.run.xml
 paper.toc
 paper.lof
 paper.lot
+*-crop.pdf
 figures/pdf
 figures/figures-crop.pdf
 figures/bld
 figures/~$figures.pptx
+sonic/figures/pdf
+sonic/figures/tmp.hex
+sonic/figures/~$figures.pptx
 ~$results.xlsx

@@ -1,0 +1,68 @@
+[{
+"backend": "flex",
+"target": "okg",
+"overall": {
+  "st": {"invocs": 511787, "ops": 511787},
+  "ld": {"invocs": 806734, "ops": 806734},
+  "mul": {"invocs": 49692, "ops": 49692},
+  "add": {"invocs": 847750, "ops": 847750},
+  "inc": {"invocs": 660357, "ops": 660357},
+  "MAT_GET_1D": {"invocs": 75750, "ops": 75750},
+  "MAT_GET_2D": {"invocs": 53268, "ops": 53268},
+  "loop_add": {"invocs": 275310, "ops": 275310},
+  "MAT_GET_3D": {"invocs": 7660, "ops": 7660},
+  "F_MUL": {"invocs": 345288, "ops": 345288},
+  "F_ADD": {"invocs": 335781, "ops": 335781},
+  "loop_inc": {"invocs": 96814, "ops": 96814},
+  "MAT_SET_2D": {"invocs": 16722, "ops": 16722},
+  "Transition": {"invocs": 0, "ops": 0.00627}
+},
+"sections": {
+ "conv1": {"idx": 0, "stats": {
+  "st": {"invocs": 306796, "ops": 306796},
+  "ld": {"invocs": 601970, "ops": 601970},
+  "mul": {"invocs": 49692, "ops": 49692},
+  "add": {"invocs": 843634, "ops": 843634},
+  "inc": {"invocs": 525070, "ops": 525070},
+  "MAT_GET_1D": {"invocs": 7660, "ops": 7660},
+  "MAT_GET_2D": {"invocs": 23720, "ops": 23720},
+  "loop_add": {"invocs": 275310, "ops": 275310},
+  "MAT_GET_3D": {"invocs": 7660, "ops": 7660},
+  "F_MUL": {"invocs": 267650, "ops": 267650},
+  "F_ADD": {"invocs": 258536, "ops": 258536},
+  "loop_inc": {"invocs": 7122, "ops": 7122},
+  "MAT_SET_2D": {"invocs": 6726, "ops": 6726},
+  "Transition": {"invocs": 0, "ops": 0.00627}
+ }},
+ "place1": {"idx": 0, "stats": {
+  "st": {"invocs": 1674, "ops": 1674},
+  "ld": {"invocs": 1674, "ops": 1674},
+  "mul": {"invocs": 0, "ops": 0},
+  "add": {"invocs": 3348, "ops": 3348},
+  "inc": {"invocs": 0, "ops": 0},
+  "MAT_GET_1D": {"invocs": 0, "ops": 0},
+  "MAT_GET_2D": {"invocs": 0, "ops": 0},
+  "loop_add": {"invocs": 0, "ops": 0},
+  "MAT_GET_3D": {"invocs": 0, "ops": 0},
+  "F_MUL": {"invocs": 0, "ops": 0},
+  "F_ADD": {"invocs": 0, "ops": 0},
+  "loop_inc": {"invocs": 1674, "ops": 1674},
+  "MAT_SET_2D": {"invocs": 0, "ops": 0}
+ }},
+ "fc": {"idx": 1, "stats": {
+  "st": {"invocs": 203000, "ops": 203000},
+  "ld": {"invocs": 203000, "ops": 203000},
+  "mul": {"invocs": 0, "ops": 0},
+  "add": {"invocs": 0, "ops": 0},
+  "inc": {"invocs": 135287, "ops": 135287},
+  "MAT_GET_1D": {"invocs": 68090, "ops": 68090},
+  "MAT_GET_2D": {"invocs": 29548, "ops": 29548},
+  "loop_add": {"invocs": 0, "ops": 0},
+  "MAT_GET_3D": {"invocs": 0, "ops": 0},
+  "F_MUL": {"invocs": 77638, "ops": 77638},
+  "F_ADD": {"invocs": 77245, "ops": 77245},
+  "loop_inc": {"invocs": 87800, "ops": 87800},
+  "MAT_SET_2D": {"invocs": 9996, "ops": 9996}
+ }}
+}
+}]
