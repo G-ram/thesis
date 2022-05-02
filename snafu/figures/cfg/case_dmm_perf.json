@@ -1,0 +1,96 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"perf"
+			], 
+			"labels":[
+				"Cycles"
+			],
+			"colors": [
+				"#41b6c4"
+			]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/dmm/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/custom/result.json",
+				"label": "SNAFU\nTailored",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/fixed/result.json",
+				"label": "SNAFU\nBespoke",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/dot/result.json",
+				"label": "Dot\nAsync",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/async/result.json",
+				"label": "DMM\nAsync",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/base/result.json",
+				"label": "DMM\nAccel",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 4,
+	"height": 2.8,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Speedup vs. SNAFU",
+	"draw_norm": true,
+	"invert": true
+}

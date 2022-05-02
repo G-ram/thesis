@@ -1,0 +1,202 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"cfg.1.energy.mem",
+				"cfg.1.energy.scalar",
+				"cfg.1.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "cfg.1.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"cfg.2.energy.mem",
+				"cfg.2.energy.scalar",
+				"cfg.2.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "cfg.2.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"cfg.4.energy.mem",
+				"cfg.4.energy.scalar",
+				"cfg.4.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "cfg.4.energy.total"
+		},
+		"stack4" :{
+			"keys":[
+				"cfg.6.energy.mem",
+				"cfg.6.energy.scalar",
+				"cfg.6.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "cfg.6.energy.total"
+		},
+		"stack5" :{
+			"keys":[
+				"cfg.8.energy.mem",
+				"cfg.8.energy.scalar",
+				"cfg.8.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "cfg.8.energy.total"
+		},
+		"stack6" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/small/fft/panic/cfg1/result.json",
+				"label": "1",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../data/small/fft/panic/cfg6/result.json",
+					"stack": "stack6"
+				}
+			},
+			{
+				"src": "../data/small/fft/panic/cfg2/result.json",
+				"label": "2",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../data/small/fft/panic/cfg6/result.json",
+					"stack": "stack6"
+				}
+			},
+			{
+				"src": "../data/small/fft/panic/cfg4/result.json",
+				"label": "4",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../data/small/fft/panic/cfg6/result.json",
+					"stack": "stack6"
+				}
+			},
+			{
+				"src": "../data/small/fft/panic/cfg6/result.json",
+				"label": "6",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../data/small/fft/panic/cfg6/result.json",
+					"stack": "stack6"
+				}
+			},
+			{
+				"src": "../data/small/fft/panic/cfg8/result.json",
+				"label": "8",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../data/small/fft/panic/cfg6/result.json",
+					"stack": "stack6"
+				}
+			}
+		],
+		[
+			{
+				"src": "bld/sens.json",
+				"label": "1",
+				"stack": "stack1"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "2",
+				"stack": "stack2"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "4",
+				"stack": "stack3"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "6",
+				"stack": "stack4"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "8",
+				"stack": "stack5"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["FFT", "Avg"],
+	"width": 6,
+	"height": 3,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 25,
+	"barwidth": 1.3,
+	"fontsize": 16,
+	"ylabel": "Energy vs SNAFU",
+	"draw_norm": true,
+	"xtick_rotation": 0
+}

@@ -1,0 +1,165 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./panic_design_top/MEM.energy.total",
+				"physical./panic_design_top/SCALAR.energy.total",
+				"physical./panic_design_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_design_top.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"physical./manic_top/MEM.energy.total",
+				"physical./manic_top/SCALAR.energy.total",
+				"physical./manic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./manic_top.energy.total"
+		},
+		"stack4" :{
+			"keys":[
+				"physical./dmm_design_top/MEM.energy.total",
+				"physical./dmm_design_top/SCALAR.energy.total",
+				"physical./dmm_design_top/DMM.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./dmm_design_top.energy.total"
+		},
+		"stack5" :{
+			"keys":[
+				"physical./dot_design_top/MEM.energy.total",
+				"physical./dot_design_top/SCALAR.energy.total",
+				"physical./dot_design_top/DOT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./dot_design_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/dmm/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/custom/result.json",
+				"label": "SNAFU\nTailored",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/fixed/result.json",
+				"label": "SNAFU\nBespoke",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/dot_async/result.json",
+				"label": "Dot\nAsync",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/dot/result.json",
+				"label": "Dot\nAccel",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/base/result.json",
+				"label": "DMM\nAccel",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 4,
+	"height": 3.2,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}

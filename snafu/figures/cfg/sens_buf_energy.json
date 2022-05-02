@@ -1,0 +1,114 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"buf.1.energy.mem",
+				"buf.1.energy.scalar",
+				"buf.1.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "buf.1.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"buf.2.energy.mem",
+				"buf.2.energy.scalar",
+				"buf.2.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "buf.2.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"buf.4.energy.mem",
+				"buf.4.energy.scalar",
+				"buf.4.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "buf.4.energy.total"
+		},
+		"stack4" :{
+			"keys":[
+				"buf.8.energy.mem",
+				"buf.8.energy.scalar",
+				"buf.8.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "buf.8.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "bld/sens.json",
+				"label": "1",
+				"stack": "stack1"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "2",
+				"stack": "stack2"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "4",
+				"stack": "stack3"
+			},
+			{
+				"src": "bld/sens.json",
+				"label": "8",
+				"stack": "stack4"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 4,
+	"height": 2.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 30,
+	"barwidth": 1.5,
+	"fontsize": 13,
+	"ylabel": "Energy vs SNAFU",
+	"draw_norm": true,
+	"xtick_rotation": 0
+}

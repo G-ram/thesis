@@ -1,0 +1,343 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./scalar_top/MEM.energy.total",
+				"physical./scalar_top/SCALAR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar"
+			],
+			"colors": [
+				"#2c7fb8",
+				"#41b6c4"
+			],
+			"total": "physical./scalar_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/small/fft/panic/buf4/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/fft/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/fft/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/fft/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/dwt/panic/buf4/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/dwt/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/dwt/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/dwt/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/dwt/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dwt/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/viterbi/panic/gold/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/viterbi/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/viterbi/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/viterbi/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/viterbi/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/viterbi/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/smm/panic/buf4/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/smm/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/smm/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/smm/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/smm/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/smm/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/dmm/panic/buf4/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/dmm/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/dmm/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/dmm/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/sconv/panic/buf4/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/sconv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/sconv/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/sconv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/sconv/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sconv/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/dconv/panic/buf4/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/dconv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/dconv/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/dconv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/dconv/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dconv/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/medium/smv/panic/gold/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/smv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/smv/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/smv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/huge/smv/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/huge/smv/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/medium/dmv/panic/gold/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/dmv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/dmv/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmv/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/huge/dmv/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/huge/dmv/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/small/sort/panic/gold/result.json",
+				"label": "S",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/small/sort/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/medium/sort/panic/gold/result.json",
+				"label": "M",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/medium/sort/scalar/result.json",
+					"stack": "stack2"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/gold/result.json",
+				"label": "L",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack2"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["FFT", "DWT", "Viterbi", "SMM", "DMM", "SCONV", "DCONV", "SMV", "DMV", "SORT"],
+	"width": 10,
+	"height": 5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 30,
+	"barwidth": 1.1,
+	"fontsize": 18,
+	"ylabel": "Energy vs. Scalar",
+	"draw_norm": true,
+	"xtick_rotation": 0
+}

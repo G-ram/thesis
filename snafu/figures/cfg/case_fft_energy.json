@@ -1,0 +1,120 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_design_top/MEM.energy.total",
+				"physical./panic_design_top/SCALAR.energy.total",
+				"physical./panic_design_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_design_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./fft_design_top/MEM.energy.total",
+				"physical./fft_design_top/SCALAR.energy.total",
+				"physical./fft_design_top/FFT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./fft_design_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/fft/panic/as/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/custom/result.json",
+				"label": "SNAFU\nTailored",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/fixed/result.json",
+				"label": "SNAFU\nBespoke",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/fixeds/result.json",
+				"label": "SNAFU\nBYOFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/async/result.json",
+				"label": "FFT1D\nAsync",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/1d/result.json",
+				"label": "FFT1D",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/base/result.json",
+				"label": "FFT2D",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/fft/panic/as/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["",""],
+	"width": 4,
+	"height": 3.2,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}

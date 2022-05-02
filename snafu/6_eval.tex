@@ -1,0 +1,179 @@
+\section{Evaluation}
+\label{snafu:eval}
+
+\figSNAFUPrimaryResults
+
+We now evaluate \snafuarch to show:
+(1)~\snafuarch is significantly more energy-efficient than the state-of-the-art.
+(2)~Secondarily, \snafuarch significantly improves performance over the state-of-the-art.
+(3)~\snafuarch is an optimal design point across input, configuration cache, and intermediate-buffer sizes.
+(4)~\snafuframe is easily extended with new PEs to improve efficiency.
+(5)~Significant opportunities remain to improve efficiency in the compiler.
+
+\figSNAFUSensUnrollResults
+
+\subsection{Main results}
+\autoref{fig:primary} shows that \snafuarch is much more energy-efficient and performant vs.\ all baselines.
+% 
+The figure shows average energy and speedup of \snafuarch normalized to the scalar baseline.
+% 
+\snafuarch uses 81\%, 57\%, and 41\% less energy than the scalar, vector, and \manic baselines, respectively.
+% 
+\snafuarch is also highly performant; it is 9.9$\times$, 3.2$\times$, and 4.4$\times$ faster than the respective baselines.
+% 
+
+\paragraph{1) \snafuarch saves significant energy}
+\autoref{fig:primary} shows detailed results for all ten benchmarks.
+% 
+\autoref{fig:energy:norm} breaks down execution energy between memory, the scalar core, vector/CGRA, and remaining (other).
+% 
+\snafuarch outperforms all baselines on each benchmark.
+% 
+This is primarily because \snafuarch implements spatial vector-dataflow execution.
+%
+Vector, \manic, and \snafuarch all benefit from vector execution (SIMD), significantly improving energy-efficiency and performance compared to the scalar baseline by eliminating much of the overhead of instruction fetch and decode.
+%
+However, \snafuarch benefits even more from vector execution
+because, once \snafuarch's fabric is configured, it can be re-used across an unlimited amount of data
+(unlike the limited vector length in the vector baseline and \manic).
+
+Moreover, only \snafuarch takes advantage of spatial dataflow.
+%
+The vector baseline writes all intermediate results to the vector register file, which is quite costly.
+% 
+\manic eliminates a majority of these VRF accesses (saving 27\% energy compared to the vector baseline) by 
+buffering intermediate values in a less expensive ``forwarding buffer.''
+% 
+However, \manic shares a single execution pipeline across all instructions,
+% 
+which significantly increases switching activity. 
+% 
+\snafuarch, on the other hand, executes a dataflow graph spatially.
+% 
+Each PE only handles a single operation and routes are configured statically.
+% 
+This leads to significantly less dynamic energy because intermediate values are directly communicated between dependent operations and there is minimal switching in PEs.
+
+\paragraph{2) \snafuarch also greatly improves performance}
+\autoref{fig:perf} shows the execution time (in cycles) of all benchmarks and systems.
+% 
+Across the board, \snafuarch is faster --- from 3.2$\times$ to 9.9$\times$ on average, depending on the baseline. 
+% 
+\snafuarch achieves this high-performance by exploiting instruction-level parallelism in each kernel,
+%
+which is naturally achieved by \snafuframe's asynchronous dataflow-firing at each PE.
+
+\paragraph{3) \snafuarch is ultra-low-power and has a small footprint}
+% 
+The \snafuarch fabric operates between 120\,\textmu W and 324\,\textmu W, depending on the workload, achieving an estimated 305\,MOPS/mW.
+% 
+This operating power domain is two to five orders-of-magnitude less than most prior CGRA designs.
+% 
+Leakage power is also insignificant ($<$3\%) because \snafuarch uses a high-threshold-voltage process.
+% 
+
+In addition, \snafuarch is tiny.
+The entire design in \autoref{fig:die}, including compiled memories, is substantially less than 1\,mm$^2$.
+Note, however, that \snafuarch saves energy at the cost of area:
+\snafuarch occupies 1.8$\times$ more area than \manic and 1.7$\times$ more than the vector baseline.
+%
+Given \snafuarch's tiny size, we judge this to be a good tradeoff.
+
+\paragraph{Benchmark analysis}
+\snafuarch is especially energy-efficient on dense linear algebra kernels and sort.
+% 
+\snafuarch uses on average 49\% less energy on average for DMM, DMV, and DConv vs.\ 35\% less on average for SMM, SMV, and SConv. 
+% 
+This is because the dense linear algebra kernels take full advantage of coalescing in the memory PEs and generally have fewer bank conflicts, reducing energy and increasing performance (5.8$\times$ vs.\ 3.8$\times$). 
+ 
+Sort is another interesting benchmark because \manic barely outperforms the vector baseline, while \snafuarch reduces energy by 72\%.
+(The scalar baseline performs terribly due to a lack of a good branch predictor.)
+% 
+This gap in energy can be attributed to the unlimited vector length of \snafuarch:
+% 
+the vector length of both vector and \manic baselines is 64, but the input size to Sort is 1024.
+% 
+\snafuarch is able to sort the entire vector with minimal re-configuration
+and buffering of intermediate values.
+
+\subsection{Sensitivity studies}
+We characterize \snafuarch by running applications on three different input sizes. % (\autoref{fig:size:energy}).
+% 
+Further, we find the optimal configuration of \snafuarch by sweeping the size of the configuration cache % (\autoref{fig:cache:norm})
+and the number of intermediate buffers. % (\autoref{fig:buf:norm}).
+
+
+\paragraph{Energy-efficiency and performance improve on larger workloads}
+\autoref{fig:sens:size:energy} shows \snafuarch's energy across three different input sizes: small (S), medium (M), and large (L). 
+%
+For most applications, \snafuarch's benefits increase with input size.
+(But \snafuarch is faster and more efficient at all input sizes.)
+%
+As input size increases, \snafuarch generally widens the gap in energy-efficiency with the scalar baseline, from 67\% to 81\%.
+%
+\snafuarch also improves vs.\ the vector baseline from 39\% to 57\% and vs.\ \manic from 37\% to 41\% (not shown).
+% 
+The primary reason for this improvement is that, with larger input sizes, \snafuarch can more effectively amortize the overhead of (re)configuration.
+% 
+
+This trend is even more pronounced in the performance data.
+% 
+\autoref{fig:sens:size:perf} shows the speedup of \snafuarch normalized to the scalar baseline.
+%
+\snafuarch is 9.9$\times$, 3.2$\times$, 4.4$\times$ faster than the scalar baseline, vector baseline, and \manic on the large input size and 5.4$\times$, 2.4$\times$, and 3.4$\times$ faster on the small input.
+
+\paragraph{\snafu's optimal parameterization}
+We considered designs with different configuration cache sizes (1, 2, 4, 6, and 8) and different numbers of intermediate buffers (1, 2, 4, and 8).
+% 
+For all applications except FFT, DWT, and Viterbi, configuration-cache size makes little difference.
+% 
+FFT, DWT, and Viterbi realize an average 10\% energy savings with a size of six entries.
+% 
+This is because these applications have up to six phases of computation, and each phase requires a different fabric configuration.
+%
+Similarly, most applications are insensitive to the number of intermediate buffers.
+%
+With too few buffers, PEs stall due to lack of buffer space.
+%
+Two buffers is enough to eliminate most of these stalls, and four buffers is optimal. 
+
+\subsection{Case studies}
+We conduct two case studies \emph{(i)}~to show that there are opportunities to further improve performance and energy efficiency with only software changes; and \emph{(ii)}~to demonstrate the flexibility of \snafuframe's BYOFU approach.
+
+\figSNAFUScratchResults
+\figSNAFUAccel % Babysat
+
+\paragraph{Loop-unrolling leads to significantly improved energy and performance}
+We show the potential of further compiler optimizations through a case study on loop unrolling.
+%
+\autoref{fig:unroll} shows the normalized energy and speedup of \manic and \snafuarch with and without loop unrolling on four different applications.
+%
+With loop unrolling, \snafuarch executes four iterations of an inner loop in parallel (vs.\ one iteration without loop unrolling).
+% 
+On average, with loop unrolling, \snafuarch's energy efficiency improves by 85\%, 71\%, 62\%, and 33\% vs.\ scalar, vector, \manic, and \snafuarch without unrolling.
+% 
+The performance results are even more significant: with loop unrolling, \snafuarch's speedup improves to 19$\times$, 7.5$\times$, 11$\times$, and 2.2$\times$ vs.\
+the same set of baselines.
+%
+These results make it clear that \snafuarch can effectively exploit instruction-level parallelism and that there is an opportunity for the compiler to further improve efficiency.
+
+\paragraph{\snafuframe makes it easy to add new FUs}
+Initially, \snafuarch did not have scratchpad PEs.
+%
+However, FFT and DWT produce permuted results that must be persisted between re-configurations of the fabric.
+%
+Without scratchpad units, these values were being communicated through memory.
+
+Leveraging \snafuframe's standard PE interface,
+we were able to quickly add scratchpad PEs to \snafuarch with minimal effort --- we just made \snafuframe aware of the new PE,
+without \emph{any} changes to \snafuframe's framework.
+% 
+\autoref{fig:scratch} shows the normalized energy and speedup of \snafuarch with and without scratchpads
+for FFT and DWT.
+%
+Persisting intermediate values to main memory is quite expensive:
+without scratchpads, \snafuarch consumes 54\% more energy and is 16\% slower on average.
+% 
+The flexibility of \snafuframe allowed us to easily optimize the \snafuarch fabric for FFT and DWT at low effort, without affecting other benchmarks.
+%
+The next section explores the implications for programmability and specialization.

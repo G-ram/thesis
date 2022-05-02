@@ -1,0 +1,111 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_design_top/MEM.energy.total",
+				"physical./panic_design_top/SCALAR.energy.total",
+				"physical./panic_design_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_design_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./sort_design_top/MEM.energy.total",
+				"physical./sort_design_top/SCALAR.energy.total",
+				"physical./sort_design_top/SORT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./sort_design_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/sort/panic/alt/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/custom/result.json",
+				"label": "SNAFU\nTailored",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/fixed/result.json",
+				"label": "SNAFU\nBespoke",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/byofu/result.json",
+				"label": "SNAFU\nBYOFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sort/accel/async/result.json",
+				"label": "Sort\nAsync",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sort/accel/base/result.json",
+				"label": "Sort\nAccel",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["",""],
+	"width": 4,
+	"height": 3.2,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}

@@ -1,0 +1,286 @@
+\section{Designing \snafuframe to maximize flexibility}
+\label{snafu:flexible}
+
+\snafuframe is designed to generate CGRAs that minimize energy, maximize
+extensibility, and simplify programming. 
+%
+For the architect, \snafuframe automates synthesis from the top down and
+provides a \emph{``bring your own functional unit''} interface, allowing easy
+integration of custom FUs into a CGRA.
+% 
+For the application programmer, \snafuframe is designed to efficiently support
+SIMD execution of vectorized \mbox{RISC-V} C-code, using a custom compiler that targets the generated CGRA. 
+
+\figSNAFUPE
+
+\subsection{Bring your own functional unit (BYOFU)}
+\label{snafu:flexible:byofu}
+\snafuframe has a generic PE microarchitecture that exposes a
+standard interface, enabling easy integration of custom functional units
+(FUs) into the CGRA.
+%
+If a custom FU implements \snafuframe's interface, then \snafu generates hardware
+to automatically handle configuring the FU, tracking FU and
+overall CGRA progress, and moderating its communication with other PEs.
+% 
+There are few limitations on the sort of the logic that \snafuframe can integrate.
+% 
+\snafuframe's interface is designed to support variable latency and currently supports up to four inputs, but could be easily extended for more.
+% 
+The PE can have any number of additional ports and contain any amount of internal state.
+
+\autoref{fig:pe} shows the microarchitecture of a generic \snafuframe processing element,
+comprising two components: \ucore and \ucfg.
+%
+The \ucore handles progress tracking, predicated execution, and communication. 
+%
+The standard FU interface (highlighted orange) connects the
+\ucore to the custom FU logic.  
+%
+The \ucfg handles (re-)configuration of both the \ucore and FUs.
+
+\paragraph{Communication}
+The \ucore handles communication between the processing element and the
+NoC, decoupling the NoC from the FU.
+% 
+The \ucore is made up of an input router,
+%% some internal
+logic that tracks when operands are ready, and a few buffers for intermediate values.
+% 
+The input router handles incoming connections, notifying the internal \ucore
+logic of the availability of valid data and predicates.
+%
+The intermediate buffers hold output data produced by the FU.
+% 
+Before an FU (that produces output) fires, the \ucore first allocates space in the intermediate buffers.
+% 
+Then, when the FU completes, its output data is written to the allotted space,
+unless the predicate value is not set, in which case a fallback value is passed through (see below).
+% 
+Finally, the buffer is freed when all consumers have finished using the value.
+% 
+These intermediate buffers are the \emph{only data buffering in the fabric},
+outside of internal FU state.
+% 
+The NoC, which forwards data to dependent PEs, is entirely bufferless.
+%
+
+\paragraph{The FU interface}
+\label{snafu:flexible:fu}
+\snafuframe uses a standard FU interface for interaction between a PE's \ucore
+and FU. 
+% 
+The interface has four control signals and several data signals.
+% 
+The four controls signals are {\tt op}, {\tt ready}, {\tt valid}, and {\tt
+done}; the \ucore drives {\tt op} and the FU is responsible for driving the
+latter three.
+% 
+{\tt op} tells the FU that input operands are ready to be consumed. 
+% 
+{\tt ready} indicates that the FU can consume new operands.
+% 
+{\tt valid} and {\tt done} are related: {\tt valid} says that the FU has data
+ready to send over the network, and {\tt done} says the FU has completed
+execution.
+% 
+The remaining signals are data: incoming operands ({\tt a}, {\tt b}),
+predicate operands ({\tt m}, {\tt d}), and the FU's output ({\tt z}).
+% 
+The FU-\ucore interface allows the \ucore to handle variable-latency logic, making the FU's outputs available only when the FU completes an operation.
+% 
+The \ucore raises back-pressure in the network when output from an FU is not ready and stalls the FU (by keeping {\tt op} low) when input operands are not ready or there are no unallocated intermediate buffers.
+%
+When the FU asserts both {\tt valid} and {\tt done}, the \ucore
+forwards the value produced by the FU to dependent PEs via its NoC router.
+
+\paragraph{Progress tracking and fabric control}
+The fabric has a top-level controller that interfaces with each \ucore via three 1-bit signals.
+% 
+The first enables the \ucore to begin execution, the second resets the \ucore, and the third tells the controller when the PE has finished processing all input.
+% 
+The \ucore keeps track of the progress of the FU by monitoring the {\tt done} signal,
+%
+counting how many elements the FU has processed.
+% 
+When the number of completed elements matches the length of the computation, the \ucore signals the controller that it is done.
+
+\paragraph{Predication}
+\snafuframe supports conditional execution through built-in support for vector predication.
+% 
+The \ucore delivers not only the predicate {\tt m}, but also a fallback value {\tt d} --- for when the predicate is false --- to the FU.
+% 
+When the predicate is true, the FU executes normally; when it is false, the FU is still triggered so that it can update internal state (e.g., memory index for a strided load), but the fallback value is passed through.
+
+\paragraph{Configuration services}
+\label{snafu:flexible:config}
+The \ucfg handles processing element configuration, setting up a PE's dataflow
+routes and providing custom FU configuration state.
+%
+Router configuration maps inputs ({\tt a}, {\tt b}, {\tt m}, {\tt d}) to a router port.
+%
+The \ucfg forwards custom FU configuration directly to the FU, which
+\snafuframe assumes handles its own internal configuration.
+% 
+The \ucfg module contains a configuration cache that can hold up to six different configurations.
+%
+The cached configurations reduce memory accesses and allow for fast switching between configurations.
+% 
+This improves both energy-efficiency and performance. %% by avoiding accesses to the main-memory.
+% 
+It also benefits applications with dataflow graphs too large to fit onto the fabric.
+% 
+These applications split their dataflow graph into multiple sub-graphs.
+% 
+The CGRA executes them one at a time, efficiently switching between them via the configuration cache.
+%
+Note, however, that even with the configuration cache, each fabric configuration is intended to be re-used across many input values before switching,
+unlike prior CGRAs that multiplex configurations cycle-by-cycle (\autoref{snafu:motivation}).
+
+\subsection{\snafuframe's PE standard library}
+\snafuframe includes a library of PEs that we developed using the BYOFU custom
+FU interface.  
+% 
+The library includes four types of PEs: a basic ALU, multiplier, memory 
+(load/store) unit, and scratchpad unit.
+
+\paragraph{Arithmetic PEs}
+There are two arithmetic PEs: the basic ALU and the multiplier.
+% 
+The basic ALU performs bitwise operations, comparisons, additions, subtractions, and fixed-point clip operations.
+% 
+The multiplier performs 32-bit signed multiplication.
+% 
+Both units are equipped with the ability to accumulate partial results,
+like PE \#4 ({\tt vredsum}) in \autoref{fig:overview:execute}. 
+
+\paragraph{Memory PEs}
+The memory PEs generate addresses and issue loads and stores to global memory.
+% 
+The PE operates in two different modes, supporting strided access and indirect access.
+% 
+The memory PE also includes a ``row buffer,'' which eliminates many subword accesses on accesses to a recently-loaded word.
+
+\paragraph{Scratchpad PEs}
+A scratchpad holds intermediate values produced by the CGRA. 
+%
+The scratchpad is especially useful for holding data communicated between
+consecutive configurations of a CGRA, e.g., when the entire dataflow
+graph is too large for the CGRA.
+% 
+The PE connects to a 1\,KB SRAM memory that supports stride-one and indirect
+accesses.
+% 
+Indirect access is used to implement permutation, allowing data to be written
+or read in a specified, permuted order.
+%
+
+\subsection{Generating a CGRA fabric}
+
+\paragraph{Generating RTL}
+Given a collection of processing elements, \snafuframe automatically generates a complete energy-minimal CGRA fabric.
+% 
+\snafuframe ingests a high-level description of the CGRA topology and generates valid RTL.
+% 
+This high-level description includes a list of the processing elements, their types, and an adjacency matrix that encodes the NoC topology.
+%
+With this high-level description, \snafuframe generates an RTL header file.
+% 
+The file is used to parameterize a general RTL description of a generic, energy-minimal CGRA fabric,
+which can then be fed through standard CAD tools.
+% 
+
+\paragraph{NoC and router topology}
+%
+\snafuframe generates a NoC using a parameterized bufferless router model.
+% 
+The router can have any input and output radix and gracefully handles network back-pressure.
+%
+Connections between inputs and outputs are configured statically for each configuration.
+% 
+Routers are mux-based because modern CAD tools optimize muxes well.
+
+
+\paragraph{Top-down synthesis streamlines CAD flow}
+\label{snafu:flexible:topdown}
+Following RTL generation, \snafuframe fabrics
+can be synthesized through standard CAD tools from the top down without manual intervention.
+% 
+Top-down synthesis is important because \snafu's bufferless, multi-hop
+NoC introduces combinational loops that normally require a
+labor-intensive, bottom-up approach to generate correct hardware.
+% 
+Industry CAD tools have difficulty analyzing and breaking combinational loops
+(i.e., by adding buffers to disable the loops).
+% 
+\snafuframe leverages prior work on synthesizing FPGAs (which face the
+problem with combinational loops in their bufferless NoCs) from the top down to
+automate this process~\cite{li2020automated,top_down}.
+% 
+\snafuframe partitions connections between routers and PEs and uses timing case analysis to eliminate inconsequential timing arcs.
+% 
+\snafuframe is the first framework for top-down
+synthesis of a CGRA, eliminating the manual effort of bottom-up synthesis.
+
+\subsection{Compilation}
+
+The final component is a compiler that targets the generated CGRA fabric.
+% 
+\autoref{fig:overview:execute} shows the compilation flow from vectorized code to valid CGRA configuration bitstream.
+%
+The compiler first extracts the dataflow graph from the vectorized C code.
+%
+\snafuframe asks the system designer (not the application programmer) to
+provide a mapping from \mbox{RISC-V} vector ISA instruction to a PE type, including the
+mapping of an operation's inputs and output onto an FU's inputs and
+output.
+% 
+This mapping lets \snafu's compiler seamlessly support new types of PEs.
+
+\paragraph{Integer linear program (ILP) scheduler}
+The compiler uses an integer linear program (ILP) formulation to schedule
+operations onto the PEs of a CGRA.
+% 
+The scheduler takes as input the extracted dataflow graph, the abstract
+instruction$\rightarrow$PE map, and a description of the CGRA's network 
+topology.
+% 
+The scheduler's ILP constraint formulation builds on prior work on scheduling code onto a CGRA~\cite{nowatzki2013general}.
+% 
+The scheduler searches for subgraph isomorphisms between the extracted
+dataflow graph and the CGRA topology, minimizing the distance between
+spatially scheduled operations.
+% 
+At the same time, the ILP adheres to the mappings in the abstract
+instruction$\rightarrow$PE map and does not map multiple dataflow nodes or
+edges to a single PE or route.
+%
+To handle PEs that are shared across multiple fabric configurations
+(e.g., scratchpads holding intermediate data), programmers can
+annotate code with instruction {\em affinity}, which maps a
+particular instruction to a particular PE.
+ 
+\paragraph{Scalability}
+Prior work has found scheduling onto a CGRA fabric to be
+extremely challenging and even
+intractable~\cite{dave2018ramp,kou2020taem,nowatzki2018hybrid,weng2020dsagen},
+limiting compiler scalability to small kernels.
+% 
+However, this is not the case for \snafu's compiler because \snafu's
+hardware makes compilation much easier:
+%
+\snafu supports asynchronous dataflow firing
+and does not time-multiplex PEs or routes.
+%
+Together, these properties mean that the compiler need not reason
+about operation timing, making the search space much smaller
+and simplying its constraints.
+% 
+As a result, \snafu's compiler can find an optimal solution in seconds
+even for the most complex kernels that we have evaluated.
+
+\paragraph{Current limitations}
+If a kernel is too large to fit onto the CGRA or there is resource mismatch between the kernel and the fabric, the tool relies on the programmer to manually split the vectorized code into several smaller kernels that can be individually scheduled.
+% 
+This is a limitation of the current implementation, but not fundamental;
+a future version of the compiler will automate this process.

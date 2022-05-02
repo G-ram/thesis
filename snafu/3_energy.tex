@@ -1,0 +1,158 @@
+\section{Designing \snafuframe to minimize energy}
+\label{snafu:energy}
+
+\snafuframe's design departs from prior CGRAs because it is designed from the ground-up to \emph{minimize energy}.
+This difference is essential for emerging ULP applications (\autoref{snafu:motivation}),
+and it motivates several key features of \snafuframe's CGRA architecture.
+%
+This snafution explores these differences and explains how they allow \snafuframe to minimize energy.
+
+\subsection{Spatial vector-dataflow execution}
+
+\paragraph{Prior ULP systems}
+The state-of-the-art in ULP architecture is \manic~\cite{manic}.
+%
+As discussed in \autoref{snafu:motivation},
+\manic introduces \emph{vector-dataflow execution},
+which amortizes instruction fetch, decode, and control (vector)
+and forwards intermediate values between instructions (dataflow).
+\manic's vector-dataflow implementation parks intermediate values in a small ``forwarding buffer,'' instead of the large vector register file (VRF).
+
+\manic reduces energy and adds negligible area,
+but its savings are limited by two low-level effects that only become apparent in a complete implementation.
+First, compiled SRAMs are cheaper and scale better than
+suggested by high-level architectural models~\cite{cacti,destiny};
+i.e., \manic's savings from reducing VRF accesses are smaller than estimated.
+Second, \manic multiplexes all instructions onto a shared execution pipeline,
+causing high switching activity in the pipeline logic and registers as control and data signals toggle cycle-to-cycle.
+Both effects limit \manic's energy savings.
+
+\paragraph{How \snafu reduces energy}
+%
+\snafuframe reduces energy by implementing \emph{spatial} vector-dataflow
+execution.
+%
+Like vector-dataflow,
+\snafuframe's CGRA amortizes a single fabric configuration across many computations (vector),
+and routes intermediate values directly between operations (dataflow).
+%
+But \snafuframe \emph{spatially} implements vector-dataflow:
+\snafuframe \emph{buffers intermediate values locally} in each PE (vs.\ \manic's shared forwarding buffer)
+and \emph{each PE performs a single operation} (vs.\ \manic's shared pipeline).
+%
+Note that this design is also a contrast with prior CGRAs, which share PEs among
+multiple operations to increase performance and utilization (\autoref{tab:motivation}).
+
+As a result, \snafuframe reduces both effects that limit \manic's energy savings.
+%
+We estimate that the reduction in switching activity accounts for the majority of the 41$\%$ of energy savings that \snafuframe achieves vs. \manic. 
+%
+The downside is that \snafu takes significantly more area
+than \manic.
+This tradeoff is worthwhile because ULP systems are tiny and most area is memory and I/O
+(see \autoref{snafu:eval}).
+%
+\snafu's leakage power is negligible despite its larger area because we use a high-threshold-voltage process.
+
+\subsection{Asynchronous dataflow firing without tag-token matching}
+
+The rest of this snafution discusses how \snafuframe differs from prior CGRAs,
+starting with its dynamic dataflow firing.
+
+\paragraph{Execution in prior CGRAs}
+%
+Prior CGRAs have explored both static and dynamic strategies
+to assign operations to PEs
+and to schedule operations~\cite{weng2020hybrid}.
+%
+Static assignment and scheduling is most energy-efficient,
+whereas fully dynamic designs require expensive tag-matching hardware to associate operands with their operation.
+%% as many operations can be in flight.
+%
+A static design is feasible when all operation latencies are known and a
+compiler can find an efficient global schedule.
+%
+Static designs are thus common in CGRAs that do not directly interact with a memory hierarchy~\cite{dyser,karunaratne2017hycube,nowatzki:isca17:stream-dataflow}.
+
+\paragraph{How \snafu reduces energy}
+%
+\snafuframe is designed to easily integrate new FUs with unknown or variable
+latency.
+%
+E.g., a memory PE may introduce variable latency due to bank conflicts.
+%
+A fully static design is thus not well-suited to \snafuframe, but \snafuframe cannot afford full tag-token matching either.
+
+\snafuframe's solution is a hybrid CGRA with static PE assignment and dynamic scheduling.
+%
+(``Ordered dataflow'' in the taxonomy of prior work~\cite{weng2020hybrid}.)
+%
+Each PE uses local, asynchronous dataflow firing to tolerate variable latency.
+%
+\snafuframe avoids tag-matching by enforcing that values arrive in-order.
+%
+This design lets \snafuframe integrate arbitrary FUs with little energy or area overhead,
+adding just $\approx2\%$ system energy to \snafuarch. 
+%
+The cost of this design is some loss in performance vs.\ a fully dynamic CGRA.
+%
+Moreover, asynchronous firing simplifies the compiler, as discussed
+above, because it is not responsible for operation timing.
+
+\subsection{Statically routed, bufferless on-chip network}
+
+\paragraph{NoCs in prior CGRAs}
+%
+The on-chip network (NoC) can consume a large fraction of energy in high-performance
+CGRAs,
+%
+e.g., more than 25\% of fabric energy~\cite{nowatzki:isca17:stream-dataflow,karunaratne2017hycube}.
+%
+Buffers in NoC routers are a major energy sink, and dynamic, packet-switched
+routers cause high switching activity.
+%
+Prior ULP CGRAs avoid this cost with highly restrictive NoCs that limit
+flexibility~\cite{ipa,cma,srp}.
+
+\paragraph{How \snafu reduces energy}
+%
+\snafuframe includes a statically-configured, bufferless, multi-hop on-chip
+network designed for high routability at minimal energy.
+% 
+Static circuit-switching eliminates expensive lookup tables and flow-control
+mechanisms, and prior work showed that such static routing does not degrade
+performance~\cite{karunaratne2017hycube}.
+%
+The network is bufferless (a PE buffers values it produces; see below),
+eliminating the NoC's primary energy sink 
+(half of NoC energy or more~\cite{moscibroda2009case}).
+  As a result, \snafu's NoC takes just $\approx 6\%$ of system energy.
+
+
+\subsection{Minimizing buffers in the fabric}
+
+\paragraph{Buffering of intermediate values in prior CGRAs}
+%
+Prior CGRAs maximize performance by forwarding values to dependent PEs
+and buffering them in large FIFOs,
+freeing a producer PE to start its next operation as early as possible.
+%
+If a dependent PE is not ready, the NoC or dependent PE may buffer values. 
+%
+This approach maximizes parallelism, but duplicates intermediate values unnecessarily.
+
+\paragraph{How \snafu reduces energy}
+%
+\snafuframe includes minimal in-fabric buffering at the producer PE, with none
+in the NoC.
+%
+Buffering at the producer PE means each value is buffered exactly once, and
+overwritten only when all dependent PEs are finished using it.
+%
+In \snafuarch, producer-side buffering saves $\approx7\%$ of system energy
+vs.\ consumer-side buffering.
+%
+The cost is that a producer PE may stall if a dependent PE is not ready.
+%
+\snafuframe minimizes the number of buffers at each PE; using just four buffers per PE by default
+(\autoref{snafu:eval} evaluates \snafuframe's sensitivity to the number of buffers per PE).

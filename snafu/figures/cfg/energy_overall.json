@@ -1,0 +1,85 @@
+{
+	"stacks": {
+		"stack0" :{
+			"keys":[
+				"scalar.energy.total"
+			], 
+			"labels":[
+				"Cycles"
+			],
+			"colors": [
+				"#41b6c4"
+			]
+		},
+		"stack1" :{
+			"keys":[
+				"base.energy.total"
+			], 
+			"labels":[
+				"Cycles"
+			],
+			"colors": [
+				"#41b6c4"
+			]
+		},
+		"stack2" :{
+			"keys":[
+				"manic.energy.total"
+			], 
+			"labels":[
+				"Cycles"
+			],
+			"colors": [
+				"#41b6c4"
+			]
+		},
+		"stack3" :{
+			"keys":[
+				"panic.energy.total"
+			], 
+			"labels":[
+				"Cycles"
+			],
+			"colors": [
+				"#41b6c4"
+			]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "bld/avg.json",
+				"label": "Scalar",
+				"stack": "stack0"
+			},
+			{
+				"src": "bld/avg.json",
+				"label": "Vector",
+				"stack": "stack1"
+			},
+			{
+				"src": "bld/avg.json",
+				"label": "MANIC",
+				"stack": "stack2"
+			},
+			{
+				"src": "bld/avg.json",
+				"label": "SNAFU",
+				"stack": "stack3"
+			}
+		]
+	],
+    "sci_not": false,
+	"width": 3.5,
+	"height": 3,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"ylabel": "Energy vs. Scalar",
+	"sci_not": false,
+	"draw_norm": true
+}

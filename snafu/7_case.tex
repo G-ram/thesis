@@ -1,0 +1,180 @@
+\section{The Cost of Programmability}
+\label{snafu:case}
+%
+With the mainstream acceptance of architectural specialization,
+the architecture community faces an ongoing debate over the ideal form and degree of specialization.
+%
+Some results suggest a need for drastic specialization to compete
+with ASICs~\cite{hameed2010understanding,taylor2012dark,shao2014aladdin};
+%
+whereas others argue that programmable designs can compete by
+adopting a non-von Neumann execution
+model~\cite{nowatzki2016dsa,nowatzki2017domain}.
+
+We contribute to this debate by performing an apples-to-apples
+comparison of a programmable design (\snafuarch) against three hand-coded ASICs,
+%
+demonstrating that the cost of programmability is low in the ULP domain.
+%
+We compare end-to-end systems in the same technology and design flow
+using an industrial PDK with compiled memories.
+%
+Our results thus avoid pitfalls of prior studies based on simulations,
+analytical models, or extrapolations from different
+technologies.
+
+We find that, on average, \snafuarch uses $2.6\times$ more energy
+and $2.1\times$ more time than an ASIC implementation.
+%
+Breaking down the sources of inefficiency in \snafuarch,
+%
+we find that \snafu lets designers trade off programmability and efficiency
+via simple, incremental design changes.
+%
+\snafu makes {\em selective} specialization easy, letting the architect
+focus their design effort where it yields the most efficiency gains.
+
+\paragraph{\snafu is within $2.6\times$ of ASIC energy}
+\autoref{fig:accel} shows the energy of DMM, Sort, and FFT on large inputs.
+%
+The leftmost bars in \autoref{fig:accel} represent \snafuarch and the rightmost bars %, {\scshape DMM-Accel}, {\scshape Sort-Accel}, and {\scshape FFT2D-Accel},
+represent a fixed-function, statically scheduled ASIC implementation of the same algorithm.
+% 
+\snafuarch uses as little as $1.8\times$ and on average $2.6\times$ more energy than the ASICs.
+%
+To explain the gap,
+we now consider intermediate designs that build up from the ASIC back to \snafuarch.
+
+\paragraph{\snafuarch, inner loops, \& Amdahl's Law}
+\snafu maps only inner loops to its fabric and runs outer loops on the
+scalar core, limiting its benefits to the fraction of dynamic
+execution spent in inner loops.
+%
+To make a fair comparison, we built ASICs for DMM and FFT that
+accelerate only the inner-loop of the kernel ({\scshape Dot-Accel} and
+{\scshape FFT1D-Accel}), just like \snafuarch.
+% 
+These designs add $33\%$ energy to run outer loops on the scalar core,
+reducing the energy gap to $2.2\times$ (vs.\ $2.5\times$ for these benchmarks previously).
+%
+A future version of \snafu could eliminate this extra scalar energy by mapping outer loops to its fabric~\cite{weng2020hybrid}.
+
+\paragraph{Asynchronous dataflow firing adds minimal overhead}
+Next, we add asynchronous dataflow firing to the ASIC designs
+({\scshape $*$-Async} bars).
+% 
+Comparing {\scshape Async} designs to the ASICs shows that asynchronous dataflow
+firing adds little energy overhead, just 3\% in DMM and Sort.
+%
+The 30\% overhead in {\scshape FFT-Async} is inessential and could be optimized away:
+\snafu's current implementation of asynchronous dataflow firing adds an unnecessary pipeline stage when reading scratchpad memories in the ASIC designs.
+
+\paragraph{Closing the gap with negligible design effort}
+Next, we consider variants of \snafuarch to break down the cost of
+software programmability.
+%
+{\scshape \snafu-Bespoke} hardwires the fabric configuration, eliminating unused
+logic during synthesis (like prior work~\cite{cherupalli:isca17:bespoke}),
+removing \snafuarch's software programmability.
+%
+{\scshape \snafu-Bespoke} uses $54\%$ more energy than the {\scshape Async} designs.
+% 
+The gap in energy with {\scshape Async} can be attributed to \snafu's logic for
+predicated execution and the operation set that \snafu implements, which is not
+well suited to every application.  For instance, {\scshape Sort-Accel} can
+select bits directly, whereas \snafu must do a {\tt vshift} and {\tt vand}.
+
+\paragraph{BYOFU makes it easy to specialize where it matters}
+\snafu's flexible, ``bring your own functional unit'' design
+(\autoref{snafu:flexible:byofu}) makes it easy to add missing operations
+to improve efficiency.
+%
+To illustrate this,
+Sort-{\sc Byofu} and FFT-{\sc Byofu}
+improve {\sc \snafu-Bespoke}'s efficiency by adding specialized PEs to the fabric.
+% 
+For Sort, we add a PE that fuses {\tt vshift} and {\tt vand} operations.
+% 
+For FFT, we size scratchpads properly for their data.
+% 
+In both cases, the energy savings are significant.
+% 
+{\scshape \snafu-Bespoke} uses $20\%$ more energy than the {\scshape Byofu} designs, and the {\scshape Byofu} designs come within $44\%$ of the {\sc Async} ASIC designs.
+%
+These savings come with much lower design effort than a full ASIC, and we
+expect the gap would narrow further if more {\sc Byofu} PEs were added to the fabric.
+%
+
+\paragraph{The cost of software programmability is low}
+Next, {\scshape \snafu-Tailored} specializes the CGRA to eliminate
+extraneous PEs, routers, and NoC links, but is not hardwired like {\scshape \snafu-Bespoke} or {\scshape \snafu-Byofu} ---
+%
+i.e., \snafu-\fauxsc{Tailored} is where the design becomes programmable in software.
+% 
+{\scshape \snafu-Tailored} uses only $15\%$ more energy than {\scshape
+\snafu-Bespoke}, illustrating that the cost of software programmability is low.
+
+
+The original \snafuarch design uses just $10\%$ more energy
+than {\scshape \snafu-Tailored}.
+%
+This gap includes the cost of PEs, routers, and links that are
+not needed by every application, but may be used by some.
+%
+This gap is also small, suggesting that \emph{general-purpose}
+programmability also has a low cost.
+%
+
+\newcommand{\hbreak}{\vspace{-0.6em}\begin{center}\textcolor{gray}{\line(1,0){150}}\end{center}\vspace{-0.1em}}
+
+\hbreak
+
+The above comparisons yield three major takeaways.
+%
+The big picture is that \bigemph{the total cost of \snafu's programmability is {\mbox{2--3$\times$}}} in energy and time vs.\ a fully specialized ASIC.
+%
+While significant, this gap is much smaller than the 25$\times$ (or larger) gap found in some prior studies~\cite{hameed2010understanding}.%
+%
+\footnote{The smaller gap comes from comparing to a programmable design that
+exploits \emph{both} vector and dataflow techniques to improve
+efficiency~\cite{nowatzki2017domain,nowatzki2016dsa}.}
+%
+Whether further specialization is worthwhile will depend on the application;
+for many applications, a 2--3$\times$ gap is good enough~\cite{hotmobile2021}.
+
+Moreover, for applications that benefit from more specialization, \bigemph{\snafu allows for selective specialization with incremental design effort}
+to trade off efficiency and programmability.
+%
+\autoref{fig:accel} shows that by tailoring the fabric topology,
+hardwiring configuration state,
+or partially specializing PEs,
+designers can get within 2$\times$ of ASIC efficiency
+at a small fraction of ASIC design effort.
+%
+Designers can incrementally scale their design effort
+to the degree of specialization appropriate for their application.
+
+Finally, digging deeper, we can better understand the cost of programmability as separate
+%
+costs incurred at design time (i.e., hardware implementation quality)
+and run time (i.e., overhead for running software).
+%
+With current synthesis tools,
+\bigemph{software programmability itself is surprisingly cheap,
+  but carries a hidden design-time cost:}
+%
+the gap between \snafu and {\sc \snafu-Bespoke} is just $27\%$,
+%
+whereas the gap between {\sc \snafu-Bespoke} and ASICs is $2.1\times$.
+% 
+Even when runtime reconfigurability is removed from a design,
+synthesis tools cannot produce circuits similar to a hand-coded ASIC
+because they do not understand the intent of RTL.
+%
+Barring a breakthrough in synthesis, this challenge will remain. 
+% 
+\snafu provides a path forward:
+% 
+{\sc BYOFU} lets a designer specialize for critical operations,
+enabling programmable designs to compete with ASICs at a fraction of the design effort
+and without forfeiting programmability.

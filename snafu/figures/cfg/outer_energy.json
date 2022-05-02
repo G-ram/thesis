@@ -1,0 +1,87 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top.energy.total"
+			], 
+			"labels": ["Total"],
+			"colors": ["#41b6c4"]
+		},
+		"stack2" :{
+			"keys":[
+				"physical./dmm_design_top.energy.total"
+			], 
+			"labels": ["Total"],
+			"colors": ["#41b6c4"]
+		},
+		"stack3" :{
+			"keys":[
+				"physical./dot_design_top.energy.total"
+			], 
+			"labels": ["Total"],
+			"colors": ["#41b6c4"]
+		},
+		"stack4" :{
+			"keys":[
+				"physical./fft_design_top.energy.total"
+			], 
+			"labels": ["Total"],
+			"colors": ["#41b6c4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/dmm/accel/dot/result.json",
+				"label": "Dot",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/base/result.json",
+				"label": "DMM",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/fft/accel/1d/result.json",
+				"label": "FFT1D",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/base/result.json",
+				"label": "FFT2D",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMM", "FFT"],
+	"width": 5,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 1.5,
+	"major_spacing": 1,
+	"minor_padding": 5,
+	"major_padding": 40,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}

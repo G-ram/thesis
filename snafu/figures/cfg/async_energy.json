@@ -1,0 +1,169 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./dmm_design_top/MEM.energy.total",
+				"physical./dmm_design_top/SCALAR.energy.total",
+				"physical./dmm_design_top/DMM.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./dmm_design_top.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"physical./sort_design_top/MEM.energy.total",
+				"physical./sort_design_top/SCALAR.energy.total",
+				"physical./sort_design_top/SORT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./sort_design_top.energy.total"
+		},
+		"stack4" :{
+			"keys":[
+				"physical./fft_design_top/MEM.energy.total",
+				"physical./fft_design_top/SCALAR.energy.total",
+				"physical./fft_design_top/FFT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./fft_design_top.energy.total"
+		},
+		"stack5" :{
+			"keys":[
+				"physical./panic_design_top/MEM.energy.total",
+				"physical./panic_design_top/SCALAR.energy.total",
+				"physical./panic_design_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_design_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/dmm/accel/async/result.json",
+				"label": "Async",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/base/result.json",
+				"label": "Accel",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/sort/accel/async/result.json",
+				"label": "Async",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../data/large/sort/accel/base/result.json",
+				"label": "Accel",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/sort/panic/alt/result.json",
+					"stack": "stack5"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/fft/accel/async/result.json",
+				"label": "Async",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/base/result.json",
+				"label": "Accel",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMM", "Sort", "FFT"],
+	"width": 6,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 40,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}

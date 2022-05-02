@@ -1,0 +1,562 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+                "Memory",
+                "Scalar",
+                "Vec/CGRA"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./manic_top/MEM.energy.total",
+				"physical./manic_top/SCALAR.energy.total",
+				"physical./manic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vec/CGRA"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./manic_top.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"physical./base_top/MEM.energy.total",
+				"physical./base_top/SCALAR.energy.total",
+				"physical./base_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vec/CGRA"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./base_top.energy.total"
+		},
+		"stack4" :{
+			"keys":[
+				"base.energy.mem",
+				"base.energy.scalar",
+				"base.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vec/CGRA"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "base.energy.total"
+		},
+		"stack5" :{
+			"keys":[
+				"manic.energy.mem",
+				"manic.energy.scalar",
+				"manic.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vec/CGRA"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "manic.energy.total"
+		},
+		"stack6" :{
+			"keys":[
+				"panic.energy.mem",
+				"panic.energy.scalar",
+				"panic.energy.vcu"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vec/CGRA"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "panic.energy.total"
+		},
+		"stack7" :{
+			"keys":[
+				"physical./scalar_top/MEM.energy.total",
+				"physical./scalar_top/SCALAR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./scalar_top.energy.total"
+		},
+		"stack8" :{
+			"keys":[
+				"scalar.energy.mem",
+				"scalar.energy.scalar"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "scalar.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/fft/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/dwt/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/dwt/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dwt/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/dwt/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dwt/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dwt/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dwt/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dwt/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/viterbi/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/viterbi/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/viterbi/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/viterbi/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/viterbi/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/viterbi/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/viterbi/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/viterbi/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/smm/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/smm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/smm/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/smm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/smm/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/smm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/smm/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/smm/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/dmm/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/sconv/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/sconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sconv/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/sconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sconv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/sconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sconv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/dconv/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/dconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dconv/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/dconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dconv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dconv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dconv/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/huge/smv/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/huge/smv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/huge/smv/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/huge/smv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/huge/smv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/huge/smv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/huge/smv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/huge/smv/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/huge/dmv/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/huge/dmv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/huge/dmv/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/huge/dmv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/huge/dmv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/huge/dmv/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/huge/dmv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/huge/dmv/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/sort/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sort/base/result.json",
+				"label": "Vector",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sort/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "bld/avg.json",
+				"label": "Scalar",
+				"stack": "stack8"
+			},
+			{
+				"src": "bld/avg.json",
+				"label": "Vector",
+				"stack": "stack4"
+			},
+			{
+				"src": "bld/avg.json",
+				"label": "MANIC",
+				"stack": "stack5"
+			},
+			{
+				"src": "bld/avg.json",
+				"label": "SNAFU",
+				"stack": "stack6"
+			}
+		]
+	],
+    "sci_not": false,
+    "draw_norm": true,
+	"major": ["FFT", "DWT", "Viterbi", "SMM", "DMM", "SCONV", "DCONV", "SMV", "DMV", "SORT", "AVG"],
+	"width": 10,
+	"height": 6.12,
+	"rect": [0, 0, 1.0, 0.9],
+	"minor_spacing": 3,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 60,
+	"barwidth": 1.8,
+	"fontsize": 16,
+	"ylabel": "Energy vs. Scalar",
+	"xlim": [2.5, 150]
+}

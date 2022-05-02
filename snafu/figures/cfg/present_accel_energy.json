@@ -1,0 +1,330 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./dmm_design_top/MEM.energy.total",
+				"physical./dmm_design_top/SCALAR.energy.total",
+				"physical./dmm_design_top/DMM.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./dmm_design_top.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"physical./sort_design_top/MEM.energy.total",
+				"physical./sort_design_top/SCALAR.energy.total",
+				"physical./sort_design_top/SORT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./sort_design_top.energy.total"
+		},
+		"stack4" :{
+			"keys":[
+				"physical./fft_design_top/MEM.energy.total",
+				"physical./fft_design_top/SCALAR.energy.total",
+				"physical./fft_design_top/FFT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./fft_design_top.energy.total"
+		},
+		"stack5" :{
+			"keys":[
+				"physical./panic_design_top/MEM.energy.total",
+				"physical./panic_design_top/SCALAR.energy.total",
+				"physical./panic_design_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_design_top.energy.total"
+		},
+		"stack6" :{
+			"keys":[
+				"physical./manic_top/MEM.energy.total",
+				"physical./manic_top/SCALAR.energy.total",
+				"physical./manic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./manic_top.energy.total"
+		},
+		"stack7" :{
+			"keys":[
+				"physical./scalar_top/MEM.energy.total",
+				"physical./scalar_top/SCALAR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./scalar_top.energy.total"
+		},
+		"stack8" :{
+			"keys":[
+				"physical./dot_design_top/MEM.energy.total",
+				"physical./dot_design_top/SCALAR.energy.total",
+				"physical./dot_design_top/DOT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./dot_design_top.energy.total"
+		},
+		"stack9" :{
+			"keys":[
+				"physical./panic_design_top/MEM.energy.total",
+				"physical./panic_design_top/SCALAR.energy.total",
+				"physical./panic_design_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_design_top.energy.total"
+		},
+		"stack10" :{
+			"keys":[
+				"physical./fft_design_top/MEM.energy.total",
+				"physical./fft_design_top/SCALAR.energy.total",
+				"physical./fft_design_top/FFT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./fft_design_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/dmm/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/fixed/result.json",
+				"label": "SNAFU\nSpecialized",
+				"stack": "stack9",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/dot/result.json",
+				"label": "Dot\nAccel",
+				"stack": "stack8",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/dmm/accel/base/result.json",
+				"label": "DMM\nAccel",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/sort/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/alt/result.json",
+				"label": "SNAFU",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sort/panic/byofu/result.json",
+				"label": "SNAFU\nSpecialized",
+				"stack": "stack9",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/sort/accel/base/result.json",
+				"label": "Sort\nAccel",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/sort/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/fft/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/fixeds/result.json",
+				"label": "SNAFU\nSpecialized",
+				"stack": "stack9",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/1d/result.json",
+				"label": "FFT1D\nAccel",
+				"stack": "stack10",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			},
+			{
+				"src": "../data/large/fft/accel/base/result.json",
+				"label": "FFT2D\nAccel",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/large/fft/scalar/result.json",
+					"stack": "stack7"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMM", "Sort", "FFT"],
+	"width": 10,
+	"height": 5.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.5,
+	"major_spacing": 4,
+	"minor_padding": 5,
+	"major_padding": 65,
+	"barwidth": 1.6,
+	"fontsize": 12,
+	"ylabel": "Energy vs. Scalar",
+	"ylim": 0.2
+}

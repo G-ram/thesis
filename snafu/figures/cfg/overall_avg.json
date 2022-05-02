@@ -1,0 +1,316 @@
+[
+	{
+		"vals": [
+			{
+				"src": "../data/large/fft/scalar/result.json", 
+				"normalize": "../data/large/fft/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dwt/scalar/result.json", 
+				"normalize": "../data/large/dwt/scalar/result.json"
+			},
+			{
+				"src": "../data/large/viterbi/scalar/result.json", 
+				"normalize": "../data/large/viterbi/scalar/result.json"
+			},
+			{
+				"src": "../data/large/smm/scalar/result.json", 
+				"normalize": "../data/large/smm/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dmm/scalar/result.json", 
+				"normalize": "../data/large/dmm/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/smv/scalar/result.json", 
+				"normalize": "../data/huge/smv/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/dmv/scalar/result.json", 
+				"normalize": "../data/huge/dmv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sconv/scalar/result.json", 
+				"normalize": "../data/large/sconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dconv/scalar/result.json", 
+				"normalize": "../data/large/dconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sort/scalar/result.json", 
+				"normalize": "../data/large/sort/scalar/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top/MEM.energy.total",
+				"physical./scalar_top/SCALAR.energy.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top/MEM.power.total",
+				"physical./scalar_top/SCALAR.power.total",
+				"perf"
+			],
+			"normalize": [
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"perf"
+			],
+			"output": [
+				"scalar.energy.total",
+				"scalar.energy.mem",
+				"scalar.energy.scalar",
+				"scalar.power.total",
+				"scalar.power.mem",
+				"scalar.power.scalar",
+				"scalar.perf"
+			],
+			"invert": [false, false, false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/large/fft/base/result.json", 
+				"normalize": "../data/large/fft/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dwt/base/result.json", 
+				"normalize": "../data/large/dwt/scalar/result.json"
+			},
+			{
+				"src": "../data/large/viterbi/base/result.json", 
+				"normalize": "../data/large/viterbi/scalar/result.json"
+			},
+			{
+				"src": "../data/large/smm/base/result.json", 
+				"normalize": "../data/large/smm/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dmm/base/result.json", 
+				"normalize": "../data/large/dmm/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/smv/base/result.json", 
+				"normalize": "../data/huge/smv/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/dmv/base/result.json", 
+				"normalize": "../data/huge/dmv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sconv/base/result.json", 
+				"normalize": "../data/large/sconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dconv/base/result.json", 
+				"normalize": "../data/large/dconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sort/base/result.json", 
+				"normalize": "../data/large/sort/scalar/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./base_top.energy.total",
+				"physical./base_top/MEM.energy.total",
+				"physical./base_top/VCU.energy.total",
+				"physical./base_top/SCALAR.energy.total",
+				"physical./base_top.power.total",
+				"physical./base_top/MEM.power.total",
+				"physical./base_top/VCU.power.total",
+				"physical./base_top/SCALAR.power.total",
+				"perf"
+			],
+			"normalize": [
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"perf"
+			],
+			"output": [
+				"base.energy.total",
+				"base.energy.mem",
+				"base.energy.vcu",
+				"base.energy.scalar",
+				"base.power.total",
+				"base.power.mem",
+				"base.power.vcu",
+				"base.power.scalar",
+				"base.perf"
+			],
+			"invert": [false, false, false, false, false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/large/fft/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/fft/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dwt/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/dwt/scalar/result.json"
+			},
+			{
+				"src": "../data/large/viterbi/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/viterbi/scalar/result.json"
+			},
+			{
+				"src": "../data/large/smm/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/smm/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dmm/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/dmm/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/smv/manic/vplain_opt/result.json", 
+				"normalize": "../data/huge/smv/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/dmv/manic/vplain_opt/result.json", 
+				"normalize": "../data/huge/dmv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sconv/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/sconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dconv/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/dconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sort/manic/vplain_opt/result.json", 
+				"normalize": "../data/large/sort/scalar/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./manic_top.energy.total",
+				"physical./manic_top/MEM.energy.total",
+				"physical./manic_top/VCU.energy.total",
+				"physical./manic_top/SCALAR.energy.total",
+				"physical./manic_top.power.total",
+				"physical./manic_top/MEM.power.total",
+				"physical./manic_top/VCU.power.total",
+				"physical./manic_top/SCALAR.power.total",
+				"perf"
+			],
+			"normalize": [
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"perf"
+			],
+			"output": [
+				"manic.energy.total",
+				"manic.energy.mem",
+				"manic.energy.vcu",
+				"manic.energy.scalar",
+				"manic.power.total",
+				"manic.power.mem",
+				"manic.power.vcu",
+				"manic.power.scalar",
+				"manic.perf"
+			],
+			"invert": [false, false, false, false, false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/large/fft/panic/gold/result.json", 
+				"normalize": "../data/large/fft/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dwt/panic/gold/result.json", 
+				"normalize": "../data/large/dwt/scalar/result.json"
+			},
+			{
+				"src": "../data/large/viterbi/panic/gold/result.json", 
+				"normalize": "../data/large/viterbi/scalar/result.json"
+			},
+			{
+				"src": "../data/large/smm/panic/gold/result.json", 
+				"normalize": "../data/large/smm/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dmm/panic/gold/result.json", 
+				"normalize": "../data/large/dmm/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/smv/panic/gold/result.json", 
+				"normalize": "../data/huge/smv/scalar/result.json"
+			},
+			{
+				"src": "../data/huge/dmv/panic/gold/result.json", 
+				"normalize": "../data/huge/dmv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sconv/panic/gold/result.json", 
+				"normalize": "../data/large/sconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/dconv/panic/gold/result.json", 
+				"normalize": "../data/large/dconv/scalar/result.json"
+			},
+			{
+				"src": "../data/large/sort/panic/gold/result.json", 
+				"normalize": "../data/large/sort/scalar/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./panic_top.energy.total",
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/VCU.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top.power.total",
+				"physical./panic_top/MEM.power.total",
+				"physical./panic_top/VCU.power.total",
+				"physical./panic_top/SCALAR.power.total",
+				"perf"
+			],
+			"normalize": [
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"physical./scalar_top.power.total",
+				"perf"
+			],
+			"output": [
+				"panic.energy.total",
+				"panic.energy.mem",
+				"panic.energy.vcu",
+				"panic.energy.scalar",
+				"panic.power.total",
+				"panic.power.mem",
+				"panic.power.vcu",
+				"panic.power.scalar",
+				"panic.perf"
+			],
+			"invert": [false, false, false, false, false, false, false, false, true]
+		}
+	}
+]

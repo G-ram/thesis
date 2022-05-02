@@ -1,0 +1,129 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./scalar_top/MEM.energy.total",
+				"physical./scalar_top/SCALAR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./scalar_top.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"physical./manic_top/MEM.energy.total",
+				"physical./manic_top/SCALAR.energy.total",
+				"physical./manic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"MANIC"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./manic_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/fft/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/fft/panic/noscratch/result.json",
+				"label": "SNAFU\n(no scratch)",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/fft/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/dwt/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack3",
+				"normalize": {
+					"src": "../data/large/dwt/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dwt/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dwt/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dwt/panic/noscratch/result.json",
+				"label": "SNAFU\n(no scratch)",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dwt/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["FFT", "DWT"],
+	"width": 4,
+	"height": 3.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 0.8,
+	"minor_padding": 5,
+	"major_padding": 60,
+	"barwidth": 1.4,
+	"fontsize": 14,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}

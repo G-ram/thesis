@@ -1,0 +1,223 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"physical./panic_top/MEM.energy.total",
+				"physical./panic_top/SCALAR.energy.total",
+				"physical./panic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"SNAFU"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./panic_top.energy.total"
+		},
+		"stack2" :{
+			"keys":[
+				"physical./manic_top/MEM.energy.total",
+				"physical./manic_top/SCALAR.energy.total",
+				"physical./manic_top/VCU.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"MANIC"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./manic_top.energy.total"
+		},
+		"stack3" :{
+			"keys":[
+				"physical./scalar_top/MEM.energy.total",
+				"physical./scalar_top/SCALAR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./scalar_top.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/large/dmm/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/manic/unroll/result.json",
+				"label": "unMANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},	
+			{
+				"src": "../data/large/dmm/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmm/panic/unroll/result.json",
+				"label": "unSNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmm/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/sconv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/sconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sconv/manic/unroll/result.json",
+				"label": "unMANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/sconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sconv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/sconv/panic/unroll/result.json",
+				"label": "unSNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/sconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/dconv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dconv/manic/unroll/result.json",
+				"label": "unMANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dconv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dconv/panic/unroll/result.json",
+				"label": "unSNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dconv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/large/dmv/manic/vplain_opt/result.json",
+				"label": "MANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmv/manic/unroll/result.json",
+				"label": "unMANIC",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../data/large/dmv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmv/panic/gold/result.json",
+				"label": "SNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/large/dmv/panic/unroll/result.json",
+				"label": "unSNAFU",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../data/large/dmv/panic/gold/result.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMM", "SCONV", "DCONV", "DMV"],
+	"width": 7,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1,
+	"minor_padding": 5,
+	"major_padding": 80,
+	"barwidth": 1.4,
+	"fontsize": 18,
+	"ylabel": "Energy vs. SNAFU",
+	"draw_norm": true
+}
