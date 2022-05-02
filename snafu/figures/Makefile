@@ -15,7 +15,6 @@ PDFS := intro.pdf motivate.pdf compilation.pdf execute.pdf \
 PDFDIR := pdf
 CFGDIR := cfg
 BLDDIR := bld
-DATADIR := ../data
 PDFS := $(addprefix $(PDFDIR)/, $(PDFS)) figures.pdf
 CROPPEDPDFS := $(PDFS:%.pdf=%-crop.pdf)
 
@@ -27,7 +26,6 @@ all: $(CROPPEDPDFS) pdf/doc_data.txt
 clean:
 	rm pdf/doc_data.txt
 	rm figures-crop.pdf
-	rm -rf $(DATADIR)
 	rm -rf $(BLDDIR)
 	rm -rf $(PDFDIR)
 
