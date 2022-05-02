@@ -1,0 +1,62 @@
+\section{RipTide Overview}
+\label{riptide:overview}
+
+\figRipTideSystem
+
+\riptide is a compiler and microarchitecture for ultra-low-power, energy-minimal CGRAs
+(\autoref{fig:system}).
+%
+Its architecture is carefully co-designed across compiler and hardware
+to maximize flexibility while minimizing energy.
+% 
+\riptide can compile and run programs written in high-level C with arbitrary control flow and memory access.
+% 
+\riptide improves energy efficiency / performance
+by 25\% / 17\% vs.\ the
+state-of-the-art~\cite{snafu} and by 6.6$\times$ / 6.2$\times$
+vs.\ a ULP core.
+
+\paragraph{\riptide's control-flow paradigm minimizes energy}
+\riptide introduces a new control-flow paradigm, discussed in \autoref{riptide:cf}, that supports arbitrary programs without expensive tag-token matching hardware.
+% 
+Specifically, \riptide adopts a steering ($\phi^{-1}$) control-flow model, which minimizes energy by gating disabled paths so that values are only sent where they will be actually used.
+% 
+\riptide introduces the \emph{carry gate}, a new control-flow operator that supports nested loops without tags,
+as well as other operations to maintain memory and cross-iteration orderings efficiently.
+% 
+
+\paragraph{\riptidecomp compiles arbitrary C-code to energy-minimal and performant CGRA configurations}
+%
+\riptide's compiler (\autoref{riptide:compiler}) leverages LLVM~\cite{llvm} and several
+custom compiler passes to convert arbitrary programs to dataflow
+graphs schedulable onto \riptide's CGRA hardware.
+%
+\riptidecomp supports steering control and introduces a novel
+memory-ordering analysis to enforce load-store ordering with low
+overhead.
+% 
+Additionally, \riptidecomp applies several optimizations to dataflow
+graphs, including operation fusion (e.g., ``streamifying'' affine loops by fusing loop headers)
+to reduce operation count, improve performance, and ease mapping operations onto the fabric.
+
+\paragraph{\riptide's CGRA microarchitecture minimizes switching activity}
+%
+\riptide's CGRA microarchitecture prioritizes energy efficiency above all other metrics.
+%
+It adopts and improves techniques from prior work~\cite{snafu} to
+reduce switching activity to minimize fabric energy:
+%
+e.g., mapping exactly one operation per PE,
+firing operations without tags,
+and statically routing values in a bufferless NoC.
+
+\paragraph{Offloading control flow to the NoC enables complex programs on small CGRA fabrics with negligible hardware overhead}
+\riptidearch supports control-flow operations directly in the NoC by reusing existing NoC hardware.
+% 
+Control-flow operations are simple, but numerous.
+% 
+This means that allocating them to entire PEs is unnecessary and wasteful
+--- programs are often unmappable if control-flow operations require PEs.
+% 
+Instead, \riptide implements these operations directly in NoC routers by reusing existing switch crossbars,
+which already perform most of the required logic.

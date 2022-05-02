@@ -1,0 +1,469 @@
+{
+	"stacks": {
+		"stack" :{
+			"keys": ["perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"scalar" :{
+			"keys": ["scalar.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"vector" :{
+			"keys": ["vector.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"manic" :{
+			"keys": ["manic.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"snafu" :{
+			"keys": ["snafu.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"flow" :{
+			"keys": ["flow.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/compress/xrun/large/dmv/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmv/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/accel/dmm/result.json",
+				"label": "Accel",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/dconv/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/smv/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/smm/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smm/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/sconv/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sconv/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/sort/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sort/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sort/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sort/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sort/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/accel/sort/result.json",
+				"label": "ASIC",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sort/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/fft/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/fft/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/fft/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/fft/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/fft/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/accel/fft/result.json",
+				"label": "ASIC",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/fft/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/bfs/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/bfs/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/vplain/vector/result.json",
+				"label": "Vector",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/bfs/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/bfs/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/bfs/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/dfs/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dfs/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"x": true,
+				"label": "Vector"
+			},
+			{
+				"x": true,
+				"label": "SNAFU"
+			},
+			{
+				"src": "../data/compress/xrun/large/dfs/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dfs/plain/scalar/result.json",
+					"stack": "stack"
+				}
+			}
+		],
+		[
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "Scalar",
+				"stack": "scalar"
+			},
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "Vector",
+				"stack": "vector"
+			},
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "SNAFU",
+				"stack": "snafu"
+			},
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "RipTide",
+				"stack": "flow"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS", "Avg"],
+	"width": 14,
+	"height": 4.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"subplots": true,
+	"invert": true,
+	"ylabel": "Speedup (v. scalar)"
+}

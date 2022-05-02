@@ -1,0 +1,177 @@
+\subsection{Control flow in the NoC}
+\label{riptide:fin}
+
+Control-flow operations are simple to implement (often a single
+multiplexer), but there are often many of them.
+%
+Mapping each to a PE wastes energy and area, and can render infeasible mapping
+to the CGRA.
+%
+We observe that much of the logic required to implement control flow is already
+plentiful in the NoC.
+%
+Each NoC switch is a crossbar that can be {\em re-purposed} to mux values for
+control.
+%
+Implementing each control-flow operator simply requires routing values and manipulating
+upstream and downstream ready/valid signals.
+
+\riptide's router microarchitecture is shown in \autoref{fig:arch:router}.
+% 
+The router shares routing configuration and its data and valid crossbars with
+the baseline NoC.
+%
+\riptide adds a control-flow module (CFM) at output ports.
+% 
+The CFM determines when to send data to the router's output port and
+manipulates inputs to the data switch to select which data to send.
+
+\paragraph{Control-flow module.}
+%
+The CFM takes eight inputs and produces five outputs that control router
+configuration and the dataflow through the network.
+% 
+The inputs are:
+\begin{compactitem}
+
+\item {\tt cfg}: configuration of the CFM;
+
+\item {\tt A\_valid}, {\tt B\_valid}, {\tt D\_valid}: whether inputs are valid;
+
+\item {\tt D}: value of the decider;
+
+\item {\tt A\_cxn} and {\tt B\_cxn}: input ports for {\tt A} and {\tt B}; and
+
+\item {\tt noc\_ready}: backpressure signal from the output port.
+  
+\end{compactitem}
+%
+From this, the CFM produces outputs:
+\begin{compactitem}
+  
+\item {\tt A\_ready}, {\tt B\_ready}, and {\tt D\_ready}: upstream
+  backpressure signals that allow the CFM to block upstream
+  producers until all signals required are valid;
+
+\item {\tt noc\_valid}: the valid signal for the CF's output; and
+
+\item {\tt cxn}: which port ({\tt A\_cxn} or {\tt B\_cxn}) to route
+  to the output port on the data switch.
+  
+\end{compactitem}
+
+\begin{figure}[t]
+\begin{subfigure}{\linewidth}
+\begin{lstlisting}[style=custompython]
+cxn = A_cxn
+forever:
+    A_ready = D_ready = 0
+    if A_valid && D_valid: # wait for A and D
+        # if D is true, pass through A;
+        # else discard A 
+        noc_valid = D
+        A_ready = D_ready = noc_ready || !D
+        if D: wait for noc_ready
+\end{lstlisting}
+\caption{Steer (True flavor).}
+\label{lst:fin:steer}
+\end{subfigure}
+
+\begin{subfigure}{\linewidth}
+\begin{lstlisting}[style=custompython]
+forever:
+    # begin in Initial state
+    if A_valid:
+        cxn = A_cxn         # pass through A
+        noc_valid = A_valid
+        D_ready = A_ready = noc_ready
+        B_ready = xxx       # don't care
+    wait for noc_ready
+    # transition to Block state
+    do until D_valid && !D:
+        cxn = B_cxn         # pass through B
+        noc_valid = B_valid
+        D_ready = B_ready = noc_ready
+        A_ready = false     # hold A at input
+        wait for noc_ready
+\end{lstlisting}
+\caption{Carry.}
+\label{lst:fin:carry}
+\end{subfigure}
+  \caption{Implementing control-flow operators using NoC control
+    signals.}
+  \label{lst:fin}
+\end{figure}
+
+\paragraph{Supported operations.}
+The CFM can be configured for routing or for the control operators in
+\autoref{riptide:cf}.
+%
+Implementing routing, e.g., {\tt out = A}, is simple: {\tt cxn = A\_cxn}, {\tt
+noc\_valid = A\_valid}, and {\tt A\_ready = noc\_valid}.
+
+Implementing other operators is slightly more involved, but requires only a
+small state machine.
+%
+\autoref{lst:fin} is pseudocode for steer and carry operators
+(\autoref{riptide:cf}).
+%
+A steer forwards {\tt A} if {\tt D} is true; otherwise,
+it discards {\tt A}.
+%
+To implement steer, the CFM waits for {\tt A} and {\tt D}
+to be valid.
+%
+If {\tt D} is true, then {\tt noc\_valid} is raised, and the {\tt
+  noc\_ready} signal propagates upstream to {\tt A} and {\tt D}
+and the CFM waits for {\tt noc\_ready}, i.e., for the value to be consumed.
+%
+If {\tt D} is false, then {\tt noc\_valid} is kept low, and
+{\tt A\_ready} and {\tt D\_ready} are raised to discard these
+tokens.
+
+Carry is a more complex control-flow operator.
+%
+Carry begins in {\em Initial} state, waiting for a valid {\tt A}
+token, which
+%
+It forwards the token and transitions to {\em Blocked} state, where
+it forwards {\tt B} until seeing a false {\tt D} token.
+%
+
+\paragraph{Control-flow in the NoC adds small hardware overheads.}
+%
+Implementing control flow in the NoC is far more energy- and
+area-efficient than in a PE.
+%
+The CFM deals only with narrow control signals and the 1b decider
+value {\tt D}.
+%
+It does not need to touch full data signals at all; these are
+left to the pre-existing data switch.
+%
+Importantly, this means that the CFM adds no data buffers.
+%
+Instead, the CFM simply raises the {\tt *\_ready} signals to park
+values in the upstream output channels until they are no longer
+needed.
+
+By contrast, implementing control flow in a PE requires full
+data-width muxes and, if an entire PE is dedicated to control, an
+output channel to hold the results.
+%
+Nevertheless, \riptide is sometimes forced to allocate a PE for control
+flow.
+%
+Specifically, if a control-flow operation takes a constant or
+software-supplied value, it currently requires \textmu core
+support.
+
+\paragraph{Buffering of decider values.}
+The CF module provides a small amount of buffering for decider values.
+% 
+This is because loop deciders often have high fanout, which means that the next iteration of a loop is likely blocked by one or more downstream consumers.
+% 
+To remove this limitation, \riptide provides a small amount of downstream buffering for 1b decider signals, improving performance with minimal impact on area.
+%
+The CFM uses run-length encoding to buffer up to eight decider values with just 3b of additional state.

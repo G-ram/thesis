@@ -1,0 +1,17 @@
+vmask(IDX);
+vaddx(v2, v0, shift_2);
+vandx(v2, v2, shift_1);
+vandx(v3, v0, mask);
+vadd(v2, v2, v3);
+vrdh(v5, 6);
+vrdh(v1, 24);
+vwrxh(v5, v2, 11);
+vwrxh(v1, v2, 23);
+vandx(v4, v2, shift_2);
+vsrlx(v4, v4, p_1);
+vxori(v0, v4, 0x1);
+vsubi(v4.m, v4, 0x1);
+vmul(v0, v5, v4);
+vmul(v1, v1, v4);
+vwrh(v0, 12);
+vwrh(v1, 18);

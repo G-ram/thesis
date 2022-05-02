@@ -1,0 +1,66 @@
+{
+	"stacks": {
+		"stack1": {
+			"keys":[""], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "avg.scalar.loc"
+		},
+		"stack2": {
+			"keys":["avg.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "avg.vector.loc"
+		},
+		"stack3": {
+			"keys":["avg.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "avg.snafu.loc"
+		},
+		"stack4": {
+			"keys":[""], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "avg.riptide.loc"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "stack4"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 4,
+	"rect": [0.15, 0, 1, 0.83],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"ylabel": "Lines of code",
+	"remaining_color": "#a1dab4",
+	"remaining_label": "C-code"
+}

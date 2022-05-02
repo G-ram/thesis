@@ -1,0 +1,6 @@
+vlh(v0, src_ptr); // 0
+vmulx(v1, v0, *filter_ptr); // 1
+vclipi(v2, v1, 5); // 2
+vlh(v3, dest_ptr); // 3
+vadd(v4, v2, v3); // 4
+vsh(dest_ptr, v4); // 5

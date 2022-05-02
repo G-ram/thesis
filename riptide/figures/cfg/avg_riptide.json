@@ -1,0 +1,338 @@
+[
+	{
+		"vals": [
+			{
+				"src": "../data/compress/xrun/large/dmv/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/dmv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/dmm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/dconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/smv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/smm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/sconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/sort/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/fft/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/bfs/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dfs/plain/scalar/result.json", 
+				"normalize": "../data/compress/xrun/large/dfs/flow/flow/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./scalar_top.energy.total",
+				"physical./scalar_top/MM.energy.total",
+				"physical./scalar_top/CORE.energy.total",
+				"perf",
+				"count"
+			],
+			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"perf",
+				"count"
+			],
+			"output": [
+				"scalar.energy.total",
+				"scalar.energy.mm",
+				"scalar.energy.core",
+				"scalar.perf",
+				"scalar.count"
+			],
+			"invert": [false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/compress/xrun/large/dmv/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/dmv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/dmm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/dconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/smv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/smm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/sconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/sort/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/fft/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/vplain/vector/result.json", 
+				"normalize": "../data/compress/xrun/large/bfs/flow/flow/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./vector_top.energy.total",
+				"physical./vector_top/MM.energy.total",
+				"physical./vector_top/CORE.energy.total",
+				"physical./vector_top/VECTOR.energy.total",
+				"perf",
+				"count"
+			],
+			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"perf",
+				"count"
+			],
+			"output": [
+				"vector.energy.total",
+				"vector.energy.mm",
+				"vector.energy.core",
+				"vector.energy.vector",
+				"vector.perf",
+				"vector.count"
+			],
+			"invert": [false, false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/compress/xrun/large/dmv/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/dmv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/dmm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/dconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/smv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/smm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/sconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/sort/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/vplain_opt/manic/result.json", 
+				"normalize": "../data/compress/xrun/large/fft/flow/flow/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./manic_top.energy.total",
+				"physical./manic_top/MM.energy.total",
+				"physical./manic_top/CORE.energy.total",
+				"physical./manic_top/VECTOR.energy.total",
+				"perf",
+				"count"
+			],
+			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"perf",
+				"count"
+			],
+			"output": [
+				"manic.energy.total",
+				"manic.energy.mm",
+				"manic.energy.core",
+				"manic.energy.vector",
+				"manic.perf",
+				"manic.count"
+			],
+			"invert": [false, false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/compress/xrun/large/dmv/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/dmv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/dmm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/dconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/smv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/smm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/sconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/sort/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/fft/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/panic/snafu/result.json", 
+				"normalize": "../data/compress/xrun/large/bfs/flow/flow/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./snafu_top.energy.total",
+				"physical./snafu_top/MM.energy.total",
+				"physical./snafu_top/CORE.energy.total",
+				"physical./snafu_top/CGRA.energy.total",
+				"perf",
+				"count"
+			],
+			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"perf",
+				"count"
+			],
+			"output": [
+				"snafu.energy.total",
+				"snafu.energy.mm",
+				"snafu.energy.core",
+				"snafu.energy.cgra",
+				"snafu.perf",
+				"snafu.count"
+			],
+			"invert": [false, false, false, false, false, true]
+		}
+	},
+	{
+		"vals": [
+			{
+				"src": "../data/compress/xrun/large/dmv/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/dmv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/dmm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/dconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/smv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/smm/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/sconv/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/sort/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/fft/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/bfs/flow/flow/result.json"
+			},
+			{
+				"src": "../data/compress/xrun/large/dfs/flow/flow/result.json", 
+				"normalize": "../data/compress/xrun/large/dfs/flow/flow/result.json"
+			}
+		],
+		"keys": {
+			"src": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top/MM.energy.total",
+				"physical./flow_top/CORE.energy.total",
+				"physical./flow_top/CGRA.energy.total",
+				"perf",
+				"count"
+			],
+			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
+				"perf",
+				"count"
+			],
+			"output": [
+				"flow.energy.total",
+				"flow.energy.mm",
+				"flow.energy.core",
+				"flow.energy.cgra",
+				"flow.perf",
+				"flow.count"
+			],
+			"invert": [false, false, false, false, false, true]
+		}
+	}
+]

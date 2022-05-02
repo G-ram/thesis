@@ -1,0 +1,429 @@
+{
+	"stacks": {
+		"dmv_scalar": {
+			"keys": [],
+			"total": "dmv.scalar.loc"
+		},
+		"dmv_vector": {
+			"keys":["dmv.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "dmv.vector.loc"
+		},
+		"dmv_snafu": {
+			"keys":["dmv.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "dmv.snafu.loc"
+		},
+		"dmv_riptide": {
+			"keys":["dmv.riptide.loc", "dmv.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"dmm_scalar": {
+			"keys": [],
+			"total": "dmm.scalar.loc"
+		},
+		"dmm_vector": {
+			"keys":["dmm.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "dmm.vector.loc"
+		},
+		"dmm_snafu": {
+			"keys":["dmm.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "dmm.snafu.loc"
+		},
+		"dmm_riptide": {
+			"keys":["dmm.riptide.loc", "dmm.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"dconv_scalar": {
+			"keys": [],
+			"total": "dconv.scalar.loc"
+		},
+		"dconv_vector": {
+			"keys":["dconv.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "dconv.vector.loc"
+		},
+		"dconv_snafu": {
+			"keys":["dconv.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "dconv.snafu.loc"
+		},
+		"dconv_riptide": {
+			"keys":["dconv.riptide.loc", "dconv.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"smv_scalar": {
+			"keys": [],
+			"total": "smv.scalar.loc"
+		},
+		"smv_vector": {
+			"keys":["smv.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "smv.vector.loc"
+		},
+		"smv_snafu": {
+			"keys":["smv.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "smv.snafu.loc"
+		},
+		"smv_riptide": {
+			"keys":["smv.riptide.loc", "smv.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"smm_scalar": {
+			"keys": [],
+			"total": "smm.scalar.loc"
+		},
+		"smm_vector": {
+			"keys":["smm.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "smm.vector.loc"
+		},
+		"smm_snafu": {
+			"keys":["smm.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "smm.snafu.loc"
+		},
+		"smm_riptide": {
+			"keys":["smm.riptide.loc", "smm.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"sconv_scalar": {
+			"keys": [],
+			"total": "sconv.scalar.loc"
+		},
+		"sconv_vector": {
+			"keys":["sconv.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "sconv.vector.loc"
+		},
+		"sconv_snafu": {
+			"keys":["sconv.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "sconv.snafu.loc"
+		},
+		"sconv_riptide": {
+			"keys":["sconv.riptide.loc", "sconv.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"sort_scalar": {
+			"keys": [],
+			"total": "sort.scalar.loc"
+		},
+		"sort_vector": {
+			"keys":["sort.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "sort.vector.loc"
+		},
+		"sort_snafu": {
+			"keys":["sort.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "sort.snafu.loc"
+		},
+		"sort_riptide": {
+			"keys":["sort.riptide.loc", "sort.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"fft_scalar": {
+			"keys": [],
+			"total": "fft.scalar.loc"
+		},
+		"fft_vector": {
+			"keys":["fft.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "fft.vector.loc"
+		},
+		"fft_snafu": {
+			"keys":["fft.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "fft.snafu.loc"
+		},
+		"fft_riptide": {
+			"keys":["fft.riptide.loc", "fft.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"bfs_scalar": {
+			"keys": [],
+			"total": "bfs.scalar.loc"
+		},
+		"bfs_vector": {
+			"keys":["bfs.vector.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "bfs.vector.loc"
+		},
+		"bfs_snafu": {
+			"keys":["bfs.snafu.assembly"], 
+			"labels":["Assembly"],
+			"colors": ["#9f7ccf"],
+			"total": "bfs.snafu.loc"
+		},
+		"bfs_riptide": {
+			"keys":["bfs.riptide.loc", "bfs.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		},
+		"dfs_scalar": {
+			"keys": [],
+			"total": "dfs.scalar.loc"
+		},
+		"dfs_riptide": {
+			"keys":["dfs.riptide.loc", "dfs.riptide.annotations"], 
+			"labels":["C-code", "Annotations"],
+			"colors": ["#a1dab4", "#41b6c4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "dmv_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "dmv_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "dmv_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "dmv_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "dmm_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "dmm_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "dmm_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "dmm_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "dconv_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "dconv_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "dconv_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "dconv_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "smv_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "smv_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "smv_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "smv_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "smm_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "smm_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "smm_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "smm_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "sconv_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "sconv_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "sconv_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "sconv_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "sort_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "sort_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "sort_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "sort_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "fft_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "fft_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "fft_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "fft_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "bfs_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "Vector",
+				"stack": "bfs_vector"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "SNAFU",
+				"stack": "bfs_snafu"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "bfs_riptide"
+			}
+		],
+		[
+			{
+				"src": "../data/loc.json",
+				"label": "Scalar",
+				"stack": "dfs_scalar"
+			},
+			{
+				"src": "../data/loc.json",
+				"label": "RipTide",
+				"stack": "dfs_riptide"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
+	"width": 10,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 60,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"xlim": [2, 93],
+	"ylabel": "\\# of code additions",
+	"remaining_color": "#a1dab4",
+	"remaining_label": "C-code"
+}

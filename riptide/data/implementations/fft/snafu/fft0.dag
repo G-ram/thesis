@@ -1,0 +1,4 @@
+vlsh(v0, src_real_ptr, new_stride);
+vlsh(v1, src_imag_ptr, new_stride);
+vwrh(v0, 6);
+vwrh(v1, 24);

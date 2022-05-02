@@ -1,0 +1,278 @@
+\newcommand{\pes}{PEs\xspace}
+\newcommand{\fend}{frontend\xspace}
+\newcommand{\mend}{middle-end\xspace}
+\newcommand{\bend}{backend\xspace}
+
+\section{RipTide Compiler}
+\label{riptide:compiler}
+
+\figRipTideCompiler
+\figRipTideLSO
+
+\riptidecomp compiles, optimizes, and maps high-level C code to \riptide's CGRA fabric. 
+%
+Its compiler has a \fend, \mend, and \bend.
+%
+The \fend compiles C to target-independent intermediate representation
+(IR) based on LLVM's IR.
+%
+The \mend optimizes the code in LLVM's IR, then translates to
+target-specific IR, represented as a dataflow graph (DFG) of the operator
+types from \autoref{riptide:cf}, including control flow and memory ordering.  
+%
+The \bend takes target-specific IR as input and maps operators onto specific
+CGRA hardware units, producing a configuration bitstream directly usable for
+configuring the CGRA.
+%
+\autoref{fig:compiler} demonstrates the \fend and \mend's compiler passes. 
+%
+
+\subsection{Memory-ordering analysis}
+
+\riptidecomp maps sequential code onto a CGRA fabric in which many operations,
+including memory operations, may execute in parallel.  
+%
+For correctness, some dependent memory operations must execute in a particular
+order.
+%
+\riptidecomp's \mend computes required orderings between memory operations present
+in the IR and adds control-flow operators to enforce those orderings. 
+%
+The compiler uses alias analysis to identify dependent memory operations that
+may access the same memory locations and may execute on the \riptide fabric
+simultaneously, requiring ordering.  
+
+\riptidecomp computes ordering relations by analyzing memory dependences.  
+%
+A \textit{memory dependence} is an ordered relation from one memory operation
+(source) to another (destination) that access same memory location,
+where the destination is reachable from the source and one (or both)
+are writes.
+%
+An \textit{ordering graph} (OG) is a digraph of the ordering relations
+required to ensure that parallel memory operations produce a
+result consistent with a sequential execution of the program.
+%
+
+\paragraph{Constructing an ordering graph} 
+To build the OG, \riptidecomp uses alias analysis to identify memory operations
+that do not, may, or must access the same memory location (i.e., alias).
+%
+\riptidecomp makes no assumptions on the alias analysis.
+%
+\riptide queries alias analysis for all memory operations and adds
+an edge to the OG for each pair that may or must alias.
+%
+\riptidecomp need not consider self-dependences because repeated instances of the
+same memory operation are always ordered on its CGRA fabric. %mapped into \riptide's CGRA fabric are always ordered.
+%
+\autoref{fig:lso} shows a basic, unoptimized OG in the top left for an 
+example function (\texttt{example2}).
+
+\paragraph{Pruning the ordering graph} The OG as computed includes redundant
+ordering edges because data dependences and control dependences suffice to
+order some operations.
+%
+A data dependence orders a pair of operations in \riptide 
+because the destination will not execute before receiving an input token 
+produced by the source.
+% 
+\riptidecomp finds data dependences by walking LLVM's definition-use (def-use)
+chain from source to destination and removes arcs for dependent operations~\cite{nachos}.
+%
+For instance, in \texttt{example2}'s CFG from \autoref{fig:compiler}, 
+\textbf{S2} is data-dependent \textbf{L1}, so there need not
+be an ordering arc in the OG. This is reflected in the blue-outlined edge
+from \textbf{L1} to \textbf{S2} that is pruned in the OG in \autoref{fig:lso}.
+%
+Similarly, control dependences order some memory operations if the execution of
+the destination is control-dependent on the source.
+%
+\riptidecomp analyzes the CFG to identify control dependences
+between memory operations and removes those orderings from the OG.
+%
+In \texttt{example2}'s CFG from \autoref{fig:compiler}, the
+edge from \textbf{L0} to \textbf{S1} in \autoref{fig:lso} is pruned using this analysis.
+
+\paragraph{Transitive memory-ordering analysis}
+% 
+Two dependent memory operations are transitively ordered if there is a path (of
+ordering arcs) in the OG from source to destination.
+%
+\riptidecomp finds and eliminates edges in the OG between operations already
+transitively ordered by some other path in the OG corresponding to control- and
+data-dependence orderings.
+%
+
+\figRipTideArch
+
+To simplify its OG, \riptidecomp uses transitive reduction (TR)~\cite{aho-tr}, which prior work
+deployed to simplify ordering relation graphs for parallel
+execution of loops~\cite{midkiff-padua,compiler-sync}.
+%
+We apply TR to the OG, which converts a (potentially cyclic) ordering 
+graph into an acyclic graph of strongly connected components (the SCCDAG). 
+%
+Traditional TR then eliminates transitive edges between SCCs, removes 
+all edges in an SCC, and adds edges forming a simple cycle through all 
+vertices in the SCC.
+%
+We modify the algorithm in two ways to make it work for \riptide's OG.
+First, we require the inserted cycle to add edges compatible with program order
+instead of being arbitrary.  Second, the inserted cycle must add edges that
+respect proper loop nesting, avoiding edges directly from the inner to outer
+loop.  To handle these edges, we add synthetic loop entry and exit nodes to
+each loop (shown as \texttt{src} and \texttt{sink} nodes at the bottom 
+of \autoref{fig:lso}). Any edge inserted % in the condensed SCC 
+that links an inner loop node to an outer loop node instead uses the inner 
+loop's exit as its destination.
+Symmetrically, an edge inserted that links an outer loop node to an inner loop
+node has the inner loop's entry as its destination.   With these two changes,
+the SCCDAG is usable for TR.
+%
+
+However, we observe that applying existing TR analysis to the OG in \riptide fails to
+preserve required ordering operations.
+%
+The problem is that a source and destination may be ordered along one
+(transitive) path, and ordering along another (direct) path may be removed as
+redundant.  The transitive path's execution enforces ordering, but the direct
+path's execution does not, which is incorrect.
+%
+This problem arises due to \riptide's steering control and lack of a program
+counter to order memory operations.
+%
+In \autoref{fig:lso}, we show a scenario where path-sensitivity is critical.
+%
+The transitive edge in the SCCDAG of the OG between \textbf{SCC3} 
+(\textbf{S2}) and \textbf{SCC1} (\textbf{L0}) cannot be eliminated 
+in TR because the alternative path through \textbf{SCC2} 
+in the OG does not inherently capture the control-flow path from \textbf{S2} to
+\textbf{L0} via the backedge of the loop.
+
+To correctly apply TR to remove redundant ordering edges, \riptidecomp uses
+\emph{path-sensitive} TR. 
+%
+This analysis confirms that a transitive ordering path between a source and
+destination subsumes all possible control-flow paths between source and
+destination before removing any ordering arc from the OG.
+%% because of that transitive path. 
+%
+With this constraint applied,
+% removed ordering arcs do not correspond to CFG
+%paths that must enforce ordering, and
+\riptide can safely use this modified TR on its OG.
+%
+Prior efforts also incorporated control-flow to reduce ordering constraints~\cite{midkiff-padua,doacross} 
+or improve alias analysis accuracy to begin with~\cite{hind-aa}.
+
+
+\paragraph{Enforcing ordering constraints} Memory operations in \riptide 
+produce a control token on completion and can optionally consume a
+control token to enforce memory ordering.
+%
+The \mend encodes ordering arcs as defs and uses of data values in the IR
+(as seen in the IR transform of loads and stores in \autoref{fig:compiler})
+before lowering them as dependences in the DFG.
+%
+For a memory operation that must receive multiple control signals,
+the \mend inserts merge operators (\autoref{riptide:cf}) to consolidate those signals.
+
+\subsection{Control-flow operator insertion}
+
+The compiler lowers its IR to use \riptide's control paradigm by inserting \riptide
+control-flow operators into the DFG.
+%
+
+\paragraph{Steer}
+%
+The compiler uses the control dependence graph (CDG)~\cite{cytron} to 
+insert steers.
+%
+For each consumer of a value, the compiler walks the CDG from the producer
+to consumer
+%% the node that
+and inserts a steer operator at
+each node along the CDG traversal. 
+%
+The steer's control input is the decider of the basic block that the steer depends on,
+and its data input is the value or the output of an earlier inserted steer.
+%
+
+\paragraph{Carry and invariant}
+%
+For loops, the compiler inserts a carry operator for loop-carried dependences
+and an invariant operator for loop-invariant values
+into the loop header.
+%
+A carry's data
+input comes from the loop backedge that produces the value.  An invariant's
+data input comes from the loop pre-header.
+%
+These operators should produce a token only if the next iteration of the loop is
+certain to execute; to ensure this behavior, the compiler sets their control
+signal to the decider of the block at the loop exit. 
+%
+
+\paragraph{Order}
+If two iterations of a loop may take different control-flow
+paths that converge at a single {\em merge node}\footnote{Not to be confused with merge \emph{operators} in \riptide.} in the loop body, either may
+produce a token to the merge node first.
+But for correctness, the one from the
+earlier iteration must produce the first token.
+%
+The compiler inserts an order operator at a merge node in the CFG to ensure that 
+tokens flow to the merge node in iteration order.
+%
+The control signal {\tt D} for the order operator is the decider of
+nearest common dominator of the merge node's predecessor basic blocks.
+%
+%% This decider determines control flow to the merge node. 
+%
+Since the earlier iteration sends its control signal first, it blocks the later
+iteration % from sending a control signal and token to the order operator
+until the earlier iteration completes.
+%
+
+\subsection{Stream fusion}
+
+\riptidecomp performs target-specific operation fusion on the DFG to
+reduce required operations and routes by combining value {\em stream generators} with loop
+control logic and address computation logic.
+%
+\riptide supports stream operations and applies them for the common case 
+of a loop with an affine loop governing induction variable (LGIV).
+%
+A stream makes loop logic efficient by fusing the LGIV update and the loop
+exit condition into a single operation.
+%
+In the DFG, loop iteration logic is represented by the exit condition, an
+update operation, the carry for the LGIV's value, and the steer that
+gates the LGIV in a loop iteration.
+%
+The \mend fuses these operations into a single stream operation and sets
+the stream's initial, step, and bound values.
+%
+\autoref{fig:compiler} shows stream compilation, where
+the operations for loop iteration logic (outlined in blue in the 
+DFG) are fused into a stream operator.
+%
+\riptidecomp uses applies induction variable analysis~\cite{dragon,zima-scev} to 
+find affine LGIVs.
+%
+\riptidecomp also identifies address computations, maps these to an affine
+stream if possible, and fuses the stream into the memory operation.
+%
+
+\subsection{Mapping DFGs to hardware}
+\riptidecomp's backend takes a DFG and a CGRA topology description and generates
+scalar code to invoke \riptide and a bitstream to configure the \riptide fabric.
+% 
+The compiler's mapper uses a mixed integer linear program constraint problem formulation, the
+solution to which maps DFG nodes and edges to hardware PEs, CF-modules, and
+links.
+% 
+The mapper finds isomorphisms between the DFG and the CGRA fabric, while
+minimizing distance between operations, and maps control-flow operations onto
+the NoC (\autoref{riptide:fin}).
+%

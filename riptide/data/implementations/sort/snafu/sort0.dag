@@ -1,0 +1,5 @@
+vlh(v0, src_ptr);
+vandi(v0, v0, 0x1);
+vpresum(v1, v0);
+vmask(LAST);
+vsh(&tmp, v1.m);

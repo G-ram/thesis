@@ -1,0 +1,6 @@
+vrdh(v0, 6);
+vrdh(v1, 24);
+vlh(v2, permute[log2]);
+vmulx(v2, v2, stride);
+vsxh(dest_real_ptr_base, v0, v2);
+vsxh(dest_imag_ptr_base, v1, v2);

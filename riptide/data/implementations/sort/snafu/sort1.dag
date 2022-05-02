@@ -1,0 +1,15 @@
+vlh(v5, src_buffer);
+vxorx(v4, v5, 0x8000);
+vsrlx(v2, v4, i+1);
+vandi(v2, v2, 0x1);
+vpresum(v2, v2);
+vmask(LAST);
+vsh(&tmp, v2.m);
+vsrlx(v1, v4, i);
+vandi(v0, v1, 0x1);
+vpresum(v3, v0);
+vaddx(v3, v3, tmp);
+vsxh(dest_buffer, v5.m, v3);
+vxori(v0, v0, 0x1);
+vpresum(v3, v0);
+vsxh(dest_buffer, v5.m, v3);

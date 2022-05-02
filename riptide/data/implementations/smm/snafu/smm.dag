@@ -1,0 +1,7 @@
+vlh(v1, bsrc->data);
+vmulx(v2, v1, f); 
+vclipi(v3, v2, 5); 
+vlh(v1, bsrc->sparse.offsets); // Columns
+vlxh(v2, dest_ptr, v1);
+vadd(v4, v2, v3);
+vsxh(dest_ptr, v4, v1);

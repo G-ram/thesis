@@ -1,0 +1,259 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys": ["base-nocr.edges"],
+			"labels": ["Edges"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack2" :{
+			"keys": ["prune-nocr.edges"],
+			"labels": ["Edges"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack3" :{
+			"keys": ["tr-nocr.edges"],
+			"labels": ["Edges"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack4" :{
+			"keys": ["tr-yescr.edges"],
+			"labels": ["Edges"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/lso/dmv.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/dmv.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/dmv.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/dmv.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/dmm.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/dmm.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/dmm.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/dmm.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/dconv.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/dconv.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/dconv.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/dconv.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/smv.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/smv.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/smv.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/smv.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/smm.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/smm.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/smm.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/smm.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/sconv.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/sconv.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/sconv.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/sconv.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/sort.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/sort.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/sort.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/sort.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/fft.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/fft.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/fft.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/fft.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/bfs.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/bfs.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/bfs.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/bfs.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+        ],
+        [
+			{
+				"src": "../data/lso/dfs.lso.json",
+				"label": "Base",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/lso/dfs.lso.json",
+				"label": "+Pruning",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/lso/dfs.lso.json",
+				"label": "+TR",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/lso/dfs.lso.json",
+				"label": "+restrict",
+				"stack": "stack4"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
+	"width": 10,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"subplots": true,
+	"ylabel": "Edges"
+}

@@ -1,0 +1,411 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":["bare.mem_pes", "bare.stream_pes", "bare.arith_pes", "bare.cf_pes"],
+			"labels":["Memory", "Stream", "Arith", "CF"],
+			"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "#808080"]
+		},
+   		"stack2" :{
+			"keys":["stream-no-lso.mem_pes", "stream-no-lso.stream_pes", "stream-no-lso.arith_pes", "stream-no-lso.cf_pes"],
+			"labels":["Memory", "Stream", "Arith", "CF"],
+			"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "#808080"]
+		},
+		"stack3" :{
+			"keys":["stream-lso-no-prune.mem_pes", "stream-lso-no-prune.stream_pes", "stream-lso-no-prune.arith_pes", "stream-lso-no-prune.cf_pes"],
+			"labels":["Memory", "Stream", "Arith", "CF"],
+			"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "#808080"]
+		},
+		"stack4" :{
+			"keys":["stream-lso-all.mem_pes", "stream-lso-all.stream_pes", "stream-lso-all.arith_pes", "stream-lso-all.cf_pes"],
+			"labels":["Memory", "Stream", "Arith", "CF"],
+			"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "#808080"]
+		},
+		"stack5" :{
+			"keys":["stream-lso-cr-all.mem_pes", "stream-lso-cr-all.stream_pes", "stream-lso-cr-all.arith_pes", "stream-lso-cr-all.cf_pes"],
+			"labels":["Memory", "Stream", "Arith", "CF"],
+			"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "#808080"]
+		},
+ 		"stack6" :{
+			"keys":["stream-lso-cr-all.mem_pes", "stream-lso-cr-all.stream_pes", "stream-lso-cr-all.arith_pes", "stream-lso-cr-all.no_noc_pes"],
+			"labels":["Memory", "Stream", "Arith", "CF"],
+			"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "#808080"]
+		}
+    },
+	"srcs": [
+		[
+			{
+				"src": "../data/counts/dmv.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/dmv.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/dmv.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/dmv.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/dmv.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/dmv.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+     ],
+		[
+			{
+				"src": "../data/counts/dmm.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/dmm.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/dmm.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/dmm.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/dmm.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/dmm.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/dconv.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/dconv.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/dconv.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/dconv.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/dconv.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/dconv.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/smv.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/smv.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/smv.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/smv.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/smv.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/smv.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/smm.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/smm.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/smm.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/smm.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/smm.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/smm.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/sconv.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/sconv.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/sconv.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/sconv.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/sconv.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/sconv.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/sort.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/sort.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/sort.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/sort.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/sort.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/sort.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/fft.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/fft.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/fft.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/fft.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/fft.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/fft.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/bfs.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/bfs.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/bfs.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/bfs.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/bfs.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/bfs.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+
+        ],
+		[
+			{
+				"src": "../data/counts/dfs.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/dfs.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/dfs.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/dfs.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/dfs.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/dfs.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+        ],
+		[
+			{
+				"src": "../data/counts/avg_counts.json",
+				"label": "Raw",
+				"stack": "stack1"
+			},
+			{
+				"src": "../data/counts/avg_counts.json",
+				"label": "+Streams",
+				"stack": "stack2"
+			},
+			{
+				"src": "../data/counts/avg_counts.json",
+				"label": "+Base LSO",
+				"stack": "stack3"
+			},
+			{
+				"src": "../data/counts/avg_counts.json",
+                "label": "+LSO Opts",
+				"stack": "stack4"
+			},
+			{
+				"src": "../data/counts/avg_counts.json",
+				"label": "+restrict",
+				"stack": "stack5"
+            },
+   			{
+				"src": "../data/counts/avg_counts.json",
+				"label": "+CFiN",
+				"stack": "stack6"
+            }
+        ]
+	],
+	"sci_not": false,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS", "Avg"],
+	"width": 14,
+	"height": 4.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 2,
+	"minor_padding": 5,
+	"major_padding": 70,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"subplots": false,
+	"ylim": 60,
+	"xlim": [2, 156],
+	"ylabel": "Number of generated PEs"
+}

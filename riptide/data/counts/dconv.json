@@ -1,0 +1,52 @@
+{
+    "bare": {
+        "edges": 93,
+        "pes": 54,
+        "cf_pes": 30,
+        "no_noc_pes": 7,
+        "noc_pes": 23,
+        "mem_pes": 3,
+        "stream_pes": 0,
+        "arith_pes": 21
+    },
+    "stream-no-lso": {
+        "edges": 66,
+        "pes": 38,
+        "cf_pes": 21,
+        "no_noc_pes": 5,
+        "noc_pes": 16,
+        "mem_pes": 3,
+        "stream_pes": 3,
+        "arith_pes": 11
+    },
+    "stream-lso-no-prune": {
+        "edges": 107,
+        "pes": 56,
+        "cf_pes": 39,
+        "no_noc_pes": 7,
+        "noc_pes": 32,
+        "mem_pes": 3,
+        "stream_pes": 3,
+        "arith_pes": 11
+    },
+    "stream-lso-all": {
+        "edges": 88,
+        "pes": 48,
+        "cf_pes": 31,
+        "no_noc_pes": 6,
+        "noc_pes": 25,
+        "mem_pes": 3,
+        "stream_pes": 3,
+        "arith_pes": 11
+    },
+    "stream-lso-cr-all": {
+        "edges": 66,
+        "pes": 38,
+        "cf_pes": 21,
+        "no_noc_pes": 5,
+        "noc_pes": 16,
+        "mem_pes": 3,
+        "stream_pes": 3,
+        "arith_pes": 11
+    }
+}

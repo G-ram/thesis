@@ -1,0 +1,46 @@
+\chapter{RipTide compiles}
+\label{chapter:riptide}
+
+\newcommand{\riptideraw}{RipTide}
+\newcommand{\riptidesc}{{\protect\fauxsc{RipTide}}\xspace}
+\newcommand{\riptidecomp}{{\protect\fauxsc{RipTide}}\xspace}
+\newcommand{\riptideframe}{{\protect\fauxsc{RipTide}}\xspace}
+\newcommand{\riptidearch}{{\protect\fauxsc{RipTide}}\xspace}
+
+% \sbox0{\small\sffamily x}
+% \edef\mybasewidth{\the\wd0 }
+\lstdefinestyle{custompython}{
+ %aboveskip=0in,
+ belowskip=0in,
+ %abovecaptionskip=0in,
+ %belowcaptionskip=-10pt,
+ %belowcaptionskip=1\baselineskip,
+ breaklines=true,
+ captionpos=t,
+ language=C++,
+ showstringspaces=false,
+ numbers=left,
+ stepnumber=1,
+ % dsm: semibold
+ basicstyle={\linespread{0.8}\scriptsize\ttfamily},
+ %basicstyle={\small\ttfamily},
+ keywordstyle=\bfseries\color{blue!40!black},
+ %% columns=fullflexible,
+ xleftmargin=3em,
+ frame=single,
+ framexleftmargin=3em,
+ commentstyle=\itshape\color{green!40!black},
+ morekeywords={to,yield,foreach,extends,local,shared,forever,until,wait},
+ morecomment=[l]{\#},
+}
+
+\input{riptide/floats}
+
+\input{riptide/1_overview}
+\input{riptide/2_isa}
+\input{riptide/3_compiler}
+\input{riptide/4_arch}
+\input{riptide/5_fin}
+\input{riptide/6_method}
+\input{riptide/7_eval}
+\input{riptide/8_discuss}

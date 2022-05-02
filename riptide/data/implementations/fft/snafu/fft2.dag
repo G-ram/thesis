@@ -1,0 +1,20 @@
+vrdh(v0, 11);
+vrdh(v1, 23);
+vrdh(v2, 12);
+vrdh(v3, 18);
+vadd(v2, v0, v2);
+vadd(v3, v1, v3);
+vlh(v4, real_twiddle[k]); // Twiddle real (alpha) 11
+vlh(v5, imag_twiddle[k]); // Twiddle imag (beta) 12
+vmul(v6, v2, v4); // alpha * a 13
+vclipi(v6, v6, 5); // 17
+vmul(v7, v5, v3); // beta * b 14
+vclipi(v7, v7, 5); // 18
+vadd(v0, v6, v7); // alpha * a + beta * b 21
+vmul(v6, v4, v3); // alpha * b 15
+vclipi(v6, v6, 5); // 19
+vmul(v7, v5, v2); // beta * a 16
+vclipi(v7, v7, 5); // 20
+vsub(v1, v6, v7); // alpha * b - beta * a 22
+vwrh(v0, 6);
+vwrh(v1, 24);

@@ -7,6 +7,9 @@ all : paper.pdf
 figures:
 	$(MAKE) -C figures
 	$(MAKE) -C sonic/figures
+	$(MAKE) -C manic/figures
+	$(MAKE) -C snafu/figures
+	$(MAKE) -C riptide/figures
 
 fast : figures
 	pdflatex $(PAPERNAME) </dev/null | tail -n 32
@@ -24,6 +27,9 @@ paper.pdf : figures
 clean :
 	$(MAKE) -C figures clean
 	$(MAKE) -C sonic/figures clean
+	$(MAKE) -C manic/figures clean
+	$(MAKE) -C snafu/figures clean
+	$(MAKE) -C riptide/figures clean
 	find $(TEX) -name "*.aux" | xargs rm -f
 	rm -f paper.bbl paper.blg paper.log \
 		paper.out paper.pdf paper.aux \

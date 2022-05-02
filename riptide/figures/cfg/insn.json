@@ -1,0 +1,144 @@
+{
+	"stacks": {
+		"stack" :{
+			"keys": ["count"],
+			"labels": ["Instructions"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/compress/xrun/large/dmv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/dmm/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/dconv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/smv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/smm/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/sconv/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/sort/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/fft/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/bfs/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		],
+		[
+			{
+				"src": "../data/compress/xrun/large/dfs/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack"
+			},
+			{
+				"src": "../data/compress/xrun/large/dfs/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack"
+			}
+		]
+	],
+	"sci_not": true,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
+	"width": 7,
+	"height": 4.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"subplots": true,
+	"ylabel": "Instruction count"
+}

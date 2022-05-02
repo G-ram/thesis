@@ -1,0 +1,67 @@
+{
+	"stacks": {
+		"stack9": {
+			"keys":["scalar.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack10": {
+			"keys":["vector.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack11": {
+			"keys":["manic.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack12": {
+			"keys":["snafu.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack13": {
+			"keys":["flow.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#41b6c4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "Scalar",
+				"stack": "stack9"
+			},
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "Vector",
+				"stack": "stack10"
+			},
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "SNAFU",
+				"stack": "stack12"
+			},
+			{
+				"src": "bld/avg_scalar.json",
+				"label": "RipTide",
+				"stack": "stack13"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 4,
+	"rect": [0.15, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"invert": true,
+	"ylabel": "Energy savings (v. scalar)",
+	"draw_norm": true
+}

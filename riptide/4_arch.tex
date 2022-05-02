@@ -1,0 +1,100 @@
+\section{RipTide Microarchitecture}
+\label{riptide:arch}
+
+\riptide is an energy-minimal, \ulp coarse-grained reconfigurable array (\autoref{fig:arch:block}).
+% 
+The 6$\times$6 fabric has a
+heterogeneous set of PEs connected via a bufferless, 2D-torus NoC.
+% 
+The fabric integrates a RISC-V scalar core and a 256KB
+(8$\times$32KB banks) SRAM main memory.
+
+\subsection{Tagless dataflow scheduling}
+
+\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{riptide:background}).
+%
+The fabric does not reorder tokens because \riptide adds ordering operators where
+control may diverge.
+%
+Tokens always match on arrival at a PE, obviating the need for tags.
+%
+Tagless, asynchronous firing has a low hardware cost (one bit per input plus
+control logic).
+%
+Asynchronous dataflow firing lets \riptide tolerate variable operation latency
+(e.g., bank conflicts) and eliminates the need for the compiler to reason about
+operation timing.
+
+\subsection{Processing elements}
+\riptide's PEs perform all arithmetic and memory operations in the fabric.
+%
+\autoref{fig:arch:pe} shows the microarchitecture of a PE.
+% 
+The PE includes a functional unit (FU) and the \textmu core.
+% 
+The \textmu core interfaces with the NoC, buffers
+output values, and interfaces with top-level fabric control for PE configuration.
+
+\paragraph{Functional units.}
+The \textmu core exposes a generic interface using a
+latency-insensitive ready/valid protocol to make it easy to add new
+operators.
+%
+Inputs arrive on {\tt in\_data} when {\tt in\_valid} is high,
+and are consumed when {\tt fu\_ready} is high.
+%
+The FU reserves space in the output channel by raising {\tt fu\_alloc}
+(e.g., for pipelined, multi-cycle operations),
+and output arrives on {\tt fu\_data} when {\tt fu\_valid} is high.
+%
+{\tt out\_ready} supplies back pressure from downstream PEs.
+%
+The remaining signals deal with top-level configuration and control.
+
+\paragraph{Communication.}
+The \textmu core decouples NoC communication from FU computation.
+% 
+The \textmu core tracks which inputs are valid, raises backpressure on
+input ports when its FU is not ready, buffers intermediate results in
+output channels, and sends results over the NoC.
+%
+Decoupling simplifies the FU.
+
+\paragraph{Configuration.}
+The \textmu core handles PE and FU configuration, storing configuration state in a
+two-entry {\em configuration cache} that enables single-cycle reconfiguration. 
+% 
+Additionally, the \textmu core enables the fabric to overlap
+reconfiguration of some PEs while others
+finish computation on an old configuration.
+
+\paragraph{PE types.}
+\riptide includes a heterogeneous of PEs:
+\begin{compactitem}
+\item \emph{Memory PEs} issue loads and stores to memory and have a ``row buffer'' that coalesces non-aliasing subword loads.
+
+\item \emph{Arithmetic PEs} implement basic ALU operations, e.g., compare, bitwise logic, add, subtract, shift, etc.
+
+\item \emph{Multiplier PEs} implement multiply, multiply + shift, multiply + fixed-point clip, and multiply-accumulate.
+
+\item \emph{Control-flow PEs} implement steer, invariant, carry, select, merge, and order (\autoref{riptide:cf}) ---
+%
+but most of these are actually implemented in \riptide's NoC (see below).
+
+\item \emph{Stream PEs} implement common affine iterators (\autoref{riptide:cf}).
+\end{compactitem}
+
+\subsection{Bufferless NoC}
+
+\riptide connects PEs via a statically configured, multi-hop, bufferless
+on-chip network with routers.
+%
+Instead of buffering values in the NoC,
+PEs buffer values in their output channel.
+%
+NoC buffers are a primary energy sink in prior CGRAs~\cite{karunaratne2017hycube,snafu},
+and \riptide completely eliminates them.
+%
+Similarly, \riptide's NoC is statically routed to eliminate routing
+look-up tables and flow-control mechanisms.
+% 

@@ -1,0 +1,26 @@
+{
+    "base-nocr": {
+        "edges": 2,
+        "nodes": 2
+    },
+    "prune-nocr": {
+        "edges": 1,
+        "nodes": 2
+    },
+    "tr-nocr": {
+        "edges": 1,
+        "nodes": 2
+    },
+    "base-yescr": {
+        "edges": 0,
+        "nodes": 0
+    },
+    "prune-yescr": {
+        "edges": 0,
+        "nodes": 0
+    },
+    "tr-yescr": {
+        "edges": 0,
+        "nodes": 0
+    }
+}

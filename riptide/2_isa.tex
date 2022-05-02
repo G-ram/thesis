@@ -1,0 +1,102 @@
+\section{RipTide Instruction Set}
+\label{riptide:cf}
+
+\riptide provides a rich set of control-flow operators to support complex programs.
+% 
+Its ISA, shown in \autoref{tab:isa}, has six categories of operators: arithmetic, multiplier, memory, control flow, synchronization, and streams.
+%
+(Multiplication is split from other arithmetic because, to save area, only some PEs can perform multiplication.)
+%
+We now highlight the control-flow, synchronization, and stream operators.
+
+\subsection{Control-flow operators}
+There are two fundamental control-flow operators: steer and carry.
+% 
+These operators are universal, i.e., sufficient to implement \riptide's control-flow paradigm.
+%
+Operators are illustrated in \autoref{fig:cf:gates}.
+%
+Whenever a value is read by an operator, it is implied that the
+operator waits until a valid token arrives for that value over the
+NoC. Tokens are buffered at the operator inputs if they are not
+consumed or discarded.
+
+\figRipTideISA
+
+\paragraph{Steer} 
+Steers ($\phi^{-1}$) come in two flavors --- True and False --- and take two inputs: a decider, {\tt D} and a data input, {\tt A}.
+% 
+If {\tt D} matches the flavor, then the gate passes {\tt A} through; otherwise, {\tt A} is discarded.
+% 
+Steers are necessary to implement conditional execution, as they gate the inputs to disabled branches.
+
+\paragraph{Carry}
+Carry is the other fundamental control-flow operator.
+% 
+It represents a loop-carried dependency and takes a decider, {\tt D}, and two data values {\tt A} and {\tt B}.
+% 
+Carry has the internal state machine shown in \autoref{fig:cf:gates}.
+%
+In the {\em Initial} state, it waits for {\tt A}, and then passes it through and transitions to the {\em Block} state.
+%
+While in {\em Block}, if {\tt D} is True, the operator passes through {\tt B}.
+%
+It transitions back to {\em Initial} when {\tt D} is False, and begins waiting for the next {\tt A} value (if not already buffered at the input).
+
+Carry operators keep tokens ordered in loops, eliminating the need to tag tokens.
+%
+By not consuming {\tt A} while in {\em Block}, carry operators prevent
+outer loops from spawning a new inner-loop instance before the
+previous one has finished.
+%
+(Iterations from one inner-loop may safely run in parallel, but entire
+instances of the inner loop may not.)
+
+\paragraph{Invariant}
+The invariant operator is a slight variation of carry.
+%
+It represents a loop invariant and can be implemented as a carry with a self-edge back to {\tt B}.
+%
+Invariants are used to generate a new loop-invariant token for each loop iteration.
+
+\subsection{Synchronization operators}
+
+\paragraph{Order}
+The order operator enforces cross-iteration ordering by making sure that tokens from different loop iterations
+appear in the same order, regardless of the control path taken within by each loop iteration.
+% 
+The operator takes three inputs: a decider, {\tt D}, and two data inputs, {\tt A} and {\tt B}.
+%
+Order is essentially a mux that passes through either {\tt A} or {\tt B}, depending on {\tt D}.
+%
+But note that only the value passed through is consumed.
+
+\paragraph{Merge}
+The merge operator is used to enforce memory ordering by guaranteeing that multiple preceding operators have executed.
+% 
+It takes two inputs, {\tt A} and {\tt B}, and fires as soon as both arrive, passing {\tt A} through.
+
+\figRipTideCFGates
+
+\subsection{Stream operators}
+Streams generate a sequence of data values, which are 
+produced by evaluating an affine function
+across a range of inputs. 
+%
+These operations are used to accelerate loops
+governed by affine induction variables.
+%
+A stream takes three inputs: {\tt start}, {\tt step}, and {\tt bound}.
+It initially sets its internal {\tt idx} to {\tt start},
+%
+and then begins iterating a specified arithmetic operator {\tt f}
+as {\tt idx' = f(idx, step)}.
+
+A stream operator produces two output tokens per iteration: {\tt idx} itself,
+and a control signal {\tt last}.
+%
+{\tt last} is False until {\tt idx} reaches {\tt bound},
+whereupon it is True and the stream stops iterating.
+%
+{\tt last} is used by downstream control logic to, e.g., control
+a carry operator for outer loops.

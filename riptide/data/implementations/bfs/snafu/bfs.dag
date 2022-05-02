@@ -1,0 +1,8 @@
+vlh(v1, cols);
+vlxh(v2, visited, v1);
+vseqi(v0, v2, 0);
+vsxh(visited, v0.m, v1);
+vpresum(v4, v0);
+vsxh(queue, v1.m, v4);
+vmask(LAST);
+vsh(&tmp, v4.m);

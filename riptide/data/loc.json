@@ -1,0 +1,181 @@
+{
+	"avg": {
+		"scalar": {
+			"loc": 27
+		},
+		"vector": {
+			"loc": 43.67,
+			"assembly": 14.33
+		},
+		"snafu": {
+			"loc": 47.67,
+			"assembly": 14.33
+		},
+		"riptide": {
+			"loc": 35.7,
+			"annotations": 4.5
+		}
+	},
+	"dmv": {
+		"scalar": {
+			"loc": 14
+		},
+		"vector": {
+			"loc": 35,
+			"assembly": 10
+		},
+		"snafu": {
+			"loc": 31,
+			"assembly": 8
+		},
+		"riptide": {
+			"loc": 17,
+			"annotations": 2
+		}
+	},
+	"dmm": {
+		"scalar": {
+			"loc": 14
+		},
+		"vector": {
+			"loc": 41,
+			"assembly": 10
+		},
+		"snafu": {
+			"loc": 35,
+			"assembly": 8
+		},
+		"riptide": {
+			"loc": 19,
+			"annotations": 3
+		}
+	},
+	"dconv": {
+		"scalar": {
+			"loc": 22
+		},
+		"vector": {
+			"loc": 29,
+			"assembly": 8
+		},
+		"snafu": {
+			"loc": 33,
+			"assembly": 7
+		},
+		"riptide": {
+			"loc": 31,
+			"annotations": 3
+		}
+	},
+	"smv": {
+		"scalar": {
+			"loc": 12
+		},
+		"vector": {
+			"loc": 29,
+			"assembly": 11
+		},
+		"snafu": {
+			"loc": 28,
+			"assembly": 9
+		},
+		"riptide": {
+			"loc": 20,
+			"annotations": 5
+		}
+	},
+	"smm": {
+		"scalar": {
+			"loc": 24
+		},
+		"vector": {
+			"loc": 34,
+			"assembly": 14
+		},
+		"snafu": {
+			"loc": 30,
+			"assembly": 8
+		},
+		"riptide": {
+			"loc": 30,
+			"annotations": 7
+		}
+	},
+	"sconv": {
+		"scalar": {
+			"loc": 27
+		},
+		"vector": {
+			"loc": 33,
+			"assembly": 8
+		},
+		"snafu": {
+			"loc": 38,
+			"assembly": 7
+		},
+		"riptide": {
+			"loc": 36,
+			"annotations": 5
+		}
+	},
+	"sort": {
+		"scalar": {
+			"loc": 42
+		},
+		"vector": {
+			"loc": 78,
+			"assembly": 26
+		},
+		"snafu": {
+			"loc": 54,
+			"assembly": 22
+		},
+		"riptide": {
+			"loc": 35,
+			"annotations": 2
+		}
+	},
+	"fft": {
+		"scalar": {
+			"loc": 54
+		},
+		"vector": {
+			"loc": 73,
+			"assembly": 42
+		},
+		"snafu": {
+			"loc": 133,
+			"assembly": 65
+		},
+		"riptide": {
+			"loc": 87,
+			"annotations": 9
+		}
+	},
+	"bfs": {
+		"scalar": {
+			"loc": 31
+		},
+		"vector": {
+			"loc": 41,
+			"assembly": 11
+		},
+		"snafu": {
+			"loc": 47,
+			"assembly": 9
+		},
+		"riptide": {
+			"loc": 41,
+			"annotations": 5
+		}
+	},
+	"dfs": {
+		"scalar": {
+			"loc": 30
+		},
+		"riptide": {
+			"loc": 41,
+			"annotations": 4
+		}
+	}
+}

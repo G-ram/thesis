@@ -1,0 +1,8 @@
+vlh(v2, offset_ptr); // 0
+vlxh(v0, src->data, v2); // 1
+vlh(v1, filter_ptr); // 2
+vmul(v2, v0, v1); // 3
+vclipi(v1, v2, 5); // 4
+vpresum(v2, v1); // 5
+vmask(LAST); // 6
+vsh(tmp, v2.m); // 7
