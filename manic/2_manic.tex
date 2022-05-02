@@ -1,0 +1,381 @@
+\section{MANIC Architecture}
+\label{manic:manic}
+\manic is a processor microarchitecture that implements the
+vector-dataflow execution model to improve energy efficiency while
+maintaining programmability and generality.
+%
+\manic's hardware/software interface is the most recent revision of the RISC-V
+ISA vector extension~\cite{riscv_2019}.
+%
+\manic adds a vector unit with a single lane to a simple, in-order scalar processor core.
+%
+The vector unit has a few simple additions to support vector-dataflow execution: instruction windowing hardware and a renaming mechanism together implement
+forwarding between dependent instructions.
+%
+With no modifications to the ISA, \manic runs programs efficiently.  With a
+minor ISA change, \manic further improves efficiency by conveying register kill
+annotations; the microarchitecture uses these annotations to
+kill registers instead of incurring the cost of writing them to the vector
+register file. 
+
+\subsection{Vector ISA}
+\label{manic:manic:isa}
+The software interface to \manic's vector execution engine is the RISC-V ISA
+vector extension~\cite{riscv_2019} and RISC-V code\footnote{Specifically, RISC-V E extension, which uses 16 architectural registers.} will run efficiently on a \manic
+system with only minor modifications to add {\tt vfence} instructions for synchronization and  memory consistency. 
+
+A programmer may further optionally recompile their code using our custom \manic
+compiler to use minor ISA changes that support code scheduling and vector
+register kill annotations.  We emphasize that these compiler-based features do
+not require programming changes, do not expose microarchitectural details, and
+are optional to the effective use of \manic.%
+
+\manic implements the RISC-V V vector extension. RISC-V V does not specify a
+fixed number of vector registers, but its register name encoding includes five
+bits for vector register names.  We implement 16 vector registers, requiring
+four bits to name, and leaving a single bit in the register name unused.
+We use the extra bit in a register's name to convey kill annotations from the
+compiler to the microarchitecture.  If either of an instruction's input
+registers has its high-order bit set, the encoded instruction indicates to
+\manic that the register dies at the instruction.
+%
+To support code scheduling, \manic's optional compiler support runs the
+dataflow code scheduling algorithm (described in \autoref{manic:design:schedule}).
+%
+After scheduling, the compiler analyzes definitions and uses of each register
+and adds a kill annotation to a killed register's name in the instruction 
+at which it dies. 
+
+\subsection{Microarchitecture}
+\label{manic:manic:uarch}
+The foundation of \manic's microarchitecture is an extremely simple, in-order,
+single-issue vector core with a single execution lane that is equipped with a
+single functional unit. 
+%
+\manic adds four components to this base vector core to support vector-dataflow execution: (1) issue logic and a register renaming table; (2) an
+instruction window buffer; (3) an xdata buffer and (4) a forwarding buffer. 
+% 
+\autoref{fig:block} shows an overview of \manic's design and how these
+components relate to one another.
+%
+
+\figMANICBlock
+
+\paragraph{Issue logic and register renaming}
+\manic's issue logic is primarily responsible for creating a window of
+instructions to execute according to vector-dataflow.
+%
+The issue logic activates once per window of instructions, identifying,
+preparing, and issuing for execution a window of dependent instructions over an entire vector of inputs.
+%
+A key parameter of the issue logic is the length of the instruction buffer
+window, which we explain next.
+%
+The issue logic analyzes a short sequence of instructions that has the same
+number of instructions as the instruction buffer can hold. 
+%
+The issue logic identifies dataflow between instructions by comparing the names
+of their input and output operands. 
+%
+If two instructions are dependent --- the output of one of the instructions is 
+the input of another ---  \manic should forward the output value directly from
+its producer to the input of the consumer, avoiding the register file.
+\manic's issue logic implements forwarding by renaming the instructions' register operands 
+to refer to a free location in \manic's forwarding
+buffer, instead of to the register file. 
+%
+The issue logic records the renaming in \manic's renaming table, which is a
+fixed-size, directly-indexed table, with one entry for each register that can
+be renamed in a window of instructions.
+%
+After the issue logic identifies dependent operations and performs renaming for
+a window of operations, it dispatches the window of operations for execution.
+
+
+\paragraph{Instruction window}
+\manic uses its instruction window to store an issued window of
+instructions that have had their register operands renamed by the issue logic.
+%
+The instruction window and its associated control logic (not pictured)
+determine what operation \manic's single functional unit should execute next.
+%
+The instruction window's control logic executes the operation represented by each instruction stored in the 
+buffer. 
+%
+As \autoref{manic:design} describes, execution proceeds first vertically,
+through the entire window, and then horizontally through the vector.
+%
+A key feature of the instruction window's control logic is its ability to
+select an operand's source or destination. 
+%
+For input operands, the instruction window controls whether to fetch an operand from the
+vector register file or from \manic's forwarding buffer (in the case of an
+operand being forwarded between instructions in the window).
+%
+Likewise, for output operands, the instruction window controls whether to write
+an output operand to the vector register file, to the forwarding buffer, or to both.
+
+\paragraph{Limits to window size}
+There are several classes of instructions that limit window size.
+%
+These include stores, permutations, and reductions.
+%
+Permutations and reductions require interactions between elements in a vector, which
+creates a {\em horizontal} dependence between operations on different vector elements.
+%
+\manic does not support forwarding for such operations because of the complexity of
+the dependence tracking that they introduce.  
+% 
+Instead, these operations execute one element at a time, ultimately writing to the vector register file. 
+
+A store also ends issuing for a window.  A store may write to a memory
+location that a later operation loads from. Such a through-memory dependence is 
+unknown until execution time.  Consequently, \manic conservatively assumes
+that the address of any store may alias with the address of any load or store in the window (i.e., in a later vector element).
+A store ends the construction of a window to avoid the need for dynamic memory disambiguation to
+detect and avoid the effect of such aliasing.
+% 
+We evaluated adding a \emph{non-aliasing store} instruction that would allow \manic to forward past stores,
+but this instruction improved energy-efficiency by less than $0.5\%$ in our applications.
+% 
+This is because store instructions often naturally close windows (e.g. a {\tt vfence} follows the store to ensure correctness).
+% 
+Thus, given the added programming complexity for minimum benefit, we conclude that such an instruction is unnecessary.
+%
+
+\paragraph{Xdata buffer}
+Some instructions like vector loads and stores require extra information 
+(e.g. base address and stride) available from the scalar register file when the instruction is decoded.
+%
+Due to the loosely coupled nature of \manic, this extra information must be buffered 
+alongside the vector instruction.
+%
+Since not all vector instructions require values from the scalar register file, 
+\manic includes a separate buffer, called the xdata buffer, to hold this extra
+information.
+%
+Entries in the instruction buffer contain indices into the xdata buffer as needed.
+%
+During execution, \manic uses these indices to read information from the xdata buffer and execute accordingly.
+
+\paragraph{Forwarding buffer} The forwarding buffer is a small, directly-indexed
+buffer that stores intermediate values as \manic's execution unit forwards them to
+dependent instructions in the instruction window. 
+%
+The issue logic lazily allocates space in the forwarding buffer and renames instruction's forwarded operands to refer to these allocated entries.
+%
+The benefit of the forwarding buffer is that it is very small and simple, which
+corresponds to a very low static power and access energy compared to the very 
+high static power and access energy of the vector register file.
+%
+By accessing the forwarding buffer instead of accessing the vector register
+file, an instruction with one or more forwarded operands consumes less energy
+than one that executes without \manic. 
+
+\paragraph{Efficient reductions}
+RISC-V V contains {reduction} instructions like \texttt{vredsum v1 v2},
+which adds up all elements of \texttt{v2} and writes the sum into the first element of \texttt{v1}.
+%
+\manic relies on the forwarding buffer to avoid VRF accesses for reductions.
+% 
+Instead of writing partial results to the VRF,
+\manic allocates space in the forwarding buffer for partial accumulation.
+% 
+The decode logic recognizes a reduction, allocates space, and remaps the second source operand and the destination to point to the entry in the forwarding buffer.
+% 
+During execution, \manic will then use the partial result in the forwarding buffer as one source for the reduction (e.g., sum)
+and overwrite it with the new value as it is produced.
+% 
+This optimization re-purposes \manic's existing dataflow mechanisms
+to save an entire vector-length of VRF reads and writes for reductions.
+
+\paragraph{Structural hazards}
+There are three structural hazards that cause \manic to stop buffering additional
+instructions, stall the scalar core, and start vector execution. 
+%
+The first hazard occurs when the instruction buffer is full and another vector instruction is waiting to be buffered.
+%
+The second hazard occurs when all slots in the forwarding buffer are allocated and an incoming instruction requires a slot.
+%
+Finally, the third hazard occurs when the xdata buffer is full and a decoded 
+vector instruction requires a slot.
+%
+The prevalence of each hazard depends on the size of the buffers associated with each.
+%
+The first hazard is most common, while the other two tend to be rare.
+
+\subsection{Memory system}
+\label{manic:manic:memory}
+\manic includes an instruction cache (icache) and a data cache (dcache).
+%
+This departs from the designs of many commercial microcontrollers 
+in the ultra-low-power computing domain, which do
+not have dcaches and have extremely small icaches on the order of 
+64 bytes~\cite{msp430fr5994}.
+%
+However, we find that even small or moderately sized dcaches (512B) are effective in minimizing the number of accesses to main memory. 
+%
+We measured miss curves for the seven different application we consider; 
+for each application there is an extreme drop-off in the number of misses for even 
+small cache sizes,  and with a 512B cache the curves are basically flat.
+%
+Since the energy of an access to main memory dwarfs an access to the dcache,
+the dcache offers a significant reduction in energy.
+
+\paragraph{Caching and intermittence}
+In the intermittent computing domain, improperly managed caches may
+lead to memory corruption because dirty data may be lost when power fails.
+%
+As such, \manic assumes a hardware-software JIT-checkpointing mechanism
+(like~\cite{hibernusplusplus, samoyed, quickrecall}) for protecting the caches
+and any dirty data.
+%
+Checkpointing energy for cached data is virtually negligible because caches are
+very small relative to the operating period. 
+%
+
+\subsection{Putting it together with an example}
+We illustrate the operation of the issue logic, renaming table, instruction
+window, and forwarding buffer with an example of \manic's operation, shown in
+\autoref{fig:vde:issue}. 
+%
+The figure starts with vector-aware assembly code that \manic transforms into
+vector-dataflow operations by populating the renaming table and instruction
+buffer with information about the dataflow.
+%
+Vector assembly instructions pass into \manic's microarchitectural mechanisms
+as they decode to the issue logic and later execute.
+%
+
+\figMANICMANICa
+
+\paragraph{Issuing instructions and renaming operands}
+The figure shows a three-instruction program and illustrates how
+the issue logic populates the instruction buffer and remaps registers for each
+instruction.
+
+\begin{itemize}
+\item {\tt vload}:
+The issue logic records the load in the instruction window and, since the instruction
+is a vector load and requires a base address, also inserts the base address ({\tt \&a} forwarded from the scalar register file) into the xdata buffer.
+% 
+In addition, the issue logic writes an empty renaming entry to {\tt v0} in the renaming table along with the index of the instruction in the instruction buffer.
+%
+An empty renaming entry at execution time signifies a vector register write.
+However, during issue, an empty entry may be filled by an instruction added to
+the instruction window later during the same issue phase.
+\item {\tt vmul}: The multiply instruction consumes two register operands that are not in the renaming table and, at execution time, will issue
+two vector register file reads.
+%
+As with the load, the issue logic records the multiply's output register with 
+an empty entry in the renaming table as well as the index of the multiply in the
+instruction buffer.
+\item {\tt vadd}:
+The add's inputs are {\tt v0} and {\tt v1} with the kill annotation indicating
+that the instruction kills register {\tt v0}.
+%
+The issue logic looks up each input operand in the renaming table and, finding 
+both have valid entries, identifies this instruction as the target for forwarding.
+%
+The issue logic remaps {\tt v0} to refer to the first entry of the forwarding
+buffer and {\tt v1} to the second position. 
+%
+The load instruction in the instruction buffer (found by the saved index in the renaming table) 
+is updated and will store its result in {\tt F0} instead of {\tt v0}.
+%
+Similarly, the multiply instruction is also updated and will store its result in {\tt F1}, but since {\tt v1} is not killed, it will still be written-back to the register file. 
+%
+The add instruction then will fetch its input operands from {\tt F0}
+and {\tt F1} instead of the vector register file.
+%
+The kill annotations associated with {\tt v3} and {\tt v0} follow the re-written
+instructions into the instruction window, enabling their use during execution
+to avoid register file writes.
+\end{itemize}
+
+\paragraph{Executing a window of instructions}
+After issue, the window of instructions is ready to execute.
+\autoref{fig:vde:execute} shows (via the orange control-flow arcs) how \manic
+executes the entire window vertically for a single vector element before moving
+on to execute the entire window for the second vector element.
+%
+The blue dataflow arcs show how \manic forwards values between dependent
+instructions using its forwarding buffer.  The green squares marked with ``F'' names
+are forwarded values.
+%
+The figure also shows how \manic uses a kill annotation at runtime.
+%
+The registers with kill annotations ({\tt v0} and {\tt v3}) need not be written
+to the vector register file when the window completes executing, sparing the
+execution two vector register writes required by a typical vector execution. 
+
+\figMANICMANICb
+
+
+\subsection{Microarchitecture-agnostic dataflow scheduling}
+\label{manic:design:schedule}
+\manic's final feature is {\em microarchitecture-agnostic
+dataflow scheduling}.
+%
+This feature is optional compiler support that
+re-orders vector instructions to make dependent operations as close as possible to one another.  If dependent operations are closer together in an instruction
+sequence, then it is more likely that they will appear together in one of
+\manic's vector-dataflow windows.  By re-ordering operations to appear close
+together in a window, \manic creates more opportunities to
+forward values from a producer instruction to its consumer,
+eliminating more vector register file accesses.
+
+\manic's dataflow scheduler does not compromise programmability or generality.
+The programmer need not understand the microarchitecture to reap the benefits
+of the dataflow scheduler.  The dataflow scheduler minimizes the forwarding
+distance between dependent instructions, rather than targeting a particular
+window size.  While not always optimal for a given window size, this
+microarchitec-ture-agnostic optimization prevents the compiler from being
+brittle or dependent on the microarchitectural parameters of a
+particular system. 
+
+To minimize forwarding distance between dependent instructions, \manic's
+dataflow code scheduler uses {\em sum kill distance}.  A vector register's
+kill distance is the number of instructions between when an instruction defines
+the register and when the value in the register is used for the last time
+(i.e., the register dies).  The sum kill distance is the sum of all registers'
+kill distances across the entire program. To remain agnostic to the window size
+of particular \manic implementation, the code
+scheduler minimizes the sum kill distance (which is equivalent to minimizing
+average kill distance).  Sum kill distance is a proxy for the number of
+register writes in a program because if a register does not die during a
+window's execution, the system must write its value back to the register file.
+%
+When sequences of dependent instructions are closer together, their
+intermediate values die more quickly, because registers need not remain live
+waiting for unrelated instructions to execute.  A larger window accommodates
+dependence chains that include longer kill distances.
+
+We implement dataflow code scheduling using brute force (exhaustive) search
+for small kernels containing fewer than 12 vector operations.  For larger
+kernels (e.g., FFT), we implement dataflow code scheduling via simulated
+annealing that randomly mutates instruction schedules, 
+while preserving dependences, to produce a new valid schedule, accepting 
+this new schedule with some probability.
+
+\figMANICKill
+
+\autoref{fig:kill} shows that the microarchitecture-agnostic minimization of
+the sum kill distance closely approximates a microarchitecture-specific
+approach that optimizes for a particular window size.
+%
+The plot shows the number of register writes made by one iteration of the
+kernel's inner loop for a given window size using code optimized by the two
+different optimization criteria. 
+%
+The blue line shows the number of register writes of a \emph{microarchitecture-specific} schedule,
+where window size is exposed to the compiler.  The red line shows the number of writes
+for our \emph{microarchitecture-agnostic} schedule based on sum kill distance.
+%
+The two curves generally agree, suggesting that minimizing sum kill distance eliminates
+register writes with similar efficacy as when window size is exposed explicitly to the compiler.
+%
+For the FFT kernel, the instruction window is broken by stores and permutations (\autoref{manic:manic:uarch}),
+causing additional vector register file writes.
+This is a limitation of optimizing only for sum kill distance
+that we plan to address in future work.

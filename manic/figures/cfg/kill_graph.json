@@ -1,0 +1,125 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				"energy.vrf"
+			], 
+			"total": "energy.total",
+			"labels":["VRF"],
+			"colors": ["#41b6c4", "grey"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/fft/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/fft/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/sconv/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/sconv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/dconv/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dconv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/smm/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/smm/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/smv/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/smv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/dmm/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dmm/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/4/ISIZE=128/dmv/result.json",
+				"label": "No Sched",
+				"stack": "stack1",
+				"scale": 0.0010
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dmv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		]
+	],
+	"major": ["FFT", "SConv", "DConv", "SMM", "SMV", "DMM", "DMV"],
+	"width": 7.5,
+	"height": 5.4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 5,
+	"major_spacing": 4,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 4,
+	"fontsize": 12,
+	"ylabel": "Energy ($mu$J)",
+	"sci_not": false,
+	"subplots": true 
+}

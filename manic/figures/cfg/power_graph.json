@@ -1,0 +1,175 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				["power.avg.memory.parts.main.read", 
+					"power.avg.memory.parts.main.write",
+					"power.avg.memory.parts.main.leakage"],
+				["power.avg.memory.parts.dcache.read", 
+					"power.avg.memory.parts.dcache.write",
+					"power.avg.memory.parts.dcache.leakage"],
+				["power.avg.memory.parts.icache.read", 
+					"power.avg.memory.parts.icache.write",
+					"power.avg.memory.parts.icache.leakage"],
+				"power.avg.compute",
+				"power.avg.vrf"
+			], 
+			"total": "power.avg.total",
+			"labels":["Main", "DCache", "ICache", "Compute", "VRF"],
+			"colors": ["#d7191c", "#f68d29", "#f4da53", "#63c756", "#2b83ba", "grey"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/fft/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/fft/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/fft/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/sconv/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/sconv/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/sconv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/dconv/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/dconv/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dconv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/smm/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/smm/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/smm/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/smv/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/smv/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/smv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/dmm/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/dmm/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dmm/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_16/3/ISIZE=128/dmv/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/2/ISIZE=128/dmv/result.json",
+				"label": "Vector",
+				"stack": "stack1",
+				"scale": 1e-6
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dmv/result.json",
+				"label": "MANIC",
+				"stack": "stack1",
+				"scale": 1e-6
+			}
+		]
+	],
+	"major": ["FFT", "SConv", "DConv", "SMM", "SMV", "DMM", "DMV"],
+	"width": 6,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.5,
+	"major_spacing": 2.5,
+	"minor_padding": 5,
+	"major_padding": 55,
+	"barwidth": 1.75,
+	"fontsize": 12,
+	"ylabel": "Power (mW)"
+}

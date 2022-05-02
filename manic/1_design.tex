@@ -1,0 +1,192 @@
+\section{Vector-Dataflow Execution}
+\label{manic:design}
+
+\figMANICOverview
+
+\manic implements the {\em vector-dataflow} execution model. There are
+two main goals of vector-dataflow execution (\autoref{fig:intro}).
+The first goal is to provide general-purpose programmability.  The
+second goal is to do this while operating efficiently by minimizing
+instruction and data supply overheads.
+%
+Vector-dataflow achieves this through three features:
+\emph{(i)}~vector execution,
+\emph{(ii)}~dataflow instruction fusion, and
+\emph{(iii)}~register kill points.
+
+\subsection{Vector execution}
+The first main feature of \manic's execution model is vector execution. Vector
+instructions specify an operation that applies to an entire vector of input
+operands (as in ample prior work discussed in~\autoref{manic:background}).  The
+key advantage of vector operation for an ultra-low-power design is that control overheads imposed by each
+instruction --- instruction cache access, fetch, decode, and issue --- amortize
+over the many operands in the vector of inputs.   Vector operation dramatically
+reduces the cost of instruction supply and control, which is a primary energy cost of
+general-purpose programmability.  Vector operation is thus a key ingredient in
+\manic's energy-efficiency. 
+
+\autoref{fig:overview} illustrates the difference between scalar execution
+and vector execution.
+%
+\autoref{fig:overview:scalar} executes a sequence of instructions in a scalar fashion.
+%
+Blue arrows show dataflow and orange arrows show control flow.
+%
+Instructions proceed in sequence and write to and read from the register file
+to produce and consume outputs and operands.
+%
+\autoref{fig:overview:vector} executes the same sequence of instructions in a vector execution.
+%
+The execution performs the vector instruction's operation on each element of
+the vector in sequence, consuming operands from and producing outputs to the
+register for each operation over the entire vector.
+%
+Control proceeds {\em horizontally} across each of the vector's elements for a
+single vector instruction before control transfers {\em vertically} to the next
+vector instruction.
+%
+Vector execution amortizes the control overhead of a scalar execution because a
+single instruction corresponds to an entire vector worth of operations.
+%
+
+\subsection{Dataflow instruction fusion}
+The second main feature of \manic's execution model is {\em dataflow
+instruction fusion}. Dataflow instruction fusion identifies windows of
+contiguous, dependent vector instructions. 
+%
+Dataflow instruction fusion eliminates register file reads by directly
+forwarding values between instructions within the window.
+%
+Comparing to a typical vector machine illustrates the benefit of dataflow
+instruction fusion.  In a typical vector machine, instructions execute
+independently and each operation performs two vector register file reads
+and one vector register file write.
+%
+Accessing the vector register file has an extremely high energy cost that
+scales poorly with the number of access ports~\cite{balfour_elm_thesis,kozyrakis2003overcoming}.  
+%
+With dataflow instruction fusion, each instruction that receives a forwarded
+input avoids accessing the expensive vector register file to fetch its input
+operands.  Avoiding these reads reduces the total energy cost of executing a
+window of vector instructions.
+
+\autoref{fig:overview:vde} illustrates the difference between vector execution
+and vector-dataflow execution in \manic.
+%
+Vector-dataflow first identifies data dependencies among a sequence of vector
+instructions in a fixed-size instruction window.
+%
+After identifying dependences between instructions in the window, \manic
+creates an efficient dataflow forwarding path between dependent instructions
+(using the forwarding mechanism described in~\autoref{manic:manic}).
+\autoref{fig:overview:vde} shows a window of dependent operations made up of
+instructions {\tt I0}, {\tt I1}, and {\tt I2}. 
+%
+Execution begins with the first vector instruction in the window ({\tt I0}) and the first
+element of the vector ({\tt v[0]}).
+%
+However, unlike a typical vector execution, control transfers {\em vertically}
+first, next applying the second vector instruction to the first
+vector element. The orange arcs illustrate vertical execution of {\tt I0}, then
+{\tt I1}, then {\tt I2} to the vector inputs represented by {\tt v[0]}.
+%
+After vertically executing an operation for each instruction in the window for
+\texttt{v[0]}, the orange arcs show that control steps
+horizontally, executing the same window of operations on the next element of
+the vector, {\tt v[1]}.  
+%
+The blue arrows illustrate the dataflow forwarding captured by vertical
+execution in a window of vector-dataflow execution.
+%
+The blue arrow from \texttt{I0} to \texttt{I2} shows that the value produced by
+\texttt{I0} is forwarded directly to \texttt{I2} without storing the
+intermediate result in the vector register file.
+
+
+
+\subsection{Vector register kill points}
+
+The third main feature of \manic's execution model is its use of {\em vector
+register kill points}.  A vector register is {\em dead} at a particular
+instruction if no subsequent instruction uses the value in that register.
+Hence, a dead value need not be written to the vector register file.
+%
+The instruction at which a vector register becomes dead is the {\em kill point}
+for that register.
+%
+Though \manic forwards values between dependent instructions without
+going through the vector register file,
+\manic normally must write each operand back
+to the vector register file because the operand may be
+used later in a later window.
+
+However, if a program explicitly informs \manic of each register's kill
+points, then \manic can eliminate register file writes associated with those
+registers. We propose to tag each of an instruction's operands  with an
+optional {\em kill bit} that indicates that the register
+is dead at that instruction, and its value need not be written back to the
+vector register file.  Kill bits do
+not affect programmability because they are optional, a compiler analysis to
+identify dead registers is simple, and kill bits do not expose 
+microarchitectural details, such as the size of \manic's instruction
+window. 
+%
+
+\subsection{Applications benefit from vector-dataflow}
+We studied the core compute kernels in a wide variety of sensor
+node applications and found abundant opportunities for vector-dataflow execution.
+%
+Regardless of \manic's window size, an application has more exploitable vector
+dataflows if its sequences of dependent instructions tend to be shorter.
+%
+The length of a dependent instruction sequence is characterized by the distance (or number of instructions) between a when register's value is produced and when that register is killed (the kill point).
+%
+We deem this the \emph{kill distance}.
+%
+Shorter kill distances require fewer
+resources for forwarding in a window and make a window of any size more effective.
+%
+
+\figMANICKillDistro
+
+We statically measured the distribution of kill distances for all registers in the
+inner loops of three kernels. 
+% 
+The histograms shown in~\autoref{fig:kill_distro} suggest that kill distances tend to be short and that a reasonably small (and thus implementable) window size would capture dependencies for these kernels.
+
+\subsection[Synchronization and memory consistency]{Synchronization and memory consistency}
+
+In \manic, the vector unit runs as a loosely-coupled co-processor with
+the scalar core.
+As a result, \manic must synchronize vector and scalar execution
+to ensure a consistent memory state.
+%
+A typical sequentially consistent model would require frequent stalls in the scalar core to disambiguate memory and, worse, would limit the opportunity for forwarding in the vector unit.
+%
+These issues could be avoided with microarchitectural speculation, including load-store disambiguation and mis-speculation recovery mechanisms, but we judge such mechanisms too expensive for ultra-low-power applications.
+% 
+Moreover, in practice, the scalar core and the vector unit rarely touch the same memory during compute-intensive program phases,
+so the mechanisms would be largely unused.
+
+Instead, we add a new {\tt vfence} instruction that handles both synchronization and memory consistency.
+%
+{\tt vfence} stalls the scalar core until the vector unit completes execution with its current window of vector-dataflow operations. 
+% 
+\manic's use of {\tt vfence} operations is
+very similar to memory fences for concurrency in x86, ARM, and other widely
+commercially available processors~\cite{hsa}.  
+% 
+Properly used, {\tt vfence} operations
+cause the scalar and vector cores' executions to be sequentially consistent.
+%
+In practice, this often means inserting a {\tt vfence} at the end of the kernel.
+
+As with any system relying on fences, the programmer is responsible for their
+correct use (i.e., avoiding data races).
+% 
+Relying on the programmer to avoid data races is
+practical since compilers struggle with alias analysis,
+reasonable because {\tt vfences} are rare,
+and consistent with common practice in architectures
+and high-level programming languages~\cite{cppspec,javamm}.
+

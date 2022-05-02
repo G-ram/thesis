@@ -1,0 +1,118 @@
+{
+    "cycles": 5987062,
+    "dcache": {
+        "children": [
+            "main"
+        ],
+        "destiny": {
+            "hit_dynamic_energy": 0.00790113,
+            "leakage_power": 0.0003738,
+            "miss_dynamic_energy": 0.00790113,
+            "read_latency": 0.304819,
+            "write_dynamic_energy": 0.00609866
+        },
+        "invalid_latency": 1,
+        "line_size": 4,
+        "read_latency": 0,
+        "sets": 8,
+        "size": 256,
+        "type": "cache",
+        "write_latency": 0
+    },
+    "energy": {
+        "compute": 16013.504985340622,
+        "memory": {
+            "parts": {
+                "dcache": {
+                    "leakage": 22.379637755999997,
+                    "read": 11503.428991859999,
+                    "write": 5445.78274233
+                },
+                "icache": {
+                    "leakage": 17.71703361164,
+                    "read": 21120.24112545,
+                    "write": 0.0
+                },
+                "main": {
+                    "leakage": 2257.27205055,
+                    "read": 875.3758260000001,
+                    "write": 46019.725556699996
+                }
+            },
+            "total": 41636.06596885764
+        },
+        "total": 103275.42794959826,
+        "vrf": 0
+    },
+    "frequency": 100000000.0,
+    "icache": {
+        "children": [
+            "main"
+        ],
+        "destiny": {
+            "hit_dynamic_energy": 0.00356465,
+            "leakage_power": 0.000295922,
+            "miss_dynamic_energy": 0.00356465,
+            "read_latency": 0.243833,
+            "write_dynamic_energy": 0.00285388
+        },
+        "invalid_latency": 1,
+        "line_size": 4,
+        "read_latency": 0,
+        "sets": 2,
+        "size": 128,
+        "type": "cache",
+        "write_latency": 0
+    },
+    "main": {
+        "destiny": {
+            "leakage_power": 0.0377025,
+            "read_dynamic_energy": 0.040280500000000004,
+            "read_latency": 1.29522,
+            "write_dynamic_energy": 0.0667687,
+            "write_latency": 10.3834
+        },
+        "line_size": 4,
+        "read_latency": 0,
+        "size": 64,
+        "type": "main_mem",
+        "write_latency": 0
+    },
+    "power": {
+        "avg": {
+            "compute": 267468.50100000005,
+            "memory": {
+                "parts": {
+                    "dcache": {
+                        "leakage": 373.79999999999995,
+                        "read": 192138.130386156,
+                        "write": 90959.18402598803
+                    },
+                    "icache": {
+                        "leakage": 295.922,
+                        "read": 352764.6970325345,
+                        "write": 0.0
+                    },
+                    "main": {
+                        "leakage": 37702.5,
+                        "read": 14621.125119465943,
+                        "write": 6578.661809415035
+                    }
+                },
+                "total": 695434.0203735596
+            },
+            "total": 962902.5213735596,
+            "vrf": 0.0
+        },
+        "dynamic": 267125.715,
+        "leakage": 342.786
+    },
+    "vrf": {
+        "destiny": {
+            "leakage_power": 0.00233276,
+            "read_dynamic_energy": 0.00473775,
+            "read_latency": 0.0549339,
+            "write_dynamic_energy": 0.00455963
+        }
+    }
+}

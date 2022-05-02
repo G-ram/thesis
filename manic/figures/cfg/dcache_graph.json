@@ -1,0 +1,176 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys":[
+				["energy.memory.parts.main.read", 
+					"energy.memory.parts.main.write",
+					"energy.memory.parts.main.leakage"],
+				["energy.memory.parts.dcache.read", 
+					"energy.memory.parts.dcache.write",
+					"energy.memory.parts.dcache.leakage"],
+				["energy.memory.parts.icache.read", 
+					"energy.memory.parts.icache.write",
+					"energy.memory.parts.icache.leakage"],
+				"energy.compute",
+				"energy.vrf"
+			], 
+			"total": "energy.total",
+			"labels":["Main", "DCache", "ICache", "Compute", "VRF"],
+			"colors": ["#d7191c", "#f68d29", "#f4da53", "#63c756", "#2b83ba", "grey"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/fft/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/fft/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/fft/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/sconv/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/sconv/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/sconv/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/dconv/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dconv/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/dconv/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/smm/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/smm/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/smm/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/smv/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/smv/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/smv/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/dmm/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dmm/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/dmm/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		],
+		[
+			{
+				"src": "../data/sim/2019_08_28/2/DSETS=2/dmv/result.json",
+				"label": "128",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_16/6/ISIZE=128/dmv/result.json",
+				"label": "256",
+				"stack": "stack1",
+				"scale": 0.001
+			},
+			{
+				"src": "../data/sim/2019_08_28/1/DSETS=8/DSIZE=512/dmv/result.json",
+				"label": "512",
+				"stack": "stack1",
+				"scale": 0.001
+			}
+		]
+	],
+	"major": ["FFT", "SConv", "DConv", "SMM", "SMV", "DMM", "DMV"],
+	"width": 6,
+	"height": 3.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2.5,
+	"major_spacing": 2,
+	"minor_padding": 5,
+	"major_padding": 30,
+	"barwidth": 1.75,
+	"ylabel": "Energy ($mu$J)",
+	"sci_not": false,
+	"subplots": true
+}

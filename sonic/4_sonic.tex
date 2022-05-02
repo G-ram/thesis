@@ -93,7 +93,7 @@ non-volatile and backed up.
 The problem with long loops is that may not terminate and, when
 split across tasks, impose hefty privatization and task transition overheads.
 
-\figCompDesigns
+\figSONICCompDesigns
 
 {\em Task-tiling} is a simple way to split a loop's iterations into tasks.  A
 task-tiled loop executes a fixed number of iterations per task.  Task-tiling
@@ -125,7 +125,7 @@ control variables, however, retain their state and the loop continues from the
 last attempted iteration.
 (Pseudocode for \sonic's loop continuation can be found in our technical report~\cite{sonic-arxiv}.)
 
-\figLoopContinuation
+\figSONICLoopContinuation
 
 \autoref{fig:tails_sonic} shows how loop continuation
 works by storing the loop control state for \textsf{Task\_Convolve} in non-volatile memory.  
