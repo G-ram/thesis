@@ -1,0 +1,152 @@
+The maturation of energy-harvesting technology and the recent
+emergence of viable intermittent computing models creates the
+opportunity to build sophisticated battery-less systems with most of
+the computing, sensing, and communicating capabilities of existing
+battery-powered systems.
+%
+Many future IoT applications require frequent decision making, e.g.,
+when to trigger a battery-draining camera,
+%
+and these decisions must be taken locally,
+as it is often impractically expensive % (in energy or latency)
+to communicate with other devices.
+%
+Future IoT applications will require {\em local} inference on raw sensor data,
+and their performance will be determined by inference accuracy. Using energy
+numbers from recent state-of-the-art systems, we show that such local inference
+can improve end-to-end application performance by 480$\times$ or more.
+
+Recently, deep neural networks (DNNs)~\cite{alexnet, vgg, googlenet} have made
+large strides in inference accuracy.
+%
+DNNs enable sophisticated inference using limited, noisy inputs, relying on
+rich models learned from many examples.
+%
+Unfortunately, while DNNs are much more accurate than traditional
+alternatives~\cite{gupta2017protonn, Mitchell:1997:ML:541177}, they are also
+more computationally demanding.
+
+Typical neural networks use tens of millions of weights and require
+billions of compute operations~\cite{vgg,googlenet,alexnet}.
+%
+These networks target high-powered,
+throughput-optimized processors like GPUs or Google's TPU, which
+executes up to 9 trillion operations per second while drawing around
+40 watts of power~\cite{jouppi:isca17:tpu}.
+%
+Even a small DNN (e.g., LeNet~\cite{lecun:ieee89:lenet}) has over a million
+weights and millions of operations.
+%
+The most efficient DNN accelerators optimize for performance as
+well as energy efficiency and consume hundreds of
+mW~\cite{han:isca16:eie,chen:asplos14:diannao,du:isca15:shidiannao,chen:isca16:eyeriss}.
+
+\paragraph{Challenges}
+%
+In stark contrast to these high-performance systems, energy-harvesting devices
+use simple microcontrollers (MCUs) built for extreme low-power operation.
+These MCUs systems run at low frequency (1--16 MHz) and have very small
+memories (tens or hundreds of kilobytes).
+%
+Their simple architectures limit them to executing a few 
+million operations per second, while consuming only 1--3mW%
+---a power envelope two orders of magnitude lower than recent DNN accelerators.
+
+DNN inference on these devices is unexplored, and several challenges
+must be overcome to enable emerging IoT applications on
+energy-harvesting systems built from commodity components.
+%
+Most importantly, energy-harvesting systems operate
+\emph{intermittently} as power becomes available, complicating the
+development of efficient, correct software.
+%
+The operating period depends on the properties of the
+power system, but is short---typically around 100,000 instructions.
+%
+As a result, \emph{existing DNN inference implementations do not tolerate 
+  intermittent operation}.
+
+Recent work proposed software systems that guarantee correct
+execution on intermittent power for arbitrary
+programs~\cite{dino,ratchet,clank,chain,alpaca,mayfly}.
+%
+These systems add significant runtime overheads to ensure correctness,
+slowing down DNN inference by on average $10\times$ in our experiments.
+%
+What these systems have missed is the opportunity to \emph{exploit the
+  structure of the computation to lower the cost of guaranteeing correctness.}
+%
+This missed opportunity is especially costly for highly structured and
+loop-heavy computations like DNN inference.
+
+\paragraph{My approach and contributions}
+%
+This paper presents the \emph{first demonstration of intermittent DNN
+inference} on real-world neural networks running on a widely
+available energy-harvesting system.
+%
+We make the following contributions:
+
+\begin{compactitem}
+\item We first analyze where energy is spent in an energy-harvesting system
+and show that inference accuracy largely determines IoT
+application performance (\autoref{sec:motivation}).
+%
+This motivates using DNNs despite their added cost over simpler but
+less accurate inference techniques.
+%
+\item Building on this analysis, we present \genesis, a tool that
+automatically compresses networks to maximize IoT application
+performance (\autoref{sec:genesis}).
+%
+\genesis uses known compression techniques%
+~\cite{nabhan1994toward, han:iclr16:deep-compression,
+  chollet2016xception, bhattacharya2016sparsification};
+%
+our contribution is that \genesis optimally balances inference energy
+vs.\ accuracy. % to maximize IoT application performance.
+%
+\item We design and implement \sonic, 
+  a software system for DNN inference with specialized support for intermittent execution
+  (\autoref{sec:sonic}).
+  %
+  To ensure correctness at low overhead,
+  \sonic introduces \emph{loop continuation},
+  which exploits the regular structure of DNN inference
+  to selectively violate task-based abstractions from prior work~\cite{alpaca},
+  allowing direct modification of non-volatile memory.
+%
+  Loop continuation is safe because
+  \sonic ensures loop iterations are idempotent
+  through \emph{loop-ordered buffering} (for convolutional layers) and \emph{sparse undo-logging} (for sparse fully-connected layers).
+%
+These techniques let \sonic resume from where it left off after a power failure,
+{eliminating task transitions and wasted work} that plague prior task-based systems.
+%
+\item Finally, we build \tails to show how to incorporate hardware
+  acceleration into \sonic (\autoref{sec:tails}). \tails uses
+  hardware available in some microcontrollers to accelerate matrix
+  multiplication and convolution.
+  %
+  \tails automatically calibrates its parallelism
+  to ensure correctness with intermittent power.
+
+\end{compactitem}
+
+\noindent
+We evaluate \sonictails on a TI MSP430
+microcontroller~\cite{msp430fr5994} using an RF-energy
+harvester~\cite{powercastboard,powercasttransmitter} (Secs.~\ref{sec:methodology}~\&~\ref{sec:evaluation}).
+%
+On three real-world DNNs~\cite{lecun:ieee89:lenet,okgoogle,har},
+\sonic improves inference efficiency by $6.9\times$ on average
+over Alpaca~\cite{alpaca}, a state-of-the-art intermittent system.
+%
+\tails exploits DMA and SIMD to further improve efficiency by $12.2\times$ on average.
+
+We conclude with future research directions for parallel intermittent architectures
+that avoid limitations of current energy-harvesting MCUs
+and provide new features to support intermittence efficiently
+(\autoref{sec:panic}).
+
+

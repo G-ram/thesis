@@ -1,0 +1,171 @@
+The emergence of tiny, pervasively deployed, ultra-low-power sensor systems
+enables important new applications in environmental sensing, in- and on-body
+medical implants, civil infrastructure monitors, and even tiny chip-scale
+satellites.
+%
+Existing systems for these applications suffer fundamental
+inefficiencies that demand new, extremely energy-efficient computer
+architectures. 
+
+\paragraph{Sensing workloads are increasingly sophisticated}
+Sensor devices collect data from a deployed environment and must process raw
+data to support applications.  Processing varies and may entail digital signal
+processing (DSP), computing statistics, sorting, or sophisticated computations
+such as machine learning (ML) inference using a deep neural network (DNN) or a
+support vector machine (SVM).
+%
+As processing sophistication has increased, sensor device capability also
+matured to include high-definition image sensors~\cite{naderiparizi2018towards} and
+multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume. 
+
+This shift poses a challenge: how can we perform sophisticated computations
+on simple, ultra-low-power systems?
+One design is 
+to offload work by wirelessly transmitting data to a more powerful
+nearby computer (e.g., at the ``edge'' or cloud) for processing.  
+%
+In offloading, the more data a sensor produces, the more data the device must
+communicate. 
+%
+Unfortunately, transmitting data takes much more energy per byte than
+sensing, storing, or computing on those data~\cite{sonic,zebranet}.  
+%
+While a high-powered device like a smartphone, with a high-bandwidth,
+long-range radio, can afford to offload data to the edge or cloud,
+this is not practical for power-, energy-, and bandwidth-limited sensor devices~\cite{dongare2017openchirp,sonic}.
+
+Since offloading is infeasible,
+the alternative is to process data \emph{locally} on the sensor node itself.
+%
+For example, recent work~\cite{sonic} has shown how systems can use commodity off-the-shelf microcontrollers (COTS MCU)
+to filter sensed data so that only meaningful data (as defined by the application) are transmitted.
+%
+Processing data locally at a sensor node eliminates most of the high energy
+cost of communication,
+but makes the device highly sensitive to the energy-efficiency of computation.
+%
+
+There are two key criteria that make a computation-heavy sensor system effective.
+First, the device must process data locally at a low operating power and with \emph{extremely high energy-efficiency}.
+Second, the device must be \emph{programmable} and general to support a wide variety of applications.
+% 
+These goals are in tension, since programmability often carries a significant energy penalty.
+Our goal is to design a highly programmable architecture that \emph{hides microarchitectural complexity while eliminating the energy costs of programmability}.
+
+\paragraph{Existing low-power architectures fall short}
+%% Unfortunately, existing low-power architectures fall short of this ideal.
+Ultra-low-power COTS MCUs used in many deeply embedded sensor nodes
+(e.g., TI MSP430, ARM M0+ \& M4+) fail
+to meet the criteria for an effective sensor node.
+%
+These MCUs are general-purpose, programmable devices that support a variety of
+applications.  
+%
+However, COTS MCUs pay a high power, energy, and performance cost for their
+generality and programmability (see the \textit{COTS MCU} dot in~\autoref{fig:intro}).  
+%
+
+Programmability is expensive in two main ways~\cite{horowitz:isscc14:energy-keynote,hameed2010understanding,balfour_elm_thesis}.
+First, \emph{instruction supply} consumes significant energy: in the best case, the energy of
+an instruction cache hit, and in the worst case, the energy of a main memory
+read and instruction cache fill.  
+%
+Lacking sophisticated microarchitectural features such as superscalar and
+out-of-order execution pipelines~\cite{msp430fr5994,traber2016pulpino}, the energy overhead of
+instruction supply constitutes a significant fraction of total operating energy.
+%
+Second, data supply through \emph{register file (RF) access} also consumes significant energy.
+%
+Together, we find that instruction and data supply consume
+$54.4\%$ of the average execution energy in our workloads.
+
+\paragraph{Programming pitfalls of architectural specialization}
+%Specialization
+To combat the energy costs of generality, some recent work has turned to
+microarchitectural specialization, making a system energy-efficient at the
+expense of generality and
+programmability~\cite{chen:isca16:eyeriss,chen:asplos14:diannao,du:isca15:shidiannao,liu:isca15:pudiannao,chen2014dadiannao,venkatesh2010conservation}.
+Specialization customizes a system's control and datapath to accommodate a
+particular workload (e.g., deep neural networks~\cite{chen:isca16:eyeriss,chen:asplos14:diannao}),
+eliminating inessential inefficiencies like instruction supply and RF access.
+The downside of specialization is its 
+inability to support a wide range of applications (see the \textit{ASIC} dot in~\autoref{fig:intro}).
+
+In contrast to specialization, another approach to programmable
+energy-efficiency is to target a conventional vector architecture (such as
+NVidia's Jetson TX2~\cite{jetsontx2}, ARM NEON~\cite{neon}, or TI LEA~\cite{lea}), amortizing the cost of instruction
+supply across a large number of compute operations. Unfortunately,
+vector architectures exacerbate the energy costs of RF access,
+especially in high-throughput designs with multi-ported vector register files (VRFs)~\cite{kozyrakis2003overcoming,asanovic1996t0,iram},
+and so remain far from the energy-efficiency of fully specialized designs~\cite{hameed2010understanding} (see the \textit{classic vector} dot in~\autoref{fig:intro}).
+
+The ELM architecture stands out among prior efforts as an architecture that
+targets ultra-low-power operation, operates with extremely high
+energy-efficiency, and retains general-purpose
+programmability~\cite{balfour_elm_thesis,balfour2008energy}.
+%
+The key to ELM's efficiency is an \emph{operand forwarding} network that avoids
+latching intermediate results and a distributed RF that provides
+sufficient register storage, while avoiding unfavorable RF energy scaling. 
+%
+Unfortunately, despite these successes, ELM faces fundamental limitations that prevent its
+widespread adoption.
+%
+ELM makes significant changes to the architecture and microarchitecture of the
+system, requiring a full re-write of software to target its exotic,
+software-managed RF hierarchy and instruction-register design.  This programming task
+requires expert-level assembly hand-coding,
+as compilers for ELM are unlikely to be simple or efficient;
+e.g., ELM itself cites a nearly 2$\times$ drop in performance when moving from hand-coded assembly to compiler-generated assembly~\cite{balfour2008energy}.
+%
+While ELM supports general-purpose programs, it does so with a high
+programmability cost and substantial changes to software development tools (as shown in~\autoref{fig:intro}).
+
+\paragraph{Our design and contributions}
+In this work we present \manic: an efficient vector-dataflow
+architecture for ultra-low-power embedded systems.  
+%
+As depicted in~\autoref{fig:intro}, \manic is closest to the \textit{Ideal} design, achieving high energy-efficiency while remaining general-purpose and simple to program.
+%
+%
+\manic is simple to program because it exposes a standard vector ISA interface
+based on the RISC-V vector extension~\cite{riscv_2019}.
+
+\manic achieves high energy-efficiency by eliminating the two main costs of
+programmability through its vector-dataflow design.
+%
+First, \textbf{vector} execution amortizes
+instruction supply energy over a large number of operations.
+%% like prior vector designs.
+%
+Second, \manic addresses the high cost of VRF accesses
+through its \textbf{dataflow} component by forwarding operands 
+directly between vector operations.
+%
+\manic transparently buffers vector outputs in a small {forwarding buffer}
+and, at instruction issue, renames vector operands to directly access
+the forwarding buffer, \emph{eliminating read accesses to the VRF}.
+%
+Additionally, \manic extends the vector ISA with \textbf{kill annotations} that denote
+the last use of a vector register,
+\emph{eliminating write accesses to the VRF}.
+%
+The vector-dataflow architecture is efficient because \manic amortizes the energy of tracking dataflow across many vector operations.
+%
+\manic thus eliminates a large fraction of VRF accesses (90.1\% on average in our experiments)
+with simple microarchitectural changes that leave the basic vector architecture intact.
+
+Finally, we have designed and implemented a code scheduling algorithm
+that exploits \manic's operand forwarding to minimize VRF energy, while being \emph{microarchitecturally agnostic}.
+In other words, it is \emph{not} necessary to expose the details
+of the pipeline architecture or size of forwarding buffers
+to minimize VRF energy---%
+a single code schedule is near-optimal across a range of microarchitectural design points.
+
+We implement \manic fully in RTL and use industry-grade CAD tools to
+evaluate its energy efficiency across a collection of programs appropriate to the deeply embedded domain.
+%
+Using post-synthesis energy estimates, we show that \manic
+is within $26.4\%$ of the energy of an idealized design while remaining fully general and making few, unobtrusive changes to the ISA and software development stack.
+%
+\figMANICDesignSpace

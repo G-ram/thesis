@@ -1,0 +1,160 @@
+Tiny, ultra-low-power (ULP) sensor devices are becoming increasingly pervasive, sophisticated, and important to a number of emerging application domains.
+% 
+These include environmental sensing, civil-infrastructure monitoring, and chip-scale satellites~\cite{kicksat2}.
+%
+Communication consumes lots of energy in these applications,
+so there is a strong incentive to push ever-more computation onto the sensor device~\cite{sonic}.
+% 
+Unfortunately, widely available ULP computing platforms are fundamentally inefficient and needlessly limit applications.
+%
+New architectures are needed with a strong focus on ULP ($<$1\,mW), \emph{energy-minimal} operation.
+
+\paragraph{Sensing workloads are pervasive}
+The opportunity for tiny, ULP devices is enormous~\cite{lucia2017intermittent}.
+% 
+These types of embedded systems can be deployed to a wide range of environments, including harsh environments like the ocean or space~\cite{denby2020orbital}.
+%
+Sensors on board these devices produce rich data sets that require sophisticated processing~\cite{naderiparizi2018towards,nardello2019camaroptera}.
+% 
+Machine learning and advanced digital signal processing are becoming important tools for applications deployed on ULP sensor devices~\cite{sonic}.
+
+This increased need for processing is in tension with the ULP domain.
+%
+The main constraint these systems face is \emph{severely limited energy},
+either due to small batteries or weak energy harvesting.
+% 
+One possible solution is to offload processing to a more powerful edge device.
+% 
+However, communication takes much more energy than local computation or storage~\cite{sonic,zebranet}.
+% 
+The only viable solution is therefore to process data locally and transmit only a minimum of filtered/preprocessed data,
+discarding the rest.
+%
+This operating model has a major implication: the capability of future ULP embedded systems will depend largely on the energy-efficiency of the onboard compute resources.
+%
+
+\paragraph{Existing programmable ULP devices are too inefficient}
+Commercial-off-the-shelf (COTS) ULP devices are 
+% 
+general-purpose and highly programmable,
+but they pay a high energy tax for this flexibility.
+% 
+Prior work has identified this failing of COTS devices and has addressed some of the sources of inefficiency~\cite{dally:ieee08:elm,manic,hempstead2005ultra,warneke200417,nazhandali2005energy}.
+% 
+Specifically, \manic~\cite{manic} targeted instruction and data-movement energy, the majority of wasted energy in COTS devices.
+%
+\manic is a big improvement over COTS devices, but
+%
+we show that designs like \manic still fall short due to high switching activity
+in the shared execution pipeline,
+which is a significant inefficiency at ULP-scale.
+%
+Eliminating these overheads can reduce energy by nearly half, proving that, despite their low operating power,
+existing ULP designs are not energy-minimal.
+
+\paragraph{ASICs can minimize energy, but they are too inflexible}
+%
+For any application, a custom ASIC will minimize energy consumption.
+%
+E.g., prior work has demonstrated extreme energy efficiency on neural networks when all hardware is specialized~\cite{reagen2016minerva,andri2016yodann,lee2018unpu,bong201714}.
+%
+But this efficiency comes at high upfront cost and with severely limited application scope.
+% 
+Applications in the ULP sensing domain are still evolving,
+increasing the risk that an ASIC will quickly become obsolete.
+%
+Moreover, cost is a major consideration in these applications,
+making ASIC development even harder to justify~\cite{hotmobile2021}.
+%
+
+\paragraph{\Ulp CGRAs are the answer}
+%
+The goal of this paper is to address the energy-efficiency shortcomings of prior designs while maintaining a high degree of design flexibility and ease of programmability.
+%
+Our solution is \snafuframe,%
+\footnote{\underline{S}imple \underline{N}etwork of \underline{A}rbitrary \underline{F}unctional \underline{U}nits.}
+a framework to generate ULP, energy-minimal coarse-grain reconfigurable arrays (CGRAs).
+%
+\snafuframe CGRAs execute in a \emph{spatial vector-dataflow} fashion,
+mapping a dataflow graph (DFG) spatially across a fabric of processing elements (PEs),
+applying the same DFG to many input data values,
+and routing intermediate values directly from producers to consumers.
+%
+The insight is that spatial vector-dataflow minimizes instruction and data-movement energy, just like \manic,
+but also eliminates unnecessary switching activity because operations do not share execution hardware.
+
+The major difference from most prior CGRAs~\cite{plasticine,dyser,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is the extreme design point
+--- \snafuframe operates at \emph{orders-of-magnitude lower energy and power budget},
+demanding an exclusive focus on energy-minimal design.
+%
+\snafuframe is designed from the ground up to minimize energy, even at
+the cost of area or performance.
+%
+For example, \snafuframe schedules only one operation per PE, which
+minimizes switching activity (energy) but increases the number of PEs needed (area).
+%
+As a result of such design choices, \snafuframe comes within 2.6$\times$
+of ASIC energy efficiency while remaining fully programmable.
+%
+
+\snafuframe generates ULP CGRAs from a high-level description of available PEs and the fabric topology.
+%
+\snafuframe defines a standard PE interface that lets designers \emph{``bring your own function unit''}
+and easily integrate it into a ULP CGRA,
+along with a library of common PEs.
+%
+The \snafuframe framework schedules operation execution and routes intermediate values to dependent operations
+while consuming minimal energy.
+%
+\snafuframe is easy to use:
+it includes a compiler that maps vectorized C-code to efficient CGRA bitstreams,
+and it reduces design effort of tape-out via top-down synthesis of CGRAs.
+
+\figSNAFUIntro
+
+\paragraph{Contributions} This paper contributes the following:
+\begin{compactitem}
+\item We present \snafuframe, the first flexible CGRA-generator for ULP, energy-minimal systems.
+  \snafuframe makes it easy to integrate new functional units,
+  compile programs to energy-efficient bitstreams,
+  and produce tape-out-ready hardware.
+  
+\item We discuss the key design choices in \snafuframe that minimize energy:
+  scheduling at most one operation per PE;
+  asynchronous dataflow without tag-token matching;
+  statically routed, bufferless, multi-hop NoC;
+  and producer-side buffering of intermediate values.
+  
+\item We describe \snafuarch, a complete ULP system-on-chip with a CGRA fabric,
+  RISC-V scalar core, and memory.
+  We implement \snafuarch in an industrial sub-28\,nm FinFET process with compiled memories.
+  \snafuarch operates at $<$1\,mW at 50\,MHz.
+  \snafuarch reduces energy by $81\%$ vs.\ a scalar core
+  and $41\%$ vs.\ \manic;
+  and improves performance by $9.9\times$ vs.\ a scalar core
+  and $4.4\times$ vs. \manic.
+
+\item Finally, we quantify the cost of programmability through three
+  comprehensive case studies that compare \snafuarch against
+  fixed-function ASIC designs. We find that programmability comes at
+  relatively low cost: on average, \snafuarch takes $2.6\times$ more
+  energy and $2.1\times$ more time than an ASIC for the same
+  workload. We break down \snafuarch's energy in detail, showing that it
+  is possible to close the gap further while retaining significant
+  general-purpose programmability. These results call into
+  question the need for extreme specialization in most ULP
+  deployments.
+  
+\end{compactitem}
+
+\paragraph{Road map}
+%
+\autoref{sec:motivation} motivates \snafu.
+%
+\autoref{sec:overview} gives an overview of \snafu,
+and Secs.~\ref{sec:flexible}, \ref{sec:energy}, and \ref{sec:arch} describe it.
+%
+Secs.~\ref{sec:method} and \ref{sec:eval} present our evaluation methodology and results.
+%
+Finally, \autoref{sec:case} compares \snafu to ASICs, and
+\autoref{sec:conclusion} concludes.
