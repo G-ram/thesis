@@ -1,38 +1,55 @@
 \chapter{Introduction}
 \label{chapter:intro}
+Ultra-low-power (ULP) sensor devices are increasingly being deployed for a variety of use-cases from in-body health sensing to civil infrastructure monitoring to tiny chip-scale satellites~\cite{kicksat}.
 % 
-Ultra-low-power (ULP) sensor devices are increasingly being deployed for a variety of use-cases in many different environments. 
+These devices collect data from their deployed environment and must process the 
+data to support applications.
 % 
-The applications are wide-ranging and growing in complexity, including monitoring civil infrastructure, in-body health sensing and tiny, chip-scale satellites.
-% % 
-Increasingly these applications rely on sophisticated techniques like on-device machine inference and advanced digital signal processing to reason about sensor data.
-% 
-However, existing systems suffer fundamental inefficiencies that demand solutions across the compute stack: from software that enables sophisticated workloads on ULP devices to new, energy-minimal computer architectures.
-
-\section{Challenges}
-SOmething here
-
-\paragraph{Sensing workloads are increasingly sophisticated}
-Sensor devices collect data from a deployed environment and must process the 
-data to support applications.  Processing varies and may entail digital signal
+Processing varies and may entail digital signal
 processing (DSP), computing statistics, sorting, or sophisticated computations
 such as machine learning (ML) inference using a deep neural network (DNN).
-%
+% 
 As processing sophistication has increased, sensor device capability also
-has matured to include high-definition image sensors~\cite{naderiparizi2018towards} and
-multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume. 
-
+has matured to include high-definition image sensors~\cite{naderiparizi2018towards} and multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume.
+%
 This shift poses a challenge: how can we perform sophisticated computations
 on simple, ultra-low-power systems?
-One design is 
-to offload work by wirelessly transmitting data to a more powerful
-nearby computer (e.g., at the ``edge'' or cloud) for processing.  
+% 
+The answer --- a new system stack --- is the objective of this work.
+
+Energy-efficiency is the key determinant of device and application performance.
+% 
+For devices powered by batteries, energy dictates lifetime and for devices harvesting energy from the environment, energy dictates performance by controlling the frequency of recharging.
+% 
+However, existing systems suffer fundamental inefficiencies.
+% 
+One solution is to offload computation, but communication costs more than compute.
+% 
+Another solution is to specialize hardware for a particular application, but specialization compromises on programmability and adaptability.
+% 
+The only approach, therefore, is to redesign the system stack --- from software to silicon --- to increase energy-efficiency while maintaining programmability.
+% 
+This work  contributes software, a compiler, computer architecture, and a silicon implementation towards this goal.
+% 
+The key insight is that new execution models can resolve the underlying tension between energy-efficiency and general-purpose programmability.
+
+\section{Challenges}
+There are a multitude of challenges to supporting sophisticated processing on ULP sensor devices.
+% 
+These devices are severely resource and energy-constrained, complicating application development and limiting the lifetimes of deployed devices.
+% 
+There is a need for extreme energy-efficiency without sacrificing programmability.
+% 
+This the central theme to the specific challenges detailed below.
+
+\paragraph{Offloading computation does not scale}
+Offloading computation from a ULP device to a more powerful nearby computer (e.g., at the ``edge'' or cloud) is one approach to the increased processing sophistication and sensed data volume of applications in the ULP domain.
 %
-In offloading, the more data a sensor produces, the more data the device must
-communicate. 
+The more data a sensor produces, though, the more data the device must
+communicate.
 %
-Unfortunately, transmitting data takes much more energy per byte than
-sensing, storing, or computing on those data~\cite{sonic,zebranet}.  
+Unfortunately, transmitting data compromises security, clogs networks, and takes much more energy per byte than
+sensing, storing, or locally computing on those data~\cite{sonic,zebranet}.  
 %
 While a high-powered device like a smartphone, with a high-bandwidth,
 long-range radio, can afford to offload data to the edge or cloud,
@@ -108,24 +125,32 @@ For example, one starting point is vector execution, which slightly reduces prog
 Developing new execution models, therefore, is critical to resolving the tension between programmability and energy-efficiency.
 
 \paragraph{Choosing the right programming interface}
+Programmability needs to come in the correct form.
+% 
+It is more than just configurability.
+% 
+A design that's highly configurable, but difficult to program from a high-level language will have limited adoption.
+% 
+Legacy software needs to be supported out-of-the-box with minimal changes so that developers can quickly adopt new hardware.
+% 
+However there are downsides (e.g. incomplete information on memory-ordering and parallelism) to sticking with established programming interfaces.
+% 
+Therefore, choosing the right programming interface and building a compiler to target new hardware is as important as the hardware itself.
 
-% \figStack
+
+\figOverview
+
 \section{Objective of this work}
 
-The objective of this work is to design a complete system stack that leverages new execution models to maximize energy-efficiency without sacrificing programmability.
+This work proposes a complete system stack that leverages new execution models to maximize energy-efficiency without sacrificing programmability.
 % 
 This approach enables new applications in the ULP domain as improved energy efficiency makes sophisticated workloads practical, while maintaining support for programmability allows for iteration, development of new algorithms, and quick deployment. 
 % 
-My existing work addresses two levels of the stack -- software and computer architecture -- while my proposed work will investigate compilation and silicon implementation.
+My work fills out the stack -- from software to compilation to computer architecture and to silicon implementation.
 % 
 Together these works support the following thesis:
 
 \begin{adjustwidth}{1cm}{1cm}
-% New execution models integrated across the system stack from software to silicon can achieve high energy-efficiency without compromising on programmbality or generality.
-% 
-% 
-% Rethinking the execution model across the system stack from software to silicon achieves high energy efficiency without compromising on programmability or generality.
-% 
 High energy-efficiency can be achieved 
 % with new execution models integrated 
 across the system stack from software to silicon without compromising on programmability by leveraging new execution models to reduce instruction and data supply energies.
@@ -133,9 +158,13 @@ across the system stack from software to silicon without compromising on program
 
 \end{adjustwidth}
 % 
-The following contributions form the basis for the thesis and new system stack.
+The following contributions form the basis for the thesis and the new system stack.
 
-\paragraph{\sonic is the first demonstration of DNN inference on energy-harvesting device}
+\begin{itemize}
+
+\item[\textbf{[Software]}]
+\textbf{\sonic is the first demonstration of DNN inference on energy-harvesting device (\autoref{chapter:sonic}): }
+
 \sonic is an intermittence-aware software system with specialized support for DNN inference. 
 % 
 It runs optimized networks found using GENESIS, a tool that automatically compresses networks to balance inference accuracy and energy.
@@ -144,7 +173,8 @@ It runs optimized networks found using GENESIS, a tool that automatically compre
 % 
 Across three neural networks on a commercially available MCU, \sonic reduces inference energy by $6.9\times$ over the state-of-the-art.
 
-\paragraph{\manic is energy-efficient vector-dataflow co-processor}
+\item[\textbf{[Architecture]}]
+\textbf{\manic is energy-efficient vector-dataflow co-processor (\autoref{chapter:manic}): }
 \manic is an efficient vector-dataflow architecture for ultra-low-power embedded systems.  
 % 
 It achieves high energy-efficiency without sacrificing programmability and generality.
@@ -157,10 +187,21 @@ By forwarding values from producers to consumers, \manic avoids costly vector re
 % 
 By carefully scheduling code and avoiding dead register writes, \manic avoids costly vector register writes.
 % 
-On average, \manic is $2.8\times$ more energy efficient than a scalar baseline and $38.1\%$ more energy-efficient than a vector baseline.
+On average, \manic is $2.8\times$ more energy efficient than a scalar baseline and $XX\%$ more energy-efficient than a vector baseline.
 
-\paragraph{\snafu generates ULP CGRAs}
-\snafu builds on \manic's vector-dataflow execution model, generating ULP course-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
+\item[\textbf{[Silicon]}]
+\textbf{\manicsilicon proves the energy-efficiency of \manic (\autoref{manic:silicon}): }
+
+\manicsilicon is a silicon prototype of the \manic architecture that demonstrates the energy-efficiency of the design.
+% 
+It is a complete, standalone system possessing a RISC-V scalar core, the \manic co-processor, a data cache, an instruction cache, and main memory composed of 1KB of bootloader ROM, 64KB of SRAM, and 256KB of non-volatile embedded MRAM.
+% 
+The design is implemented in Intel-16 (22nm) high-threshold-voltage process and achieves a max efficiency of 256 MOPS/mW drawing just 19$\mu$W at 4MHz.
+
+\item[\textbf{[Architecture]}]
+\textbf{\snafu generates ULP CGRAs (\autoref{chapter:snafu}): }
+
+\snafu builds on \manic's vector-dataflow execution model, generating ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
 % 
 In spatial-vector-dataflow execution, a dataflow graph (DFG) is mapped spatially across the fabric of processing elements, applying the same DFG to many input data values, and routing intermediate values directly from producers to consumers.
 % 
@@ -168,4 +209,40 @@ This minimizes instruction and data-movement energy, just like \manic, and elimi
 % 
 \snafu uses 41$\%$ less energy and runs 4.4$\times$ faster than \manic.
 
-\paragraph{\riptide compiles code to ULP CGRAs}
+\item[\textbf{[Architecture \& Compilation]}]
+\textbf{\riptide is an energy-minimal dataflow compiler \& CGRA architecture (\autoref{chapter:riptide}): }
+
+\riptide rounds out the system stack, providing an ULP CGRA architecture and co-designed compiler that compiles high-level C-code to the new hardware.
+% 
+It proposes a new set of program primitives that support arbitrary control-flow, irregular memory accesses, common program idioms, and memory ordering without needing to tag values to save energy; this requires careful analysis by the compiler to guarantee correctness, particularly to enforce control-flow and memory ordering.
+% 
+To save even more energy, \riptide offloads control-flow operations into the on-chip network.
+% 
+\riptide observes that these operations are simple but prevelant, so it is wasteful to assign them to processing elements.
+% 
+Instead, \riptide reuses existing hardware in the on-chip network to directly implement control-flows operations.
+% 
+Compared to \snafu, \riptide uses 25\% less energy and is also XX\% faster without requiring hand-coded assembly.
+
+\end{itemize}
+
+Together \sonic, \manic, \manicsilicon, \snafu, and \riptide form the new energy-efficient system stack.
+% 
+By maintaining programmability while achieving state-of-the-art energy-efficiency these new systems will make deployments last longer, applications easier to develop, and enable more sophisticated processing on-device.
+% 
+In short, this new system stack will facilitate development of emerging applications in the ULP sensor domain.
+
+\section{Outline}
+This thesis is divided into eight chapters, including this introduction.
+%
+The second chapter provides useful background on embedded systems, intermittent computing, vector architectures, dataflow architectures, and coarse-grain reconfigurable arrays.
+% 
+The next four chapters describe \sonic, \manic \& \manicsilicon, \snafu, and \riptide in detail.
+% 
+The order of these chapters follows the timeline of development.
+% 
+This structure will make clear the connection between each work:
+% 
+\sonic exposed the drawbacks of existing ULP devices' scalar execution model; \manic solved these drawbacks with vector-dataflow execution; \snafu improved on \manic with spatial-vector-dataflow execution; and finally \riptide built on \snafu to further improve general-purpose programmability and overall system energy-efficiency.
+% 
+Finally, the last two chapters discuss exciting future research directions in ULP computer architecture and CGRAs and then conclude.

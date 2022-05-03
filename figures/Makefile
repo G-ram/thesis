@@ -1,4 +1,4 @@
-PDFS := 
+PDFS := overview.pdf 
 
 PDFDIR := pdf
 PNGDIR := png
@@ -20,7 +20,7 @@ clean:
 	rm -rf $(PNGDIR)
 
 $(PDFDIR)/doc_data.txt: $(PDFDIR)/figures-crop.pdf
-	pdftk figures-crop.pdf burst output $(PDFDIR)/figures_%02d.pdf
+	pdftk $(PDFDIR)/figures-crop.pdf burst output $(PDFDIR)/figures_%02d.pdf
 
 $(PNGDIR)/%-crop.png: $(PDFDIR)/%-crop.pdf
 	mkdir -p $(PNGDIR)
@@ -34,5 +34,5 @@ $(PDFDIR)/figures-crop.pdf: figures.pdf
 	mkdir -p $(PDFDIR)
 	pdfcrop figures.pdf $(PDFDIR)/figures-crop.pdf
 
-# $(PDFDIR)/overview.pdf: pdf/doc_data.txt
-# 	cp $(PDFDIR)/figures_01.pdf $(PDFDIR)/overview.pdf
+$(PDFDIR)/overview.pdf: pdf/doc_data.txt
+	cp $(PDFDIR)/figures_01.pdf $(PDFDIR)/overview.pdf
