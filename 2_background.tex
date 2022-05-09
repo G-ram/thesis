@@ -1,2 +1,220 @@
 \chapter{Background}
 \label{chapter:background}
+
+This chapter discusses relevant prior work that this thesis builds on.
+% 
+The chapter is split into discussions on 1) low-powered embedded devices and 2) energy-efficient architectures.
+% 
+The former includes a general overview of ULP sensor devices, a description of applications of such devices with a focus on edge inference, and an introduction to intermittent computing.
+% 
+The latter includes discussion on relevant accelerators, vector machines, dataflow architectures, and coarse-grain reconfigurable arrays.
+
+\figDevice
+\section{Low-powered embedded devices}
+
+Low-power embedded sensor devices as shown in \autoref{fig:device} are composed of: 1) low-powered sensors (e.g. HiMax HM01B0 camera~\cite{hm01b0}), 2) a low-powered radio (e.g. LoRaWAN~\cite{lorawan} or BLE~\cite{ble}), 3) an ULP microcontroller (e.g. ARM M0~\cite{cortexm0} or TI-MSP430~\cite{msp430fr5994}, 4) a power source like a coin-cell battery or capacitor, and 5) an optional energy harvester (e.g. solar cell or RF harvester~\cite{powercast}).
+% 
+% These devices can be deployed to remote environments and support relatively simple applications.
+Energy dictates the viability of these devices.
+% 
+For battery-powered devices energy dictates lifetime, and for energy-harvesting devices that operate intermittently, energy dictates performance by controlling the time spent waiting for energy to be collected.
+% 
+On top of this, the MCUs of these are devices are simple, severely resource-constrained and energy-inefficient.
+
+\subsection{Device operation}
+% 
+ULP sensor devices operate on a duty cycle: periodically sensors collect data from the environment, the microcontroller processes the data, and then data is transmitted via the low-power radio.
+% 
+This interval of data collection is dictated by application requirements (i.e. how often a particular event will take place), the required lifetime for the device (particularly for battery-powered devices), and energy-consumption of the different components of the device.
+% 
+% In other words, energy dictates the viability of these devices.
+% 
+Application requirements have to be carefully balanced with the energy consumption of the MCU, sensors, and radio.
+
+\paragraph{Battery-backed systems}
+Some devices rely on batteries~\cite{culler2002mica,jackson_2019,rowe2011sensor}.
+% 
+These devices can quickly deplete their battery even if the application is simplying logging data.
+% 
+Battery lifetimes can be improved by adding a energy-harvester, like a solar cell or radio-frequency harvester, that can recharge the battery.
+% 
+However, rechargeable batteries have limited recharge cycles and may not be able to cope with extreme environmental conditions (e.g. too hot/cold temperatures).
+
+\paragraph{Capacitor-backed systems}
+Instead a capacitor can be used to buffer energy from an energy harvester and power the device.
+% 
+Capacitors have an effective lifetime ($>$ 10 years) that often exceeds the lengths of application deployments.
+% 
+But they do not offer the same energy density as batteries.
+% 
+In a capacitor-backed system, the application often must wait for energy to be collected in the capacitor by the energy-harvester.
+% 
+This makes application performance dependent on the availability of energy in the environment.
+% 
+Energy availability is not constant --- input power can vary with environmental conditions.
+% 
+For example, weather and time-of-day significantly (by several orders of magnitude) impact the amount of energy a solar cell can harvest.
+
+\subsection{Intermittent execution model}
+Systems that harvest energy and store that energy in a hardware-buffer (e.g. capacitor) usually operate intermittently.
+% 
+This is because device operating power usually exceeds power harvested from the environment.
+% 
+To operate despite this weak input power, a device slowly accumulates energy in a hardware buffer and operates when the buffer is full. 
+% 
+The device drains the buffer as it operates, then it turns off and waits for the buffer to fill again.
+% 
+
+Software executes in the {\em intermittent execution model} on these
+energy-harvesting devices ~\cite{mementos,dino,dewdrop,quickrecall,idetic,jerger2017ehmodel}.
+% 
+In intermittent execution, software progresses in bursts, resetting
+at frequent power failures.
+% 
+Existing devices~\cite{wolverine,msp430fr5994} mix volatile state (e.g., registers and SRAM) and non-volatile memory (e.g., FRAM). 
+% 
+A power failure clears volatile state while non-volatile memory persists.
+%
+Repeated power failures impede progress~\cite{mementos}, and may leave memory
+inconsistent due to partially or repeatedly applied non-volatile memory
+updates~\cite{dino}.
+% 
+These progress and consistency issues lead to incorrect
+behavior that deviates from any continuously-powered execution~\cite{edb}.
+% 
+Specifically, write-after-read (WAR) dependences lead to inconsistent memory and differing control-flow as re-execution can expose the value from the latter write to the read, which is not possible in continuously-powered execution.
+
+Prior work addressed progress and memory consistency using software
+checkpoints~\cite{dino,ratchet,clank}, non-volatile processors (NVPs)~\cite{nvp,ma2017incidental},
+and programming models based around atomic tasks~\cite{chain,alpaca,mayfly,alpaca}.
+% 
+Non-volatile processors may be a long-term solution, but require technology process changes, while software-checkpointing and task-based runtime systems can be deployed on existing devices.
+
+\subsubsection{Checkpointing systems}
+Checkpoint-based systems insert checkpoints into programs using compiler, runtime, and hardware support.
+% 
+Just-in-time (JIT) checkpointing is the most popular strategy.
+% 
+In JIT checkpointing, hardware monitors the voltage of the capacitor and when the voltage dips below a pre-determined threshold indicating a power failure is imminent, triggers an interrupt that checkpoints program state. 
+% 
+The interrupt writes back the volatile state of the program, including program counter and stack, to non-volatile memory.
+% 
+Then when power resumes, the runtime system restores the volatile state and jumps back to the place in execution where power failed.
+% 
+This system is often transparent to the programmer, but costs energy to save and restore state and may complicate (or even lead to wrong execution) the use of peripherals~\cite{surbatovich2021automatically} and interrupts.
+
+\subsubsection{Task-based runtime systems}
+An alternative to checkpointing are task-based runtime systems.
+% 
+These systems avoid frequent checkpoints by
+restarting from a task's start after power failure,
+at which point all register and stack state must be re-initialized.
+% 
+To ensure memory consistency, tasks ensure that the effect of a
+partial task execution is not visible to a subsequent re-execution.
+Specifically, data that are read then written (i.e., a WAR dependence) may expose the result of an interrupted task.
+% 
+Task-based systems avoid ``the WAR problem'' with
+redo-logging~\cite{alpaca} and static data duplication~\cite{chain}.
+
+
+Task-based systems guarantee correct execution, but at a significant run-time cost.
+% 
+Redo-logging and static duplication both increase memory and compute
+in proportion to the amount of data written.
+% 
+Transitioning from one task to the next takes time, so
+short tasks that transition frequently suffer poor performance.
+Long tasks better amortize transition costs,
+but re-execute more work after a power failure.
+% 
+Worse, a task that is too long faces {\em non-termination} if the energy it
+requires exceeds the energy that the device can buffer.
+% 
+The programmer, therefore, needs to be careful in splitting a program into atomic tasks.
+
+\subsection{COTS ULP Devices}
+In addition to being energy-constrained, ULP sensor devices are also severely resource constrained.
+% 
+ARM's Cortex M0~\cite{cortexm0} or TI's MSP430~\cite{msp430fr5994} are 
+the most commonly used processors in existing ULP sensor
+systems~\cite{wisp,capybara,flicker,ufop,amulet,wolverine}.
+%
+Such MCUs' frequency are typically 1--16MHz, leaving a
+substantial performance gap compared to, e.g., a full-fledged, 2GHz Xeon-based
+system.  
+%
+The MCU usually also houses all the memory available to
+the system, including embedded SRAM, which is volatile, and embedded non-volatile memory (e.g. FRAM).  
+%
+Embedded memories are small and capacity varies by device. 
+% 
+A typical MSP430
+low-power MCU includes just 1--4KB of SRAM and 32--256KB of FRAM.
+% 
+While
+continuously powered (i.e. wired) embedded systems may interface with larger memories
+via a serial bus ($I^{2}C$ or SPI), most ULP sensor devices do
+not due to their high access energy and latency.
+%
+The typical operating power of an COTS ULP device is around 1--3mW.
+
+\subsubsection{COTS ULP Devices are simple designs}
+COTS ULP devices achieve ULP operation by being simple.
+% 
+They have an 3--5 stage, in-order scalar core, which may lack instruction and/or data caches.
+% 
+Some MCUs also come with a vector co-processor such as TI's Low Energy Accelerator (LEA) or support for vector extensions like Arm's Neon~\cite{neon} vector ISA.
+% 
+Additionally, some MCUs also include DMA engines and accelerators for tasks like AES encryption~\cite{msp430fr5994}.
+% 
+Despite these additional features, the energy consumption of the scalar core (and it's memory accesses) dominates total MCU energy.
+% 
+This is because the scalar execution model pays a high price for general-purpose programmability, constantly refetching and redecoding the same instructions and communicating intermediates via a centralized register file.
+
+\section{Edge inference}
+As ULP sensor devices become pervasive they will increasingly need to make intelligent decisions.
+% 
+Deep neural network (DNN) inference is the state-of-the-art approach for such intelligence.
+% 
+They are the standard for applications ranging from understanding speech to image recognition~\cite{alexnet,vgg, googlenet}.
+% 
+With their accuracy, however, comes a high computational cost.
+% 
+Neural networks have millions or billions of parameters and require billions or even trillions of operations.
+% 
+This makes deploying neural networks are resource-constrained devices difficult.
+% 
+Fortunately there has been much work on reducing network footprint and improving the performance and energy-efficiency of inference.
+% 
+% Three strategies are of particular note: pruning, reduced precision and network design.
+
+\subsection{Algorthmic improvements to NN inference}
+Since DNNs are robust to noise, algorithmic optimizations can be made that significantly reduce NN footprint and increase inference performance without significantly impacting accuracy.
+% 
+Inference does not need full-precision floating point~\cite{han:isca16:eie,desa:isca17:sgd} and near-zero weights can often be ``pruned''~\cite{nabhan1994toward, han:iclr16:deep-compression} without losing much accuracy.
+% 
+// HERE
+% Layers can also be factored or split into several smaller, less-computationally  layers~\cite{}.
+% 
+Additional reductions in storage and computation comes from factoring DNN computations~\cite{nakkiran:interspeech15:compressing,
+  chollet2016xception, bhattacharya2016sparsification,
+  szegedy2015going, szegedy2017inception, ioffe2015batch,
+  szegedy2016rethinking}.
+% 
+
+\subsection{Inference accelerators}
+
+\section{Energy-efficient architectures}
+
+\subsection{Accelerators}
+
+\subsection{Vector architectures}
+T0, Code, Adaptable register file, GPU?
+
+\subsection{Dataflow architectures}
+TTDA, Wavescalar, Trips, Dennis
+
+\subsection{Coarse-grain reconfigurable arrays}
+\subsubsection{ULP CGRAs}
+\subsubsection{CGRA compilation}

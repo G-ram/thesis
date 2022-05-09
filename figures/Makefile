@@ -1,4 +1,4 @@
-PDFS := overview.pdf 
+PDFS := overview.pdf device.pdf
 
 PDFDIR := pdf
 PNGDIR := png
@@ -36,3 +36,6 @@ $(PDFDIR)/figures-crop.pdf: figures.pdf
 
 $(PDFDIR)/overview.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_01.pdf $(PDFDIR)/overview.pdf
+
+$(PDFDIR)/device.pdf: pdf/doc_data.txt
+	cp $(PDFDIR)/figures_02.pdf $(PDFDIR)/device.pdf
