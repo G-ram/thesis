@@ -3,11 +3,13 @@
 
 This chapter discusses relevant prior work that this thesis builds on.
 % 
-The chapter is split into discussions on 1) low-powered embedded devices and 2) energy-efficient architectures.
+The chapter is split into discussions on 1) low-powered embedded devices, 2) edge inference and 3) related programmable architectures.
 % 
-The former includes a general overview of ULP sensor devices, a description of applications of such devices with a focus on edge inference, and an introduction to intermittent computing.
+The first includes a general overview of ULP sensor devices and an introduction to intermittent computing.
 % 
-The latter includes discussion on relevant accelerators, vector machines, dataflow architectures, and coarse-grain reconfigurable arrays.
+The second discusses algorithmic improvements and hardware accelerators for efficient neural network inference.
+% 
+The last includes discussion on relevant vector machines, dataflow architectures, and coarse-grain reconfigurable arrays.
 
 \figDevice
 \section{Low-powered embedded devices}
@@ -159,7 +161,7 @@ not due to their high access energy and latency.
 %
 The typical operating power of an COTS ULP device is around 1--3mW.
 
-\subsubsection{COTS ULP Devices are simple designs}
+\subsubsection{Architecture}
 COTS ULP devices achieve ULP operation by being simple.
 % 
 They have an 3--5 stage, in-order scalar core, which may lack instruction and/or data caches.
@@ -171,6 +173,8 @@ Additionally, some MCUs also include DMA engines and accelerators for tasks like
 Despite these additional features, the energy consumption of the scalar core (and it's memory accesses) dominates total MCU energy.
 % 
 This is because the scalar execution model pays a high price for general-purpose programmability, constantly refetching and redecoding the same instructions and communicating intermediates via a centralized register file.
+% 
+The purpose of this thesis is to reduce this tax for general-purpose programmability.
 
 \section{Edge inference}
 As ULP sensor devices become pervasive they will increasingly need to make intelligent decisions.
@@ -190,31 +194,159 @@ Fortunately there has been much work on reducing network footprint and improving
 % Three strategies are of particular note: pruning, reduced precision and network design.
 
 \subsection{Algorthmic improvements to NN inference}
-Since DNNs are robust to noise, algorithmic optimizations can be made that significantly reduce NN footprint and increase inference performance without significantly impacting accuracy.
+Since DNNs are robust to noise, algorithmic optimizations can be made that reduce NN memory footprint and increase inference performance without significantly impacting accuracy.
 % 
-Inference does not need full-precision floating point~\cite{han:isca16:eie,desa:isca17:sgd} and near-zero weights can often be ``pruned''~\cite{nabhan1994toward, han:iclr16:deep-compression} without losing much accuracy.
+Inference does not need full-precision floating point~\cite{han:isca16:eie,desa:isca17:sgd} and near-zero weights can often be ``pruned''~\cite{nabhan1994toward, han:iclr16:deep-compression,nakkiran:interspeech15:compressing,bhattacharya2016sparsification} without losing much accuracy.
 % 
-// HERE
-% Layers can also be factored or split into several smaller, less-computationally  layers~\cite{}.
+Layers can also be factored or split into several smaller, less-computationally intense layers~\cite{szegedy2017inception,szegedy2016rethinking,chollet2016xception}.
 % 
-Additional reductions in storage and computation comes from factoring DNN computations~\cite{nakkiran:interspeech15:compressing,
-  chollet2016xception, bhattacharya2016sparsification,
-  szegedy2015going, szegedy2017inception, ioffe2015batch,
-  szegedy2016rethinking}.
+Finally, networks can be redesigned~\cite{iandola:arxiv16:squeezenet,tan2019efficientnet,sandler2018mobilenetv2} from the ground up to minimize storage and computation.
 % 
+These networks leverage smaller convolutional filters, but make up for accuracy degradation by being wider or deeper.
+% 
+This is worthwhile because there is a quadratic relationship between convolutional filter size (i.e. side length) and computational cost.
+
+These algorithmic improvements sometimes come with modifications to the training regime to further increase accuracy.
+% 
+Networks can be fine-tuned during the final stages (final 20-30\% of epochs) of training to adapt to algorithmic changes.
+% 
+During fine-tuning, the forward direction (i.e. inference) adopts the algorthmic change (e.g. reduced precision or pruning), while the backward direction remains the same.
+% 
+This allows the network to adjust its weights to the algorithmic change.
+
+More exotic training regimes have also been explored to enforce additional properties to help inference performance.
+% 
+Binary networks~\cite{lin2018binary} learn binary (-1, +1) weights that simplify multiplication to a single {\tt and} operation.
+% 
+Structured sparsity can also be enforced~\cite{deng2018permdnn,nakkiran:interspeech15:compressing,}.
+% 
+Pruning can lead to extremely sparse layers without much structure which can lead to irregular memory accesses.
+% 
+By enforcing structure on this sparsity during training, irregular memory accesses can be reduced.
+
+\autoref{chapter:sonic} discusses the application of several algorithmic changes to compress neural networks to fit into device memory.
+%
+It describes a tool, called GENESIS, that prunes, factors, and reduces the precision of neural networks, fine-tuning network weights to improve accuracy.
 
 \subsection{Inference accelerators}
+The computer architecture community has also responded to the need for efficient DNN inference.
+% 
+Some architectures focus on dense computations~\cite{chen:isca16:eyeriss,
+chen:asplos14:diannao, chen2014dadiannao}, others on sparse
+computations~\cite{han:isca16:eie, du:isca15:shidiannao, maeri,
+zhang2016cambricon}, and still others on CNN
+acceleration~\cite{alwani2016fused,parashar:isca17:scnn, albericio2016cnvlutin, ding2017circnn, ren2017sc, song2018insitu}.  
+%
+Industry has followed this trend, embracing custom silicon for
+DNNs~\cite{jouppi:isca17:tpu}.
+% 
+The key to the efficiency of these architectures is to maximize data reuse and
+optimize data movement.
+% 
+For example, Eyeriss~\cite{chen:isca16:eyeriss} introduces row-stationary dataflow to maximize reuse on a spatial fabric, while MAERI~\cite{maeri} designs a new on-chip network specialized for DNN dataflows (including hard-to-accelerator LSTMS).
 
-\section{Energy-efficient architectures}
+The circuits community has also responded, taping-out extremely specialized accelerators with orders of magnitude higher energy-efficiency.
+%
+These designs use low-level VLSI techniques (e.g. sub-threshold computing~\cite{fick2017subthresholdinference}), custom analog or mixed-signal circuits~\cite{bankman2018always}, or exploit emerging technologies (e.g. ReRAM crossbars~\cite{xue201924,xue202015}) to achieve multiple TOPS/W.
+% 
+Unfortunately this extreme energy-efficiency comes at the expense of programmability (and perhaps reliability in the case of analog circuits).
+% 
+In fact, some accelerators specialize to the particular NN architecture~\cite{bankman2018always} or even hard-code weights~\cite{something}.
 
-\subsection{Accelerators}
+The work described in \autoref{chapter:manic,chapter:snafu,chapter:riptide} take a different approach and focus on entirely different power domain (mW v. $\mu$W).
+% 
+Energy-efficiency is achieved without sacrificing programmability.
+% 
+This makes these designs applicable to many different applications, future-proof to algorithmic developments, and reduces the upfront non-recurring engineering cost.
+
+\section{Related programmable architectures}
+There is a long history of computer architectures that increase performance (and improve energy-efficiency) while maintaining programmability.
+% 
+Specifically, prior work on vector and dataflow architectures inform the work of this thesis.
+% 
+% These architectures reduce or even eliminate instruction fetch and decode and can significantly reduce the cost of communicating data between operations.
+% 
+These architectures exploit structure in the program (among data and control-flow) to change the execution model to reduce or even eliminate instruction and data supply energies without sacrificing general-purpose programmability.
 
 \subsection{Vector architectures}
-T0, Code, Adaptable register file, GPU?
+Vector machines exploit data-parallelism to amortize instruction supply energy (i.e. fetch, decode, and issue) across many operations.
+% 
+Early vector machines targetted super-computing~\cite{cray_patent}, but most commercially available architectures (e.g., AVX~\cite{avx} and GPUs~\cite{fermi}) today support vectors.
+% 
+These vector designs target performance and operate at a power budget
+orders-of-magnitude higher than that contributed by this thesis.
+% 
+Nonetheless, all vector designs require large vector register files (VRF)
+exacerbating register file access cost, especially in designs that require a
+VRF with many ports. 
+% 
+Thus, reducing VRF cost and complexity has been a primary focus of prior vector
+designs~\cite{asanovic1996t0,kozyrakis2003overcoming}.
+
+T0~\cite{asanovic1996t0,wawrzynek1996spert} is a vector architecture with
+reconfigurable pipelines. 
+% 
+Software controls datapaths to chain operations,
+eliminating VRF access within a chain.  
+% 
+However, microarchitectural details of
+the datapath are exposed to software, requiring major software changes and
+recompilation.
+
+CODE~\cite{kozyrakis2003overcoming} reduces VRF cost by distributing the VRF
+among heterogeneous functional units.
+% 
+This design is transparent to software 
+because CODE renames operands at instruction issue
+to use registers near an appropriate functional unit.
+% 
+Distribution lets CODE reduce VRF ports, but requires a routing network
+to send values between functional units.
+
+AVA~\cite{lazo2021adaptable} is a high-performance out-of-order vector processor that adapts the vector length and the number of vector registers stored in the VRF to the application.
+% 
+Some applications require long vectors, while others want moderate sizes.
+% 
+AVA trades additional vector length for fewer vector registers, spilling registers to memory as needed and then smartly pre-fetching them.
+% 
+Although AVA reduces energy and area, it's primary goal is performance (by supporting variable-sized vector lengths).
+
+Finally, there has been much work on reducing the cost and improving the scalability of GPU register files.
+% 
+This includes virtualizing the RF~\cite{jeon2015gpu,vijaykumar2016zorua} so that physical registers can be shared, compressing registers~\cite{lee2015warped} to maximize utilization of the physical RF, and coalescing RF reads and writes~\cite{asghari2019corf} to minimize RF accesses. 
+% 
+Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require relatively little additional hardware, but do not scale to ULP domain where energy-efficiency is higher prioriy than performance.
 
 \subsection{Dataflow architectures}
-TTDA, Wavescalar, Trips, Dennis
+Dataflow architectures, like vector machines, also have a long history~\cite{dennis1975preliminary,dennis1980data,dennis1988efficient,ttda} that includes changes to the programming and execution model to eliminate control and data movement overheads.
+% 
+% Dataflow is most prevelant as part out-of-order (OoO) execution engines (i.e., restricted
+% dataflow)
+% .uses \emph{operator fusion} to improve performance and reduce RF
+% pressure~\cite{bracy2004dataflow,sassone2004dynamic,kim2002instruction,sembrant2015long,acsiliouglu2015lazy}.
+ 
+Dennis proposed the first dataflow architecture in 1975, using a small set of primitives (e.g. merge, decider, and steer) to implement arbitrary control-flow.
+% 
+In 1990, the MIT tagged token dataflow machine showed how to practically implement dataflow in hardware.
+% 
+The design relied on the use of a domain-specific language, called Id~\cite{id-compiler}, to describe program dataflow and reason about resource use (specifically to avoid resource-based deadlocks from unbounded parallelism).
+%
+Later, Wavescalar~\cite{swanson2003wavescalar} and Trips~\cite{trips} identified dataflow locality as the key determinant of sequential code performance.
+% 
+Wavescalar compiled C/C++ programs to WaveCache, a grid of simple compute units and memory that co-located computation with data.
+% 
+Wavescalar handled arbitrary control-flow by tagging data and enforcing load-store ordering by converting memory dependences to data dependences.
+% 
+Trips extracted hyperblocks (multiple basic blocks without backedges) from programs and executed these hyperblocks in dataflow-fashion across a mesh of processing elements.
+% 
+Trips speculated on the next hyperblocks to run, increasing the number of in-flight operations to hundreds or even thousands.
+% 
+Although both Wavescalar and Trips achieved 
+
+% , but neither was designed to maximize energy-efficiency 
+
 
 \subsection{Coarse-grain reconfigurable arrays}
+SGMF, Plasticine, Dyser, Revel, etc.
 \subsubsection{ULP CGRAs}
 \subsubsection{CGRA compilation}
