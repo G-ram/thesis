@@ -15,6 +15,7 @@ mpl.rcParams['ps.fonttype'] = 42
 style.use('bmh')
 
 data = {
+	'flow' : 0.5,
 	'panic' : 0.5,
 	# 'manic' : 0.5,
 	# 'msp430' : 3,
@@ -31,6 +32,7 @@ data = {
 }
 
 lmap = {
+	'flow' : 'RipTide',
 	'panic' : 'SNAFU',
 	# 'manic' : 'MANIC*',
 	# 'msp430' : 'MSP430',

@@ -1,4 +1,4 @@
-PDFS := overview.pdf device.pdf
+PDFS := overview.pdf device.pdf power.pdf
 
 PDFDIR := pdf
 PNGDIR := png
@@ -39,3 +39,6 @@ $(PDFDIR)/overview.pdf: pdf/doc_data.txt
 
 $(PDFDIR)/device.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_02.pdf $(PDFDIR)/device.pdf
+
+$(PDFDIR)/power.pdf: pdf/doc_data.txt
+	cp $(PDFDIR)/figures_03.pdf $(PDFDIR)/power.pdf
