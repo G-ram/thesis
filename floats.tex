@@ -19,7 +19,7 @@
 \newcommand{\figPower}{ 
 \begin{figure*}[htb]
 	\centering
-	\includegraphics[width=0.9\linewidth]{figures/pdf/power-crop.pdf}	
+	\includegraphics[width=0.7\linewidth]{figures/pdf/power-crop.pdf}	
 	\caption{This thesis presents work (\snafu and \riptide) that targets the ULP domain, 2--3 orders of magnitude less than prior work.}
 	\label{fig:power}
 \end{figure*}
@@ -29,26 +29,26 @@
   \begin{table*}
   \centering
   \scriptsize
-  % \resizebox{\linewidth}{!}{
-  \begin{tabular}{l|p{0.7in}p{0.7in}p{0.7in}|p{0.7in}p{0.7in}p{0.7in}|p{0.7in}}
+  \resizebox{\linewidth}{!}{
+  \begin{tabular}{l|p{0.7in}p{0.7in}p{0.7in}|p{0.7in}p{0.7in}p{0.7in}|p{0.7in}|p{0.7in}}
     \toprule
-                            & \multicolumn{3}{c|}{\bf Ultra-low-power CGRAs} & \multicolumn{3}{c|}{\bf High-performance CGRAs}                                                                                                                                                     \\[.5ex]
-                            & \bf ULP-SRP~\cite{srp}                         & \bf CMA~\cite{cma} & \bf IPA~\cite{ipa} & \bf HyCube~\cite{karunaratne2017hycube} & \bf Revel~\cite{weng2020hybrid}    & \bf SGMF~\cite{voitsechov2014single} & \bf \sys                            \\
+	& \multicolumn{3}{c|}{\bf Ultra-low-power CGRAs} & \multicolumn{3}{c|}{\bf High-performance CGRAs} \\[.5ex]
+    & \bf ULP-SRP~\cite{srp} & \bf CMA~\cite{cma} & \bf IPA~\cite{ipa} & \bf HyCube~\cite{karunaratne2017hycube} & \bf Revel~\cite{weng2020hybrid} & \bf SGMF~\cite{voitsechov2014single} & \bf \snafu~\cite{snafu} & \bf \riptide \\
     \midrule
-    \bf Fabric size         & 3$\times$3                                     & 8$\times$10        & 4$\times$4         & 4$\times$4                              & 5$\times$5                         & 8$\times$8 + 32 mem                  & N$\times$N (6$\times$6 in \sysarch) \\[.5ex]
-    \bf NoC                 & Neighbors only                                 & Neighbors only     & Neighbors only     & Static, bufferless, multi-hop           & Static \& dynamic NoCs (2$\times$) & Dynamic routing                      & Static, bufferless, multi-hop       \\[.5ex]
-    \bf PE assignment       & Static                                         & Static             & Static             & Static                                  & Static \emph{or} dynamic           & Dynamic                              & Static                              \\[.5ex]
-    \bf Time-share PEs?     & Yes                                            & Yes                & Yes                & Yes                                     & Yes                                & Yes                                  & No                                  \\[.5ex]
-    \bf PE firing           & Static                                         & Static             & Static             & Static                                  & Static \emph{or} dynamic           & Dynamic                              & Dynamic                             \\[.5ex]
-    \bf Heterogeneous PEs?  & No                                             & No                 & No                 & No                                      & Yes                                & Yes                                  & Yes                                 \\[.5ex]
-    \bf Buffering (approx.) & ---                                            & ---                & 188\,B / PE        & 272\,B / PE                             & $\approx$1\,KB / PE                & $\gg$1\,KB / PE                      & 40\,B / PE                          \\[.5ex]
+    \bf Fabric size         & 3$\times$3                                     & 8$\times$10        & 4$\times$4         & 4$\times$4                              & 5$\times$5                         & 8$\times$8 + 32 mem                  & N$\times$N (6$\times$6 evaluated) & N$\times$N (6$\times$6 evaluated) \\[.5ex]
+    \bf NoC                 & Neighbors only                                 & Neighbors only     & Neighbors only     & Static, bufferless, multi-hop           & Static \& dynamic NoCs (2$\times$) & Dynamic routing                      & Static, bufferless, multi-hop & Static, bufferless, multi-hop       \\[.5ex]
+    \bf PE assignment       & Static                                         & Static             & Static             & Static                                  & Static \emph{or} dynamic           & Dynamic                              & Static  & Static                              \\[.5ex]
+    \bf Time-share PEs?     & Yes                                            & Yes                & Yes                & Yes                                     & Yes                                & Yes                                  & No               & No                   \\[.5ex]
+    \bf PE firing           & Static                                         & Static             & Static             & Static                                  & Static \emph{or} dynamic           & Dynamic                              & Dynamic                  & Dynamic           \\[.5ex]
+    \bf Heterogeneous PEs?  & No                                             & No                 & No                 & No                                      & Yes                                & Yes                                  & Yes               & Yes                  \\[.5ex]
+    % \bf Buffering (approx.) & ---                                            & ---                & 188\,B / PE        & 272\,B / PE                             & $\approx$1\,KB / PE                & $\gg$1\,KB / PE                      & 40\,B / PE                          \\[.5ex]
     \midrule
-    \bf Power               & 22\,mW                                         & 11\,mW             & 3--5\,mW           & 15--70\,mW                              & 160\,mW                            & 20\,W                                & $<$1\,mW                            \\[.5ex]
-    \bf MOPS/mW (approx.)   & 30--100                                        & 100--200           & 140                & 60--90                                  & 60                                 & 60                                   & 305                                 \\[.5ex]
+    \bf Power               & 22\,mW                                         & 11\,mW             & 3--5\,mW           & 15--70\,mW                              & 160\,mW                            & 20\,W                                & $<$1\,mW               & $<$1\,mW           \\[.5ex]
+    \bf Peak MOPS/mW (approx.)   & 30--100                                        & 100--200           & 140                & 60--90                                  & 60                                 & 60                                   & 305 (fabric)      & 438 (fabric)                  \\[.5ex]
     \bottomrule
   \end{tabular}
-  % }
-  \caption{Architectural comparison work in thesis (\snafu and \riptdie) to several prior CGRAs.}
+  }
+  \caption{Architectural comparison of prior work to \snafu and \riptide.}
   \label{tab:motivation}
 \end{table*}
 }
