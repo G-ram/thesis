@@ -260,9 +260,9 @@ Energy-efficiency is achieved without sacrificing programmability.
 This makes these designs applicable to many different applications, future-proof to algorithmic developments, and reduces the upfront non-recurring engineering cost.
 
 \section{Related programmable architectures}
-There is a long history of computer architectures that increase performance (and improve energy-efficiency) while maintaining programmability.
+There is a long history of computer architectures that increase performance and/or improve energy-efficiency while maintaining programmability.
 % 
-Specifically, prior work on vector and dataflow architectures inform the work of this thesis.
+Specifically, prior work on vector and dataflow architectures inform the work of this thesis and specifically \manic, \snafu, and \riptide.
 % 
 % These architectures reduce or even eliminate instruction fetch and decode and can significantly reduce the cost of communicating data between operations.
 % 
@@ -315,38 +315,226 @@ Finally, there has been much work on reducing the cost and improving the scalabi
 % 
 This includes virtualizing the RF~\cite{jeon2015gpu,vijaykumar2016zorua} so that physical registers can be shared, compressing registers~\cite{lee2015warped} to maximize utilization of the physical RF, and coalescing RF reads and writes~\cite{asghari2019corf} to minimize RF accesses. 
 % 
-Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require relatively little additional hardware, but do not scale to ULP domain where energy-efficiency is higher prioriy than performance.
+Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require relatively little additional hardware, but do not scale to ULP domain where energy-efficiency is higher priority than performance.
 
 \subsection{Dataflow architectures}
 Dataflow architectures, like vector machines, also have a long history~\cite{dennis1975preliminary,dennis1980data,dennis1988efficient,ttda} that includes changes to the programming and execution model to eliminate control and data movement overheads.
 % 
-% Dataflow is most prevelant as part out-of-order (OoO) execution engines (i.e., restricted
-% dataflow)
-% .uses \emph{operator fusion} to improve performance and reduce RF
-% pressure~\cite{bracy2004dataflow,sassone2004dynamic,kim2002instruction,sembrant2015long,acsiliouglu2015lazy}.
- 
-Dennis proposed the first dataflow architecture in 1975, using a small set of primitives (e.g. merge, decider, and steer) to implement arbitrary control-flow.
+% Although pure dataflow architecture have not enjoyed the same commercial success as vector machines,
+% 
+In particular, dataflow is prevalent today as part out-of-order (OoO) execution engines (i.e., restricted
+dataflow) that use \emph{operator fusion} to improve performance and reduce RF
+pressure~\cite{bracy2004dataflow,sassone2004dynamic,kim2002instruction,sembrant2015long,acsiliouglu2015lazy}.
+% 
+However, pure dataflow architectures have not found the same commercial success, but spatial-dataflow architectures still show great promise for improving energy-efficiency and performance.
+
+Dennis proposed the first dataflow architecture in 1975, introducing a small set of primitives (e.g. merge, decider, and steer) to implement arbitrary control-flow by conditionally routing values to consumers.
 % 
 In 1990, the MIT tagged token dataflow machine showed how to practically implement dataflow in hardware.
 % 
-The design relied on the use of a domain-specific language, called Id~\cite{id-compiler}, to describe program dataflow and reason about resource use (specifically to avoid resource-based deadlocks from unbounded parallelism).
-%
+The design relied on the use of a domain-specific language, called Id~\cite{id-compiler}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism.
+
 Later, Wavescalar~\cite{swanson2003wavescalar} and Trips~\cite{trips} identified dataflow locality as the key determinant of sequential code performance.
 % 
 Wavescalar compiled C/C++ programs to WaveCache, a grid of simple compute units and memory that co-located computation with data.
 % 
-Wavescalar handled arbitrary control-flow by tagging data and enforcing load-store ordering by converting memory dependences to data dependences.
+Wavescalar handled arbitrary control-flow by tagging data (to distiguish instances of a value across loop iterations) and enforcing memory ordering by having the compiler convert memory dependences to data dependences.
 % 
+Despite preserving dataflow locality, it is clear that Wavescalar was not designed to minimize energy: the architecture relies on expensive tag-token matching and still fetches instructions, constantly reconfiguring compute pipelines.
+
 Trips extracted hyperblocks (multiple basic blocks without backedges) from programs and executed these hyperblocks in dataflow-fashion across a mesh of processing elements.
 % 
-Trips speculated on the next hyperblocks to run, increasing the number of in-flight operations to hundreds or even thousands.
+Trips heavily relied on speculation to increase performance; in-flight operations numbered in the hundreds or even thousands.
 % 
-Although both Wavescalar and Trips achieved 
+This amount of speculation inevitibaly wastes energy by wasting work during mispeculation.
+% 
+Further, Trips constantly reconfigured PE pipelines for each hyperblock, toggling control and data signals.
 
-% , but neither was designed to maximize energy-efficiency 
+\paragraph{ULP Dataflow}
+ELM~\cite{balfour2008energy} is the most related work to that proposed in this thesis.  
+% 
+ELM is a custom microarchitecture designed for low-power, embedded operation. ELM uses
+restricted SIMD execution and operand forwarding to provide
+dataflow-like execution.
+% 
+ELM's complex register file hierarchy and forwarding
+mechanism are software-controlled, exposing microarchitectural details to the
+programmer and requiring expert-level, hand-coded assembly for maximum
+efficiency.
+% 
+Even with significant changes to the compiler toolchain, ELM poses
+a risk of unpredictable performance and high programming cost. 
 
+\subsubsection{Dataflow control-flow models}
+Dataflow designs can also be distiguished by their control-flow models.
+% 
+There are three competing control-flow models for dataflow execution: predication, selection ($\phi$), and steering ($\phi^{-1}$).
+% 
+Each has benefits and drawbacks. 
+% 
+Steering is the best choice for an energy-constrained context because it avoids routing values to
+the not-taken branch paths.
+
+\paragraph{Predication routes values unnecessarily}
+Predication is popular, especially in GPU and vector
+architectures~\cite{avx,hennessy2011computer}, converting conditional code to
+straightline code to simplify execution.
+% 
+In predication, only one side of a branch fully executes while the other side partially executes, passing through results from the enabled side to downstream consumers.
+%
+Predication simplifies control flow in CGRAs because tokens arrive
+on every path, simplifying operand ordering.
+%
+But predication has a performance and energy cost because values flow
+unnecessarily through the not-taken path.
+%
+\snafu (\autoref{chapter:snafu}) uses predication for control flow, supporting simple, affine loops.
+
+\paragraph{Selection ($\phi$) burns energy on paths not taken}
+Selection executes both sides of a branch fully, sending results to a mux that
+chooses between results using the branch decider.
+%
+Selection maximizes performance because the branch condition and each side of the branch execute speculatively in parallel.
+%
+Selection is common in recent CGRAs that focus on performance.
+% 
+However, selection wastes energy by throwing away work.
+
+\paragraph{Steering ($\phi^{-1}$) is most energy efficient}
+%
+Steering was proposed in the original dataflow paper~\cite{dennis1975preliminary}
+and has been used notably in a few dataflow architectures~\cite{swanson2003wavescalar,dataflow-a-complement,mishra2006tartan,beret,seed}.
+% 
+Steering routes values to only the taken path of a branch based on the branch's
+decider.
+%
+Steering serializes execution of the taken path on the branch decider, but
+avoids executing any operations on the not-taken path.
+%
+\riptide (\autoref{chapter:riptide}) implements steering to minimize energy,
+as steering never fires unneeded operations. 
 
 \subsection{Coarse-grain reconfigurable arrays}
-SGMF, Plasticine, Dyser, Revel, etc.
-\subsubsection{ULP CGRAs}
-\subsubsection{CGRA compilation}
+There has been a recent resurgence of spatial-dataflow architectures known as coarse-grain reconfigurable arrays (CGRAs).
+% 
+A CGRA architecture~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is a spatial array of
+processing elements (PEs) connected by an on-chip interconnect (NoC).
+%
+A PE in a CGRA consumes inputs and produces outputs 
+consumed by another PE, forming a pipeline corresponding to 
+program dataflow.
+%
+CGRA efficiency derives from avoiding control and data-movement overheads.
+%
+A CGRA reduces instruction overheads by mapping operations to a PE,
+avoiding the need for instruction fetch and decode and simplifying control.
+%
+A CGRA mitigates data movement overheads by avoiding large register
+files, instead moving operands through a NoC directly from 
+producer PE to consumer PEs.
+
+A wide variety of CGRA architectures target different domains.
+%
+CGRAs exist as standalone cores~\cite{trips,raw,swanson2003wavescalar,mishra2006tartan},
+co-processors~\cite{tan2018stitch,hauser1997garp,beret,seed,adres,charm,camel,goldstein2000piperench},
+components of a processor pipeline~\cite{dyser,dynaspam,chimera}
+or memory hierarchy~\cite{livia},
+or as accelerators~\cite{plasticine,wave,gorgon,capstan,q100,nowatzki:isca17:stream-dataflow,weng2020hybrid,dadu2019towards,polygraph,taskstream,voitsechov2014single,nguyen2021fifer,morphosys,ppa,fpca}.
+%
+These contexts expose a wide range of hardware design choices, including PE
+operation set, PE complexity, and NoC topology.
+% 
+Further, PEs may be homogeneous or heterogeneous; the latter is more area- and
+energy-efficient, but creates a combinatorically large design space~\cite{revamp}.
+% 
+PEs typically include functional units for arithmetic, logic,
+and memory access, but can also include 
+specialized functionality~\cite{snafu,weng2020dsagen,dadu2019towards,q100,gorgon,capstan,polygraph,taskstream}.
+% 
+Later chapters (~\autoref{chapter:snafu,chapter,riptide}) of this thesis will address CGRA design decisions in detail to maximize energy-efficiency.
+
+\subsubsection{Types of CGRAs}
+CGRA design can be categorized in four ways as identified by \cite{weng2020hybrid}.
+% 
+They are distinct by the way they schedule operations and whether PE resources are shared.
+% 
+Specifically the four types of CGRAs are: systolic (statically scheduled \& dedicated PEs), shared-systolic (statically scheduled \& PEs shared),  tagged-dataflow (dynamically schedule \& PEs shared), and ordered-dataflow (dynamically scheduled \& dedicated PEs).
+
+\paragraph{Systolic}
+Systolic designs~\cite{tartan,piperench,fpca,warp,nowatzki:isca17:stream-dataflow} rely on the compiler to schedule operations in space and time.
+% 
+These designs achieve high performance and energy-efficiency by eliminating dynamic control, but make compilation challenging.
+% 
+To maximize utilization, the compiler must reason about operation latencies, but these latencies might not be available at compilation time and might not be fixed (e.g. memory access latency depends on where data exists in the hierarchy).
+% 
+This limits the applications that can be mapped to these designs.
+
+\paragraph{Shared-systolic}
+Shared-systolic designs~\cite{remarc,adres,morphosys,matrix,karunaratne2017hycube} (\cite{weng2020hybrid} refers to these as ``CGRAs'') add additional layer of complexity to systolic designs.
+% 
+To maximize utilization of available hardware, the compiler generates schedules where operations can time-multiplex on the same PE resources.
+% 
+This makes scheduling even more challenging v. systolic designs.
+
+\paragraph{Tagged-dataflow}
+Tagged-dataflow designs~\cite{swanson2003wavescalarvoitsechov2014single,ttda,trips,parashar2013triggered} dynamically schedule operations in time (and potentially in space) and time-multiplex PE resources.
+% 
+These designs tag data tokens and then match tags to distiguish between multiple instances of a single value, dynamically firing/enabling an operation when tags of inputs match.
+% 
+This tagging mechanism maximizes performance, allowing speculation and the re-ordering of operations and even entire loop iterations.
+% 
+However, this sort of dynamic tracking of values requires a high power budget (hundreds of mW v. $\approx$1mW of ULP domain) and comes at a significant energy cost.
+
+\paragraph{Ordered-dataflow}
+Ordered-dataflow designs~\cite{snafu,plasticine,dyser} are the final category of CGRAs.
+% 
+They do not share PE resources and dynamically schedule operations in time, but disallow the re-ordering of tokens.
+% 
+This makes compilation easier (v. systolic and shared-systolic) since the compiler need not reason about operation latencies and is cheaper to implement in hardware (v. tagged-dataflow) since there is no need for tag matching (because tokens arrive in order).
+% 
+These benefits make ordered-dataflow a good choice for the ULP domain and are the reasons why \snafu (\autoref{chapter:snafu}) and \riptide (\autoref{chapter:riptide}) implement it.
+
+\subsubsection{Low-power CGRAs}
+The CAD and circuit communities~\cite{ipa,cma,srp,karunaratne2017hycube} have also contributed low-power CGRA designs.
+% 
+These designs are usually systolic or shared-systolic and operate at 10s of mW (still order of magnitude more than ULP domain).
+% 
+They use VLSI techniques to reduce power (e.g., low-voltage design, fine-grain clock/power gating) that are complementary to the CGRA designs (\snafu and \riptide) in this thesis.
+%
+This thesis focuses on {\em architecture} that minimizes energy and maintains flexibility.
+%
+In fact, \autoref{chapter:snafu} describes \snafu, which has a goal of letting designers generate ULP CGRAs at reduced VLSI effort.
+
+\subsubsection{Summary}
+\autoref{fig:background:power} and \autoref{tab:background} summarize different CGRA designs and also highlight what makes the ULP sensor domain different.
+% 
+Specifically, most prior CGRAs target much higher power domains ($\approx$100\,mW~\cite{weng2020dsagen,karunaratne2017hycube,nowatzki:isca17:stream-dataflow,tan2018stitch,weng2020hybrid} or even up to 100\,W~\cite{plasticine,voitsechov2014single}),
+and their design decisions do not translate well to the ULP domain.
+%
+The few CGRAs targeting ULP operation ($\approx$1\,mW)~\cite{ipa,cma,srp} are not flexible and leave energy savings on the table. 
+
+\subsection{CGRA compilation}
+Despite some CGRAs that make compilation easier (i.e. ordered-dataflow CGRAs), CGRA compilation is still challenging.
+% 
+Similar to hardware synthesis, the compiler must find a layout of
+operations that fits within fabric resources with valid routes between
+all producers and consumers.
+%
+In performance-focused CGRAs, the compiler must also reason
+about timing to maximize utilization and minimize
+initiation interval (minimum interval between subsequent loop iterations).
+%
+With this vast search space, optimization-based methods often
+do not converge in a reasonable time~\cite{hybrid-sched,nowatzki2013general}.
+%
+Most CGRA compilers use heuristics~\cite{opencgra,revamp,park2008edge,mei2002dresc,dora,nowatzki2013general,hybrid-sched,weng2020dsagen} that can 
+fail or produce poor mappings.
+%
+Recent work proposed graph convolutional networks as a
+solution~\cite{mirhoseini2020chip}.
+% 
+This thesis will (\autoref{chapter:snafu,chapter:riptide}) describe an integer-linear programming approach to mapping a program to PE resources.
+% 
+This is tractable because the compiler does not need to reason about timing or
+utilization for the proposed architectures (\snafu and \riptide).
+
