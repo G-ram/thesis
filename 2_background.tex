@@ -3,13 +3,17 @@
 
 This chapter discusses relevant prior work that this thesis builds on.
 % 
-The chapter is split into discussions on 1) low-powered embedded devices, 2) edge inference and 3) related programmable architectures.
+The chapter is split into discussions on 1) low-powered embedded devices, 2) edge inference, 3) related efficient programmable architectures, 4) coarse-grain reconfigurable arrays, and 5) dataflow compilation.
 % 
 The first includes a general overview of ULP sensor devices and an introduction to intermittent computing.
 % 
 The second discusses algorithmic improvements and hardware accelerators for efficient neural network inference.
 % 
-The last includes discussion on relevant vector machines, dataflow architectures, and coarse-grain reconfigurable arrays.
+The third describes relevant vector machine and dataflow architectures.
+% 
+The fourth expands on a specific class of spatial-dataflow architectures, called coarse-grain reconfigurable arrays.
+% 
+And the fifth describes prior work on dataflow/CGRA compilation.
 
 \figDevice
 \section{Low-powered embedded devices}
@@ -259,7 +263,7 @@ Energy-efficiency is achieved without sacrificing programmability.
 % 
 This makes these designs applicable to many different applications, future-proof to algorithmic developments, and reduces the upfront non-recurring engineering cost.
 
-\section{Related programmable architectures}
+\section{Related efficient programmable architectures}
 There is a long history of computer architectures that increase performance and/or improve energy-efficiency while maintaining programmability.
 % 
 Specifically, prior work on vector and dataflow architectures inform the work of this thesis and specifically \manic, \snafu, and \riptide.
@@ -328,32 +332,31 @@ pressure~\cite{bracy2004dataflow,sassone2004dynamic,kim2002instruction,sembrant2
 % 
 However, pure dataflow architectures have not found the same commercial success, but spatial-dataflow architectures still show great promise for improving energy-efficiency and performance.
 
-Dennis proposed the first dataflow architecture in 1975, introducing a small set of primitives (e.g. merge, decider, and steer) to implement arbitrary control-flow by conditionally routing values to consumers.
+Dennis proposed the first dataflow architecture in 1975, introducing a small set of primitives to implement arbitrary control-flow by conditionally routing values to consumers.
 % 
 In 1990, the MIT tagged token dataflow machine showed how to practically implement dataflow in hardware.
 % 
-The design relied on the use of a domain-specific language, called Id~\cite{id-compiler}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism.
+The design relies on the use of a domain-specific language, called Id~\cite{id-compiler}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism.
 
 Later, Wavescalar~\cite{swanson2003wavescalar} and Trips~\cite{trips} identified dataflow locality as the key determinant of sequential code performance.
 % 
-Wavescalar compiled C/C++ programs to WaveCache, a grid of simple compute units and memory that co-located computation with data.
+Wavescalar compiles C/C++ programs to WaveCache, a grid of simple compute units and memory that co-locates computation with data.
 % 
-Wavescalar handled arbitrary control-flow by tagging data (to distiguish instances of a value across loop iterations) and enforcing memory ordering by having the compiler convert memory dependences to data dependences.
+Wavescalar handles arbitrary control-flow by tagging data (to distiguish instances of a value across loop iterations) and enforcing memory ordering by  converting memory dependences to data dependences during compilation.
 % 
 Despite preserving dataflow locality, it is clear that Wavescalar was not designed to minimize energy: the architecture relies on expensive tag-token matching and still fetches instructions, constantly reconfiguring compute pipelines.
 
-Trips extracted hyperblocks (multiple basic blocks without backedges) from programs and executed these hyperblocks in dataflow-fashion across a mesh of processing elements.
+Trips extracts hyperblocks (multiple basic blocks without backedges) from programs and executed these hyperblocks in dataflow-fashion across a mesh of processing elements.
 % 
-Trips heavily relied on speculation to increase performance; in-flight operations numbered in the hundreds or even thousands.
+Trips heavily relies on speculation to increase performance; in-flight operations numbered in the hundreds or even thousands.
 % 
-This amount of speculation inevitibaly wastes energy by wasting work during mispeculation.
+This amount of speculation inevitibaly wastes energy by discarding mispeculated work.
 % 
-Further, Trips constantly reconfigured PE pipelines for each hyperblock, toggling control and data signals.
+Further, Trips constantly reconfigures PE pipelines for each hyperblock, toggling control and data signals.
 
-\paragraph{ULP Dataflow}
-ELM~\cite{balfour2008energy} is the most related work to that proposed in this thesis.  
+In contrast, ELM~\cite{balfour2008energy} is a dataflow architecture specifically designed for low-power, embedded operation. 
 % 
-ELM is a custom microarchitecture designed for low-power, embedded operation. ELM uses
+ELM uses
 restricted SIMD execution and operand forwarding to provide
 dataflow-like execution.
 % 
@@ -365,57 +368,12 @@ efficiency.
 Even with significant changes to the compiler toolchain, ELM poses
 a risk of unpredictable performance and high programming cost. 
 
-\subsubsection{Dataflow control-flow models}
-Dataflow designs can also be distiguished by their control-flow models.
+Since Wavescalar, Trips, and ELM there has been a resurgence of spatial-dataflow architectures because they offer better energy-efficiency and performance with lower hardware complexity.
 % 
-There are three competing control-flow models for dataflow execution: predication, selection ($\phi$), and steering ($\phi^{-1}$).
-% 
-Each has benefits and drawbacks. 
-% 
-Steering is the best choice for an energy-constrained context because it avoids routing values to
-the not-taken branch paths.
+The next section goes into more detail.
 
-\paragraph{Predication routes values unnecessarily}
-Predication is popular, especially in GPU and vector
-architectures~\cite{avx,hennessy2011computer}, converting conditional code to
-straightline code to simplify execution.
-% 
-In predication, only one side of a branch fully executes while the other side partially executes, passing through results from the enabled side to downstream consumers.
-%
-Predication simplifies control flow in CGRAs because tokens arrive
-on every path, simplifying operand ordering.
-%
-But predication has a performance and energy cost because values flow
-unnecessarily through the not-taken path.
-%
-\snafu (\autoref{chapter:snafu}) uses predication for control flow, supporting simple, affine loops.
-
-\paragraph{Selection ($\phi$) burns energy on paths not taken}
-Selection executes both sides of a branch fully, sending results to a mux that
-chooses between results using the branch decider.
-%
-Selection maximizes performance because the branch condition and each side of the branch execute speculatively in parallel.
-%
-Selection is common in recent CGRAs that focus on performance.
-% 
-However, selection wastes energy by throwing away work.
-
-\paragraph{Steering ($\phi^{-1}$) is most energy efficient}
-%
-Steering was proposed in the original dataflow paper~\cite{dennis1975preliminary}
-and has been used notably in a few dataflow architectures~\cite{swanson2003wavescalar,dataflow-a-complement,mishra2006tartan,beret,seed}.
-% 
-Steering routes values to only the taken path of a branch based on the branch's
-decider.
-%
-Steering serializes execution of the taken path on the branch decider, but
-avoids executing any operations on the not-taken path.
-%
-\riptide (\autoref{chapter:riptide}) implements steering to minimize energy,
-as steering never fires unneeded operations. 
-
-\subsection{Coarse-grain reconfigurable arrays}
-There has been a recent resurgence of spatial-dataflow architectures known as coarse-grain reconfigurable arrays (CGRAs).
+\section{Coarse-grain reconfigurable arrays}
+Spatial-dataflow architectures known as coarse-grain reconfigurable arrays (CGRAs) achieve high energy-efficiency and performance.
 % 
 A CGRA architecture~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is a spatial array of
 processing elements (PEs) connected by an on-chip interconnect (NoC).
@@ -453,7 +411,7 @@ specialized functionality~\cite{snafu,weng2020dsagen,dadu2019towards,q100,gorgon
 % 
 Later chapters (~\autoref{chapter:snafu,chapter,riptide}) of this thesis will address CGRA design decisions in detail to maximize energy-efficiency.
 
-\subsubsection{Types of CGRAs}
+\subsection{Types of CGRAs}
 CGRA design can be categorized in four ways as identified by \cite{weng2020hybrid}.
 % 
 They are distinct by the way they schedule operations and whether PE resources are shared.
@@ -494,7 +452,7 @@ This makes compilation easier (v. systolic and shared-systolic) since the compil
 % 
 These benefits make ordered-dataflow a good choice for the ULP domain and are the reasons why \snafu (\autoref{chapter:snafu}) and \riptide (\autoref{chapter:riptide}) implement it.
 
-\subsubsection{Low-power CGRAs}
+\subsection{Low-power CGRAs}
 The CAD and circuit communities~\cite{ipa,cma,srp,karunaratne2017hycube} have also contributed low-power CGRA designs.
 % 
 These designs are usually systolic or shared-systolic and operate at 10s of mW (still order of magnitude more than ULP domain).
@@ -505,7 +463,7 @@ This thesis focuses on {\em architecture} that minimizes energy and maintains fl
 %
 In fact, \autoref{chapter:snafu} describes \snafu, which has a goal of letting designers generate ULP CGRAs at reduced VLSI effort.
 
-\subsubsection{Summary}
+\subsection{Summary}
 \autoref{fig:background:power} and \autoref{tab:background} summarize different CGRA designs and also highlight what makes the ULP sensor domain different.
 % 
 Specifically, most prior CGRAs target much higher power domains ($\approx$100\,mW~\cite{weng2020dsagen,karunaratne2017hycube,nowatzki:isca17:stream-dataflow,tan2018stitch,weng2020hybrid} or even up to 100\,W~\cite{plasticine,voitsechov2014single}),
@@ -513,10 +471,16 @@ and their design decisions do not translate well to the ULP domain.
 %
 The few CGRAs targeting ULP operation ($\approx$1\,mW)~\cite{ipa,cma,srp} are not flexible and leave energy savings on the table. 
 
-\subsection{CGRA compilation}
-Despite some CGRAs that make compilation easier (i.e. ordered-dataflow CGRAs), CGRA compilation is still challenging.
+\section{Dataflow compilation}
+Compiling for dataflow architectures and specifically CGRAs is challenging.
 % 
-Similar to hardware synthesis, the compiler must find a layout of
+Some architectures requires domain-specific languages~\cite{id,delite}, while others place constraints on the types fo programs that can be compiled (i.e. no outer loops or memory is ordering not enforced).
+% 
+This makes the compilation tractable, but also limits the applications supported.
+
+Compilation for CGRAs is similar to hardware synthesis.
+% 
+The compiler must find a layout of
 operations that fits within fabric resources with valid routes between
 all producers and consumers.
 %
@@ -537,4 +501,52 @@ This thesis will (\autoref{chapter:snafu,chapter:riptide}) describe an integer-l
 % 
 This is tractable because the compiler does not need to reason about timing or
 utilization for the proposed architectures (\snafu and \riptide).
+
+\subsection{Dataflow control-flow models}
+Compilation is also affected by the underlying control-flow model.
+% 
+There are three competing control-flow models for dataflow execution: predication, selection ($\phi$), and steering ($\phi^{-1}$).
+% 
+Each has benefits and drawbacks. 
+% 
+Steering is the best choice for an energy-constrained context because it avoids routing values to the not-taken branch paths, but it can require extra routing by the compiler.
+
+\paragraph{Predication routes values unnecessarily}
+Predication is popular, especially in GPU and vector
+architectures~\cite{avx,hennessy2011computer}, converting conditional code to
+straightline code to simplify execution.
+% 
+In predication, only one side of a branch fully executes while the other side partially executes, passing through results from the enabled side to downstream consumers.
+%
+Predication simplifies control flow in CGRAs because tokens arrive
+on every path, simplifying operand ordering.
+%
+But predication has a performance and energy cost because values flow
+unnecessarily through the not-taken path.
+%
+\snafu (\autoref{chapter:snafu}) uses predication for control flow, supporting simple, affine loops.
+
+\paragraph{Selection ($\phi$) burns energy on paths not taken}
+Selection executes both sides of a branch fully, sending results to a mux that
+chooses between results using the branch decider.
+%
+Selection maximizes performance because the branch condition and each side of the branch execute speculatively in parallel.
+%
+Selection is common in recent CGRAs that focus on performance.
+% 
+However, selection wastes energy by throwing away work.
+
+\paragraph{Steering ($\phi^{-1}$) is most energy efficient}
+%
+Steering was proposed in the original dataflow paper~\cite{dennis1975preliminary}
+and has been used notably in a few dataflow architectures~\cite{swanson2003wavescalar,dataflow-a-complement,mishra2006tartan,beret,seed}.
+% 
+Steering routes values to only the taken path of a branch based on the branch's
+decider.
+%
+Steering serializes execution of the taken path on the branch decider, but
+avoids executing any operations on the not-taken path.
+%
+\riptide (\autoref{chapter:riptide}) implements steering to minimize energy,
+as steering never fires unneeded operations. 
 

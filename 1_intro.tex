@@ -42,7 +42,7 @@ There is a need for extreme energy-efficiency without sacrificing programmabilit
 % 
 This the central theme to the specific challenges detailed below.
 
-\subsection{Offloading computation does not scale}
+\subsubsection{Offloading computation does not scale}
 Offloading computation from a ULP device to a more powerful nearby computer (e.g., at the ``edge'' or cloud) is one approach to the increased processing sophistication and sensed data volume of applications in the ULP domain.
 %
 The more data a sensor produces, though, the more data the device must
@@ -55,7 +55,7 @@ While a high-powered device like a smartphone, with a high-bandwidth,
 long-range radio, can afford to offload data to the edge or cloud,
 this is not practical for power-, energy-, and bandwidth-limited sensor devices~\cite{dongare2017openchirp,sonic}.
 
-\subsection{Local compute reduces cost of communication}
+\subsubsection{Local compute reduces cost of communication}
 Since offloading is infeasible,
 the alternative is to process data \emph{locally} on the sensor node itself.
 % 
@@ -63,7 +63,7 @@ My work, \sonic, demonstrates how systems can use commodity off-the-shelf microc
 % 
 Processing data locally minimizes the high energy cost of communication, reducing energy by $\approx20\times$ compared to a design that always offloads, but makes the application highly sensitive to the energy-efficiency of computation.
 
-\subsection{Energy-efficiency is critical to end-to-end system performance}
+\subsubsection{Energy-efficiency is critical to end-to-end system performance}
 Energy efficiency is the primary determinant of end-to-end system performance in ULP embedded systems.
 % 
 For battery-powered devices~\cite{culler2002mica,rowe2011sensor}, energy efficiency determines device lifetime: once a single-charge battery has been depleted the device is dead and it is impractical to replace the battery on millions of deployed devices.
@@ -76,7 +76,7 @@ These devices store energy in a capacitor and spend most of their time powered o
 % 
 Greater energy efficiency leads to less time waiting and more time doing useful work~\cite{desai2020power}.
 
-\subsection{Existing devices are energy-inefficient}
+\subsubsection{Existing devices are energy-inefficient}
 However, ULP COTS MCUs used in many deeply embedded sensor nodes
 (e.g., TI MSP430, ARM M0+ \& M4+) are energy-inefficient.
 %
@@ -99,7 +99,7 @@ Second, data supply through \emph{register file (RF) access} also consumes signi
 Together, instruction and data supply can consume
 $54.4\%$ of the average execution energy across a variety of representative workloads for ULP devices.
 
-\subsection{Specialization can limit programmability}
+\subsubsection{Specialization can limit programmability}
 To combat the energy costs of generality, some recent work has turned to
 microarchitectural specialization, making a system energy-efficient at the
 expense of generality and
@@ -113,7 +113,7 @@ The downsides of specialization are its high non-recurring engineering cost and 
 % 
 Given the emerging nature of applications in the ULP domain, specialization is premature, so new ULP, energy-efficient, but highly-programmable architectures are needed.
 
-\subsection{Existing execution models are flawed}
+\subsubsection{Existing execution models are flawed}
 Furthermore, both fixed-function ASIC designs and COTS scalar designs assume a trade-off between programmability and energy-efficiency that may be questionable.
 % 
 The fixed-function execution model of ASIC designs limits programmability, while the scalar execution model of COTS MCUs wastes significant energy.
@@ -124,7 +124,7 @@ For example, one starting point is vector execution, which slightly reduces prog
 % 
 Developing new execution models, therefore, is critical to resolving the tension between programmability and energy-efficiency.
 
-\subsection{Choosing the right programming interface}
+\subsubsection{Choosing the right programming interface}
 Programmability needs to come in the correct form.
 % 
 It is more than just configurability.
