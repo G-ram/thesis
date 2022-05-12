@@ -3,7 +3,7 @@
 	\centering
 	\includegraphics[width=\columnwidth]{snafu/figures/pdf/motivate.pdf}
 	\caption{\snafuframe generates ultra-low-power CGRA fabrics that operate in a power regime not well explored by existing CGRAs.}
-	\label{fig:motivate}
+	\label{fig:snafu:motivate}
 \end{figure}
 }
 
@@ -12,7 +12,7 @@
 	\centering
 	\includegraphics[width=.65\columnwidth]{snafu/figures/pdf/overview.pdf}
 	\caption{Overview of \snafu. \snafuframe is a flexible framework for generating ULP CGRAs. It takes a {\em bring-your-own functional unit} approach, allowing the designer to easily integrate custom logic tailored for specific domains.}
-	\label{fig:overview:framework}
+	\label{fig:snafu:overview:framework}
 \end{figure}
 }
 
@@ -21,7 +21,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{snafu/figures/pdf/execute.pdf}
 	\caption{An example execution on a \snafuframe CGRA fabric. The DFG is extracted from vectorized C-code, compiled to a bitstream, and then executed according to asynchronous dataflow firing.}
-	\label{fig:overview:execute}
+	\label{fig:snafu:overview:execute}
 \end{figure*}
 }
 
@@ -30,7 +30,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/compilation.pdf}
 	\caption{Compiler extracts dataflow graphs from vectorized C-code and uses an integer linear program to optimally map the dataflow graph to specific PEs and routes in the CGRA fabric.}
-	\label{fig:compilation}
+	\label{fig:snafu:compilation}
 \end{figure}
 }
 
@@ -39,7 +39,7 @@
 	\centering
 	\includegraphics[width=.65\columnwidth]{snafu/figures/pdf/arch.pdf}
 	\caption{Architectural diagram of \snafuarch. \snafuarch possesses a RISC-V scalar core tightly coupled with the \snafuframe fabric. Both are attached to a unified 256\,KB banked memory.}
-	\label{fig:arch}
+	\label{fig:snafu:arch}
 \end{figure}
 }
 
@@ -48,7 +48,7 @@
 	\centering
 	\includegraphics[width=.65\columnwidth]{snafu/figures/pdf/pe.pdf}
 	\caption{\snafuframe provides a standardized interface that makes integrating new types of PEs trivial. \snafuframe handles variable-latency logic, PE-specific configuration, and the sending and receiving of values from the on-chip network.}
-	\label{fig:pe}
+	\label{fig:snafu:pe}
 \end{figure}
 }
 
@@ -57,7 +57,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/die.pdf}
 	\caption{Layout of \snafuarch. Memory PEs are blue, scratchpad PEs are green, basic-ALU PEs are red, multiplier PEs are purple, the scalar core is yellow, and main-memory control logic is orange. The remaining grey regions contain routers and wires. }
-	\label{fig:die}
+	\label{fig:snafu:die}
 \end{figure}
 }
 
@@ -66,7 +66,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/perf-graph-crop.pdf}
 	\caption{\snafu}
-	\label{fig:perf:alone}
+	\label{fig:snafu:perf:alone}
 \end{figure}
 }
 
@@ -79,16 +79,16 @@
 			\centering
 			\includegraphics[width=0.8\linewidth]{snafu/figures/pdf/energy_avg-graph-crop.pdf}
 			\caption{Energy savings.}
-			\label{fig:top:energy}
+			\label{fig:snafu:top:energy}
 		\end{subfigure}
 		\begin{subfigure}{0.49\linewidth}
 			\centering
 			\includegraphics[width=0.8\linewidth]{snafu/figures/pdf/perf_overall-graph-crop.pdf}
 			\caption{Avg performance.}
-			\label{fig:top:perf}
+			\label{fig:snafu:top:perf}
 		\end{subfigure}
 		\caption{Average normalized energy and speedup (normalized to the scalar baseline). \snafuarch uses $81\%$ less energy and is $9.9\times$ faster than the scalar baseline.}
-		\label{fig:top}	
+		\label{fig:snafu:top}	
 	\end{figure}
 }
 
@@ -102,19 +102,19 @@
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/energy_all_norm-graph-crop.pdf}
 			\caption{Energy}
-			\label{fig:energy:norm}
+			\label{fig:snafu:energy:norm}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.5\linewidth}
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/perf_all-graph-crop.pdf}
 			\caption{Execution time}
-			\label{fig:perf}
+			\label{fig:snafu:perf}
 		\end{subfigure}
 		\caption{Energy and execution time, normalized to the scalar baseline, across ten applications on large inputs. On average, \snafuarch uses $81\%$, $57\%$, $41\%$ less energy and is $9.9\times$, $3.2\times$, and $4.4\times$ faster than the scalar design, vector baseline, and \manic, respectively.
                 }
 
-		\label{fig:primary}
+		\label{fig:snafu:primary}
 	\end{figure*}
 }
 
@@ -125,7 +125,7 @@
 	\vspace{0.4em}
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/cache_norm-graph-crop.pdf}
 	\caption{\snafu}
-	\label{fig:cache:norm:alone}
+	\label{fig:snafu:cache:norm:alone}
 \end{figure}
 }
 
@@ -136,7 +136,7 @@
 	\vspace{0.4em}
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/buf_norm-graph-crop.pdf}
 	\caption{\snafu}
-	\label{fig:buf:norm:alone}
+	\label{fig:snafu:buf:norm:alone}
 \end{figure}
 }
 
@@ -145,7 +145,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/size_norm-graph-crop.pdf}
 	\caption{\snafuarch}
-	\label{fig:size:energy:alone}
+	\label{fig:snafu:size:energy:alone}
 \end{figure}
 }
 
@@ -154,7 +154,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/size_perf-graph-crop.pdf}
 	\caption{\snafuarch}
-	\label{fig:size:perf:alone}
+	\label{fig:snafu:size:perf:alone}
 \end{figure}
 }
 
@@ -168,18 +168,18 @@
 			\centering
 			\includegraphics[height=1in]{snafu/figures/pdf/sens_size_energy-graph-crop.pdf}
 			\caption{Energy.}
-			\label{fig:sens:size:energy}
+			\label{fig:snafu:sens:size:energy}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}[t]{0.49\linewidth}
 			\centering
 			\includegraphics[height=1in]{snafu/figures/pdf/sens_size_perf-graph-crop.pdf}
 			\caption{Speedup.}
-			\label{fig:sens:size:perf}
+			\label{fig:snafu:sens:size:perf}
 		\end{subfigure}
 		\vspace{1.1em}
 		\caption{\snafuarch vs.\ the scalar design across three input sizes -- small (S), medium (M) and large (L).}
-		\label{fig:sens:size}
+		\label{fig:snafu:sens:size}
 	\end{minipage}
         \hfill
 	\begin{minipage}{0.67\linewidth}
@@ -187,19 +187,19 @@
 			\centering
 			\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_norm-graph-crop.pdf}
 			\caption{Energy.}
-			\label{fig:unroll:energy}
+			\label{fig:snafu:unroll:energy}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}[t]{0.49\columnwidth}
 			\centering
 			\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_perf-graph-crop.pdf}
 			\caption{Speedup.}
-			\label{fig:unroll:perf}
+			\label{fig:snafu:unroll:perf}
 		\end{subfigure}
 		\caption{Energy and speedup of \manic, un\manic (w/ loop unrolling), \snafuarch, and un\snafuarch (w/ loop unrolling), normalized to \snafuarch. un\snafuarch uses $31\%$ less energy and is $2.2\times$ faster \snafuarch; \manic benefits much less.}
-		\label{fig:unroll}
+		\label{fig:snafu:unroll}
 	\end{minipage}
-	\label{fig:sens}
+	\label{fig:snafu:sens}
 \end{figure*}
 }
 
@@ -216,7 +216,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/case_unroll_perf-graph-crop.pdf}
 	\caption{\snafuarch}
-	\label{fig:unroll:perf:alone}
+	\label{fig:snafu:unroll:perf:alone}
 \end{figure}
 }
 
@@ -229,17 +229,17 @@
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_unroll_norm-graph-crop.pdf}
 			\caption{Energy.}
-			\label{fig:unroll:energy}
+			\label{fig:snafu:unroll:energy}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.49\columnwidth}
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_unroll_perf-graph-crop.pdf}
 			\caption{Speedup.}
-			\label{fig:unroll:perf}
+			\label{fig:snafu:unroll:perf}
 		\end{subfigure}
 		\caption{Energy and speedup of \manic, un\manic (w/ loop unrolling), \snafuarch, and un\snafuarch (w/ loop unrolling), normalized to \snafuarch. un\snafuarch uses $31\%$ less energy and is $2.2\times$ faster \snafuarch; \manic benefits much less.}
-		\label{fig:unroll}
+		\label{fig:snafu:unroll}
 	\end{figure}
 }
 
@@ -253,23 +253,23 @@
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_dmm_annotated-crop.pdf}
 			\caption{DMM energy.}
-			\label{fig:accel:dmm}
+			\label{fig:snafu:accel:dmm}
 		\end{subfigure}
 		\begin{subfigure}{0.32\linewidth}
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_sort_annotated-crop.pdf}
 			\caption{Sort energy.}
-			\label{fig:accel:sort}
+			\label{fig:snafu:accel:sort}
 		\end{subfigure}
 		\begin{subfigure}{0.32\linewidth}
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_fft_annotated-crop.pdf}
 			\caption{FFT energy.}
-			\label{fig:accel:fft}
+			\label{fig:snafu:accel:fft}
 		\end{subfigure}
 
 		\caption{Quantifying the cost of \snafu's programmability on three benchmarks. Each subfigure shows, from left-to-right, the effect of gradually removing \snafuarch's programmability and increasing its specialization, culminating in a hand-coded ASIC. Overall, \snafuarch's energy is within $2.6\times$ on average of the ASICs', and can be easily specialized to narrow the gap at low upfront design cost.}
-		\label{fig:accel}
+		\label{fig:snafu:accel}
 	\end{figure*}
 }
 
@@ -278,7 +278,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/case_scratch_norm-graph-crop.pdf}
 	\caption{\snafuarch}
-	\label{fig:scratch:energy:alone}
+	\label{fig:snafu:scratch:energy:alone}
 \end{figure}
 }
 
@@ -287,7 +287,7 @@
 	\centering
 	\includegraphics[width=.9\columnwidth]{snafu/figures/pdf/case_scratch_perf-graph-crop.pdf}
 	\caption{\snafuarch}
-	\label{fig:scratch:perf:alone}
+	\label{fig:snafu:scratch:perf:alone}
 \end{figure}
 }
 
@@ -300,17 +300,17 @@
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_scratch_norm-graph-crop.pdf}
 			\caption{Energy.}
-			\label{fig:scratch:energy}
+			\label{fig:snafu:scratch:energy}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.49\columnwidth}
 			\centering
 			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_scratch_perf-graph-crop.pdf}
 			\caption{Speedup.}
-			\label{fig:scratch:perf}
+			\label{fig:snafu:scratch:perf}
 		\end{subfigure}
 		\caption{Energy and speedup of \manic, \snafuarch w/ and w/out scratchpads, normalized to \snafuarch. Scratchpads improve energy-efficiency by $34\%$ and performance by $13\%$.}
-		\label{fig:scratch}
+		\label{fig:snafu:scratch}
 	\end{figure}
 }
 
@@ -343,7 +343,7 @@
 \end{tabular}
 %}
 \caption{Microarchitectural parameters.}
-\label{tab:params}
+\label{tab:snafu:params}
 \end{table}
 }
 
@@ -370,7 +370,7 @@
 \end{tabular}
 }
 \caption{Benchmarks and their input sizes.}
-\label{tab:app}
+\label{tab:snafu:app}
   \end{table}
 }
 
@@ -384,7 +384,7 @@
 		\centering
 		\includegraphics[width=0.75\linewidth]{snafu/figures/pdf/intro.pdf}
 		\caption{\snafuframe is an ULP CGRA-generation framework and architecture. It converts a flexible abstract specification of a CGRA to synthesizable RTL. \snafuarch is an instantiation that integrates a $6\times6$ \snafuframe fabric with an ULP core and on-chip memory.}
-		\label{fig:intro:overview}
+		\label{fig:snafu:intro:overview}
 	\end{figure}
 }  
 
@@ -393,7 +393,7 @@
 		\centering
 	        \includegraphics[width=.7\columnwidth]{snafu/figures/pdf/die.pdf}
 	        \caption{Layout of \snafuarch, a complete ULP system with CGRA.}
-	        \label{fig:intro:layout}
+	        \label{fig:snafu:intro:layout}
 	\end{figure}
 }  
 
@@ -404,17 +404,17 @@
 		\centering
 		\includegraphics[width=0.9\linewidth]{snafu/figures/pdf/energy_overall-graph-crop.pdf}
 		\caption{Energy savings.}
-		\label{fig:intro:energy}
+		\label{fig:snafu:intro:energy}
 	\end{subfigure}
 	\begin{subfigure}{0.49\linewidth}
 		\centering
 		\includegraphics[width=0.9\linewidth]{snafu/figures/pdf/perf_overall-graph-crop.pdf}
 		\caption{Performance.}
-		\label{fig:intro:perf}
+		\label{fig:snafu:intro:perf}
 	\end{subfigure}
 
 	\caption{\snafuarch's energy and performance normalized to a scalar baseline. On average, \snafuframe uses $81\%$ less energy and is $9.9\times$ faster, or $41\%$ less energy and $4.4\times$ faster than \manic.}
-	\label{fig:intro}
+	\label{fig:snafu:intro}
 \end{figure}	
 }
 
@@ -441,6 +441,6 @@
     \bottomrule
   \end{tabular}}
   \caption{Architectural comparison of \snafu to several prior CGRAs.}
-  \label{tab:motivation}
+  \label{tab:snafu:motivation}
 \end{table*}
 }

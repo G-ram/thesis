@@ -4,7 +4,7 @@
 		\includegraphics[width=0.8\linewidth]{manic/figures/pdf/overview-crop.pdf}
 		\hfill
 		\caption{\manic seeks to improve energy efficiency without compromising programmability.}
-		\label{fig:intro}
+		\label{fig:manic:intro}
 		\vspace{-1.5em}
 	\end{figure}	
 }
@@ -15,25 +15,25 @@
     		\centering
         \includegraphics[height=1.2in]{manic/figures/pdf/scalar_overview-crop.pdf}
         \caption{Scalar}
-        \label{fig:overview:scalar}
+        \label{fig:manic:overview:scalar}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.42\linewidth}
         \centering
         \includegraphics[height=1.2in]{manic/figures/pdf/vector_overview-crop.pdf}
         \caption{Vector}
-        \label{fig:overview:vector}
+        \label{fig:manic:overview:vector}
     \end{subfigure}
     \hfill
 		\begin{subfigure}{0.42\linewidth}
 			\centering
 			\includegraphics[height=1.2in]{manic/figures/pdf/manic_overview-crop.pdf}
 			\caption{Vector-dataflow}
-			\label{fig:overview:vde}
+			\label{fig:manic:overview:vde}
 		\end{subfigure}
 		\caption{Different execution models. Orange arrows represent control flow, blue arrows represent dataflow. \manic relies on vector-dataflow execution,
 		avoiding register accesses by forwarding and renaming.}
-		\label{fig:overview}
+		\label{fig:manic:overview}
 	\end{figure}
 }
 
@@ -44,7 +44,7 @@
 		\caption{A block diagram of \manic's microarchitectural components (non-gray region).
 		Control flow is denoted with orange, while blue denotes dataflow. 
 		Stateful components (e.g. register files) have dotted outlines.}
-		\label{fig:block}
+		\label{fig:manic:block}
 		\vspace{-2em}
 	\end{figure}
 }
@@ -55,7 +55,7 @@
   \centering
   \includegraphics[width=.85\columnwidth]{manic/figures/pdf/transform.pdf}
   \caption{\manic's issue logic constructs windows of instructions with dataflow. The rename table keeps track of registers and names, updating the instruction buffer when new opportunities for forwarding are identified.}
-  \label{fig:vde:issue}
+  \label{fig:manic:vde:issue}
 \end{figure}
 }
 
@@ -63,7 +63,7 @@
 \begin{figure}[ht]
 \includegraphics[width=\columnwidth]{manic/figures/pdf/vde.pdf}
 \caption{\manic's microarchitecture components execute a window of instructions using forwarding according to dataflow across an entire vector of input.}
-\label{fig:vde:execute}
+\label{fig:manic:vde:execute}
 % \vspace{-2.5em}
 \end{figure}
 }
@@ -74,20 +74,20 @@
 		\begin{subfigure}{0.20\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/transform.pdf}
 			\caption{}
-			\label{fig:vde:issue}
+			\label{fig:manic:vde:issue}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.69\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/vde.pdf}
 			\caption{}
-			\label{fig:vde:execute}
+			\label{fig:manic:vde:execute}
 		\end{subfigure}
 		\caption{An example illustrating \manic's vector-dataflow execution model.
-		\protect\autoref{fig:vde:issue} shows \manic's issue logic, which constructs
-		windows of instructions that exhibit dataflow. \protect\autoref{fig:vde:execute} show
+		\protect\autoref{fig:manic:vde:issue} shows \manic's issue logic, which constructs
+		windows of instructions that exhibit dataflow. \protect\autoref{fig:manic:vde:execute} show
 		how \manic executes a window of instructions, forwarding according to dataflow, 
 		across an entire vector of inputs}
-		\label{fig:vde}
+		\label{fig:manic:vde}
 	\end{figure*}
 }
 
@@ -111,7 +111,7 @@
 				\caption{Fast-fourier transform}
 			\end{subfigure}
 			\caption{Miss curves for four different applications.}
-			\label{fig:miss}
+			\label{fig:manic:miss}
 	\end{figure}
 }
 
@@ -138,7 +138,7 @@
 	  \caption{Histograms of kill distances for three different applications.
 	    Distances skew left, suggesting values are consumed for the last time
 	    shortly after being produced.}
-	  \label{fig:kill_distro}
+	  \label{fig:manic:kill_distro}
 	\end{figure}
 }
 
@@ -167,7 +167,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 }
 %% \vspace{-1em}
 \captionof{table}{Microarchitectural parameters.}
-\label{tab:params}
+\label{tab:manic:params}
 %% \vspace{-2em}
 %% \end{table}
 }
@@ -197,7 +197,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\end{subfigure}
 		\caption{Code scheduling is microarchitecturally agnostic -- minimizing the sum of kill 
 		  distances is good proxy for minimizing register writes for specific window size.}
-		\label{fig:kill}
+		\label{fig:manic:kill}
   \end{figure*}
 }
 
@@ -210,31 +210,31 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\begin{subfigure}{0.18\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/fft_bar-crop.pdf}
 			\caption{Fast-fourier transform}
-			\label{fig:fft}
+			\label{fig:manic:fft}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.18\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/dmm_bar-crop.pdf}
 			\caption{Dense matrix multiply}
-			\label{fig:dmm}
+			\label{fig:manic:dmm}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.18\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/smm_bar-crop.pdf}
 			\caption{Sparse matrix multiply}
-			\label{fig:smm}
+			\label{fig:manic:smm}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.18\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/dconv_bar-crop.pdf}
 			\caption{Dense convolution}
-			\label{fig:dconv}
+			\label{fig:manic:dconv}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.18\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/sconv_bar-crop.pdf}
 			\caption{Sparse convolution}
-			\label{fig:sconv}
+			\label{fig:manic:sconv}
 		\end{subfigure}
 		\hfill
 		\vspace{1em}
@@ -244,14 +244,14 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 				\centering
 				\includegraphics[width=0.72\linewidth]{manic/figures/pdf/dmv_bar-crop.pdf}
 				\caption{Dense matrix-vector multiply}
-				\label{fig:dmv}
+				\label{fig:manic:dmv}
 			\end{subfigure}
 			\hfill
 			\begin{subfigure}{0.49\linewidth}
                           \centering
 				\includegraphics[width=0.72\linewidth]{manic/figures/pdf/smv_bar-crop.pdf}
 				\caption{Sparse matrix-vector multiply}
-				\label{fig:smv}
+				\label{fig:manic:smv}
 			\end{subfigure}
             \hfill
 		\end{minipage}
@@ -263,7 +263,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 			$2.8\times$ more energy efficient than the scalar baseline and $38.1\%$ more energy efficient than the vector baseline.
 			\vspace{3em}
 			}
-		\label{fig:compare}
+		\label{fig:manic:compare}
 		\end{minipage}
 	\end{figure*}
 }
@@ -283,7 +283,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 			Bars (from left-to-right): scalar baseline, vector baseline, \manic, and an idealized vector design with no instruction or data supply energy.
 			\manic is within $26.4\%$ of the ideal design and is overall $2.8\times$ more energy efficient than the scalar baseline and $38.1\%$ more energy efficient than the vector baseline.
 			}
-			\label{fig:overall}
+			\label{fig:manic:overall}
 		\end{minipage}
 		\hfill
 		\begin{minipage}{0.49\linewidth}
@@ -297,7 +297,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
                           Without forwarding, \manic's added components slightly increase energy by <5\%.
                           Forwarding saves $15.5\%$ system energy vs.\ the baseline,
                           and kill annotations and dataflow code scheduling saves a further $26.0\%$.}
-			\label{fig:compare}
+			\label{fig:manic:compare}
 		\end{minipage}
 	\end{figure*}
 }
@@ -311,7 +311,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 
 		\includegraphics[width=0.95\linewidth]{manic/figures/pdf/power_bar-crop.pdf}
 		\caption{Power of the scalar baseline, vector baseline, and \manic across seven benchmarks. \manic uses $10.0\%$ less power than the scalar baseline and, despite using less energy than the scalar baseline, the vector baseline actually uses $29.5\%$ more power.}
-		\label{fig:power}
+		\label{fig:manic:power}
 	\end{figure}
 }
 
@@ -323,7 +323,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 
 		\includegraphics[width=0.95\linewidth]{manic/figures/pdf/sonic_bar-crop.pdf}
 		\caption{In the intermittent computing domain, \manic with hardware JIT-checkpointing is $9.6\times$ more energy efficient than SONIC~\cite{sonic}, which maintains correctness in software alone.}
-		\label{fig:sonic_compare}
+		\label{fig:manic:sonic_compare}
 	\end{figure}
 }
 
@@ -332,15 +332,15 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\begin{subfigure}{\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/cycles_bar-crop.pdf}
 			\caption{Cycle count}
-			\label{fig:cycle_count}
+			\label{fig:manic:cycle_count}
 		\end{subfigure}
 		\begin{subfigure}{\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/insn_count_bar-crop.pdf}
 			\caption{Instruction count}
-			\label{fig:insn_count}
+			\label{fig:manic:insn_count}
 		\end{subfigure}
 		\caption{Instruction and cycle counts for seven benchmarks running on the scalar baseline, vector baseline, and \manic. The vector baseline and \manic effectively do not differ. Vector execution means that both run $10.6\times$ less instructions and $2.5\times$ less cycles than the scalar baseline. }
-		\label{fig:performance}
+		\label{fig:manic:performance}
 		%% \vspace{-2.5em}
 	\end{figure}	
 }
@@ -354,30 +354,30 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\begin{subfigure}{0.49\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/insn_buf_length_bar-crop.pdf}
 			\caption{Window/Instruction buffer size}
-			\label{fig:sens_ws}
+			\label{fig:manic:sens_ws}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.49\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/vl_bar-crop.pdf}
 			\caption{Vector length}
-			\label{fig:sens_vl}
+			\label{fig:manic:sens_vl}
 		\end{subfigure}
 		
 		\vspace{0.5em}
 		\begin{subfigure}{0.49\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/icache_bar-crop.pdf}
 			\caption{Instruction cache size}
-			\label{fig:sens_l1i}
+			\label{fig:manic:sens_l1i}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.49\linewidth}
 			\includegraphics[width=\linewidth]{manic/figures/pdf/dcache_bar-crop.pdf}
 			\caption{Data cache size}
-			\label{fig:sens_l1d}
+			\label{fig:manic:sens_l1d}
 		\end{subfigure}
 		\caption{\manic's sensitivity to its microarchitectural parameters: 16 is the best window
 		size, larger vector lengths are generally better, and moderately sized caches are generally more energy efficient.}
-		\label{fig:sens}
+		\label{fig:manic:sens}
 		\vspace{-1em}
 	\end{figure*}
 }

@@ -55,7 +55,7 @@ single functional unit.
 \manic adds four components to this base vector core to support vector-dataflow execution: (1) issue logic and a register renaming table; (2) an
 instruction window buffer; (3) an xdata buffer and (4) a forwarding buffer. 
 % 
-\autoref{fig:block} shows an overview of \manic's design and how these
+\autoref{fig:manic:block} shows an overview of \manic's design and how these
 components relate to one another.
 %
 
@@ -237,7 +237,7 @@ very small relative to the operating period.
 \subsection{Putting it together with an example}
 We illustrate the operation of the issue logic, renaming table, instruction
 window, and forwarding buffer with an example of \manic's operation, shown in
-\autoref{fig:vde:issue}. 
+\autoref{fig:manic:vde:issue}. 
 %
 The figure starts with vector-aware assembly code that \manic transforms into
 vector-dataflow operations by populating the renaming table and instruction
@@ -295,7 +295,7 @@ to avoid register file writes.
 
 \paragraph{Executing a window of instructions}
 After issue, the window of instructions is ready to execute.
-\autoref{fig:vde:execute} shows (via the orange control-flow arcs) how \manic
+\autoref{fig:manic:vde:execute} shows (via the orange control-flow arcs) how \manic
 executes the entire window vertically for a single vector element before moving
 on to execute the entire window for the second vector element.
 %
@@ -360,7 +360,7 @@ this new schedule with some probability.
 
 \figMANICKill
 
-\autoref{fig:kill} shows that the microarchitecture-agnostic minimization of
+\autoref{fig:manic:kill} shows that the microarchitecture-agnostic minimization of
 the sum kill distance closely approximates a microarchitecture-specific
 approach that optimizes for a particular window size.
 %

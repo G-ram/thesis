@@ -13,7 +13,7 @@ We now evaluate \snafuarch to show:
 \figSNAFUSensUnrollResults
 
 \subsection{Main results}
-\autoref{fig:primary} shows that \snafuarch is much more energy-efficient and performant vs.\ all baselines.
+\autoref{fig:snafu:primary} shows that \snafuarch is much more energy-efficient and performant vs.\ all baselines.
 % 
 The figure shows average energy and speedup of \snafuarch normalized to the scalar baseline.
 % 
@@ -23,9 +23,9 @@ The figure shows average energy and speedup of \snafuarch normalized to the scal
 % 
 
 \paragraph{1) \snafuarch saves significant energy}
-\autoref{fig:primary} shows detailed results for all ten benchmarks.
+\autoref{fig:snafu:primary} shows detailed results for all ten benchmarks.
 % 
-\autoref{fig:energy:norm} breaks down execution energy between memory, the scalar core, vector/CGRA, and remaining (other).
+\autoref{fig:snafu:energy:norm} breaks down execution energy between memory, the scalar core, vector/CGRA, and remaining (other).
 % 
 \snafuarch outperforms all baselines on each benchmark.
 % 
@@ -55,7 +55,7 @@ Each PE only handles a single operation and routes are configured statically.
 This leads to significantly less dynamic energy because intermediate values are directly communicated between dependent operations and there is minimal switching in PEs.
 
 \paragraph{2) \snafuarch also greatly improves performance}
-\autoref{fig:perf} shows the execution time (in cycles) of all benchmarks and systems.
+\autoref{fig:snafu:perf} shows the execution time (in cycles) of all benchmarks and systems.
 % 
 Across the board, \snafuarch is faster --- from 3.2$\times$ to 9.9$\times$ on average, depending on the baseline. 
 % 
@@ -73,7 +73,7 @@ Leakage power is also insignificant ($<$3\%) because \snafuarch uses a high-thre
 % 
 
 In addition, \snafuarch is tiny.
-The entire design in \autoref{fig:die}, including compiled memories, is substantially less than 1\,mm$^2$.
+The entire design in \autoref{fig:snafu:die}, including compiled memories, is substantially less than 1\,mm$^2$.
 Note, however, that \snafuarch saves energy at the cost of area:
 \snafuarch occupies 1.8$\times$ more area than \manic and 1.7$\times$ more than the vector baseline.
 %
@@ -97,14 +97,14 @@ the vector length of both vector and \manic baselines is 64, but the input size 
 and buffering of intermediate values.
 
 \subsection{Sensitivity studies}
-We characterize \snafuarch by running applications on three different input sizes. % (\autoref{fig:size:energy}).
+We characterize \snafuarch by running applications on three different input sizes. % (\autoref{fig:snafu:size:energy}).
 % 
-Further, we find the optimal configuration of \snafuarch by sweeping the size of the configuration cache % (\autoref{fig:cache:norm})
-and the number of intermediate buffers. % (\autoref{fig:buf:norm}).
+Further, we find the optimal configuration of \snafuarch by sweeping the size of the configuration cache % (\autoref{fig:snafu:cache:norm})
+and the number of intermediate buffers. % (\autoref{fig:snafu:buf:norm}).
 
 
 \paragraph{Energy-efficiency and performance improve on larger workloads}
-\autoref{fig:sens:size:energy} shows \snafuarch's energy across three different input sizes: small (S), medium (M), and large (L). 
+\autoref{fig:snafu:sens:size:energy} shows \snafuarch's energy across three different input sizes: small (S), medium (M), and large (L). 
 %
 For most applications, \snafuarch's benefits increase with input size.
 (But \snafuarch is faster and more efficient at all input sizes.)
@@ -118,7 +118,7 @@ The primary reason for this improvement is that, with larger input sizes, \snafu
 
 This trend is even more pronounced in the performance data.
 % 
-\autoref{fig:sens:size:perf} shows the speedup of \snafuarch normalized to the scalar baseline.
+\autoref{fig:snafu:sens:size:perf} shows the speedup of \snafuarch normalized to the scalar baseline.
 %
 \snafuarch is 9.9$\times$, 3.2$\times$, 4.4$\times$ faster than the scalar baseline, vector baseline, and \manic on the large input size and 5.4$\times$, 2.4$\times$, and 3.4$\times$ faster on the small input.
 
@@ -146,7 +146,7 @@ We conduct two case studies \emph{(i)}~to show that there are opportunities to f
 \paragraph{Loop-unrolling leads to significantly improved energy and performance}
 We show the potential of further compiler optimizations through a case study on loop unrolling.
 %
-\autoref{fig:unroll} shows the normalized energy and speedup of \manic and \snafuarch with and without loop unrolling on four different applications.
+\autoref{fig:snafu:unroll} shows the normalized energy and speedup of \manic and \snafuarch with and without loop unrolling on four different applications.
 %
 With loop unrolling, \snafuarch executes four iterations of an inner loop in parallel (vs.\ one iteration without loop unrolling).
 % 
@@ -168,7 +168,7 @@ Leveraging \snafuframe's standard PE interface,
 we were able to quickly add scratchpad PEs to \snafuarch with minimal effort --- we just made \snafuframe aware of the new PE,
 without \emph{any} changes to \snafuframe's framework.
 % 
-\autoref{fig:scratch} shows the normalized energy and speedup of \snafuarch with and without scratchpads
+\autoref{fig:snafu:scratch} shows the normalized energy and speedup of \snafuarch with and without scratchpads
 for FFT and DWT.
 %
 Persisting intermediate values to main memory is quite expensive:

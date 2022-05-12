@@ -11,5 +11,5 @@
 	"major_label": ["MNIST", "HAR", "OkG"],
 	"major_order": ["mnist", "har", "okg"],
 	"pulse": {"2": "Conv", "43": "DMul", "22": "SMul"},
-	"colors": ["#4472C4", "#EB7D3C", "#2E9260", "#A068B0", "#A7A7A4"]
+	"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "grey", "#A7A7A4"]
 }

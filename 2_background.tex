@@ -3,7 +3,8 @@
 
 This chapter discusses relevant prior work that this thesis builds on.
 % 
-The chapter is split into discussions on 1) low-powered embedded devices, 2) edge inference, 3) related efficient programmable architectures, 4) coarse-grain reconfigurable arrays, and 5) dataflow compilation.
+The chapter is split into discussions on 1) low-powered embedded devices, 2) edge inference, 3) related efficient programmable architectures, and 4) coarse-grain reconfigurable arrays.
+% , and 5) dataflow compilation.
 % 
 The first includes a general overview of ULP sensor devices and an introduction to intermittent computing.
 % 
@@ -11,9 +12,11 @@ The second discusses algorithmic improvements and hardware accelerators for effi
 % 
 The third describes relevant vector machine and dataflow architectures.
 % 
-The fourth expands on a specific class of spatial-dataflow architectures, called coarse-grain reconfigurable arrays.
+And the fourth expands on a specific class of spatial-dataflow architectures, called coarse-grain reconfigurable arrays.
 % 
-And the fifth describes prior work on dataflow/CGRA compilation.
+% And the fifth describes prior work on dataflow/CGRA compilation.
+% % 
+% Lastly, there is a section that summarizes.
 
 \figDevice
 \section{Low-powered embedded devices}
@@ -62,6 +65,7 @@ Energy availability is not constant --- input power can vary with environmental 
 For example, weather and time-of-day significantly (by several orders of magnitude) impact the amount of energy a solar cell can harvest.
 
 \subsection{Intermittent execution model}
+\label{chapter:background:intermittent}
 Systems that harvest energy and store that energy in a hardware-buffer (e.g. capacitor) usually operate intermittently.
 % 
 This is because device operating power usually exceeds power harvested from the environment.
@@ -110,6 +114,7 @@ Then when power resumes, the runtime system restores the volatile state and jump
 This system is often transparent to the programmer, but costs energy to save and restore state and may complicate (or even lead to wrong execution) the use of peripherals~\cite{surbatovich2021automatically} and interrupts.
 
 \subsubsection{Task-based runtime systems}
+\label{chapter:background:intermittent:task}
 An alternative to checkpointing are task-based runtime systems.
 % 
 These systems avoid frequent checkpoints by
@@ -191,13 +196,14 @@ With their accuracy, however, comes a high computational cost.
 % 
 Neural networks have millions or billions of parameters and require billions or even trillions of operations.
 % 
-This makes deploying neural networks are resource-constrained devices difficult.
+This makes deploying neural networks are resource-constrained, energy-harvesting devices difficult.
 % 
 Fortunately there has been much work on reducing network footprint and improving the performance and energy-efficiency of inference.
 % 
 % Three strategies are of particular note: pruning, reduced precision and network design.
 
 \subsection{Algorthmic improvements to NN inference}
+\label{chapter:background:inference:algorithm}
 Since DNNs are robust to noise, algorithmic optimizations can be made that reduce NN memory footprint and increase inference performance without significantly impacting accuracy.
 % 
 Inference does not need full-precision floating point~\cite{han:isca16:eie,desa:isca17:sgd} and near-zero weights can often be ``pruned''~\cite{nabhan1994toward, han:iclr16:deep-compression,nakkiran:interspeech15:compressing,bhattacharya2016sparsification} without losing much accuracy.
@@ -257,13 +263,13 @@ Unfortunately this extreme energy-efficiency comes at the expense of programmabi
 % 
 In fact, some accelerators specialize to the particular NN architecture~\cite{bankman2018always} or even hard-code weights~\cite{something}.
 
-The work described in \autoref{chapter:manic,chapter:snafu,chapter:riptide} take a different approach and focus on entirely different power domain (mW v. $\mu$W).
+The work described in \autoref{chapter:manic}, \autoref{chapter:snafu}, and \autoref{chapter:riptide} take a different approach and focus on entirely different power domain (mW v. $\mu$W).
 % 
 Energy-efficiency is achieved without sacrificing programmability.
 % 
 This makes these designs applicable to many different applications, future-proof to algorithmic developments, and reduces the upfront non-recurring engineering cost.
 
-\section{Related efficient programmable architectures}
+\section{Efficient programmable architectures}
 There is a long history of computer architectures that increase performance and/or improve energy-efficiency while maintaining programmability.
 % 
 Specifically, prior work on vector and dataflow architectures inform the work of this thesis and specifically \manic, \snafu, and \riptide.
@@ -319,7 +325,7 @@ Finally, there has been much work on reducing the cost and improving the scalabi
 % 
 This includes virtualizing the RF~\cite{jeon2015gpu,vijaykumar2016zorua} so that physical registers can be shared, compressing registers~\cite{lee2015warped} to maximize utilization of the physical RF, and coalescing RF reads and writes~\cite{asghari2019corf} to minimize RF accesses. 
 % 
-Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require relatively little additional hardware, but do not scale to ULP domain where energy-efficiency is higher priority than performance.
+Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require minimal additional hardware, but do not scale to ULP domain where energy-efficiency is higher priority than performance.
 
 \subsection{Dataflow architectures}
 Dataflow architectures, like vector machines, also have a long history~\cite{dennis1975preliminary,dennis1980data,dennis1988efficient,ttda} that includes changes to the programming and execution model to eliminate control and data movement overheads.
@@ -409,7 +415,7 @@ PEs typically include functional units for arithmetic, logic,
 and memory access, but can also include 
 specialized functionality~\cite{snafu,weng2020dsagen,dadu2019towards,q100,gorgon,capstan,polygraph,taskstream}.
 % 
-Later chapters (~\autoref{chapter:snafu,chapter,riptide}) of this thesis will address CGRA design decisions in detail to maximize energy-efficiency.
+Later chapters (~\autoref{chapter:snafu} and \autoref{chapter:riptide}) of this thesis will address CGRA design decisions in detail to maximize energy-efficiency.
 
 \subsection{Types of CGRAs}
 CGRA design can be categorized in four ways as identified by \cite{weng2020hybrid}.
@@ -463,20 +469,10 @@ This thesis focuses on {\em architecture} that minimizes energy and maintains fl
 %
 In fact, \autoref{chapter:snafu} describes \snafu, which has a goal of letting designers generate ULP CGRAs at reduced VLSI effort.
 
-\figPower
-\tabMotivate
-\subsection{Summary}
-\autoref{fig:power} and \autoref{tab:motivation} summarize different CGRA designs and also highlight what makes the ULP sensor domain different.
+\subsection{Compilation}
+Compiling for CGRAs is challenging.
 % 
-Specifically, most prior CGRAs target much higher power domains ($\approx$100\,mW~\cite{weng2020dsagen,karunaratne2017hycube,nowatzki:isca17:stream-dataflow,tan2018stitch,weng2020hybrid} or even up to 100\,W~\cite{plasticine,voitsechov2014single}),
-and their design decisions do not translate well to the ULP domain.
-%
-The few CGRAs targeting ULP operation ($\approx$1\,mW)~\cite{ipa,cma,srp} are not flexible and leave energy savings on the table. 
-
-\section{Dataflow compilation}
-Compiling for dataflow architectures and specifically CGRAs is challenging.
-% 
-Some architectures requires domain-specific languages~\cite{id,delite}, while others place constraints on the types fo programs that can be compiled (i.e. no outer loops or memory is ordering not enforced).
+Some architectures requires domain-specific languages~\cite{id,delite}, while others place constraints on the types fo programs that can be compiled (i.e. no outer loops or memory ordering is not enforced).
 % 
 This makes the compilation tractable, but also limits the applications supported.
 
@@ -499,12 +495,12 @@ fail or produce poor mappings.
 Recent work proposed graph convolutional networks as a
 solution~\cite{mirhoseini2020chip}.
 % 
-This thesis will (\autoref{chapter:snafu,chapter:riptide}) describe an integer-linear programming approach to mapping a program to PE resources.
+This thesis will (\autoref{chapter:snafu} and \autoref{chapter:riptide}) describe an integer-linear programming approach to mapping a program to PE resources.
 % 
 This is tractable because the compiler does not need to reason about timing or
 utilization for the proposed architectures (\snafu and \riptide).
 
-\subsection{Dataflow control-flow models}
+\subsubsection{Dataflow control-flow models}
 Compilation is also affected by the underlying control-flow model.
 % 
 There are three competing control-flow models for dataflow execution: predication, selection ($\phi$), and steering ($\phi^{-1}$).
@@ -551,4 +547,47 @@ avoids executing any operations on the not-taken path.
 %
 \riptide (\autoref{chapter:riptide}) implements steering to minimize energy,
 as steering never fires unneeded operations. 
+
+\figPower
+\tabMotivate
+\subsection{Compare \& contrast different CGRA designs}
+\autoref{fig:power} and \autoref{tab:motivation} summarize the CGRA design space, comparing different CGRA designs to work of this thesis, \snafu and \riptide.
+% 
+In particuler, the figures highlight what makes the ULP sensor domain different.
+% 
+Specifically, most prior CGRAs target much higher power domains ($\approx$100\,mW~\cite{weng2020dsagen,karunaratne2017hycube,nowatzki:isca17:stream-dataflow,tan2018stitch,weng2020hybrid} or even up to 100\,W~\cite{plasticine,voitsechov2014single}),
+and their design decisions do not translate well to the ULP domain.
+%
+The few CGRAs targeting ULP operation ($\approx$1\,mW)~\cite{ipa,cma,srp} are not flexible and leave energy savings on the table. 
+% 
+They places restrictictions on programs, e.g. supporting only simple, single-nested loops.
+
+In contrast, this thesis presents \snafu and \riptide that are designed from the ground-up to minimize energy (even at the expense of area and performance) while maximizing flexibility.
+% 
+\snafu and \riptide, like DSAGEN~\cite{weng2020dsagen}, generate CGRAs, but instead of targetting performance, target ULP operation.
+%
+They minimize PE energy by statically assigning operations
+to specific PEs and, unlike prior low-power
+CGRAs~\cite{tan2018stitch,karunaratne2017hycube,ipa,cma,srp},
+minimizes switching by not sharing PEs between operations.
+%
+Likewise, to minimize NoC energy, \snafu \& \riptide implement a statically configured, bufferless, multi-hop NoC,
+similar to HyCube~\cite{karunaratne2017hycube}.
+This NoC is a contrast with prior ULP CGRAs~\cite{cma,srp,ipa}
+that restrict communication to a PE's immediate neighbors.
+%
+Unlike many prior CGRAs that are statically scheduled,
+\snafu \& \riptide implements dynamic dataflow firing
+to support variable latency FUs.
+%
+Dynamic dataflow firing is essential to \snafu \& \riptide's flexibility
+and ability to support arbitrary, heterogeneous PEs in a single fabric.
+%
+\snafu \& \riptide avoids expensive tag-token matching~\cite{plasticine,dyser}
+by disallowing out-of-order execution, unlike high-performance designs~\cite{ttda,parashar2013triggered,voitsechov2014single,swanson2003wavescalar}.
+% 
+Lastly, \riptide targets more than simple, vectorizable loops~\cite{karunaratne2017hycube,ipa,cma,srp}, compiling programs directly from C and supporting deeply-nested loops and irregular memory accesses.
+%
+The end result is that \snafu \& \riptide are flexible and general-purpose,
+while still achieving extremely low operating power and high energy-efficiency.
 

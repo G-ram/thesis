@@ -9,7 +9,7 @@ an industrial sub-28\,nm FinFET process with compiled memories.
 % 
 We evaluated the systems using post-synthesis timing, power, and energy models.
 % 
-Additionally, we placed and routed \snafuarch (see \autoref{fig:die}) to validate top-down synthesis.
+Additionally, we placed and routed \snafuarch (see \autoref{fig:snafu:die}) to validate top-down synthesis.
 
 \paragraph{Software-hardware stack}
 We developed a complete software and hardware stack for \snafu.
@@ -21,7 +21,7 @@ We synthesized the design using Cadence Genus~\cite{genus} and an industrial sub
 % 
 Next, we placed and routed the design using Cadence Innovus~\cite{innovus};
 % 
-\autoref{fig:die} shows the layout.
+\autoref{fig:snafu:die} shows the layout.
 % 
 We also developed \snafuframe's compiler that converts vectorized C-code to an optimal fabric configuration and injects the bitstream into the application binary.
 % 
@@ -38,12 +38,12 @@ The scalar core is representative of typical ULP microcontrollers like the TI MS
 % 
 Each baseline is implemented entirely in RTL using the same design flow. 
 %
-\autoref{tab:params} shows their microarchitectural parameters.
+\autoref{tab:snafu:params} shows their microarchitectural parameters.
 %
 The vector baseline and \manic both have a single vector lane, which minimizes energy at the cost of performance.
 
 \paragraph{Benchmarks}
-We evaluate \snafuarch, \manic, and the vector baseline across ten benchmarks on three different input sizes, shown in \autoref{tab:app}.
+We evaluate \snafuarch, \manic, and the vector baseline across ten benchmarks on three different input sizes, shown in \autoref{tab:snafu:app}.
 %
 We use random inputs, generated offline. 
 % 

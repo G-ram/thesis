@@ -7,5 +7,5 @@
 	"major_key": "target",
 	"major_label": ["MNIST", "HAR", "Okg"],
 	"major_order": ["mnist", "har", "okg"],
-	"colors": ["#4472C4", "#EB7D3C", "#2E9260", "#A068B0", "#A7A7A4"]
+	"colors": ["#9f7ccf", "#41b6c4", "#a1dab4", "grey", "#A7A7A4"]
 }

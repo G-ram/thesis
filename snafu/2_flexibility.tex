@@ -29,7 +29,7 @@ There are few limitations on the sort of the logic that \snafuframe can integrat
 % 
 The PE can have any number of additional ports and contain any amount of internal state.
 
-\autoref{fig:pe} shows the microarchitecture of a generic \snafuframe processing element,
+\autoref{fig:snafu:pe} shows the microarchitecture of a generic \snafuframe processing element,
 comprising two components: \ucore and \ucfg.
 %
 The \ucore handles progress tracking, predicated execution, and communication. 
@@ -152,7 +152,7 @@ The basic ALU performs bitwise operations, comparisons, additions, subtractions,
 The multiplier performs 32-bit signed multiplication.
 % 
 Both units are equipped with the ability to accumulate partial results,
-like PE \#4 ({\tt vredsum}) in \autoref{fig:overview:execute}. 
+like PE \#4 ({\tt vredsum}) in \autoref{fig:snafu:overview:execute}. 
 
 \paragraph{Memory PEs}
 The memory PEs generate addresses and issue loads and stores to global memory.
@@ -226,7 +226,7 @@ synthesis of a CGRA, eliminating the manual effort of bottom-up synthesis.
 
 The final component is a compiler that targets the generated CGRA fabric.
 % 
-\autoref{fig:overview:execute} shows the compilation flow from vectorized code to valid CGRA configuration bitstream.
+\autoref{fig:snafu:overview:execute} shows the compilation flow from vectorized code to valid CGRA configuration bitstream.
 %
 The compiler first extracts the dataflow graph from the vectorized C code.
 %

@@ -52,7 +52,7 @@ Recent work has shown that coarse-grained reconfigurable
 arrays (CGRAs) can achieve energy efficiency competitive with ASICs
 while remaining programmable by software~\cite{snafu,nowatzki2017domain,weng2020dsagen}.
 %
-As shown in \autoref{fig:intro},
+As shown in \autoref{fig:riptide:intro},
 a CGRA~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is an array of processing elements
 (PEs) connected by an on-chip network (NoC).
 %
@@ -149,7 +149,7 @@ sequence for, e.g., simple loops or streaming memory accesses.
 
 
 \riptide implements the above features efficiently in the both
-the compiler and hardware (\autoref{fig:intro}).
+the compiler and hardware (\autoref{fig:riptide:intro}).
 %
 \riptide compiles programs from a high-level language (currently, C) and
 employs novel analyses to safely parallelize operations.
@@ -226,7 +226,7 @@ industrial sub-28nm FinFET process with compiled memories.
 %
 Across ten benchmarks, \riptide reduces energy by
 25\% vs.\ \snafu, the state-of-the-art programmable design,
-and improves performance by 17\% (\autoref{fig:intro:results}).
+and improves performance by 17\% (\autoref{fig:riptide:intro:results}).
 %
 At nominal voltage, \riptide achieves 141MOPs/mW (including main memory) at 50MHz
 and takes $\approx$0.5mm$^2$.

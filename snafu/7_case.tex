@@ -35,9 +35,9 @@ via simple, incremental design changes.
 focus their design effort where it yields the most efficiency gains.
 
 \paragraph{\snafu is within $2.6\times$ of ASIC energy}
-\autoref{fig:accel} shows the energy of DMM, Sort, and FFT on large inputs.
+\autoref{fig:snafu:accel} shows the energy of DMM, Sort, and FFT on large inputs.
 %
-The leftmost bars in \autoref{fig:accel} represent \snafuarch and the rightmost bars %, {\scshape DMM-Accel}, {\scshape Sort-Accel}, and {\scshape FFT2D-Accel},
+The leftmost bars in \autoref{fig:snafu:accel} represent \snafuarch and the rightmost bars %, {\scshape DMM-Accel}, {\scshape Sort-Accel}, and {\scshape FFT2D-Accel},
 represent a fixed-function, statically scheduled ASIC implementation of the same algorithm.
 % 
 \snafuarch uses as little as $1.8\times$ and on average $2.6\times$ more energy than the ASICs.
@@ -145,7 +145,7 @@ for many applications, a 2--3$\times$ gap is good enough~\cite{hotmobile2021}.
 Moreover, for applications that benefit from more specialization, \bigemph{\snafu allows for selective specialization with incremental design effort}
 to trade off efficiency and programmability.
 %
-\autoref{fig:accel} shows that by tailoring the fabric topology,
+\autoref{fig:snafu:accel} shows that by tailoring the fabric topology,
 hardwiring configuration state,
 or partially specializing PEs,
 designers can get within 2$\times$ of ASIC efficiency

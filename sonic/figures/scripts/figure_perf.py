@@ -252,20 +252,29 @@ def main(args):
 							transform=fig.transFigure,figure=fig)])
 
 	if args.legend or args.clegend:
-		lbls = ['Live - Convolution 1',
-				'Live - Convolution 2', 
-				'Live - Fully-Connected', 
-				'Live - Other', 
-				'Dead (Recharging)', 
-				'Does not Complete']
-		hdls = [patches.Patch(label=lbls[i], color=config['colors'][i]) for i in range(0, 5)]
+		if args.legend:
+			lbls = ['Live - Convolution 1',
+					'Live - Convolution 2', 
+					'Live - Fully-Connected', 
+					'Live - Other', 
+					'Dead (Recharging)', 
+					'Does not Complete']
+			count = 5
+		else:
+			lbls = ['Convolution 1',
+					'Convolution 2', 
+					'Fully-Connected', 
+					'Other', 
+					'Does not Complete']
+			count = 4
+		hdls = [patches.Patch(label=lbls[i], color=config['colors'][i]) for i in range(0, count)]
 		x_mark, = plt.plot([],[], color='#C00000', 
 			label='Original, uncompressed', ls='none', marker='x', markersize=8)
 		hdls.append(x_mark)
 		if args.clegend:
 			legfig = pylab.figure(figsize=(8,3))
 			legfig.legend(handles=hdls, labels=lbls, 
-				loc='center', ncol=2, columnspacing=1.5, handletextpad=0.25)
+				loc='center', ncol=1, columnspacing=1.5, handletextpad=0.25)
 		else:
 			legfig = pylab.figure(figsize=(8,3))
 			legfig.legend(handles=hdls, labels=lbls, 

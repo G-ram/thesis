@@ -27,14 +27,14 @@ Further, \riptide maps and runs {\tt dfs}, which is {\em not possible} for
 the vector and \snafu baselines (Xs in the figures).
 
 \paragraph{\riptide saves energy.}
-\autoref{fig:eval:energy} presents energy of the scalar, vector, 
+\autoref{fig:riptide:eval:energy} presents energy of the scalar, vector, 
 \snafu, and ASICs normalized to \riptide.
 % 
 \riptide reduces energy by 6.6$\times$ vs. scalar, 3.1$\times$ vs. vector, and 25\% vs. \snafu.
 %
 \riptide uses less energy across the board.
 % 
-\autoref{fig:eval:energy} breaks energy into memory, scalar, and vector/CGRA.
+\autoref{fig:riptide:eval:energy} breaks energy into memory, scalar, and vector/CGRA.
 % 
 \riptide saves energy vs.\ scalar and vector because it does not fetch instructions,
 re-uses its configuration across many inputs, and forwards operands 
@@ -64,7 +64,7 @@ so \riptide provides no benefit on this benchmark.
 This result further shows that \riptide's microarchitectural additions cost little energy.
 
 
-\autoref{fig:eval:energy} also compares \riptide to hand-coded, fixed-function
+\autoref{fig:riptide:eval:energy} also compares \riptide to hand-coded, fixed-function
 ASICs for {\tt dmm}, {\tt sort}, and {\tt fft}.
 % 
 \riptide uses just 53\% more energy on average than the ASICs, while running
@@ -75,7 +75,7 @@ applications compiled directly from C. % with full programmability.
 The data show that the cost of \riptide's programmability is low.
 
 \paragraph{\riptide is fast.}
-\autoref{fig:eval:perf} shows performance normalized to scalar.
+\autoref{fig:riptide:eval:perf} shows performance normalized to scalar.
 %
 \riptide is 6.2$\times$, 3.4$\times$, and 17\% faster than vector, scalar, and \snafu.
 %% % 
@@ -108,7 +108,7 @@ C (mostly for wrappers).
 \paragraph{\riptide's compiler reduces operation counts.} Reducing operation count
 is important because they consume PEs in \riptide's fabric.
 %
-\autoref{fig:eval:ops} shows operation counts by type with different optimizations applied.
+\autoref{fig:riptide:eval:ops} shows operation counts by type with different optimizations applied.
 % 
 The first bar is an unoptimized DFG mapped to \riptide.
 % 
@@ -133,7 +133,7 @@ the number of operations on PEs by 37.5\% and demonstrating the benefit of
 % 
 
 \paragraph{\riptide reduces programmer effort.}
-\autoref{fig:eval:loc} counts code additions, including lines of code (LoC) in C, assembly, and {\tt restrict} annotations.  
+\autoref{fig:riptide:eval:loc} counts code additions, including lines of code (LoC) in C, assembly, and {\tt restrict} annotations.  
 %
 \riptide has no hand-written assembly, compiling directly from C, while  32\% and
 27\% of the LoC for the vector and \snafu baseline are hand-written assembly.
@@ -145,7 +145,7 @@ Annotations in \riptide represent a small fraction of the overall LoC, just 11.2
 and, on average, the programmer adds 4.5 annotations per benchmark.
 
 \subsection{CF in the NoC saves energy \& area}
-\autoref{fig:eval:fin} quantifies the benefits of implementing control flow in the NoC (CFiN).
+\autoref{fig:riptide:eval:fin} quantifies the benefits of implementing control flow in the NoC (CFiN).
 % 
 From left to right, the plot shows base energy on \riptide with CFiN,
 the same fabric with every control-flow operation on a PE,

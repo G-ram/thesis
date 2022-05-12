@@ -20,7 +20,7 @@
     \caption{\riptide improves energy-efficiency and performance over the
       state-of-the-art, while compiling programs from high-level C
       (vs.\ vector assembly in SNAFU).}
-    \label{fig:intro:results}
+    \label{fig:riptide:intro:results}
   \end{figure}
 }
 
@@ -38,7 +38,7 @@
       %
       Finally, \riptide implements its control-flow \emph{in the NoC} to
       increase utilization and ease compilation.}
-    \label{fig:intro}
+    \label{fig:riptide:intro}
   \end{figure}
 }
 
@@ -50,7 +50,7 @@
       high-level code with arbitrary control flow and memory access to
       an energy-minimal CGRA fabric. To maximize efficiency while
       minimizing area, \riptide implements control flow in the NoC.}
-    \label{fig:system}
+    \label{fig:riptide:system}
 \end{figure}
 }
 
@@ -59,7 +59,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/cf.pdf}
 	\caption{Semantics of new control-flow operations in \riptide.}
-	\label{fig:cf:gates}
+	\label{fig:riptide:cf:gates}
 \end{figure}
 }
 
@@ -68,7 +68,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/execute.pdf}
 	\caption{}
-	\label{fig:cf:execute}
+	\label{fig:riptide:cf:execute}
 \end{figure*}
 }
 
@@ -80,7 +80,7 @@
     compiles C code to LLVM-IR using \texttt{clang}. The middle-end
     produces an optimized dataflow graph (DFG) that enforces memory ordering
     and \riptide's control paradigm.}
-	\label{fig:compiler}
+	\label{fig:riptide:compiler}
 \end{figure*}
 }
 
@@ -91,7 +91,7 @@
 	\caption{\riptidecomp's middle-end enforces memory ordering. For 
     \texttt{example2}, an ordering graph (OG) that is 
     iteratively pruned and reduced.}
-	\label{fig:lso}
+	\label{fig:riptide:lso}
 \end{figure}
 }
 
@@ -100,7 +100,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/lso-graph-crop.pdf}
 	\caption{}
-	\label{fig:eval:fin}
+	\label{fig:riptide:eval:fin}
 \end{figure}
 }
 
@@ -108,7 +108,7 @@
 \begin{table}[t]
     \begin{center}
       \caption{\riptide's instruction set architecture (ISA).}
-      \label{tab:isa}
+      \label{tab:riptide:isa}
       \scriptsize
       \resizebox{\linewidth}{!}{%
       \begin{tabular*}{3.675in}{lccl}
@@ -120,9 +120,9 @@
         Load                    & Memory            & \texttt{ld}                                       & \texttt{ld} $base$, $idx$                  \\
         Store                   & Memory            & \texttt{st}                                       & \texttt{st} $base$, $idx$, $val$           \\
         Select                  & Control Flow      & \texttt{sel}                                      & $cond$ \texttt{?} $val0$ \texttt{:} $val1$ \\ 
-        Steer, carry, invariant & Control Flow      & (\texttt{T} | \texttt{F}), \texttt{C}, \texttt{I} & See \autoref{fig:cf:gates}                 \\ 
-        Merge, order            & Synchronization   & \texttt{M}, \texttt{O}                            & See \autoref{fig:cf:gates}                 \\ 
-        Stream                  & Stream            & \texttt{STR}                                      & See \autoref{fig:cf:gates}                 \\ 
+        Steer, carry, invariant & Control Flow      & (\texttt{T} | \texttt{F}), \texttt{C}, \texttt{I} & See \autoref{fig:riptide:cf:gates}                 \\ 
+        Merge, order            & Synchronization   & \texttt{M}, \texttt{O}                            & See \autoref{fig:riptide:cf:gates}                 \\ 
+        Stream                  & Stream            & \texttt{STR}                                      & See \autoref{fig:riptide:cf:gates}                 \\ 
         \bottomrule 
       \end{tabular*}}
     \end{center}
@@ -135,14 +135,14 @@
 		\centering
 		\includegraphics[height=1.52in]{riptide/figures/pdf/cf.pdf}
 		\caption{Control-flow gates.}
-		\label{fig:cf:gates}
+		\label{fig:riptide:cf:gates}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.74\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/execute.pdf}
 		\caption{Shows an example execution.}
-		\label{fig:cf:execute}
+		\label{fig:riptide:cf:execute}
 	\end{minipage}
 \end{figure*}
 }
@@ -153,7 +153,7 @@
 		\centering
 		\includegraphics[height=2in]{riptide/figures/pdf/block.pdf}
 		\caption{\riptide's ULP CGRA fabric.}
-		\label{fig:arch:block}
+		\label{fig:riptide:arch:block}
 	\end{minipage}
 	\hfill
 	\hspace{4em}
@@ -161,14 +161,14 @@
 		\centering
 		\includegraphics[height=2in]{riptide/figures/pdf/pe.pdf}
 		\caption{PE microarchitecture}
-		\label{fig:arch:pe}
+		\label{fig:riptide:arch:pe}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.3\linewidth}
 		\centering
 		\includegraphics[height=2in]{riptide/figures/pdf/router.pdf}
 		\caption{Router microarchitecture}
-		\label{fig:arch:router}
+		\label{fig:riptide:arch:router}
 	\end{minipage}
 \end{figure*}
 }
@@ -178,7 +178,7 @@
 	\centering
 	\includegraphics[width=0.5\linewidth]{riptide/figures/pdf/filter.pdf}
 	\caption{Basic control-flow module in \riptide's routers.}
-	\label{fig:filter}
+	\label{fig:riptide:filter}
 \end{figure}
 }
 
@@ -192,7 +192,7 @@
 
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/energy-graph-crop.pdf}
 		\caption{Shows the energy (normalized to \riptide) of scalar, vector, \snafu, \riptide across ten benchmarks. \riptide uses 25\% less energy than \snafu. }
-		\label{fig:eval:energy}
+		\label{fig:riptide:eval:energy}
 	\end{minipage}
 
 	\begin{minipage}{\linewidth}
@@ -200,7 +200,7 @@
 		\vspace{1em}
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/perf-graph-crop.pdf}
 		\caption{Shows the speedup v. scalar of scalar, vector, \snafu, and \riptide across ten benchmarks. \riptide is 17\% faster than \snafu.}
-		\label{fig:eval:perf}
+		\label{fig:riptide:eval:perf}
 	\end{minipage}
 \end{figure*}
 }
@@ -215,7 +215,7 @@
 
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/counts-graph-crop.pdf}
         \caption{Shows operator counts for ten different benchmarks. Starting with an unoptimized, unordered baseline (\texttt{Raw}), compiler optimizations reduce operator counts while enforcing memory ordering, making it feasible to map benchmarks to hardware.}
-		\label{fig:eval:ops}
+		\label{fig:riptide:eval:ops}
 	\end{minipage}
 \end{figure*}
 }
@@ -225,7 +225,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/fin-graph-crop.pdf}
 	\caption{Quantifies the benefits of control flow in the NoC. \riptide uses 45\% , 42\%, and 29\% less energy than \riptide w/ No CFiN, a fabric where all CF ops are PEs (All PEs), and a fabric that fuses CF ops into PEs (Fused).  }
-	\label{fig:eval:fin}
+	\label{fig:riptide:eval:fin}
 \end{figure}
 }
 
@@ -238,7 +238,7 @@
 
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/loc-graph-crop.pdf}
 	\caption{Shows the number of code additions for ten benchmarks running on scalar, vector, \snafu, and \riptide. \riptide requires no hand-coded assembly unlike vector and \snafu.}
-	\label{fig:eval:loc}
+	\label{fig:riptide:eval:loc}
 \end{figure}
 }
 
@@ -247,20 +247,20 @@
 	\centering
 	\includegraphics[width=0.9\linewidth]{riptide/figures/pdf/block.pdf}
 	\caption{}
-	\label{fig:block}
+	\label{fig:riptide:block}
 \end{figure}
 }
 
 \newcommand{\tabRipTideMicroParams}{
 \begin{table}
 \caption{Microarchitectural parameters.}
-\label{tab:params}
+\label{tab:riptide:params}
 \end{table}
 }
 
 \newcommand{\tabRipTideAppParams}{
 \begin{table}
 \caption{Application parameters.}
-\label{tab:apps}
+\label{tab:riptide:apps}
 \end{table}
 }

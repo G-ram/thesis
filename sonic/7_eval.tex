@@ -11,11 +11,12 @@ the state-of-the-art; and
 \emph{(iii)}~\sonictails perform well across a variety of networks
 without any hand-tuning.
 
-\subsection{\sonictails accelerates intermittent inference 
-v. state-of-the-art}
+\subsection{\sonictails accelerates intermittent inference}
 
-\autoref{fig:evaluation:time} shows the inference time for the three
-networks we consider (\autoref{tab:genesis:nns}).
+\figSONICEvalTime
+
+\autoref{fig:sonic:evaluation:time} show the inference time for the three
+networks we consider (\autoref{tab:sonic:genesis:nns}).
 %
 For each network, we evaluated six implementations running on four different power systems.
 %
@@ -52,8 +53,6 @@ and \tails improves it by $12.2\times$.
 %
 Moreover, execution time is consistent across capacitor sizes for \sonictails.
 
-\figSONICEvalOther
-
 Larger tile sizes amortize overheads somewhat, but since they do not
 complete on all networks or capacitor sizes, they are an unattractive
 implementation choice.
@@ -71,8 +70,10 @@ Ultimately, these results indicate that inference is viable on
 commodity energy-harvesting devices, and \sonictails significantly reduce overheads over
 the state-of-the-art. 
 
+\figSONICEvalTimeBreak
+
 \subsection{Loop continuation nearly eliminate intermittence overheads}
-\autoref{fig:evaluation:time:breakdown} shows that the overheads of \sonictails come mainly
+\autoref{fig:sonic:evaluation:time:breakdown} shows that the overheads of \sonictails come mainly
 from control required to support intermittence. 
 %
 The darker-hatched regions of the bars represent the proportion of time spent 
@@ -92,9 +93,9 @@ which forces \tails to bit-shift activations before invoking FIR-DTC.
 Moreover, LEA does not have a left-shift operation (it does have a right-shift),
 so these shifts must be done in software.
 %
-These shifts account for most of the control time in \autoref{fig:evaluation:time:breakdown}.
+These shifts account for most of the control time in \autoref{fig:sonic:evaluation:time:breakdown}.
 
-\autoref{fig:evaluation:time:breakdown} also shows the time breakdown for Tile-32.
+\autoref{fig:sonic:evaluation:time:breakdown} also shows the time breakdown for Tile-32.
 %
 Unlike \sonictails,
 Tile-32 spends significantly more time in both control and the kernel.
@@ -105,24 +106,28 @@ and committing when the task completes (control time).
 %
 \sonictails effectively eliminate redo-logging, avoiding these overheads.
 
+\figSONICEvalEnergy
+
 \subsection{\sonictails use much less energy than tiling}
 
 Energy-harvesting systems spend a majority of their time powered off
 recharging, so execution time is largely determined by energy
 efficiency.
 %
-\autoref{fig:evaluation:energy:measured} shows that \sonictails achieve high performance 
+\autoref{fig:sonic:evaluation:energy:measured} shows that \sonictails achieve high performance 
 because they require less energy than other schemes.
 %
 Inference energy is in direct proportion to the dead
-time spent recharging in \autoref{fig:evaluation:time}.
+time spent recharging in \autoref{fig:sonic:evaluation:time}.
 %
 Since dead time dominates inference time, \sonictails get similar
 improvements in inference energy as they do in terms of inference
 time.
 
+\figSONICEvalMicro
+
 \subsection{Where does \sonic's energy go?}
-\autoref{fig:evaluation:energy:micro} further characterizes \sonic by showing 
+\autoref{fig:sonic:evaluation:energy:micro} further characterizes \sonic by showing 
 the proportion of energy spent on different operations. 
 %
 The blue regions represent memory operations, the orange regions are control

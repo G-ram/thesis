@@ -4,7 +4,7 @@
 \figMANICOverview
 
 \manic implements the {\em vector-dataflow} execution model. There are
-two main goals of vector-dataflow execution (\autoref{fig:intro}).
+two main goals of vector-dataflow execution (\autoref{fig:manic:intro}).
 The first goal is to provide general-purpose programmability.  The
 second goal is to do this while operating efficiently by minimizing
 instruction and data supply overheads.
@@ -25,17 +25,17 @@ reduces the cost of instruction supply and control, which is a primary energy co
 general-purpose programmability.  Vector operation is thus a key ingredient in
 \manic's energy-efficiency. 
 
-\autoref{fig:overview} illustrates the difference between scalar execution
+\autoref{fig:manic:overview} illustrates the difference between scalar execution
 and vector execution.
 %
-\autoref{fig:overview:scalar} executes a sequence of instructions in a scalar fashion.
+\autoref{fig:manic:overview:scalar} executes a sequence of instructions in a scalar fashion.
 %
 Blue arrows show dataflow and orange arrows show control flow.
 %
 Instructions proceed in sequence and write to and read from the register file
 to produce and consume outputs and operands.
 %
-\autoref{fig:overview:vector} executes the same sequence of instructions in a vector execution.
+\autoref{fig:manic:overview:vector} executes the same sequence of instructions in a vector execution.
 %
 The execution performs the vector instruction's operation on each element of
 the vector in sequence, consuming operands from and producing outputs to the
@@ -70,7 +70,7 @@ input avoids accessing the expensive vector register file to fetch its input
 operands.  Avoiding these reads reduces the total energy cost of executing a
 window of vector instructions.
 
-\autoref{fig:overview:vde} illustrates the difference between vector execution
+\autoref{fig:manic:overview:vde} illustrates the difference between vector execution
 and vector-dataflow execution in \manic.
 %
 Vector-dataflow first identifies data dependencies among a sequence of vector
@@ -79,7 +79,7 @@ instructions in a fixed-size instruction window.
 After identifying dependences between instructions in the window, \manic
 creates an efficient dataflow forwarding path between dependent instructions
 (using the forwarding mechanism described in~\autoref{manic:manic}).
-\autoref{fig:overview:vde} shows a window of dependent operations made up of
+\autoref{fig:manic:overview:vde} shows a window of dependent operations made up of
 instructions {\tt I0}, {\tt I1}, and {\tt I2}. 
 %
 Execution begins with the first vector instruction in the window ({\tt I0}) and the first
@@ -152,7 +152,7 @@ resources for forwarding in a window and make a window of any size more effectiv
 We statically measured the distribution of kill distances for all registers in the
 inner loops of three kernels. 
 % 
-The histograms shown in~\autoref{fig:kill_distro} suggest that kill distances tend to be short and that a reasonably small (and thus implementable) window size would capture dependencies for these kernels.
+The histograms shown in~\autoref{fig:manic:kill_distro} suggest that kill distances tend to be short and that a reasonably small (and thus implementable) window size would capture dependencies for these kernels.
 
 \subsection[Synchronization and memory consistency]{Synchronization and memory consistency}
 

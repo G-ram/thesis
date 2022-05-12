@@ -16,7 +16,7 @@
 		\bottomrule
 	\end{tabular}}
 	\caption{Description of each parameter in our energy model.}
-	\label{tab:motivation:model}
+	\label{tab:sonic:motivation:model}
 \end{table} 
 }
 
@@ -28,7 +28,7 @@
 	in an example wildlife monitoring application.  Interesting events
 	are rare and communication is expensive; local inference ensures
 	that energy is only spent on interesting events.}
-	\label{fig:motivation:images}
+	\label{fig:sonic:motivation:images}
 \end{figure}
 }
 
@@ -37,15 +37,15 @@
 	\centering
 	\includegraphics[width=0.75\linewidth]{sonic/figures/pdf/motivation_results-crop.pdf}
 	\caption{Local inference (i.e. Naive and \sonictails) lets energy-harvesting devices communicate only \emph{results} of inference, enabling dramatic increases in end-to-end system performance.}
-	\label{fig:motivation:results}
+	\label{fig:sonic:motivation:results}
 \end{figure}
 }
 
 \newcommand{\figSONICOverview}{
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.95\linewidth]{sonic/figures/pdf/overview-crop}
-	\caption{\label{fig:overview} Overview of implementing a DNN application using \sonictails.
+	\includegraphics[width=0.55\linewidth]{sonic/figures/pdf/overview-crop}
+	\caption{\label{fig:sonic:overview} Overview of implementing a DNN application using \sonictails.
 	\genesis first compresses the network to optimize interesting messages sent per Joule (\metric).
 	\sonictails then ensure correct intermittent execution at high performance~\cite{Gobieski2018IntermittentDN}.
 }
@@ -90,7 +90,7 @@
 	\bottomrule
 	\end{tabular}}
 	\caption{Neural networks used in this paper.}
-	\label{tab:genesis:nns}
+	\label{tab:sonic:genesis:nns}
 \end{table}
 }
 
@@ -108,15 +108,15 @@
 		\hfill
 		\begin{subfigure}{0.32\linewidth}
 			\includegraphics[width=\linewidth]{sonic/figures/pdf/har_train-crop.pdf}
-			\caption{Human activity recognition (HAR).}
+			\caption{Activity recognition (HAR).}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}{0.32\linewidth}
+		\begin{subfigure}{0.33\linewidth}
 			\includegraphics[width=\linewidth]{sonic/figures/pdf/okg_train-crop.pdf}
 			\caption{Google keyword spotting (OkG).}
 		\end{subfigure}
 		\caption{\genesis explores the inference accuracy-cost tradeoff for different neural network configurations.}
-		\label{fig:genesis:train}
+		\label{fig:sonic:genesis:train}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{\linewidth}
@@ -127,16 +127,16 @@
 		\hfill
 		\begin{subfigure}{0.32\linewidth}
 			\includegraphics[width=\linewidth]{sonic/figures/pdf/har_train_perf-crop.pdf}
-			\caption{Human activity recognition (HAR).}
+			\caption{Activity recognition (HAR).}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}{0.32\linewidth}
+		\begin{subfigure}{0.33\linewidth}
 			\includegraphics[width=\linewidth]{sonic/figures/pdf/okg_train_perf-crop.pdf}
 			\caption{Google keyword spotting (OkG).}
 		\end{subfigure}
 		\caption{\genesis uses our end-to-end application performance
 		model (\autoref{eq:impj}) to select the best feasible network configuration.}
-		\label{fig:genesis:perf}
+		\label{fig:sonic:genesis:perf}
 	\end{minipage}
 \end{figure*}
 }
@@ -148,7 +148,7 @@
 	\caption{Executing a loop using two fixed task-tilings and with 
 	\sonic's loop continuation mechanism. Loop continuation avoids the re-execution and non-termination costs of task-tiling.
 	\tails uses SIMD to perform more work in a fixed energy budget (\autoref{sonic:tails}).} 
-	\label{fig:looptrick} 
+	\label{fig:sonic:looptrick} 
 \end{figure}
 }
 
@@ -159,7 +159,7 @@
 	\caption{
 	\sonic uses \emph{loop continuation} and \emph{loop-ordered buffering} 
 	to reduce overheads of correct intermittent execution. \emph{Loop continuation}
-	\label{fig:tails_sonic}
+	\label{fig:sonic:tails_sonic}
 	maximizes the amount of computation done per task by allowing computation to
 	pick up where it left off before power failure.
 	}
@@ -171,12 +171,12 @@
 	\centering
 	\includegraphics[width=0.9\linewidth]{sonic/figures/pdf/hardware-crop}
 	\caption{Diagram of the measurement setup.} 
-	\label{fig:hardware}
+	\label{fig:sonic:hardware}
 \end{figure}
 }
 
 \newcommand{\figSONICEvalTime}{
-\begin{figure*}
+\begin{figure*}[htb]
 	\centering
 	\includegraphics[height=0.3in]{sonic/figures/pdf/perf_legend-crop.pdf}
 
@@ -185,13 +185,13 @@
 	\begin{subfigure}{0.45\linewidth}
 		\includegraphics[width=\linewidth]{sonic/figures/pdf/cont_zoom-crop.pdf}
 		\caption{Continuous power.}
-		\label{fig:evaluation:time:cont}
+		\label{fig:sonic:evaluation:time:cont}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.45\linewidth}
 		\includegraphics[width=\linewidth]{sonic/figures/pdf/100uf_zoom-crop.pdf}
 		\caption{Intermittent power w/ 100\textmu F cap.}
-		\label{fig:evaluation:time:100uf}
+		\label{fig:sonic:evaluation:time:100uf}
 	\end{subfigure}
 
 	\vspace{0.25em}
@@ -200,24 +200,103 @@
 	\begin{subfigure}{0.55\linewidth}
 		\includegraphics[width=\linewidth]{sonic/figures/pdf/mnist_zoom-crop.pdf}
 		\caption{MNIST image recognition.}
-		\label{fig:evaluation:time:mnist}
+		\label{fig:sonic:evaluation:time:mnist}
 	\end{subfigure}
 
-	\caption{Inference time on three neural networks.
-		The na\"ive baseline is fast, but does not tolerate intermittent execution.
-		Tiled implementations can ensure correct execution, but only at high cost (up to 19$\times$ slowdown) and sometimes do not complete.
-		\sonic ensures correct execution and is nearly as fast as the na\"ive baseline,
-		and \tails is even faster.
-		(\ref{fig:evaluation:time:cont}) All three networks on continuous power,
+	\caption{
+	% Inference time on three neural networks.
+	% 	The na\"ive baseline is fast, but does not tolerate intermittent execution.
+	% 	Tiled implementations can ensure correct execution, but only at high cost (up to 19$\times$ slowdown) and sometimes do not complete.
+	% 	\sonic ensures correct execution and is nearly as fast as the na\"ive baseline,
+	% 	and \tails is even faster.
+		\autoref{fig:sonic:evaluation:time:cont}: Three networks on continuous power,
 		where \sonictails add dramatically lower overheads than prior task-based systems.
-		(\ref{fig:evaluation:time:100uf}) All three networks on intermittent power (100\textmu F capacitor),
+		\autoref{fig:sonic:evaluation:time:100uf}: Three networks on intermittent power (100\textmu F capacitor),
 		where the baseline and most tiled implementations do not complete.
-		(\ref{fig:evaluation:time:mnist}) The MNIST network across all four power systems.
-		\sonictails always completes and has consistently good performance;
+		\autoref{fig:sonic:evaluation:time:mnist}: The MNIST network across all four power systems. \sonictails always completes and has consistently good performance;
 		HAR and OkG show similar results.
 	}
-	\label{fig:evaluation:time}
+	\label{fig:sonic:evaluation:time}
 \end{figure*}}
+
+\newcommand{\figSONICEvalMNIST}{
+\begin{figure*}[htb]
+	\centering
+	\includegraphics[height=0.3in]{sonic/figures/pdf/perf_legend-crop.pdf}
+	\vspace{0.25em}
+
+	\rotatebox{90}{\small\sf Time (s)}
+	\begin{minipage}{0.55\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/mnist_zoom-crop.pdf}
+	\end{minipage}
+	\caption{The MNIST network across all four power systems. \sonictails always completes and has consistently good performance;
+	HAR and OkG show similar results.}
+	\label{fig:sonic:evaluation:time:mnist}
+\end{figure*}
+}
+
+\newcommand{\figSONICEvalTimeBreak}{
+\begin{figure*}[h]
+	\centering
+	\begin{minipage}{0.25\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/time_break_legend-crop.pdf}
+	\end{minipage}
+	\rotatebox{90}{\small\sf Time (s)}
+	\begin{minipage}{0.5\linewidth}
+		\centering
+		\hspace{-1em}
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/time_break-crop.pdf}
+	\end{minipage}
+	\hfill
+
+	\caption{Proportions of time spent computing the kernel of a layer.
+	\sonictails add small overheads over a na\"ive baseline,
+	unlike prior task-based systems (Tile-32).}
+	\label{fig:sonic:evaluation:time:breakdown}
+\end{figure*}
+}
+
+\newcommand{\figSONICEvalEnergy}{
+\begin{figure*}[htb]
+	\centering
+	\begin{minipage}{0.25\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/perf2_legend-crop.pdf}
+	\end{minipage}
+	\rotatebox{90}{\small\sf Energy (mJ)}
+	\begin{minipage}{0.5\linewidth}
+		\centering
+		\hspace{-1em}
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/tails_energy-crop.pdf}
+	\end{minipage}
+	\hfill
+
+	\caption{Energy of three neural networks with a 1mF capacitor. \sonictails require substantially less energy than the state-of-the-art.}
+	\label{fig:sonic:evaluation:energy:measured}
+\end{figure*}
+}
+
+\newcommand{\figSONICEvalMicro}{
+\begin{figure*}[htb]
+	\centering
+	\begin{minipage}{0.25\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/micro_energy_legend-crop.pdf}
+	\end{minipage}
+	\rotatebox{90}{\small\sf Energy (mJ)}
+	\begin{minipage}{0.5\linewidth}
+		\centering
+		\hspace{-1em}
+		\includegraphics[width=\linewidth]{sonic/figures/pdf/micro_energy-crop.pdf}
+	\end{minipage}
+	\hfill
+
+	\caption{Energy profile of \sonic broken down by operation and layer. Multiplication, control, and memory accesses represent significant overheads.}
+	\label{fig:sonic:evaluation:energy:micro}
+\end{figure*}
+}
 
 \newcommand{\figSONICEvalOther}{
 \begin{figure*}
@@ -234,7 +313,7 @@
 		\caption{Proportions of time spent computing the kernel of a layer.
 		\sonictails add small overheads over a na\"ive baseline,
 		unlike prior task-based systems (Tile-32).}
-		\label{fig:evaluation:time:breakdown}
+		\label{fig:sonic:evaluation:time:breakdown}
 	\end{subfigure}
 	\hfill
 	\begin{subfigure}{0.49\linewidth}
@@ -246,7 +325,7 @@
 		\includegraphics[width=\linewidth]{sonic/figures/pdf/tails_energy-crop.pdf}
 		\caption{Energy of three neural networks with a 1mF capacitor. \sonictails
 		require substantially less energy than the state-of-the-art.}
-		\label{fig:evaluation:energy:measured}
+		\label{fig:sonic:evaluation:energy:measured}
 	\end{subfigure}
 
 	\begin{subfigure}{0.65\linewidth}
@@ -257,7 +336,7 @@
 
 		\includegraphics[width=0.8\linewidth]{sonic/figures/pdf/micro_energy-crop.pdf}
 		\caption{Energy profile of \sonic broken down by operation and layer. Multiplication, control, and memory accesses represent significant overheads.}
-		\label{fig:evaluation:energy:micro}
+		\label{fig:sonic:evaluation:energy:micro}
 	\end{subfigure}
 
 \end{figure*}

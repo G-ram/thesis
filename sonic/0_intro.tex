@@ -79,9 +79,9 @@ What these systems have missed is the opportunity to \emph{exploit the
 This missed opportunity is especially costly for highly structured and
 loop-heavy computations like DNN inference.
 
-\paragraph{My approach and contributions}
+\paragraph{Our approach and contributions}
 %
-This paper presents the \emph{first demonstration of intermittent DNN
+We present the \emph{first demonstration of intermittent DNN
 inference} on real-world neural networks running on a widely
 available energy-harvesting system.
 %
@@ -90,14 +90,14 @@ We make the following contributions:
 \begin{compactitem}
 \item We first analyze where energy is spent in an energy-harvesting system
 and show that inference accuracy largely determines IoT
-application performance (\autoref{sec:motivation}).
+application performance (\autoref{sonic:motivation}).
 %
 This motivates using DNNs despite their added cost over simpler but
 less accurate inference techniques.
 %
 \item Building on this analysis, we present \genesis, a tool that
 automatically compresses networks to maximize IoT application
-performance (\autoref{sec:genesis}).
+performance (\autoref{sonic:genesis}).
 %
 \genesis uses known compression techniques%
 ~\cite{nabhan1994toward, han:iclr16:deep-compression,
@@ -108,7 +108,7 @@ vs.\ accuracy. % to maximize IoT application performance.
 %
 \item We design and implement \sonic, 
   a software system for DNN inference with specialized support for intermittent execution
-  (\autoref{sec:sonic}).
+  (\autoref{sonic:sonic}).
   %
   To ensure correctness at low overhead,
   \sonic introduces \emph{loop continuation},
@@ -124,7 +124,7 @@ These techniques let \sonic resume from where it left off after a power failure,
 {eliminating task transitions and wasted work} that plague prior task-based systems.
 %
 \item Finally, we build \tails to show how to incorporate hardware
-  acceleration into \sonic (\autoref{sec:tails}). \tails uses
+  acceleration into \sonic (\autoref{sonic:tails}). \tails uses
   hardware available in some microcontrollers to accelerate matrix
   multiplication and convolution.
   %
@@ -136,7 +136,7 @@ These techniques let \sonic resume from where it left off after a power failure,
 \noindent
 We evaluate \sonictails on a TI MSP430
 microcontroller~\cite{msp430fr5994} using an RF-energy
-harvester~\cite{powercastboard,powercasttransmitter} (Secs.~\ref{sec:methodology}~\&~\ref{sec:evaluation}).
+harvester~\cite{powercastboard,powercasttransmitter} (Secs.~\autoref{sonic:methodology}~\&~\autoref{sonic:evaluation}).
 %
 On three real-world DNNs~\cite{lecun:ieee89:lenet,okgoogle,har},
 \sonic improves inference efficiency by $6.9\times$ on average
@@ -144,9 +144,6 @@ over Alpaca~\cite{alpaca}, a state-of-the-art intermittent system.
 %
 \tails exploits DMA and SIMD to further improve efficiency by $12.2\times$ on average.
 
-We conclude with future research directions for parallel intermittent architectures
-that avoid limitations of current energy-harvesting MCUs
-and provide new features to support intermittence efficiently
-(\autoref{sec:panic}).
+We conclude with a discussion of the limitations of current energy-harvesting MCUs and the need for new ULP architectures (\autoref{sonic:discuss}).
 
 

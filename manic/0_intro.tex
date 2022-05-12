@@ -62,7 +62,7 @@ These MCUs are general-purpose, programmable devices that support a variety of
 applications.  
 %
 However, COTS MCUs pay a high power, energy, and performance cost for their
-generality and programmability (see the \textit{COTS MCU} dot in~\autoref{fig:intro}).  
+generality and programmability (see the \textit{COTS MCU} dot in~\autoref{fig:manic:intro}).  
 %
 
 Programmability is expensive in two main ways~\cite{horowitz:isscc14:energy-keynote,hameed2010understanding,balfour_elm_thesis}.
@@ -89,7 +89,7 @@ Specialization customizes a system's control and datapath to accommodate a
 particular workload (e.g., deep neural networks~\cite{chen:isca16:eyeriss,chen:asplos14:diannao}),
 eliminating inessential inefficiencies like instruction supply and RF access.
 The downside of specialization is its 
-inability to support a wide range of applications (see the \textit{ASIC} dot in~\autoref{fig:intro}).
+inability to support a wide range of applications (see the \textit{ASIC} dot in~\autoref{fig:manic:intro}).
 
 In contrast to specialization, another approach to programmable
 energy-efficiency is to target a conventional vector architecture (such as
@@ -97,7 +97,7 @@ NVidia's Jetson TX2~\cite{jetsontx2}, ARM NEON~\cite{neon}, or TI LEA~\cite{lea}
 supply across a large number of compute operations. Unfortunately,
 vector architectures exacerbate the energy costs of RF access,
 especially in high-throughput designs with multi-ported vector register files (VRFs)~\cite{kozyrakis2003overcoming,asanovic1996t0,iram},
-and so remain far from the energy-efficiency of fully specialized designs~\cite{hameed2010understanding} (see the \textit{classic vector} dot in~\autoref{fig:intro}).
+and so remain far from the energy-efficiency of fully specialized designs~\cite{hameed2010understanding} (see the \textit{classic vector} dot in~\autoref{fig:manic:intro}).
 
 The ELM architecture stands out among prior efforts as an architecture that
 targets ultra-low-power operation, operates with extremely high
@@ -119,13 +119,13 @@ as compilers for ELM are unlikely to be simple or efficient;
 e.g., ELM itself cites a nearly 2$\times$ drop in performance when moving from hand-coded assembly to compiler-generated assembly~\cite{balfour2008energy}.
 %
 While ELM supports general-purpose programs, it does so with a high
-programmability cost and substantial changes to software development tools (as shown in~\autoref{fig:intro}).
+programmability cost and substantial changes to software development tools (as shown in~\autoref{fig:manic:intro}).
 
 \paragraph{Our design and contributions}
 In this work we present \manic: an efficient vector-dataflow
 architecture for ultra-low-power embedded systems.  
 %
-As depicted in~\autoref{fig:intro}, \manic is closest to the \textit{Ideal} design, achieving high energy-efficiency while remaining general-purpose and simple to program.
+As depicted in~\autoref{fig:manic:intro}, \manic is closest to the \textit{Ideal} design, achieving high energy-efficiency while remaining general-purpose and simple to program.
 %
 %
 \manic is simple to program because it exposes a standard vector ISA interface

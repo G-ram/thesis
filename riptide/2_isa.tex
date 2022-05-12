@@ -3,7 +3,7 @@
 
 \riptide provides a rich set of control-flow operators to support complex programs.
 % 
-Its ISA, shown in \autoref{tab:isa}, has six categories of operators: arithmetic, multiplier, memory, control flow, synchronization, and streams.
+Its ISA, shown in \autoref{tab:riptide:isa}, has six categories of operators: arithmetic, multiplier, memory, control flow, synchronization, and streams.
 %
 (Multiplication is split from other arithmetic because, to save area, only some PEs can perform multiplication.)
 %
@@ -14,7 +14,7 @@ There are two fundamental control-flow operators: steer and carry.
 % 
 These operators are universal, i.e., sufficient to implement \riptide's control-flow paradigm.
 %
-Operators are illustrated in \autoref{fig:cf:gates}.
+Operators are illustrated in \autoref{fig:riptide:cf:gates}.
 %
 Whenever a value is read by an operator, it is implied that the
 operator waits until a valid token arrives for that value over the
@@ -35,7 +35,7 @@ Carry is the other fundamental control-flow operator.
 % 
 It represents a loop-carried dependency and takes a decider, {\tt D}, and two data values {\tt A} and {\tt B}.
 % 
-Carry has the internal state machine shown in \autoref{fig:cf:gates}.
+Carry has the internal state machine shown in \autoref{fig:riptide:cf:gates}.
 %
 In the {\em Initial} state, it waits for {\tt A}, and then passes it through and transitions to the {\em Block} state.
 %

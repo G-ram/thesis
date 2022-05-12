@@ -24,7 +24,7 @@ The \bend takes target-specific IR as input and maps operators onto specific
 CGRA hardware units, producing a configuration bitstream directly usable for
 configuring the CGRA.
 %
-\autoref{fig:compiler} demonstrates the \fend and \mend's compiler passes. 
+\autoref{fig:riptide:compiler} demonstrates the \fend and \mend's compiler passes. 
 %
 
 \subsection{Memory-ordering analysis}
@@ -66,7 +66,7 @@ an edge to the OG for each pair that may or must alias.
 \riptidecomp need not consider self-dependences because repeated instances of the
 same memory operation are always ordered on its CGRA fabric. %mapped into \riptide's CGRA fabric are always ordered.
 %
-\autoref{fig:lso} shows a basic, unoptimized OG in the top left for an 
+\autoref{fig:riptide:lso} shows a basic, unoptimized OG in the top left for an 
 example function (\texttt{example2}).
 
 \paragraph{Pruning the ordering graph} The OG as computed includes redundant
@@ -80,10 +80,10 @@ produced by the source.
 \riptidecomp finds data dependences by walking LLVM's definition-use (def-use)
 chain from source to destination and removes arcs for dependent operations~\cite{nachos}.
 %
-For instance, in \texttt{example2}'s CFG from \autoref{fig:compiler}, 
+For instance, in \texttt{example2}'s CFG from \autoref{fig:riptide:compiler}, 
 \textbf{S2} is data-dependent \textbf{L1}, so there need not
 be an ordering arc in the OG. This is reflected in the blue-outlined edge
-from \textbf{L1} to \textbf{S2} that is pruned in the OG in \autoref{fig:lso}.
+from \textbf{L1} to \textbf{S2} that is pruned in the OG in \autoref{fig:riptide:lso}.
 %
 Similarly, control dependences order some memory operations if the execution of
 the destination is control-dependent on the source.
@@ -91,8 +91,8 @@ the destination is control-dependent on the source.
 \riptidecomp analyzes the CFG to identify control dependences
 between memory operations and removes those orderings from the OG.
 %
-In \texttt{example2}'s CFG from \autoref{fig:compiler}, the
-edge from \textbf{L0} to \textbf{S1} in \autoref{fig:lso} is pruned using this analysis.
+In \texttt{example2}'s CFG from \autoref{fig:riptide:compiler}, the
+edge from \textbf{L0} to \textbf{S1} in \autoref{fig:riptide:lso} is pruned using this analysis.
 
 \paragraph{Transitive memory-ordering analysis}
 % 
@@ -123,7 +123,7 @@ instead of being arbitrary.  Second, the inserted cycle must add edges that
 respect proper loop nesting, avoiding edges directly from the inner to outer
 loop.  To handle these edges, we add synthetic loop entry and exit nodes to
 each loop (shown as \texttt{src} and \texttt{sink} nodes at the bottom 
-of \autoref{fig:lso}). Any edge inserted % in the condensed SCC 
+of \autoref{fig:riptide:lso}). Any edge inserted % in the condensed SCC 
 that links an inner loop node to an outer loop node instead uses the inner 
 loop's exit as its destination.
 Symmetrically, an edge inserted that links an outer loop node to an inner loop
@@ -142,7 +142,7 @@ path's execution does not, which is incorrect.
 This problem arises due to \riptide's steering control and lack of a program
 counter to order memory operations.
 %
-In \autoref{fig:lso}, we show a scenario where path-sensitivity is critical.
+In \autoref{fig:riptide:lso}, we show a scenario where path-sensitivity is critical.
 %
 The transitive edge in the SCCDAG of the OG between \textbf{SCC3} 
 (\textbf{S2}) and \textbf{SCC1} (\textbf{L0}) cannot be eliminated 
@@ -172,7 +172,7 @@ produce a control token on completion and can optionally consume a
 control token to enforce memory ordering.
 %
 The \mend encodes ordering arcs as defs and uses of data values in the IR
-(as seen in the IR transform of loads and stores in \autoref{fig:compiler})
+(as seen in the IR transform of loads and stores in \autoref{fig:riptide:compiler})
 before lowering them as dependences in the DFG.
 %
 For a memory operation that must receive multiple control signals,
@@ -253,7 +253,7 @@ gates the LGIV in a loop iteration.
 The \mend fuses these operations into a single stream operation and sets
 the stream's initial, step, and bound values.
 %
-\autoref{fig:compiler} shows stream compilation, where
+\autoref{fig:riptide:compiler} shows stream compilation, where
 the operations for loop iteration logic (outlined in blue in the 
 DFG) are fused into a stream operator.
 %

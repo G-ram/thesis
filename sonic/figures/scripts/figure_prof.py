@@ -22,8 +22,8 @@ OVERFLOW = 32767
 TIME_MULTIPLIER = 0.0001056965965 * 1000
 
 stylecolors = [
-	'#5EB4C2', '#00515D', '#A14000', '#FF8D3E', '#CE9D80', '#B39CE4',
-	'#EEE8A9', '#066756', '#95B0B5', '#CE9D80', '#88B467', '#842700']
+	'#9f7ccf', '#654f82', '#41b6c4', '#2d808a', '#1b4c52', '#a1dab4',
+	'#7ba689', '#066756', '#95B0B5', '#CE9D80', '#88B467', '#842700']
 
 micro_mapping = {
 	'f_mul' : 'F_MUL',
@@ -137,16 +137,16 @@ micro_color_mapping = {
 	'MAT_SET_1D' : '',
 	'MAT_SET_2D' : '',
 	'MAT_SET_3D' : '',
-	'ld' : '#4472C4',
-	'st' : '#325385',
-	'add' : '#EB7D3C',
-	'mul' : '#C16732',
-	'inc' : '#814521',
-	'F_ADD' : '#2E9260',
-	'F_MUL' : '#226B46',
+	'ld' : '#9f7ccf',
+	'st' : '#654f82',
+	'add' : '#41b6c4',
+	'mul' : '#29848f',
+	'inc' : '#135d66',
+	'F_ADD' : '#a1dab4',
+	'F_MUL' : '#78ab89',
 	'loop_inc' : '',
 	'loop_add' : '',
-	'Transition' : '#A068B0'
+	'Transition' : '#dba37d'
 }
 
 micro_pretty_name = {
@@ -545,7 +545,7 @@ def main(args):
 		handles = [handles[i] for i in new_idxs]
 		legfig = pylab.figure(figsize=(8,3))
 		legfig.legend(handles=handles[::-1], labels=labels[::-1], 
-			loc='center', ncol=3, columnspacing=1.5, handletextpad=0.25)
+			loc='center', ncol=1, columnspacing=1.5, handletextpad=0.25)
 		if args.dest:
 			legfig.savefig(args.legend)
 	if args.dest:

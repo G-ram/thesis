@@ -22,7 +22,7 @@ and by 10$\times$ on average
 a standard baseline of DNN inference that does not tolerate intermittent operation.
 
 \sonic achieves these gains by eliminating the three major sources of overhead in prior task-based systems:
-redo-logging, task transitions, and wasted work (\autoref{sonic:background}).
+redo-logging, task transitions, and wasted work (\autoref{chapter:background:intermittent:task}).
 %
 Our key technique is \emph{loop continuation},
 which selectively violates the task abstraction
@@ -99,7 +99,7 @@ split across tasks, impose hefty privatization and task transition overheads.
 task-tiled loop executes a fixed number of iterations per task.  Task-tiling
 amortizes task transitioning overhead, but risks executing more iterations in a
 single task than the device's energy buffer can support, causing
-non-termination.  Figure~\ref{fig:looptrick} shows the intermittent execution
+non-termination.  Figure~\ref{fig:sonic:looptrick} shows the intermittent execution
 (energy trace on left) of a loop computing a dot product using two
 fixed tile sizes of five (Tile-5) and twelve (Tile-12). Tile-5 wastes work when four
 iterations complete before a failure.  Tile-12 prevents forward
@@ -123,11 +123,12 @@ memory \emph{without backing either up}.  When a loop continuation task restarts
 (volatile) local variables are reinitialized at the task's start.  The loop
 control variables, however, retain their state and the loop continues from the
 last attempted iteration.
-(Pseudocode for \sonic's loop continuation can be found in our technical report~\cite{sonic-arxiv}.)
+% (Pseudocode for \sonic's loop continuation can be found in our technical report~\cite{sonic-arxiv}.)
+\graham{appendix item? pseudocde for sonic's loop continuation}
 
 \figSONICLoopContinuation
 
-\autoref{fig:tails_sonic} shows how loop continuation
+\autoref{fig:sonic:tails_sonic} shows how loop continuation
 works by storing the loop control state for \textsf{Task\_Convolve} in non-volatile memory.  
 %
 \sonic ensures that the loop's control variable {\tt\bfseries i} is correct by updating it at the end of the iteration and \emph{not resetting it upon re-execution.}
@@ -136,7 +137,7 @@ the control variable may require the body of the loop nest to repeat a single
 iteration, but %% never leaves activation data inconsistent and 
 it never skips an iteration.
 
-Figure~\ref{fig:looptrick} shows \sonic executing using loop
+Figure~\ref{fig:sonic:looptrick} shows \sonic executing using loop
 continuation.  Despite the power interruption, execution resumes on the ninth
 loop iteration, rather than restarting the entire loop nest or every fifth iteration
 like Tile-5 does.
@@ -182,10 +183,10 @@ the partial result in the intermediate buffer, \sonic swaps the input
 buffer with the intermediate buffer and moves on to the next filter value.
 
 Since \sonic never reads and then writes to the same memory locations within an iteration,
-it avoids the WAR problem described in \autoref{sonic:background}
+it avoids the WAR problem described in \autoref{chapter:background:intermittent}
 and loop iterations are thus idempotent.
 %
-\autoref{fig:tails_sonic} shows how under loop-ordered buffering, \sonic never 
+\autoref{fig:sonic:tails_sonic} shows how under loop-ordered buffering, \sonic never 
 reads and writes to the same matrix buffer while computing a partial result in \textsf{Task\_Convolve}.
 After finishing this task, \sonic transitions to \textsf{Task\_Next\_Filter}, which swaps the buffer pointers
 and gets the next value to apply from the filter.

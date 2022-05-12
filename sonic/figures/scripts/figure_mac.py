@@ -357,7 +357,7 @@ def main(args):
 						bottom=running_height,
 						width=MAX_WIDTH * 0.9, 
 						color=color_variant(
-							config['colors'][color_idx], brightness_offset=50))
+							config['colors'][color_idx], brightness_offset=30))
 			running_height += sec_remaining_height
 			color_idx += 1
 
@@ -372,7 +372,7 @@ def main(args):
 		if d['backend'] == 'flex' or d['backend'] == 'lea':
 			livemax = max(livemax, running_height)
 
-	for ax in axes: ax.set_xticks(minor_ticks, minor=True)
+	for ax in axes: ax.set_xticks([tick + 0.002 for tick in minor_ticks], minor=True)
 	axes[-1].set_xticklabels(minor_labels, minor=True, rotation = 90,ha='center',fontsize=11)
 
 	axes[-1].tick_params(axis='x', which='major', pad=50)
@@ -424,7 +424,7 @@ def main(args):
 		for i, l in enumerate(lbls):
 			color = config['colors'][color_idx]
 			if l.startswith('Control -'):
-				color = color_variant(config['colors'][color_idx], brightness_offset=50)
+				color = color_variant(config['colors'][color_idx], brightness_offset=30)
 			edgecolor = color
 			hatch = 'xxx'
 			if l.startswith('Kernel'):
@@ -438,7 +438,7 @@ def main(args):
 
 		legfig = pylab.figure(figsize=(8,3))
 		legfig.legend(handles=hdls, labels=lbls, 
-				loc='center', ncol=2, columnspacing=1.5, handletextpad=0.25)
+				loc='center', ncol=1, columnspacing=1.5, handletextpad=0.25)
 		legfig.tight_layout()
 		if args.dest:
 			legfig.savefig(args.legend)

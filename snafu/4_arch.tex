@@ -5,7 +5,7 @@
 integrated with a scalar RISC-V core and memory.
 
 \subsection{Architectural overview}
-\autoref{fig:arch} shows an overview of the architecture of \snafuarch.
+\autoref{fig:snafu:arch} shows an overview of the architecture of \snafuarch.
 % 
 There are three primary components: a \mbox{RISC-V} scalar core, a banked memory, and the \snafuframe fabric.
 % 
@@ -34,7 +34,7 @@ Each bank of the main memory can execute a single memory request at a time; its 
 \subsection{Example of \snafuarch in action}
 
 \snafuarch adds three instructions to the scalar core to interface with the CGRA fabric,
-summarized in \autoref{tab:extensions}.
+summarized in \autoref{tab:snafu:extensions}.
 We explain how they work through the following example.
 
 \begin{table}[t]
@@ -50,7 +50,7 @@ We explain how they work through the following example.
     \bottomrule
   \end{tabular}
   \caption{New instructions to interface with CGRA.}
-  \label{tab:extensions}
+  \label{tab:snafu:extensions}
 \end{table}
 
 The \snafuframe fabric operates in three states: idle, configuration, and execution.
@@ -59,7 +59,7 @@ During the idle phase the scalar core is running and the fabric is not.
 % 
 When the scalar core reaches a {\tt vcfg} instruction, the fabric transitions to the configuration state.
 % 
-The scalar core passes a vector length and a bitstream address (from the register file) to the fabric configurator (see \autoref{fig:arch}).
+The scalar core passes a vector length and a bitstream address (from the register file) to the fabric configurator (see \autoref{fig:snafu:arch}).
 % 
 The configurator checks to see if this configuration is still in the fabric's configuration cache (\autoref{snafu:flexible:config}).
 %

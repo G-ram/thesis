@@ -1,8 +1,8 @@
 \section{Methodology}
-\label{sec:methodology}
+\label{sonic:methodology}
 
 We implement \sonic and \tails on the TI-MSP430FR5994~\cite{msp430fr5994} at
-16MHz in the setup in \autoref{fig:hardware}.
+16MHz in the setup in \autoref{fig:sonic:hardware}.
 The board is connected to a
 Powercast P2210B~\cite{powercastboard} harvester 1m away from a 3W Powercaster
 transmitter~\cite{powercasttransmitter}. We ran all configurations on
@@ -10,8 +10,6 @@ continuous power and on intermittent power with three different capacitor
 sizes: 1mF, 50mF, and 100\textmu F.
 
 \figSONICMethod
-
-\figSONICEvalTime
 
 \paragraph{Running code on the device}
 We compile with MSPGCC 6.4 and use TI's MSPDriverlib for DMA and TI's DSPLib
@@ -47,4 +45,4 @@ We compare \sonictails to four DNN inference implementations. The first
 implementation is a standard, baseline implementation that does not tolerate
 intermittent operation (it does not terminate).
 The other three implementations are based on
-Alpaca~\cite{alpaca} and split up loops by tiling iterations, as in \autoref{fig:looptrick}.
+Alpaca~\cite{alpaca} and split up loops by tiling iterations, as in \autoref{fig:sonic:looptrick}.
