@@ -1,2 +1,42 @@
 \section{Discussion}
 \label{sonic:discuss}
+Our experience in building \sonictails demonstrates there is a large
+opportunity to accelerate inference on ULP sensor devices.
+% 
+However, typical microcontrollers for energy-harvesting systems are poorly
+suited to efficient inference.
+% 
+Current microcontrollers are sequential, single-cycle processors,
+and so spend very little of their energy on ``useful work''~\cite{horowitz:isscc14:energy-keynote}.
+%
+For example, by deducting the energy of \texttt{nop} instructions from \autoref{fig:sonic:evaluation:energy:micro},
+we estimate that \sonic spends at least 40\% of its energy on instruction fetch and decode.
+%
+This cost is a waste in highly structured computations like DNN inference,
+where overheads easily amortize over many operations. %~\cite{hameed2010understanding}.
+
+LEA should bridge this efficiency gap, but unfortunately LEA has many limitations.
+%
+Invoking LEA is expensive. Each LEA invocation should therefore do as much work as
+possible, but LEA's parallelism is limited by its small (4KB) SRAM buffer.
+%
+This small buffer also forces frequent DMA between SRAM and FRAM,
+which cannot be overlapped with LEA execution
+and does not support strided accesses or scatter-gather.
+%
+LEA also has surprising gaps in its support:
+it does not support vector left-shift or scalar multiply,
+forcing \tails to fall back to software.
+%
+In software, integer multiplication is a memory-mapped peripheral that takes
+four instructions and nine cycles.
+%
+All told, these limitations cause \sonictails to spend much more energy than necessary.
+% 
+There is ample room to improve inference efficiency via a better architecture.
+
+
+The next three chapters present better architectures: \autoref{chapter:manic} discusses \manic a ULP vector-dataflow co-processor, \autoref{chapter:snafu} describes \snafu, a ULP CGRA generation framework and architecture, and \autoref{chapter:riptide} presents \riptide, a dataflow compiler and ULP CGRA.
+% 
+These architectures achieve much higher energy-efficiency v. existing scalar MCUs (like the MSP430) by leveraging vector and dataflow execution that minimize instruction and data supply energies.
+
