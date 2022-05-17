@@ -1,8 +1,6 @@
 \section{Vector-Dataflow Execution}
 \label{manic:design}
 
-\figMANICOverview
-
 \manic implements the {\em vector-dataflow} execution model. There are
 two main goals of vector-dataflow execution (\autoref{fig:manic:intro}).
 The first goal is to provide general-purpose programmability.  The
@@ -14,10 +12,12 @@ Vector-dataflow achieves this through three features:
 \emph{(ii)}~dataflow instruction fusion, and
 \emph{(iii)}~register kill points.
 
+\figMANICOverview
+
 \subsection{Vector execution}
 The first main feature of \manic's execution model is vector execution. Vector
 instructions specify an operation that applies to an entire vector of input
-operands (as in ample prior work discussed in~\autoref{manic:background}).  The
+operands (as in ample prior work discussed in~\autoref{chapter:background:program:vector}).  The
 key advantage of vector operation for an ultra-low-power design is that control overheads imposed by each
 instruction --- instruction cache access, fetch, decode, and issue --- amortize
 over the many operands in the vector of inputs.   Vector operation dramatically

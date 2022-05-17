@@ -1,55 +1,35 @@
-The emergence of tiny, pervasively deployed, ultra-low-power sensor systems
-enables important new applications in environmental sensing, in- and on-body
+Tiny, pervasively deployed, ultra-low-power sensor systems
+enable important new applications in environmental sensing, in- and on-body
 medical implants, civil infrastructure monitors, and even tiny chip-scale
 satellites.
-%
-Existing systems for these applications suffer fundamental
+% 
+\autoref{chapter:sonic} described how these devices can be made ``intelligent'' with on-device machine inference using \sonic.
+% 
+However, \sonic also demonstrated that existing systems suffer fundamental
 inefficiencies that demand new, extremely energy-efficient computer
 architectures. 
 
-\paragraph{Sensing workloads are increasingly sophisticated}
-Sensor devices collect data from a deployed environment and must process raw
-data to support applications.  Processing varies and may entail digital signal
-processing (DSP), computing statistics, sorting, or sophisticated computations
-such as machine learning (ML) inference using a deep neural network (DNN) or a
-support vector machine (SVM).
-%
-As processing sophistication has increased, sensor device capability also
-matured to include high-definition image sensors~\cite{naderiparizi2018towards} and
-multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume. 
-
-This shift poses a challenge: how can we perform sophisticated computations
-on simple, ultra-low-power systems?
-One design is 
-to offload work by wirelessly transmitting data to a more powerful
-nearby computer (e.g., at the ``edge'' or cloud) for processing.  
-%
-In offloading, the more data a sensor produces, the more data the device must
-communicate. 
-%
-Unfortunately, transmitting data takes much more energy per byte than
-sensing, storing, or computing on those data~\cite{sonic,zebranet}.  
-%
-While a high-powered device like a smartphone, with a high-bandwidth,
-long-range radio, can afford to offload data to the edge or cloud,
-this is not practical for power-, energy-, and bandwidth-limited sensor devices~\cite{dongare2017openchirp,sonic}.
-
-Since offloading is infeasible,
-the alternative is to process data \emph{locally} on the sensor node itself.
-%
-For example, recent work~\cite{sonic} has shown how systems can use commodity off-the-shelf microcontrollers (COTS MCU)
-to filter sensed data so that only meaningful data (as defined by the application) are transmitted.
-%
-Processing data locally at a sensor node eliminates most of the high energy
-cost of communication,
-but makes the device highly sensitive to the energy-efficiency of computation.
-%
-
-There are two key criteria that make a computation-heavy sensor system effective.
-First, the device must process data locally at a low operating power and with \emph{extremely high energy-efficiency}.
-Second, the device must be \emph{programmable} and general to support a wide variety of applications.
+\paragraph{Sensing workloads are increasingly sophisticated} 
+Sensor devices are collecting increasingly more data as sensor capability has matured.
 % 
-These goals are in tension, since programmability often carries a significant energy penalty.
+This increase in sensed data volume requires more sophisticated processing.
+% 
+But as \autoref{chapter:sonic} argued, offloading work to a more powerful edge device or to the cloud is impractical as transmitting data takes much more energy per byte than computing locally.
+%
+Under these constraints, application performance becomes dependent on the energy-efficiency of computation.
+%
+
+Energy-efficiency is only half the story, though.
+% 
+A computation-heavy sensor system also needs to be highly programmable to support a wide variety of applications.
+% 
+But, programmability and energy-efficiency are in tension, since programmability often carries a significant energy penalty.
+% 
+% There are two key criteria that make a computation-heavy sensor system effective.
+% First, the device must process data locally at a low operating power and with \emph{extremely high energy-efficiency}.
+% Second, the device must be \emph{programmable} and general to support a wide variety of applications.
+% % 
+% These goals are in tension, since programmability often carries a significant energy penalty.
 Our goal is to design a highly programmable architecture that \emph{hides microarchitectural complexity while eliminating the energy costs of programmability}.
 
 \paragraph{Existing low-power architectures fall short}
@@ -121,8 +101,10 @@ e.g., ELM itself cites a nearly 2$\times$ drop in performance when moving from h
 While ELM supports general-purpose programs, it does so with a high
 programmability cost and substantial changes to software development tools (as shown in~\autoref{fig:manic:intro}).
 
+\figMANICDesignSpace
+
 \paragraph{Our design and contributions}
-In this work we present \manic: an efficient vector-dataflow
+This chapter presents \manic: an efficient vector-dataflow
 architecture for ultra-low-power embedded systems.  
 %
 As depicted in~\autoref{fig:manic:intro}, \manic is closest to the \textit{Ideal} design, achieving high energy-efficiency while remaining general-purpose and simple to program.
@@ -162,10 +144,12 @@ of the pipeline architecture or size of forwarding buffers
 to minimize VRF energy---%
 a single code schedule is near-optimal across a range of microarchitectural design points.
 
-We implement \manic fully in RTL and use industry-grade CAD tools to
-evaluate its energy efficiency across a collection of programs appropriate to the deeply embedded domain.
+To evaluate \manic, we taped-out a test-chip in Intel's 22nm high-threshold voltage process that included \manic, a scalar design, and a vector design.
+% We tape-out \manic in Intel's 22nm high-threshold voltage process and
+We measured the energy of the various designs in the test-chip across a collection of programs appropriate to the deeply embedded domain.
 %
-Using post-synthesis energy estimates, we show that \manic
-is within $26.4\%$ of the energy of an idealized design while remaining fully general and making few, unobtrusive changes to the ISA and software development stack.
+\manic reduces energy by $XX\%$ v. the scalar design and by $XX$ v. the vector design.
+% 
+% Using post-synthesis energy estimates, we show that \manic
+% is within $XX\%$ of the energy of an idealized design while remaining fully general and making few, unobtrusive changes to the ISA and software development stack.
 %
-\figMANICDesignSpace
