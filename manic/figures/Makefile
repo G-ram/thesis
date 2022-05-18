@@ -3,12 +3,10 @@ PDFS := overview.pdf scalar_overview.pdf vector_overview.pdf manic_overview.pdf 
 	sconv_miss.pdf fft_miss.pdf \
 	smm_kill.pdf sconv_kill.pdf fft_kill.pdf kill_legend.pdf \
 	sconv_kill_distro.pdf smm_kill_distro.pdf fft_kill_distro.pdf \
-	fft_bar.pdf sconv_bar.pdf dconv_bar.pdf dmm_bar.pdf dmv_bar.pdf smm_bar.pdf smv_bar.pdf \
-	fft1_bar.pdf sconv1_bar.pdf dconv1_bar.pdf dmm1_bar.pdf dmv1_bar.pdf smm1_bar.pdf smv1_bar.pdf \
-	cycles_bar.pdf insn_count_bar.pdf power_bar.pdf sonic_bar.pdf overall_bar.pdf \
-	dcache_bar.pdf icache_bar.pdf insn_buf_length_bar.pdf vl_bar.pdf \
-	bar_legend.pdf manic_bar.pdf
-
+	chip_block.pdf chip_delid.pdf chip_package.pdf \
+	shmoo.pdf v0.4nocache-graph.pdf v0.4cache-graph.pdf \
+	eff_v0.4nocache-graph.pdf eff_v0.4cache-graph.pdf \
+	v0.4nocache-legend.pdf
 
 PDFDIR := pdf
 PNGDIR := png
@@ -67,6 +65,18 @@ $(PDFDIR)/transform.pdf: pdf/doc_data.txt
 $(PDFDIR)/vde.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_09.pdf $(PDFDIR)/vde.pdf
 
+$(PDFDIR)/chip_block.pdf: pdf/doc_data.txt
+	cp $(PDFDIR)/figures_21.pdf $(PDFDIR)/chip_block.pdf
+
+$(PDFDIR)/chip_delid.pdf: pdf/doc_data.txt
+	cp $(PDFDIR)/figures_14.pdf $(PDFDIR)/chip_delid.pdf
+
+$(PDFDIR)/chip_package.pdf: pdf/doc_data.txt
+	cp $(PDFDIR)/figures_18.pdf $(PDFDIR)/chip_package.pdf
+
+$(PDFDIR)/shmoo.pdf:
+	python3 shmoo.py --dest=$@ ../data/shmoo
+
 $(PDFDIR)/%_miss.pdf: $(SCRIPTSDIR)/figure_miss.py
 	python3 $(SCRIPTSDIR)/figure_miss.py --src=../data/miss/$*.json --dest=$(PDFDIR)/$*_miss.pdf
 
@@ -75,16 +85,20 @@ $(PDFDIR)/%_kill.pdf: $(SCRIPTSDIR)/figure_kill.py ../data/kill/%.json
 
 $(PDFDIR)/kill_legend.pdf: $(PDFDIR)/fft_kill.pdf
 
-$(PDFDIR)/%_bar.pdf: $(SCRIPTSDIR)/bar.py $(CFGDIR)/%_graph.json
-	python3 $(SCRIPTSDIR)/bar.py --cfg=$(CFGDIR)/$*_graph.json --dest=$(PDFDIR)/$*_bar.pdf
-
-$(PDFDIR)/fft_bar.pdf: $(SCRIPTSDIR)/bar.py $(CFGDIR)/fft_graph.json
-	python3 $(SCRIPTSDIR)/bar.py --cfg=$(CFGDIR)/fft_graph.json --legend=$(PDFDIR)/bar_legend.pdf --dest=$(PDFDIR)/fft_bar.pdf
-
-$(PDFDIR)/bar_legend.pdf: $(PDFDIR)/fft_bar.pdf
-
 $(PDFDIR)/fft_kill_distro.pdf: $(SCRIPTSDIR)/figure_kill_distro.py
 	python3 scripts/figure_kill_distro.py --src=../data/kill/fft_distro.json --size=4,3 --dest=$(PDFDIR)/fft_kill_distro.pdf
 
 $(PDFDIR)/%_kill_distro.pdf: $(SCRIPTSDIR)/figure_kill_distro.py
 	python3 scripts/figure_kill_distro.py --src=../data/kill/$*_distro.json --size=3,3 --dest=$(PDFDIR)/$*_kill_distro.pdf
+
+$(BLDDIR)/avg.json:
+	mkdir -p $(BLDDIR)
+	python3 avg.py --cfg=$(CFGDIR)/avg.json --dest=$(BLDDIR)/avg.json
+
+$(PDFDIR)/%-legend.pdf: $(PDFDIR)/%-graph.pdf
+	mkdir -p $(PDFDIR)
+	python3 bar.py --cfg=$(CFGDIR)/$*.json --legend=$(PDFDIR)/$*-legend.pdf
+
+$(PDFDIR)/%-graph.pdf: bar.py $(CFGDIR)/%.json $(BLDDIR)/avg.json
+	mkdir -p $(PDFDIR)
+	python3 bar.py --cfg=$(CFGDIR)/$*.json --dest=$@ --legend=$(PDFDIR)/$*-legend.pdf

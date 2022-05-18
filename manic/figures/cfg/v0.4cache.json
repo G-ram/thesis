@@ -1,0 +1,490 @@
+{
+	"stacks": {
+		"fft_scalar": {
+			"keys":["284.FFT.Scalar.Energy.SRAM", "284.FFT.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"fft_base": {
+			"keys":["284.FFT.Baseline.Energy.SRAM", "284.FFT.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"fft_manic": {
+			"keys":["284.FFT.MANIC.Energy.SRAM", "284.FFT.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dwt_scalar": {
+			"keys":["284.DWT.Scalar.Energy.SRAM", "284.DWT.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dwt_base": {
+			"keys":["284.DWT.Baseline.Energy.SRAM", "284.DWT.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"dwt_manic": {
+			"keys":["284.DWT.MANIC.Energy.SRAM", "284.DWT.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"viterbi_scalar": {
+			"keys":["284.Viterbi.Scalar.Energy.SRAM", "284.Viterbi.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"viterbi_base": {
+			"keys":["284.Viterbi.Baseline.Energy.SRAM", "284.Viterbi.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"viterbi_manic": {
+			"keys":["284.Viterbi.MANIC.Energy.SRAM", "284.Viterbi.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dconv_scalar": {
+			"keys":["284.DCONV.Scalar.Energy.SRAM", "284.DCONV.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dconv_base": {
+			"keys":["284.DCONV.Baseline.Energy.SRAM", "284.DCONV.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"dconv_manic": {
+			"keys":["284.DCONV.MANIC.Energy.SRAM", "284.DCONV.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dmm_scalar": {
+			"keys":["284.DMM.Scalar.Energy.SRAM", "284.DMM.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dmm_base": {
+			"keys":["284.DMM.Baseline.Energy.SRAM", "284.DMM.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"dmm_manic": {
+			"keys":["284.DMM.MANIC.Energy.SRAM", "284.DMM.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dmv_scalar": {
+			"keys":["284.DMV.Scalar.Energy.SRAM", "284.DMV.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"dmv_base": {
+			"keys":["284.DMV.Baseline.Energy.SRAM", "284.DMV.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"dmv_manic": {
+			"keys":["284.DMV.MANIC.Energy.SRAM", "284.DMV.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"sconv_scalar": {
+			"keys":["284.SCONV.Scalar.Energy.SRAM", "284.SCONV.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"sconv_base": {
+			"keys":["284.SCONV.Baseline.Energy.SRAM", "284.SCONV.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"sconv_manic": {
+			"keys":["284.SCONV.MANIC.Energy.SRAM", "284.SCONV.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"smm_scalar": {
+			"keys":["284.SMM.Scalar.Energy.SRAM", "284.SMM.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"smm_base": {
+			"keys":["284.SMM.Baseline.Energy.SRAM", "284.SMM.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"smm_manic": {
+			"keys":["284.SMM.MANIC.Energy.SRAM", "284.SMM.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"smv_scalar": {
+			"keys":["284.SMV.Scalar.Energy.SRAM", "284.SMV.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"smv_base": {
+			"keys":["284.SMV.Baseline.Energy.SRAM", "284.SMV.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"smv_manic": {
+			"keys":["284.SMV.MANIC.Energy.SRAM", "284.SMV.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"sort_scalar": {
+			"keys":["284.Sort*.Scalar.Energy.SRAM", "284.Sort*.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"sort_base": {
+			"keys":["284.Sort*.Baseline.Energy.SRAM", "284.Sort*.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},	
+		"sort_manic": {
+			"keys":["284.Sort*.MANIC.Energy.SRAM", "284.Sort*.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]	
+		},
+		"avg_scalar": {
+			"keys":["284.Cache.Scalar.Energy.SRAM", "284.Cache.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]
+		},
+		"avg_base": {
+			"keys":["284.Cache.Baseline.Energy.SRAM", "284.Cache.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]
+		},
+		"avg_manic": {
+			"keys":["284.Cache.MANIC.Energy.SRAM", "284.Cache.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "fft_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "fft_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "fft_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "fft_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "fft_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "fft_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dwt_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dwt_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dwt_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dwt_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dwt_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dwt_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "viterbi_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "viterbi_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "viterbi_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "viterbi_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "viterbi_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "viterbi_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dconv_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dconv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dconv_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dconv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dconv_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dconv_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dmm_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dmm_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dmm_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dmm_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dmm_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dmm_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dmv_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dmv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dmv_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dmv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dmv_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "dmv_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "sconv_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "sconv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "sconv_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "sconv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "sconv_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "sconv_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "smm_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "smm_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "smm_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "smm_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "smm_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "smm_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "smv_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "smv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "smv_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "smv_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "smv_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "smv_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "sort_scalar",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "sort_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "sort_base",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "sort_scalar"
+				}
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "sort_manic",
+				"normalize": {
+					"src": "../data/v0.4cache.json",
+					"stack": "sort_scalar"
+				}
+			}
+		],
+		[
+			{
+				"src": "./bld/avg.json",
+				"label": "Scalar",
+				"stack": "avg_scalar"
+			},
+			{
+				"src": "./bld/avg.json",
+				"label": "V",
+				"stack": "avg_base"
+			},
+			{
+				"src": "./bld/avg.json",
+				"label": "VDF",
+				"stack": "avg_manic"
+			}
+		]
+	],
+	"sci_not": true,
+	"major": ["FFT", "DWT", "Viterbi", "DConv", "DMM", "DMV", "SConv", "SMM", "SMV", "Sort", "Avg"],
+	"width": 10,
+	"height": 4.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 40,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "Normalized energy"
+}

@@ -1,0 +1,400 @@
+{
+	"stacks": {
+		"fft_scalar": {
+			"keys":["284.FFT.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"fft_base": {
+			"keys":["284.FFT.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"fft_manic": {
+			"keys":["284.FFT.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dwt_scalar": {
+			"keys":["284.DWT.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dwt_base": {
+			"keys":["284.DWT.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"dwt_manic": {
+			"keys":["284.DWT.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"viterbi_scalar": {
+			"keys":["284.Viterbi.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"viterbi_base": {
+			"keys":["284.Viterbi.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"viterbi_manic": {
+			"keys":["284.Viterbi.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dconv_scalar": {
+			"keys":["284.DCONV.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dconv_base": {
+			"keys":["284.DCONV.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"dconv_manic": {
+			"keys":["284.DCONV.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dmm_scalar": {
+			"keys":["284.DMM.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dmm_base": {
+			"keys":["284.DMM.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"dmm_manic": {
+			"keys":["284.DMM.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dmv_scalar": {
+			"keys":["284.DMV.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"dmv_base": {
+			"keys":["284.DMV.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"dmv_manic": {
+			"keys":["284.DMV.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"sconv_scalar": {
+			"keys":["284.SCONV.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"sconv_base": {
+			"keys":["284.SCONV.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"sconv_manic": {
+			"keys":["284.SCONV.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"smm_scalar": {
+			"keys":["284.SMM.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"smm_base": {
+			"keys":["284.SMM.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"smm_manic": {
+			"keys":["284.SMM.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"smv_scalar": {
+			"keys":["284.SMV.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"smv_base": {
+			"keys":["284.SMV.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"smv_manic": {
+			"keys":["284.SMV.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"sort_scalar": {
+			"keys":["284.Sort*.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"sort_base": {
+			"keys":["284.Sort*.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},	
+		"sort_manic": {
+			"keys":["284.Sort*.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]	
+		},
+		"avg_scalar": {
+			"keys":["284.NoCache.Scalar.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]
+		},
+		"avg_base": {
+			"keys":["284.NoCache.Baseline.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]
+		},
+		"avg_manic": {
+			"keys":["284.NoCache.MANIC.Efficiency"],
+			"labels":["Efficiency"],
+			"colors": ["#64B3C1"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "fft_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "fft_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "fft_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dwt_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dwt_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dwt_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "viterbi_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "viterbi_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "viterbi_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dconv_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dconv_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dconv_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dmm_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dmm_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dmm_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "dmv_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "dmv_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "dmv_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "sconv_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "sconv_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "sconv_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "smm_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "smm_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "smm_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "smv_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "smv_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "smv_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "Scalar",
+				"stack": "sort_scalar"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "V",
+				"stack": "sort_base"
+				
+			},
+			{
+				"src": "../data/v0.4cache.json",
+				"label": "VDF",
+				"stack": "sort_manic"
+				
+			}
+		],
+		[
+			{
+				"src": "./bld/avg.json",
+				"label": "Scalar",
+				"stack": "avg_scalar"
+			},
+			{
+				"src": "./bld/avg.json",
+				"label": "V",
+				"stack": "avg_base"
+			},
+			{
+				"src": "./bld/avg.json",
+				"label": "VDF",
+				"stack": "avg_manic"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["FFT", "DWT", "Viterbi", "DConv", "DMM", "DMV", "SConv", "SMM", "SMV", "Sort", "Avg"],
+	"width": 10,
+	"height": 4.5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 40,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylabel": "MOPS/mW"
+}

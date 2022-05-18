@@ -1,0 +1,23 @@
+Reset timer
+START: Flashing /home/mpubuntu/Desktop/panic/programmer/smallbin/sconv_vplain_opt.out
+	wrote: 0B
+	wrote: 1024B
+	wrote: 2048B
+	wrote: 3072B
+	wrote: 4096B
+	wrote: 5120B
+	wrote: 6144B
+	wrote: 7168B
+	wrote: 8192B
+	wrote: 9216B
+	wrote: 10240B
+	wrote: 11264B
+	wrote: 12288B
+	wrote: 13312B
+	wrote: 14336B
+Done: Flashing 14640B
+STAMP @ 9.969s
+STAMP @ 9.986s
+
+=======
+FAIL

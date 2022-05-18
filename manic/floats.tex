@@ -377,3 +377,140 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\vspace{-1em}
 	\end{figure*}
 }
+
+\newcommand{\figMANICChipBlock}{
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.6\linewidth]{manic/figures/pdf/chip_block.pdf}
+	\caption{Block diagrams of test-chip and a single design. 
+	The chip includes scalar, vector, and \manic designs. Each design is isolated (dedicated power rails) and can run standalone.}	
+	\label{fig:manic:chip:block}
+\end{figure}
+}
+
+\newcommand{\figMANICChip}{
+\begin{figure}[htb]
+	\centering
+	\begin{subfigure}{0.49\linewidth}
+		\centering
+		\includegraphics[height=1.8in]{manic/figures/pdf/chip_package.pdf}
+		\caption{Package.}
+		\label{fig:manic:chip:package}
+	\end{subfigure}
+	\begin{subfigure}{0.49\linewidth}
+		\centering
+		\includegraphics[height=1.8in]{manic/figures/pdf/chip_delid.pdf}
+		\caption{Electron micrograph.}
+		\label{fig:manic:chip:delid}
+	\end{subfigure}
+	\caption{\autoref{fig:manic:chip:package} shows the \manic test-chip. \autoref{fig:manic:chip:delid} shows an electron micrograph of delidded chip and highlights components of \manic design.}
+	\label{fig:manic:chip}
+\end{figure}
+}
+
+\newcommand{\tabMANICEval}{
+\begin{table}[t]
+\renewcommand{\arraystretch}{1.1}
+\centering
+\resizebox{\linewidth}{!}{
+\begin{tabular}{c|ccccc}
+&    \textbf{2017~\cite{keller2017risc}}    &    \textbf{2018~\cite{karnik2018cm}}    &    \textbf{2019~\cite{bol201919}}    &    \textbf{2020~\cite{prabhat202027}}    &    \textbf{This work}    \\
+\hline
+\textbf{Architecture}    &    \thead{Scalar \& \\ Vector}    &    Scalar    &    Scalar    &    \thead{Scalar w/ \\ SIMD ext.}    &    \thead{Scalar \& \\ Vector-dataflow}    \\
+\hline
+\textbf{ISA}    &    RISC-V    &    Thumb-2    &    Thumb-2    &    Thumb-2    &    RISC-V    \\
+\hline
+\textbf{Process (nm)}    &    28 FD-SOI    &    14 Tri-gate    &    28 FD-SOI    &    65 LP    &    22 bulk FF    \\
+\hline
+\textbf{Core Area ($mm^2$)}    &    1.07    &    6.25    &    0.675    &    6    &    0.57    \\
+\hline
+\textbf{Voltage (V)}    &    0.48-1.0    &    0.4-1.0    &    0.4    &    0.4-0.75    &    \thead{0.4-1.05 Core \\ 1.1 MRAM}    \\
+\hline
+\textbf{Frequency (MHz)}    &    20-797    &    0.2-950    &    40-80    &    0.8-38    &    4-48.9    \\
+\hline
+\textbf{Memory (KB)}    &    56 SRAM    &    64+64+384 SRAM    &    32+32 SRAM    &    \thead{128 ROM, \\ 16+4 SRAM}    &    \thead{64 SRAM, \\ 256 MRAM}    \\
+\hline
+\textbf{Power Budget (mW)}    &    1-200    &    1-20    &    1    &    1-4    &    \thead{0.019-2 w/o MRAM \\ 1-2 w/ MRAM}    \\
+\hline
+\textbf{Average Power (\textmu W)}    &    50000    &    80    &    144    &    47    &    \thead{19.1 w/o MRAM \\ @ 4MHz\footnotemark[1] \\ 1.7mW w/ MRAM @ 49MHz\footnotemark[1]} \\
+\hline
+\textbf{\thead{Peak Efficiency \\ (MOPS/mW)\footnotemark[2]}}   &    \thead{41.8 \\ MFlops/mW}    &    Not reported    &    97    &    Not reported    &    \thead{256 w/o MRAM \\ 33.2 w/ MRAM}    \\
+\hline
+\textbf{\thead{Best Active \\ Energy (pJ/Cycle)}}|    &    Not reported    &    6.2    &    3    &    10.9    &    \thead{3.7 w/o MRAM \\ 29 w/ MRAM} \\                  
+\multicolumn{6}{l}{\footnotesize \footnotemark[1] Over all benchmarks
+\footnotemark[2] 32b operations
+}
+\end{tabular}
+}
+\caption{\manic vs.\ prior work. \manic is $2.6\times$ more efficient than prior work, achieving 256 MOPS/mW (@19$\mu$W \& 4MHz).}
+\label{tab:manic:eval}
+%% \vspace{-1.5em}
+\end{table}
+}
+
+\newcommand{\figMANICMRAMCase}{
+\begin{figure}[t]
+	\begin{minipage}{0.55\columnwidth}
+		\footnotesize
+		\begin{subfigure}{\linewidth}
+			\centering
+			\resizebox{0.6\linewidth}{!}{
+				\begin{tabular}{p{1in}p{0.3in}}
+					\toprule
+					Size (KB) & 256 \\
+					Area (mm$^2$) & 0.31 \\
+					Voltage (V) & 1.1 \\
+					Leakage (\textmu W) & 663 \\
+					32b Read Latency @ \newline 50 MHz (ns) & 170 \\
+					32b Write Latency @ \newline  50 MHz (\textmu s) & 8.4 \\
+					32b Read Energy (pJ) & 437 \\
+					32b Write Energy (nJ) & 29.7 \\
+					Read Energy (pJ/bit) & 13.7 \\
+					Write Energy (pJ/bit) & 929 \\
+					\bottomrule
+				\end{tabular}
+			}
+			\caption{MRAM characterization.}
+			\label{fig:manic:case:tab:eval}
+		\end{subfigure}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.375\columnwidth}
+		\begin{subfigure}{\linewidth}
+			\centering
+			\includegraphics[width=\linewidth]{figures/pdf/mram_case-graph-crop.pdf}
+			\caption{MOPS/mW for DMM.}
+			\label{fig:manic:case:mram}
+		\end{subfigure}
+	\end{minipage}
+	\hfill
+	\vspace{0.5em}
+	\begin{minipage}{\columnwidth}
+		\scriptsize
+		\centering
+		\begin{subfigure}{\linewidth}
+			\resizebox{0.85\linewidth}{!}{
+				\begin{tabular}{p{0.005in}p{3.25in}}
+					%% \toprule
+					1: & Running from MRAM, DCache enabled, 48.9 MHz, 0.64V Core \\
+					2: & Running from MRAM, DCache disabled, 231 MHz, 1.0V Core \\
+					3: & Running from SRAM, MRAM enabled, DCache enabled, 48.9 MHz, 0.64V Core \\
+					4: & Running from SRAM, MRAM enabled, DCache disabled, 166 MHz, 1.0V Core \\
+					%% \bottomrule
+				\end{tabular}
+			}
+			\label{fig:manic:case:tab:config}
+		\end{subfigure}
+	\end{minipage}
+
+	\caption{MRAM characterization \& case study on DMM.}
+	\label{fig:manic:case}
+
+\end{figure}
+}
+
+\newcommand{\figMANICEnergy}{
+\begin{figure}[htb]
+	
+\end{figure}
+}

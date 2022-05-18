@@ -1,0 +1,1736 @@
+[
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Scalar.Energy.SRAM"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Scalar.Energy.Logic"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Baseline.Energy.SRAM"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Baseline.Energy.Logic"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.MANIC.Energy.SRAM"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.MANIC.Energy.Logic"
+	},
+		{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Scalar.Energy.SRAM"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Scalar.Energy.Logic"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Baseline.Energy.SRAM"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Baseline.Energy.Logic"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.MANIC.Energy.SRAM"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.MANIC.Energy.Logic"
+	},
+		{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.Scalar.Energy.SRAM"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.Scalar.Energy.Logic"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.MRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.MRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.MRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.MRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.MRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.MRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.MRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.MRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.MRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.MRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.Scalar.Energy.MRAM"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.Baseline.Energy.SRAM"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.Baseline.Energy.Logic"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.MRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.MRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.MRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.MRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.MRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.MRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.MRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.MRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.MRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.MRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.Baseline.Energy.MRAM"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.SRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.SRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.SRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.SRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.SRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.SRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.SRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.SRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.SRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.SRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.MANIC.Energy.SRAM"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Logic",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Logic",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Logic",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Logic",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Logic",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Logic",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Logic",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Logic",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Logic",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Logic",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.MANIC.Energy.Logic"
+	},
+	{	
+		"src": "../data/mram.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.MRAM",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.MRAM",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.MRAM",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.MRAM",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.MRAM",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.MRAM",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.MRAM",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.MRAM",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.MRAM",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.MRAM",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.MRAM.MANIC.Energy.MRAM"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DWT.Scalar.Efficiency"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DCONV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DMM.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DMV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.SCONV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.SMM.Scalar.Efficiency"
+			},
+			{
+				"key": "284.SMV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.Sort*.Scalar.Efficiency"
+			}
+		],
+		"output": "284.Cache.Scalar.Efficiency"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DWT.Baseline.Efficiency"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DCONV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DMM.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DMV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.SCONV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.SMM.Baseline.Efficiency"
+			},
+			{
+				"key": "284.SMV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.Sort*.Baseline.Efficiency"
+			}
+		],
+		"output": "284.Cache.Baseline.Efficiency"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DWT.MANIC.Efficiency"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DCONV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DMM.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DMV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.SCONV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.SMM.MANIC.Efficiency"
+			},
+			{
+				"key": "284.SMV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.Sort*.MANIC.Efficiency"
+			}
+		],
+		"output": "284.Cache.MANIC.Efficiency"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DWT.Scalar.Efficiency"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DCONV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DMM.Scalar.Efficiency"
+			},
+			{
+				"key": "284.DMV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.SCONV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.SMM.Scalar.Efficiency"
+			},
+			{
+				"key": "284.SMV.Scalar.Efficiency"
+			},
+			{
+				"key": "284.Sort*.Scalar.Efficiency"
+			}
+		],
+		"output": "284.NoCache.Scalar.Efficiency"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DWT.Baseline.Efficiency"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DCONV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DMM.Baseline.Efficiency"
+			},
+			{
+				"key": "284.DMV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.SCONV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.SMM.Baseline.Efficiency"
+			},
+			{
+				"key": "284.SMV.Baseline.Efficiency"
+			},
+			{
+				"key": "284.Sort*.Baseline.Efficiency"
+			}
+		],
+		"output": "284.NoCache.Baseline.Efficiency"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DWT.MANIC.Efficiency"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DCONV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DMM.MANIC.Efficiency"
+			},
+			{
+				"key": "284.DMV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.SCONV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.SMM.MANIC.Efficiency"
+			},
+			{
+				"key": "284.SMV.MANIC.Efficiency"
+			},
+			{
+				"key": "284.Sort*.MANIC.Efficiency"
+			}
+		],
+		"output": "284.NoCache.MANIC.Efficiency"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Scalar.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Baseline.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4cache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.MANIC.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Scalar.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.Baseline.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.Cache.MANIC.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Scalar.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Baseline.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.MANIC.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Scalar.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Scalar.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Scalar.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Scalar.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Scalar.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Scalar.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Scalar.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Scalar.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Scalar.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Scalar.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Scalar.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.Baseline.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.Baseline.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.Baseline.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.Baseline.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.Baseline.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.Baseline.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.Baseline.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.Baseline.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.Baseline.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.Baseline.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.Baseline.Energy.Total"
+	},
+	{	
+		"src": "../data/v0.4nocache.json",
+		"keys": [
+			{
+				"key": "284.FFT.MANIC.Energy.Total",
+				"normalize": "284.FFT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DWT.MANIC.Energy.Total",
+				"normalize": "284.DWT.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Viterbi.MANIC.Energy.Total",
+				"normalize": "284.Viterbi.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DCONV.MANIC.Energy.Total",
+				"normalize": "284.DCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMM.MANIC.Energy.Total",
+				"normalize": "284.DMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.DMV.MANIC.Energy.Total",
+				"normalize": "284.DMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SCONV.MANIC.Energy.Total",
+				"normalize": "284.SCONV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMM.MANIC.Energy.Total",
+				"normalize": "284.SMM.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.SMV.MANIC.Energy.Total",
+				"normalize": "284.SMV.Scalar.Energy.Total"
+			},
+			{
+				"key": "284.Sort*.MANIC.Energy.Total",
+				"normalize": "284.Sort*.Scalar.Energy.Total"
+			}
+		],
+		"output": "284.NoCache.MANIC.Energy.Total"
+	}
+]

@@ -1,0 +1,659 @@
+{
+    "284": {
+        "DCONV": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.118,
+                    "MRAM": 1.89992,
+                    "SRAM": 0.225,
+                    "Total": 2.24292
+                },
+                "Energy": {
+                    "Logic": 0.488874,
+                    "MRAM": 14.43084236,
+                    "SRAM": 0.99432,
+                    "Total": 15.91403636
+                },
+                "Power": {
+                    "Logic": 0.0708,
+                    "MRAM": 2.089912,
+                    "SRAM": 0.144,
+                    "Total": 2.304712
+                },
+                "Time": 6.905
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.18,
+                    "MRAM": 1.23992,
+                    "SRAM": 0.112,
+                    "Total": 1.53192
+                },
+                "Energy": {
+                    "Logic": 0.625968,
+                    "MRAM": 7.905233952,
+                    "SRAM": 0.41545728,
+                    "Total": 8.946659232
+                },
+                "Power": {
+                    "Logic": 0.108,
+                    "MRAM": 1.363912,
+                    "SRAM": 0.07168,
+                    "Total": 1.543592
+                },
+                "Time": 5.796
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.286,
+                    "MRAM": 1.24992,
+                    "SRAM": 0.205,
+                    "Total": 1.74092
+                },
+                "Energy": {
+                    "Logic": 1.9152276,
+                    "MRAM": 15.34539283,
+                    "SRAM": 1.4643232,
+                    "Total": 18.72494363
+                },
+                "Power": {
+                    "Logic": 0.1716,
+                    "MRAM": 1.374912,
+                    "SRAM": 0.1312,
+                    "Total": 1.677712
+                },
+                "Time": 11.161
+            }
+        },
+        "DMM": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.095,
+                    "MRAM": 2.34992,
+                    "SRAM": 0.099,
+                    "Total": 2.54392
+                },
+                "Energy": {
+                    "Logic": 6.225027,
+                    "MRAM": 282.3008244,
+                    "SRAM": 6.91960896,
+                    "Total": 295.4454604
+                },
+                "Power": {
+                    "Logic": 0.057,
+                    "MRAM": 2.584912,
+                    "SRAM": 0.06336,
+                    "Total": 2.705272
+                },
+                "Time": 109.211
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.141,
+                    "MRAM": 1.78992,
+                    "SRAM": 0.0861,
+                    "Total": 2.01702
+                },
+                "Energy": {
+                    "Logic": 7.01757,
+                    "MRAM": 163.3212504,
+                    "SRAM": 4.5708768,
+                    "Total": 174.9096972
+                },
+                "Power": {
+                    "Logic": 0.0846,
+                    "MRAM": 1.968912,
+                    "SRAM": 0.055104,
+                    "Total": 2.108616
+                },
+                "Time": 82.95
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.188,
+                    "MRAM": 1.78992,
+                    "SRAM": 0.12,
+                    "Total": 2.09792
+                },
+                "Energy": {
+                    "Logic": 9.0614496,
+                    "MRAM": 158.1666388,
+                    "SRAM": 6.1694976,
+                    "Total": 173.397586
+                },
+                "Power": {
+                    "Logic": 0.1128,
+                    "MRAM": 1.968912,
+                    "SRAM": 0.0768,
+                    "Total": 2.158512
+                },
+                "Time": 80.332
+            }
+        },
+        "DMV": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.119,
+                    "MRAM": 2.04992,
+                    "SRAM": 0.174,
+                    "Total": 2.34292
+                },
+                "Energy": {
+                    "Logic": 0.0277746,
+                    "MRAM": 0.877160768,
+                    "SRAM": 0.04331904,
+                    "Total": 0.948254408
+                },
+                "Power": {
+                    "Logic": 0.0714,
+                    "MRAM": 2.254912,
+                    "SRAM": 0.11136,
+                    "Total": 2.437672
+                },
+                "Time": 0.389
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.185,
+                    "MRAM": 1.44992,
+                    "SRAM": 0.109,
+                    "Total": 1.74392
+                },
+                "Energy": {
+                    "Logic": 0.051393,
+                    "MRAM": 0.738444256,
+                    "SRAM": 0.03229888,
+                    "Total": 0.822136136
+                },
+                "Power": {
+                    "Logic": 0.111,
+                    "MRAM": 1.594912,
+                    "SRAM": 0.06976,
+                    "Total": 1.775672
+                },
+                "Time": 0.463
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.289,
+                    "MRAM": 1.37992,
+                    "SRAM": 0.204,
+                    "Total": 1.87292
+                },
+                "Energy": {
+                    "Logic": 0.0896478,
+                    "MRAM": 0.784760504,
+                    "SRAM": 0.06749952,
+                    "Total": 0.941907824
+                },
+                "Power": {
+                    "Logic": 0.1734,
+                    "MRAM": 1.517912,
+                    "SRAM": 0.13056,
+                    "Total": 1.821872
+                },
+                "Time": 0.517
+            }
+        },
+        "DWT": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.1,
+                    "MRAM": 2.12992,
+                    "SRAM": 0.124,
+                    "Total": 2.35392
+                },
+                "Energy": {
+                    "Logic": 2.71704,
+                    "MRAM": 106.096427,
+                    "SRAM": 3.59373824,
+                    "Total": 112.4072052
+                },
+                "Power": {
+                    "Logic": 0.06,
+                    "MRAM": 2.342912,
+                    "SRAM": 0.07936,
+                    "Total": 2.482272
+                },
+                "Time": 45.284
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.138,
+                    "MRAM": 1.40992,
+                    "SRAM": 0.114,
+                    "Total": 1.66192
+                },
+                "Energy": {
+                    "Logic": 2.8142064,
+                    "MRAM": 52.71239706,
+                    "SRAM": 2.47976448,
+                    "Total": 58.00636794
+                },
+                "Power": {
+                    "Logic": 0.0828,
+                    "MRAM": 1.550912,
+                    "SRAM": 0.07296,
+                    "Total": 1.706672
+                },
+                "Time": 33.988
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.123,
+                    "MRAM": 1.45992,
+                    "SRAM": 0.0761,
+                    "Total": 1.65902
+                },
+                "Energy": {
+                    "Logic": 8.6365926,
+                    "MRAM": 187.9350636,
+                    "SRAM": 5.699683008,
+                    "Total": 202.2713392
+                },
+                "Power": {
+                    "Logic": 0.0738,
+                    "MRAM": 1.605912,
+                    "SRAM": 0.048704,
+                    "Total": 1.728416
+                },
+                "Time": 117.027
+            }
+        },
+        "FFT": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.111,
+                    "MRAM": 1.98992,
+                    "SRAM": 0.159,
+                    "Total": 2.25992
+                },
+                "Energy": {
+                    "Logic": 0.2782548,
+                    "MRAM": 9.145274336,
+                    "SRAM": 0.42515328,
+                    "Total": 9.848682416
+                },
+                "Power": {
+                    "Logic": 0.0666,
+                    "MRAM": 2.188912,
+                    "SRAM": 0.10176,
+                    "Total": 2.357272
+                },
+                "Time": 4.178
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.17,
+                    "MRAM": 1.29992,
+                    "SRAM": 0.137,
+                    "Total": 1.60692
+                },
+                "Energy": {
+                    "Logic": 0.337518,
+                    "MRAM": 4.731578808,
+                    "SRAM": 0.29013312,
+                    "Total": 5.359229928
+                },
+                "Power": {
+                    "Logic": 0.102,
+                    "MRAM": 1.429912,
+                    "SRAM": 0.08768,
+                    "Total": 1.619592
+                },
+                "Time": 3.309
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.16,
+                    "MRAM": 1.70992,
+                    "SRAM": 0.135,
+                    "Total": 2.00492
+                },
+                "Energy": {
+                    "Logic": 1.332192,
+                    "MRAM": 26.10141582,
+                    "SRAM": 1.1989728,
+                    "Total": 28.63258062
+                },
+                "Power": {
+                    "Logic": 0.096,
+                    "MRAM": 1.880912,
+                    "SRAM": 0.0864,
+                    "Total": 2.063312
+                },
+                "Time": 13.877
+            }
+        },
+        "SCONV": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.156,
+                    "MRAM": 1.83992,
+                    "SRAM": 0.228,
+                    "Total": 2.22392
+                },
+                "Energy": {
+                    "Logic": 0.7012512,
+                    "MRAM": 15.1631487,
+                    "SRAM": 1.09323264,
+                    "Total": 16.95763254
+                },
+                "Power": {
+                    "Logic": 0.0936,
+                    "MRAM": 2.023912,
+                    "SRAM": 0.14592,
+                    "Total": 2.263432
+                },
+                "Time": 7.492
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.22,
+                    "MRAM": 1.21992,
+                    "SRAM": 0.144,
+                    "Total": 1.58392
+                },
+                "Energy": {
+                    "Logic": 0.818532,
+                    "MRAM": 8.321196312,
+                    "SRAM": 0.57148416,
+                    "Total": 9.711212472
+                },
+                "Power": {
+                    "Logic": 0.132,
+                    "MRAM": 1.341912,
+                    "SRAM": 0.09216,
+                    "Total": 1.566072
+                },
+                "Time": 6.201
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.143,
+                    "MRAM": 1.73992,
+                    "SRAM": 0.103,
+                    "Total": 1.98592
+                },
+                "Energy": {
+                    "Logic": 6.3421644,
+                    "MRAM": 141.4725472,
+                    "SRAM": 4.87267456,
+                    "Total": 152.6873862
+                },
+                "Power": {
+                    "Logic": 0.0858,
+                    "MRAM": 1.913912,
+                    "SRAM": 0.06592,
+                    "Total": 2.065632
+                },
+                "Time": 73.918
+            }
+        },
+        "SMM": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.128,
+                    "MRAM": 1.89992,
+                    "SRAM": 0.165,
+                    "Total": 2.19292
+                },
+                "Energy": {
+                    "Logic": 1.8886656,
+                    "MRAM": 51.3951159,
+                    "SRAM": 2.5969152,
+                    "Total": 55.8806967
+                },
+                "Power": {
+                    "Logic": 0.0768,
+                    "MRAM": 2.089912,
+                    "SRAM": 0.1056,
+                    "Total": 2.272312
+                },
+                "Time": 24.592
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.198,
+                    "MRAM": 1.68992,
+                    "SRAM": 0.12,
+                    "Total": 2.00792
+                },
+                "Energy": {
+                    "Logic": 2.4923052,
+                    "MRAM": 38.99811485,
+                    "SRAM": 1.6111872,
+                    "Total": 43.10160725
+                },
+                "Power": {
+                    "Logic": 0.1188,
+                    "MRAM": 1.858912,
+                    "SRAM": 0.0768,
+                    "Total": 2.054512
+                },
+                "Time": 20.979
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.321,
+                    "MRAM": 1.77992,
+                    "SRAM": 0.236,
+                    "Total": 2.33692
+                },
+                "Energy": {
+                    "Logic": 4.973895,
+                    "MRAM": 50.5630774,
+                    "SRAM": 3.900608,
+                    "Total": 59.4375804
+                },
+                "Power": {
+                    "Logic": 0.1926,
+                    "MRAM": 1.957912,
+                    "SRAM": 0.15104,
+                    "Total": 2.301552
+                },
+                "Time": 25.825
+            }
+        },
+        "SMV": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.119,
+                    "MRAM": 2.12992,
+                    "SRAM": 0.163,
+                    "Total": 2.41192
+                },
+                "Energy": {
+                    "Logic": 0.03213,
+                    "MRAM": 1.0543104,
+                    "SRAM": 0.046944,
+                    "Total": 1.1333844
+                },
+                "Power": {
+                    "Logic": 0.0714,
+                    "MRAM": 2.342912,
+                    "SRAM": 0.10432,
+                    "Total": 2.518632
+                },
+                "Time": 0.45
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.177,
+                    "MRAM": 1.53992,
+                    "SRAM": 0.1146,
+                    "Total": 1.83152
+                },
+                "Energy": {
+                    "Logic": 0.038232,
+                    "MRAM": 0.60980832,
+                    "SRAM": 0.02640384,
+                    "Total": 0.67444416
+                },
+                "Power": {
+                    "Logic": 0.1062,
+                    "MRAM": 1.693912,
+                    "SRAM": 0.073344,
+                    "Total": 1.873456
+                },
+                "Time": 0.36
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.302,
+                    "MRAM": 1.45492,
+                    "SRAM": 0.201,
+                    "Total": 1.95792
+                },
+                "Energy": {
+                    "Logic": 0.0875196,
+                    "MRAM": 0.772998996,
+                    "SRAM": 0.06213312,
+                    "Total": 0.922651716
+                },
+                "Power": {
+                    "Logic": 0.1812,
+                    "MRAM": 1.600412,
+                    "SRAM": 0.12864,
+                    "Total": 1.910252
+                },
+                "Time": 0.483
+            }
+        },
+        "Sort*": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.134,
+                    "MRAM": 1.87992,
+                    "SRAM": 0.194,
+                    "Total": 2.20792
+                },
+                "Energy": {
+                    "Logic": 0.3036708,
+                    "MRAM": 7.810503624,
+                    "SRAM": 0.46895232,
+                    "Total": 8.583126744
+                },
+                "Power": {
+                    "Logic": 0.0804,
+                    "MRAM": 2.067912,
+                    "SRAM": 0.12416,
+                    "Total": 2.272472
+                },
+                "Time": 3.777
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.201,
+                    "MRAM": 1.23992,
+                    "SRAM": 0.156,
+                    "Total": 1.59692
+                },
+                "Energy": {
+                    "Logic": 0.3724128,
+                    "MRAM": 4.211760256,
+                    "SRAM": 0.30830592,
+                    "Total": 4.892478976
+                },
+                "Power": {
+                    "Logic": 0.1206,
+                    "MRAM": 1.363912,
+                    "SRAM": 0.09984,
+                    "Total": 1.584352
+                },
+                "Time": 3.088
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.395,
+                    "MRAM": 1.15992,
+                    "SRAM": 0.297,
+                    "Total": 1.85192
+                },
+                "Energy": {
+                    "Logic": 2.212395,
+                    "MRAM": 11.91063852,
+                    "SRAM": 1.7743968,
+                    "Total": 15.89743032
+                },
+                "Power": {
+                    "Logic": 0.237,
+                    "MRAM": 1.275912,
+                    "SRAM": 0.19008,
+                    "Total": 1.702992
+                },
+                "Time": 9.335
+            }
+        },
+        "Viterbi": {
+            "Baseline": {
+                "Current": {
+                    "Logic": 0.121,
+                    "MRAM": 1.79992,
+                    "SRAM": 0.229,
+                    "Total": 2.14992
+                },
+                "Energy": {
+                    "Logic": 0.2875686,
+                    "MRAM": 7.842431432,
+                    "SRAM": 0.58052416,
+                    "Total": 8.710524192
+                },
+                "Power": {
+                    "Logic": 0.0726,
+                    "MRAM": 1.979912,
+                    "SRAM": 0.14656,
+                    "Total": 2.199072
+                },
+                "Time": 3.961
+            },
+            "MANIC": {
+                "Current": {
+                    "Logic": 0.204,
+                    "MRAM": 1.18992,
+                    "SRAM": 0.161,
+                    "Total": 1.55492
+                },
+                "Energy": {
+                    "Logic": 0.3985344,
+                    "MRAM": 4.261817472,
+                    "SRAM": 0.33549824,
+                    "Total": 4.995850112
+                },
+                "Power": {
+                    "Logic": 0.1224,
+                    "MRAM": 1.308912,
+                    "SRAM": 0.10304,
+                    "Total": 1.534352
+                },
+                "Time": 3.256
+            },
+            "Scalar": {
+                "Current": {
+                    "Logic": 0.233,
+                    "MRAM": 2.15992,
+                    "SRAM": 0.0949,
+                    "Total": 2.48782
+                },
+                "Energy": {
+                    "Logic": 2.0317134,
+                    "MRAM": 34.5291291,
+                    "SRAM": 0.882676288,
+                    "Total": 37.44351878
+                },
+                "Power": {
+                    "Logic": 0.1398,
+                    "MRAM": 2.375912,
+                    "SRAM": 0.060736,
+                    "Total": 2.576448
+                },
+                "Time": 14.533
+            }
+        },
+        "Voltage": {
+            "Logic": 0.6,
+            "MRAM": 1.1,
+            "SRAM": 0.64
+        }
+    }
+}
