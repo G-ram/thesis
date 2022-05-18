@@ -176,13 +176,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "fft_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "fft_manic"
 				
 			}
@@ -196,13 +196,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "dwt_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "dwt_manic"
 				
 			}
@@ -216,13 +216,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "viterbi_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "viterbi_manic"
 				
 			}
@@ -236,13 +236,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "dconv_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "dconv_manic"
 				
 			}
@@ -256,13 +256,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "dmm_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "dmm_manic"
 				
 			}
@@ -276,13 +276,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "dmv_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "dmv_manic"
 				
 			}
@@ -296,13 +296,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "sconv_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "sconv_manic"
 				
 			}
@@ -316,13 +316,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "smm_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "smm_manic"
 				
 			}
@@ -336,13 +336,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "smv_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "smv_manic"
 				
 			}
@@ -356,13 +356,13 @@
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "sort_base"
 				
 			},
 			{
 				"src": "../data/v0.4nocache.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "sort_manic"
 				
 			}
@@ -375,12 +375,12 @@
 			},
 			{
 				"src": "./bld/avg.json",
-				"label": "V",
+				"label": "Vector",
 				"stack": "avg_base"
 			},
 			{
 				"src": "./bld/avg.json",
-				"label": "VDF",
+				"label": "MANIC",
 				"stack": "avg_manic"
 			}
 		]
@@ -393,8 +393,8 @@
 	"minor_spacing": 2,
 	"major_spacing": 1.5,
 	"minor_padding": 5,
-	"major_padding": 40,
+	"major_padding": 60,
 	"barwidth": 1.1,
-	"fontsize": 12,
+	"fontsize": 16,
 	"ylabel": "MOPS/mW"
 }

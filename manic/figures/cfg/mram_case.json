@@ -1,0 +1,45 @@
+{
+	"stacks": {
+		"1": { "keys": ["1.gopsw"], "labels": [""], "colors": ["#888888"] },
+		"2": { "keys": ["2.gopsw"], "labels": [""], "colors": ["#888888"] },
+		"3": { "keys": ["3.gopsw"], "labels": [""], "colors": ["#888888"] },
+		"4": { "keys": ["4.gopsw"], "labels": [""], "colors": ["#888888"] }
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/mram_case.json",
+				"label": "1",
+				"stack": "1"
+			},	
+			{
+				"src": "../data/mram_case.json",
+				"label": "2",
+				"stack": "2"
+			},	
+			{
+				"src": "../data/mram_case.json",
+				"label": "3",
+				"stack": "4"
+			},	
+			{
+				"src": "../data/mram_case.json",
+				"label": "4",
+				"stack": "3"
+			}	
+		]
+	],
+	"sci_not": false,
+	"major": ["Configurations"],
+	"width": 4,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 20,
+	"barwidth": 1.1,
+	"fontsize": 18,
+	"ylabel": "MOPS/mW",
+	"xtick_rotation": 0
+}

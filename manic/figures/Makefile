@@ -6,7 +6,7 @@ PDFS := overview.pdf scalar_overview.pdf vector_overview.pdf manic_overview.pdf 
 	chip_block.pdf chip_delid.pdf chip_package.pdf \
 	shmoo.pdf v0.4nocache-graph.pdf v0.4cache-graph.pdf \
 	eff_v0.4nocache-graph.pdf eff_v0.4cache-graph.pdf \
-	v0.4nocache-legend.pdf
+	v0.4nocache-legend.pdf mram_case-graph.pdf
 
 PDFDIR := pdf
 PNGDIR := png

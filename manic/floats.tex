@@ -455,14 +455,14 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\begin{subfigure}{\linewidth}
 			\centering
 			\resizebox{0.6\linewidth}{!}{
-				\begin{tabular}{p{1in}p{0.3in}}
+				\begin{tabular}{cc}
 					\toprule
 					Size (KB) & 256 \\
 					Area (mm$^2$) & 0.31 \\
 					Voltage (V) & 1.1 \\
 					Leakage (\textmu W) & 663 \\
-					32b Read Latency @ \newline 50 MHz (ns) & 170 \\
-					32b Write Latency @ \newline  50 MHz (\textmu s) & 8.4 \\
+					\thead{32b Read Latency @ \\ 50 MHz (ns)} & 170 \\
+					\thead{32b Write Latency @ \\  50 MHz (\textmu s)} & 8.4 \\
 					32b Read Energy (pJ) & 437 \\
 					32b Write Energy (nJ) & 29.7 \\
 					Read Energy (pJ/bit) & 13.7 \\
@@ -478,7 +478,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 	\begin{minipage}{0.375\columnwidth}
 		\begin{subfigure}{\linewidth}
 			\centering
-			\includegraphics[width=\linewidth]{figures/pdf/mram_case-graph-crop.pdf}
+			\includegraphics[width=\linewidth]{manic/figures/pdf/mram_case-graph-crop.pdf}
 			\caption{MOPS/mW for DMM.}
 			\label{fig:manic:case:mram}
 		\end{subfigure}
@@ -486,11 +486,10 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 	\hfill
 	\vspace{0.5em}
 	\begin{minipage}{\columnwidth}
-		\scriptsize
 		\centering
 		\begin{subfigure}{\linewidth}
 			\resizebox{0.85\linewidth}{!}{
-				\begin{tabular}{p{0.005in}p{3.25in}}
+				\begin{tabular}{ll}
 					%% \toprule
 					1: & Running from MRAM, DCache enabled, 48.9 MHz, 0.64V Core \\
 					2: & Running from MRAM, DCache disabled, 231 MHz, 1.0V Core \\
@@ -509,8 +508,48 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 \end{figure}
 }
 
-\newcommand{\figMANICEnergy}{
+\newcommand{\figMANICEnergyCache}{
 \begin{figure}[htb]
-	
+	\centering
+	\begin{subfigure}{0.7\linewidth}
+		\centering
+		\includegraphics[height=0.15in]{manic/figures/pdf/v0.4nocache-legend-crop.pdf}
+
+		\includegraphics[width=\linewidth]{manic/figures/pdf/v0.4cache-graph-crop.pdf}
+		\caption{Energy (normalized to scalar).}
+		\label{fig:manic:cache:eff}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.7\linewidth}
+		\centering
+		\vspace{1em}
+		\includegraphics[width=\linewidth]{manic/figures/pdf/eff_v0.4cache-graph-crop.pdf}
+		\caption{Energy efficiency.}
+		\label{fig:manic:cache:energy}
+	\end{subfigure}
+	\label{fig:manic:cache}
+\end{figure}
+}
+
+\newcommand{\figMANICEnergyNoCache}{
+\begin{figure}[htb]
+	\centering
+	\begin{subfigure}{0.7\linewidth}
+		\centering
+		\includegraphics[height=0.15in]{manic/figures/pdf/v0.4nocache-legend-crop.pdf}
+
+		\includegraphics[width=\linewidth]{manic/figures/pdf/v0.4nocache-graph-crop.pdf}
+		\caption{Energy (normalized to scalar).}
+		\label{fig:manic:nocache:eff}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.7\linewidth}
+		\centering
+		\vspace{1em}
+		\includegraphics[width=\linewidth]{manic/figures/pdf/eff_v0.4nocache-graph-crop.pdf}
+		\caption{Energy efficiency.}
+		\label{fig:manic:nocache:energy}
+	\end{subfigure}
+	\label{fig:manic:nocache}
 \end{figure}
 }
