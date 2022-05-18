@@ -4,7 +4,7 @@
 vector-dataflow execution model to improve energy efficiency while
 maintaining programmability and generality.
 %
-\manic's hardware/software interface is the most recent revision of the RISC-V
+\manic's hardware/software interface is a recent revision of the RISC-V
 ISA vector extension~\cite{riscv_2019}.
 %
 \manic adds a vector unit with a single lane to a simple, in-order scalar processor core.
@@ -48,71 +48,57 @@ at which it dies.
 
 \subsection{Microarchitecture}
 \label{manic:manic:uarch}
-The foundation of \manic's microarchitecture is an extremely simple, in-order,
-single-issue vector core with a single execution lane that is equipped with a
-single functional unit. 
-%
-\manic adds four components to this base vector core to support vector-dataflow execution: (1) issue logic and a register renaming table; (2) an
-instruction window buffer; (3) an xdata buffer and (4) a forwarding buffer. 
+\manic's microarchitecture is split along the two phases of execution: Decode \& Rename and Execute.
 % 
-\autoref{fig:manic:block} shows an overview of \manic's design and how these
-components relate to one another.
+During the Decode \& Rename Phase, \manic buffers a window of decoded instructions (``Insn Buffer'') and identifies dataflow between them, renaming operands to point to the ``Forwarding Buffer'' as dataflow allows.
+% 
+Then during the Execute Phase, \manic cycles through the instruction buffer (``VIssue''), determines where the source of each instruction operand (``VGate''), executes the operation (``VExecute'' and ``VMemory''), and performs a write back if necessary (``VWriteback'').
 %
+\autoref{fig:manic:block} shows the two phases of execution as well as the different microarchitectural components of each.
 
 \figMANICBlock
 
-\paragraph{Issue logic and register renaming}
-\manic's issue logic is primarily responsible for creating a window of
+\subsubsection{Decode \& Rename}
+Decode \& Rename is responsible for creating a window of
 instructions to execute according to vector-dataflow.
 %
-The issue logic activates once per window of instructions, identifying,
+The Decode \& Rename logic activates once per window of instructions, identifying,
 preparing, and issuing for execution a window of dependent instructions over an entire vector of inputs.
 %
-A key parameter of the issue logic is the length of the instruction buffer
-window, which we explain next.
+% A key parameter is the length of the instruction buffer
+% window, which we explain next.
 %
-The issue logic analyzes a short sequence of instructions that has the same
+The logic analyzes a short sequence of instructions that has the same
 number of instructions as the instruction buffer can hold. 
 %
-The issue logic identifies dataflow between instructions by comparing the names
+Decode \& Rename identifies dataflow between instructions by comparing the names
 of their input and output operands. 
 %
 If two instructions are dependent --- the output of one of the instructions is 
 the input of another ---  \manic should forward the output value directly from
 its producer to the input of the consumer, avoiding the register file.
-\manic's issue logic implements forwarding by renaming the instructions' register operands 
+\manic's rename logic implements forwarding by renaming the instructions' register operands 
 to refer to a free location in \manic's forwarding
 buffer, instead of to the register file. 
 %
-The issue logic records the renaming in \manic's renaming table, which is a
+The Decode \& Rename logic records the renaming in \manic's renaming table, which is a
 fixed-size, directly-indexed table, with one entry for each register that can
 be renamed in a window of instructions.
 %
-After the issue logic identifies dependent operations and performs renaming for
-a window of operations, it dispatches the window of operations for execution.
+After the Decode \& Rename identifies dependent operations and performs renaming for the window, it dispatches the window of operations for execution.
 
 
-\paragraph{Instruction window}
-\manic uses its instruction window to store an issued window of
-instructions that have had their register operands renamed by the issue logic.
-%
-The instruction window and its associated control logic (not pictured)
-determine what operation \manic's single functional unit should execute next.
-%
-The instruction window's control logic executes the operation represented by each instruction stored in the 
-buffer. 
-%
-As \autoref{manic:design} describes, execution proceeds first vertically,
-through the entire window, and then horizontally through the vector.
-%
-A key feature of the instruction window's control logic is its ability to
-select an operand's source or destination. 
-%
-For input operands, the instruction window controls whether to fetch an operand from the
-vector register file or from \manic's forwarding buffer (in the case of an
+\paragraph{Instruction buffer}
+\manic uses its instruction buffer to store an decoded window of
+instructions that have had their register operands renamed by the Decode \& Rename logic.
+% 
+Each entry of buffer tells the Execute phase where to read and write an operand.
+% 
+For input operands, the instruction buffer controls whether to fetch an operand from the
+vector register file, from the Xdata buffer (data buffered from the scalar core like base address or stride), or from \manic's forwarding buffer (in the case of an
 operand being forwarded between instructions in the window).
 %
-Likewise, for output operands, the instruction window controls whether to write
+Likewise, for output operands, the instruction buffer controls whether to write
 an output operand to the vector register file, to the forwarding buffer, or to both.
 
 \paragraph{Limits to window size}
@@ -158,13 +144,61 @@ Entries in the instruction buffer contain indices into the xdata buffer as neede
 %
 During execution, \manic uses these indices to read information from the xdata buffer and execute accordingly.
 
-\paragraph{Forwarding buffer} The forwarding buffer is a small, directly-indexed
-buffer that stores intermediate values as \manic's execution unit forwards them to
+\paragraph{Structural hazards}
+There are two structural hazards that cause \manic to stop buffering additional
+instructions, stall the scalar core, and start vector execution. 
+%
+The first hazard occurs when the instruction buffer is full and another vector instruction is waiting to be buffered.
+%
+The second hazard occurs when the xdata buffer is full and a decoded 
+vector instruction requires a slot.
+%
+The prevalence of each hazard depends on the size of the buffers associated with each.
+%
+The first hazard is most common, while the second is rare.
+
+\subsubsection{Execute}
+The Execute Phase begins once a {\tt vfence} instruction is reached or there is a structural hazard.
+% 
+\manic has a five-stage execution pipeline consisting of: VIssue, VGate, VExecute, VMemory, and VWriteback.
+% 
+VIssue tracks execution progress and maintains a pointer into the instruction buffer, reads decoded instructions, and (only if necessary) initiates VRF reads;
+VGate determines the source for each operand (the VRF, Xdata buffer, Forwarding buffer, or bypass paths) and steers operands to the multiplier or ALU;
+VExecute computes the ALU and multiplier results;
+VMemory issues loads and stores;
+and VWriteback writes results to the Forwarding Buffer or VRF, as appropriate.
+
+\paragraph{VIssue}
+VIssue determines what the execution pipeline should execute next and initiates VRF reads if they are necessary (no dataflow identified during Decode \& Rename).
+% 
+It maintains an instruction pointer into the instruction buffer for the current instruction as well as counter representing the completed vector length.
+% 
+Together these track the progress of execution.
+% 
+Execution proceeds first vertically through the entire window.
+% 
+VIssue bumps the instruction pointer for each entry in the instruction buffer, reconfiguring the pipeline according to each instruction.
+% 
+Then execution proceeds horizontally; VIssue resets the instruction pointer to the top of the instruction buffer and increments the completed vector length counter.
+% 
+When the completed vector length counter matches the vector length of the computation and the instruction pointer is at the end of the instruction buffer, execution is finished.
+
+\paragraph{VGate}
+VGate chooses the source for each operand.
+% 
+Possible sources include the VRF, the Xdata buffer, bypass paths or the Forwarding buffer.
+% 
+VGate reduces switching activity in VExecute by steering operands to dedicated input registers for the ALU or multiplier to, e.g., prevent a VADD from toggling the multiplier.
+%
+This is important because, unlike conventional vector execution, the active instruction changes every cycle in \manic, increasing activity on control and data signals.
+
+\paragraph{Forwarding buffer} 
+The forwarding buffer stores intermediate values as \manic's execution unit forwards them to
 dependent instructions in the instruction window. 
 %
-The issue logic lazily allocates space in the forwarding buffer and renames instruction's forwarded operands to refer to these allocated entries.
+The buffer has a single read port, single write port, and an single entry (32b$\times$16) for each vector register.
 %
-The benefit of the forwarding buffer is that it is very small and simple, which
+It is simple (1r1w) and small (16B in total), which corresponds
 corresponds to a very low static power and access energy compared to the very 
 high static power and access energy of the vector register file.
 %
@@ -181,32 +215,17 @@ which adds up all elements of \texttt{v2} and writes the sum into the first elem
 Instead of writing partial results to the VRF,
 \manic allocates space in the forwarding buffer for partial accumulation.
 % 
-The decode logic recognizes a reduction, allocates space, and remaps the second source operand and the destination to point to the entry in the forwarding buffer.
+The Decode \& Rename logic recognizes a reduction, allocates space, and remaps the second source operand and the destination to point to the entry in the forwarding buffer.
 % 
-During execution, \manic will then use the partial result in the forwarding buffer as one source for the reduction (e.g., sum)
+During the Execute phase, \manic will then use the partial result in the forwarding buffer as one source for the reduction (e.g., sum)
 and overwrite it with the new value as it is produced.
 % 
 This optimization re-purposes \manic's existing dataflow mechanisms
 to save an entire vector-length of VRF reads and writes for reductions.
 
-\paragraph{Structural hazards}
-There are three structural hazards that cause \manic to stop buffering additional
-instructions, stall the scalar core, and start vector execution. 
-%
-The first hazard occurs when the instruction buffer is full and another vector instruction is waiting to be buffered.
-%
-The second hazard occurs when all slots in the forwarding buffer are allocated and an incoming instruction requires a slot.
-%
-Finally, the third hazard occurs when the xdata buffer is full and a decoded 
-vector instruction requires a slot.
-%
-The prevalence of each hazard depends on the size of the buffers associated with each.
-%
-The first hazard is most common, while the other two tend to be rare.
-
 \subsection{Memory system}
 \label{manic:manic:memory}
-\manic includes an instruction cache (icache) and a data cache (dcache).
+\manic's memory subsystem includes an instruction cache (icache) and a data cache (dcache).
 %
 This departs from the designs of many commercial microcontrollers 
 in the ultra-low-power computing domain, which do
@@ -235,8 +254,8 @@ very small relative to the operating period.
 %
 
 \subsection{Putting it together with an example}
-We illustrate the operation of the issue logic, renaming table, instruction
-window, and forwarding buffer with an example of \manic's operation, shown in
+We illustrate the operation of the Decode \& Rename logic, renaming table, instruction
+buffer, and forwarding buffer with an example of \manic's operation, shown in
 \autoref{fig:manic:vde:issue}. 
 %
 The figure starts with vector-aware assembly code that \manic transforms into
@@ -244,7 +263,7 @@ vector-dataflow operations by populating the renaming table and instruction
 buffer with information about the dataflow.
 %
 Vector assembly instructions pass into \manic's microarchitectural mechanisms
-as they decode to the issue logic and later execute.
+as they decode and later execute.
 %
 
 \figMANICMANICa
@@ -293,6 +312,8 @@ instructions into the instruction window, enabling their use during execution
 to avoid register file writes.
 \end{itemize}
 
+\figMANICMANICb
+
 \paragraph{Executing a window of instructions}
 After issue, the window of instructions is ready to execute.
 \autoref{fig:manic:vde:execute} shows (via the orange control-flow arcs) how \manic
@@ -308,9 +329,6 @@ The figure also shows how \manic uses a kill annotation at runtime.
 The registers with kill annotations ({\tt v0} and {\tt v3}) need not be written
 to the vector register file when the window completes executing, sparing the
 execution two vector register writes required by a typical vector execution. 
-
-\figMANICMANICb
-
 
 \subsection{Microarchitecture-agnostic dataflow scheduling}
 \label{manic:design:schedule}
@@ -377,5 +395,6 @@ register writes with similar efficacy as when window size is exposed explicitly 
 %
 For the FFT kernel, the instruction window is broken by stores and permutations (\autoref{manic:manic:uarch}),
 causing additional vector register file writes.
-This is a limitation of optimizing only for sum kill distance
-that we plan to address in future work.
+% 
+This is a limitation of optimizing only for sum kill distance and could be fixed by taking into account these operations during optimization.
+% that we plan to address in future work.

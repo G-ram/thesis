@@ -118,7 +118,7 @@ Though \manic forwards values between dependent instructions without
 going through the vector register file,
 \manic normally must write each operand back
 to the vector register file because the operand may be
-used later in a later window.
+used in a later window.
 
 However, if a program explicitly informs \manic of each register's kill
 points, then \manic can eliminate register file writes associated with those

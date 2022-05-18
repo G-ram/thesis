@@ -59,7 +59,7 @@ $(PDFDIR)/manic_overview.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_06.pdf $(PDFDIR)/manic_overview.pdf
 
 $(PDFDIR)/block.pdf: pdf/doc_data.txt
-	cp $(PDFDIR)/figures_11.pdf $(PDFDIR)/block.pdf
+	cp $(PDFDIR)/figures_20.pdf $(PDFDIR)/block.pdf
 
 $(PDFDIR)/transform.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_12.pdf $(PDFDIR)/transform.pdf

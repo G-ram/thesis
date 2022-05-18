@@ -40,30 +40,27 @@
 	\begin{figure}[t]
 		\centering
 		\includegraphics[width=0.9\linewidth]{manic/figures/pdf/block.pdf}
-		\caption{A block diagram of \manic's microarchitectural components (non-gray region).
-		Control flow is denoted with orange, while blue denotes dataflow. 
-		Stateful components (e.g. register files) have dotted outlines.}
+		\caption{A block diagram of \manic's microarchitectural components. \manic operates in two phases, Decode \& Rename and execute. Decode \& rename fills in the instruction buffer, identifying opportunities for dataflow forwarding. Execute cycles through the instruction buffer to compute across instructions (vertical) and then across vectors (horizontal).}
 		\label{fig:manic:block}
-		\vspace{-2em}
 	\end{figure}
 }
 
 
 \newcommand{\figMANICMANICa}{
-\begin{figure}[t]
+\begin{figure}[htb]
   \centering
-  \includegraphics[width=.85\columnwidth]{manic/figures/pdf/transform.pdf}
-  \caption{\manic's issue logic constructs windows of instructions with dataflow. The rename table keeps track of registers and names, updating the instruction buffer when new opportunities for forwarding are identified.}
+  \includegraphics[width=\columnwidth]{manic/figures/pdf/transform.pdf}
+  \caption{\manic's Decode \& Rename logic constructs windows of instructions with dataflow. The rename table keeps track of registers and names, updating the instruction buffer when new opportunities for forwarding are identified.}
   \label{fig:manic:vde:issue}
 \end{figure}
 }
 
 \newcommand{\figMANICMANICb}{
-\begin{figure}[ht]
-\includegraphics[width=\columnwidth]{manic/figures/pdf/vde.pdf}
-\caption{\manic's microarchitecture components execute a window of instructions using forwarding according to dataflow across an entire vector of input.}
-\label{fig:manic:vde:execute}
-% \vspace{-2.5em}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=.65\columnwidth]{manic/figures/pdf/vde.pdf}
+	\caption{\manic's microarchitecture components execute a window of instructions using forwarding according to dataflow across an entire vector of input.}
+	\label{fig:manic:vde:execute}
 \end{figure}
 }
 
