@@ -1,0 +1,55 @@
+\section{Evaluation}
+\label{manic:eval}
+We now evaluate \msilicon and specifically the \manic design to 1) demonstrate it's viability as an ULP MCU, 2) to show that it is more energy-efficient than prior state-of-the-art designs, and 3) to validate the vector-dataflow execution model against scalar and vector models.
+% 
+\manic draws just 19.1$\mu$W (@ 4MHz), uses $2.6\times$ less energy than the prior state-of-the-art MCU, and improves efficiency by $3.4\times$ v. scalar and as much as $24\%$ v. vector.
+
+\tabMANICEval
+\paragraph{\manic is energy-efficient}
+\autoref{tab:manic:eval} compares \manic with prior work~\cite{keller2017risc,karnik2018cm,bol201919,prabhat202027}.
+%
+\manic was designed for energy-minimal, low-power operation: \manic consumes 19\textmu W at 4MHz, significantly lower than prior work.
+%
+\manic is more energy-efficient than prior work (by 2.6$\times$), with a peak efficiency of 256 MOPS/mW (vector increment, 32b ops) and 3.7pJ/cycle at 0.4V, 4MHz, room temperature, and MRAM disabled.
+%
+With random inputs, which cause unrealistic, near worst-case toggling of data lines, \manic gets 45 MOPs/mW on dense matrix-matrix multiplication (DMM).
+
+\figMANICEnergyCache
+\paragraph{Vector-dataflow uses less energy than scalar \& vector}
+\autoref{fig:manic:cache} shows the energy (normalized to scalar) and energy efficiency of the scalar, vector, and \manic designs.
+% 
+On average, \manic's vector-dataflow execution reduces energy (and likewise increases energy-efficiency) by $3.4\times$ v. scalar and by $12\%$ v. vector design.
+% 
+FFT and Sort are particularly good benchmarks for \manic v. the scalar baseline.
+% 
+\manic achieves 92MOPS/mW and 75MOPS/mW on FFT and Sort respectively v. just 32MOPS/mW and 5MOPS/mW for the scalar design.
+% 
+This shows the benefits of vector execution; in particular, the vectorized implementations of FFT and Sort use different algorithms (for FFT, vectorized FFT v. Cooley-Tukey and for Sort, radix sort v. merge sort) than the scalar baseline such that they can take advantage of longer vectors.
+
+\paragraph{Why is \manic not even more efficient?}
+Although \manic does reduce energy on average v. the vector baseline, the reduction is only $12\%$.
+% 
+This is because, while \manic effectively reduces VRF accesses (purple decreases in \autoref{fig:manic:cache:energy}), it reconfigures the execution pipeline every cycle as iterates through entries in the instruction buffer, executing a single vector element across the instruction window/
+% 
+This toggles control and data signals, which burns energy (green increases in \autoref{fig:manic:cache:energy}) and cancels out some of the gains from reducing VRF accesses
+% 
+\autoref{manic:discuss} will go into more detail and later chapters (~\autoref{chapter:snafu} and~\autoref{chapter:riptide}) will present work that specifically addresses this problem.
+
+\figMANICMRAMCase
+\paragraph{MRAM characterization}
+\autoref{fig:manic:case} characterizes the embedded MRAM and presents a case study of designs with MRAM enabled.
+%
+MRAM leakage is 663\textmu W, reads take 170ns and 13.7pJ/bit, while writes take 8.4\textmu s and 929pJ/bit.
+%
+Write latency is independent of clock frequency.
+%
+A case study of DMM puts these numbers into context.
+%
+The figure includes several system configurations: 1) \manic running out of MRAM with the DCache enabled @49MHz, 2) \manic running out of MRAM as fast as possible @231MHz (this necessitates the DCache being disabled), 3) \manic running from SRAM, DCache enabled, and MRAM enabled @49MHz, and 4) \manic running as fast as possible @166MHz (w/o DCache) and MRAM enabled.
+%
+Configuration 4 achieves max efficiency with 11MOPS/mW % (compared to 46MOPS/mW when MRAM is disabled)
+and configuration 2 achieves max efficiency for running from MRAM with 2.3MOPS/mW.
+%
+As found in prior low-power systems, MRAM's high static power is a significant challenge for energy efficiency.
+% 
+There are possible architectural (e.g. caching) and VLSI techniques (e.g. fine-grain power gating) that could address this challenge as part of future work.

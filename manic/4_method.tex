@@ -1,0 +1,28 @@
+\section{Methodology}
+\label{manic:method}
+\figMANICChip
+\msilicon was fabricated in a 22nm bulk finFET process using high-threshold voltages standard cells.
+%
+\autoref{fig:manic:chip} shows the die photo of the 4mm $\times$ 8mm testchip; the \manic design has an area of 0.57$mm^2$.
+%
+\msilicon is optimized to run with a 4MHz to 50MHz clock from an on-die clock generator at 0.4V to 1.0V logic, 0.4V to 1.0V SRAM, and 1.10V MRAM.
+% 
+All results are reported at the minimum energy point with the clock at 4MHz and logic and SRAM at 0.4V.
+
+\paragraph{Benchmarks}
+We evaluate each design (scalar, vector, and \manic) of \msilicon across ten benchmarks with random 32b inputs.
+% 
+For the vector design and \manic, we vectorize a plain-C implementation of each benchmark.
+% 
+We further optimize the benchmarks for \manic by inserting kill annotations and optimizing the code schedule for sum of kill distance.
+
+\paragraph{Measuring energy}
+Energy consumption is the primary metric of interest.
+% 
+We measure energy by measuring current and the time it takes complete each benchmark.
+% 
+To measure current for logic and SRAM, a digital multimeter (Agilent 34405a, Agilent 34410a) is wired in series with the DC power supply (Agilent E4638A). 
+% 
+For MRAM, a source meter unit (Keithley 2401) is used. 
+% 
+Timing information (i.e. program start and program end) are transmitted from the chip via I2C to an Arduino and then to a computer.

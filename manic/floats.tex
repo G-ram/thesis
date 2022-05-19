@@ -448,13 +448,37 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 \end{table}
 }
 
+\newcommand{\figMANICMRAMCharacter}{
+\begin{table}[htb]
+	\centering
+	\resizebox{0.3\linewidth}{!}{
+		\begin{tabular}{cc}
+			\toprule
+			Size (KB) & 256 \\
+			Area (mm$^2$) & 0.31 \\
+			Voltage (V) & 1.1 \\
+			Leakage (\textmu W) & 663 \\
+			\thead{32b Read Latency @ \\ 50 MHz (ns)} & 170 \\
+			\thead{32b Write Latency @ \\  50 MHz (\textmu s)} & 8.4 \\
+			32b Read Energy (pJ) & 437 \\
+			32b Write Energy (nJ) & 29.7 \\
+			Read Energy (pJ/bit) & 13.7 \\
+			Write Energy (pJ/bit) & 929 \\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{MRAM characterization.}
+	\label{tab:manic:mram}
+\end{table}
+}
+
 \newcommand{\figMANICMRAMCase}{
-\begin{figure}[t]
+\begin{figure}[htb]
 	\begin{minipage}{0.55\columnwidth}
 		\footnotesize
 		\begin{subfigure}{\linewidth}
 			\centering
-			\resizebox{0.6\linewidth}{!}{
+			\resizebox{0.5\linewidth}{!}{
 				\begin{tabular}{cc}
 					\toprule
 					Size (KB) & 256 \\
@@ -478,7 +502,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 	\begin{minipage}{0.375\columnwidth}
 		\begin{subfigure}{\linewidth}
 			\centering
-			\includegraphics[width=\linewidth]{manic/figures/pdf/mram_case-graph-crop.pdf}
+			\includegraphics[width=0.9\linewidth]{manic/figures/pdf/mram_case-graph-crop.pdf}
 			\caption{MOPS/mW for DMM.}
 			\label{fig:manic:case:mram}
 		\end{subfigure}
@@ -527,6 +551,7 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 		\caption{Energy efficiency.}
 		\label{fig:manic:cache:energy}
 	\end{subfigure}
+	\caption{Energy (normalized to scalar) and energy-efficiency of scalar, vector, and \manic designs across ten benchmarks.}
 	\label{fig:manic:cache}
 \end{figure}
 }

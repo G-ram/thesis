@@ -1,14 +1,116 @@
-\figMANICChipBlock
 
-\section{\manic Silicon}
+\section{\msilicon}
 \label{manic:silicon}
-To evaluate \manic, we taped-out a testchip with three complete designs: \manic, a scalar design, and a vector design.
+To evaluate \manic, we taped-out a silicon prototype. 
 % 
-\autoref{fig:manic:chip:block} shows a diagram of the test-chip along with a detailed block diagram of a single design.
+The chip, \msilicon, has two objectives: 1) be a viable replacement for existing MCUs in ULP sensor deployments and 2) validate vector-dataflow execution against competing execution models.
 % 
+Towards the first objective, \msilicon meets the criteria for remote ULP sensor deployments; specifically, the testchip operates at extreme low-power, supports general-purpose programs, can run standalone (without an external FPGA or MCU driving control), has I2C and GPIO to communicate with sensors and integrates a non-volatile main memory, a requirement for devices that may suffer (frequent) power failures.
+% 
+Towards the second objective, the \msilicon testchip includes several independent designs that implement different execution models for comparison, including scalar, vector, and vector-dataflow.
 
-\figMANICChip
-\tabMANICEval
-\figMANICEnergyCache
-\figMANICEnergyNoCache
-\figMANICMRAMCase
+\figMANICChipBlock
+\subsection{Chip design}
+\msilicon includes three different designs, shown in \autoref{fig:manic:chip:block}.
+%
+They include a scalar design, an optimized vector design, and \manic.
+% 
+Logic at the top-level controls which design is active and arbitrates chip IO among the designs.
+%
+The designs share a common core consisting of: a RISC-V (RV32emi) microcontroller, a 2-KB instruction cache, a 4-KB data cache, a module that handles I2C communication and programming, a module that handles GPIO communication, a module that tracks statistics about device operation, and main memory composed of 64KB of SRAM, 1KB of ROM, and 256KB of embedded MRAM (eMRAM). 
+% 
+The scalar design adds no additional components to this common core.
+% 
+The vector design adds a simple, single-lane vector co-processor.
+% 
+The co-processor has a three-stage pipeline (VIssue, VExecute, VWriteback) that computes a vector operation by iterating over vector elements.
+% 
+The \manic design adds the \manic co-processor.
+% 
+Each design serves as comparison point of execution model: the scalar design is similar to existing commodity devices, while the vector design implement vector execution, providing the closest competition to MANIC's vector-dataflow execution.
+
+\paragraph{Why eMRAM?}
+Each of the designs on \msilicon include 256KB of embedded MRAM.
+% 
+This is a requirement for remote deployments where energy is sparse and a device may suffer frequent power failures.
+% 
+\msilicon is also one of the first demonstrations of eMRAM integrated into a complete system.
+% 
+eMRAM provides non-volatility at lower costs than competing NVM technologies.
+% 
+Compared to flash, eMRAM has word-level addressibility, higher write endurance, lower read and write latencies, and lower read and write energies.
+% 
+Also since it can be fabricated in the same process as logic the use of eMRAM avoids expensive off-chip IO.
+
+\paragraph{Power isolation}
+\msilicon was designed so that power and energy could be measured of each individual design separately.
+% 
+\msilicon has separate power domains for IO, SRAM, eMRAM, and logic.
+% 
+Further, there is a separate SRAM and logic power domains for each design and the eMRAM modules can be power-gated on disabled designs, isolating the module of the active design.
+% 
+This separation allows for near-complete isolation of an active design, which is critical to accurately determinining the energy consumption of that design.
+
+\subsection{Verification and bring-up of \msilicon}
+Verification of chip design is the most important step in the tape-out process.
+% 
+% and showed its value with \msilicon as bring-up was efficient (less than three days).
+% 
+For \msilicon, it involved three items: 1) integration of design-for-test (DFT) structures to allow for easy debugging, 2) safeguards in the event certain features do not work and 3) comprehensive unit and integration testing at each level of hardware abstraction (e.g pre- and post- synthesis and post-place-and-route).
+% 
+The following paragraphs describe the design-for-test strategy and chip bring-up in more detail.
+
+\paragraph{Design-for-test}
+DFT is a design methodology that makes a design robust to feature failure.
+% 
+For \msilicon, we developed a series of standard DFT modules with scan-chain interfaces that wrap selectively-chosen registers, SRAM macros, and the eMRAM macro.
+% 
+This allows each of these structures to be read and written to directly while interactively minimally with on-chip logic.
+% 
+There are two important examples of note in \msilicon.
+% 
+First, entire features can be disabled and signals routed around them; e.g. the instruction and data caches can both be disabled.
+% 
+Second, there are five mechanisms for programming the chip.
+% 
+The first two mechanisms rely on the ROM-based bootloader.
+% 
+If eMRAM is enabled program code and state is stored in the eMRAM otherwise its stored in the SRAM.
+% 
+The second two mechanisms use the scan-chain interfaces to the SRAM and eMRAM macros.
+% 
+Program code and state can be written directly to these macros and the bootloader directed to start execution immediately (without flashing) from either the SRAM or eMRAM.
+% 
+Finally, in the worst case scenario there is also a mechanism for feeding the RISC-V core directly with instructions and data for loads.
+% 
+These built-in safeguards are not only important for debugging, but also protect chip operation from a number of problematic scenarios when features might have failed.
+
+\paragraph{Programming and communication with the chip} 
+To program and communicate with the \msilicon prototype, we co-developed an Arduino-based programmer with \msilicon's bootloader using an FPGA implementation of \msilicon.
+% 
+The Arduino-based programmer converts serial commands to I2C commands; passing data to and from the computer to the testchip.
+% 
+Programming is initiated by the testchip which asks the programmer for the application size.
+% 
+The programmer then communicates with the computer to get the application's binary size and responds to the testchip over I2C.
+% 
+Then the testchip repeatedly asks the programmer for bytes of the application binary.
+% 
+The programmer receives this data from the computer and responds to the testchip.
+% 
+There is a handshaking protocol between both the programmer and the computer as well as the programmer and the testchip.
+% 
+This ensures data is not lost during flashing/programming.
+% 
+Once all data has been transferred, the testchip jumps to the starting address in main memory.
+% 
+The programmer continues to be connected, handling further communication (primarily printing to console) between the testchip and the computer.
+
+\paragraph{Tuning the eMRAM}
+Besides programming, the other important item for chip bring-up is the tuning of the embedded MRAM macro.
+% 
+Due to manufacturing variability, configuration of the eMRAM is different chip-to-chip.
+% 
+As such there are a number of different settings and parameters to get the eMRAM macro reading and writing correct data as well as minimizing write latency.
+% 
+We built a tool to quickly sweep the configuration space (using the scan-chain interface with the eMRAM) to determine the optimal settings for a particular instance of the macro. 

@@ -1,0 +1,38 @@
+\section{Discussion}
+\label{manic:discuss}
+There are four key take-aways from our experience building \manic and the \msilicon prototype.
+% 
+First, \msilicon emphasizes even more the inefficiency of existing commodity MCUs.
+% 
+\manic draws two orders of magnitude less power than an MSP430 (19$\mu$W v. 3-5mW) and achieves much better performance ($2.5\times$) v. a similar scalar design.
+% 
+Second, \msilicon validates the vector-dataflow execution model by demonstrating real energy improvements v. scalar and vector baselines.
+
+
+Third, taping-out \msilicon demonstrated the importance of building real systems.
+% 
+Initially we built \manic in RTL, but without compiled memories.
+% 
+Instead we counted memory accesses and used Destiny~\cite{destiny} to estimate read and write energies of SRAMs of various sizes.
+% 
+This overestimated the improvement that eliminating VRF accesses would yield ($38\%$ of simulated system v. $12\%$ for real system).
+
+Finally fourth, \msilicon exposed low-level effects of vector-dataflow execution that would have be missed by high-level models.
+% 
+Specifically, \manic only narrowly outperforms the vector baseline because \manic's implementation of vector-dataflow execution leads to higher switching activity of shared pipeline resources.
+% 
+In the vector baseline, pipeline resources remain configured in the same way throughout execution of a vector instruction.
+% 
+Further data operands tend to be similar across vector elements of the same instruction.
+% 
+Now compare this to \manic's implementation of vector-dataflow execution.
+% 
+\manic iterates over the entries in the instruction buffer reconfiguring its execution pipeline every cycle as it computes a single element across the window of instructions.
+% 
+Not only does this toggle control signals, but it can also lead to additional toggling of data signals as operands of different instructions might not be similar.
+% 
+For example, one instruction could be operating on benchmark data, while another operates on addresses; addresses are not similar (bits set) to benchmark data so executing these operations back-to-back may toggle many data signals. 
+
+\manic's high switching activity is solved by \snafu (~\autoref{chapter:snafu}) and \riptide (~\autoref{chapter:riptide}).
+% 
+\riptide and \snafu are ULP CGRAs that leverage spatial dataflow to minimize switching activity by effectively duplicating and not sharing pipeline resources.

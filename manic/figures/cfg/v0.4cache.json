@@ -151,17 +151,17 @@
 			"colors": ["#9f7ccf", "#a1dab4"]	
 		},
 		"avg_scalar": {
-			"keys":["284.Cache.Scalar.Energy.SRAM", "284.Cache.Scalar.Energy.Logic"],
+			"keys":["284.NoCache.Scalar.Energy.SRAM", "284.NoCache.Scalar.Energy.Logic"],
 			"labels":["SRAM", "Logic"],
 			"colors": ["#9f7ccf", "#a1dab4"]
 		},
 		"avg_base": {
-			"keys":["284.Cache.Baseline.Energy.SRAM", "284.Cache.Baseline.Energy.Logic"],
+			"keys":["284.NoCache.Baseline.Energy.SRAM", "284.NoCache.Baseline.Energy.Logic"],
 			"labels":["SRAM", "Logic"],
 			"colors": ["#9f7ccf", "#a1dab4"]
 		},
 		"avg_manic": {
-			"keys":["284.Cache.MANIC.Energy.SRAM", "284.Cache.MANIC.Energy.Logic"],
+			"keys":["284.NoCache.MANIC.Energy.SRAM", "284.NoCache.MANIC.Energy.Logic"],
 			"labels":["SRAM", "Logic"],
 			"colors": ["#9f7ccf", "#a1dab4"]
 		}
