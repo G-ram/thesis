@@ -549,7 +549,7 @@
     "draw_norm": true,
 	"major": ["FFT", "DWT", "Viterbi", "SMM", "DMM", "SCONV", "DCONV", "SMV", "DMV", "SORT", "AVG"],
 	"width": 10,
-	"height": 6.12,
+	"height": 5,
 	"rect": [0, 0, 1.0, 0.9],
 	"minor_spacing": 3,
 	"major_spacing": 1.5,

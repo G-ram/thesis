@@ -2,20 +2,17 @@
 \label{snafu:energy}
 
 \snafuframe's design departs from prior CGRAs because it is designed from the ground-up to \emph{minimize energy}.
-This difference is essential for emerging ULP applications (\autoref{snafu:motivation}),
+This difference is essential for emerging ULP applications,
 and it motivates several key features of \snafuframe's CGRA architecture.
 %
-This snafution explores these differences and explains how they allow \snafuframe to minimize energy.
+This section explores these differences and explains how they allow \snafuframe to minimize energy.
 
 \subsection{Spatial vector-dataflow execution}
 
-\paragraph{Prior ULP systems}
-The state-of-the-art in ULP architecture is \manic~\cite{manic}.
-%
-As discussed in \autoref{snafu:motivation},
-\manic introduces \emph{vector-dataflow execution},
-which amortizes instruction fetch, decode, and control (vector)
+\paragraph{\manic's vector-dataflow execution}
+Vector-dataflow execution, introduced in~\autoref{chapter:manic}, amortizes instruction fetch, decode, and control (vector)
 and forwards intermediate values between instructions (dataflow).
+% 
 \manic's vector-dataflow implementation parks intermediate values in a small ``forwarding buffer,'' instead of the large vector register file (VRF).
 
 \manic reduces energy and adds negligible area,
@@ -40,8 +37,8 @@ But \snafuframe \emph{spatially} implements vector-dataflow:
 \snafuframe \emph{buffers intermediate values locally} in each PE (vs.\ \manic's shared forwarding buffer)
 and \emph{each PE performs a single operation} (vs.\ \manic's shared pipeline).
 %
-Note that this design is also a contrast with prior CGRAs, which share PEs among
-multiple operations to increase performance and utilization (\autoref{tab:snafu:motivation}).
+Note that this design is also a contrast with some prior CGRAs, which share PEs among
+multiple operations to increase performance and utilization.
 
 As a result, \snafuframe reduces both effects that limit \manic's energy savings.
 %
@@ -56,7 +53,7 @@ This tradeoff is worthwhile because ULP systems are tiny and most area is memory
 
 \subsection{Asynchronous dataflow firing without tag-token matching}
 
-The rest of this snafution discusses how \snafuframe differs from prior CGRAs,
+The rest of this section discusses how \snafuframe differs from prior CGRAs,
 starting with its dynamic dataflow firing.
 
 \paragraph{Execution in prior CGRAs}

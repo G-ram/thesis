@@ -2,7 +2,6 @@
 \label{snafu:method}
 
 \figSNAFUDie
-\tabSNAFUTabs
 
 We implemented \snafuarch as well as three baselines entirely in RTL and synthesized each system using
 an industrial sub-28\,nm FinFET process with compiled memories.
@@ -27,6 +26,8 @@ We also developed \snafuframe's compiler that converts vectorized C-code to an o
 % 
 Finally, we simulated full applications post-synthesis, annotated switching, and
 used Cadence Joules~\cite{joules} to estimate power.
+
+\tabSNAFUTabs
 
 \paragraph{Baselines}
 We compare \snafuarch against three baseline systems:

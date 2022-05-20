@@ -12,7 +12,6 @@ For the application programmer, \snafuframe is designed to efficiently support
 SIMD execution of vectorized \mbox{RISC-V} C-code, using a custom compiler that targets the generated CGRA. 
 
 \figSNAFUPE
-
 \subsection{Bring your own functional unit (BYOFU)}
 \label{snafu:flexible:byofu}
 \snafuframe has a generic PE microarchitecture that exposes a
@@ -238,7 +237,7 @@ output.
 This mapping lets \snafu's compiler seamlessly support new types of PEs.
 
 \paragraph{Integer linear program (ILP) scheduler}
-The compiler uses an integer linear program (ILP) formulation to schedule
+The compiler uses an integer linear program (ILP) (see~\autoref{appendix:snafu:ilp}) formulation to schedule
 operations onto the PEs of a CGRA.
 % 
 The scheduler takes as input the extracted dataflow graph, the abstract
@@ -283,4 +282,4 @@ even for the most complex kernels that we have evaluated.
 If a kernel is too large to fit onto the CGRA or there is resource mismatch between the kernel and the fabric, the tool relies on the programmer to manually split the vectorized code into several smaller kernels that can be individually scheduled.
 % 
 This is a limitation of the current implementation, but not fundamental;
-a future version of the compiler will automate this process.
+a future version of the compiler could automate this process.

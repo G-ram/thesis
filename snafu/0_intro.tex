@@ -1,77 +1,22 @@
-Tiny, ultra-low-power (ULP) sensor devices are becoming increasingly pervasive, sophisticated, and important to a number of emerging application domains.
+The opportunity for tiny, ULP devices is enormous~\cite{lucia2017intermittent}, but enabling sophisticated processing on these devices remains challenging.
 % 
-These include environmental sensing, civil-infrastructure monitoring, and chip-scale satellites~\cite{kicksat2}.
-%
-Communication consumes lots of energy in these applications,
-so there is a strong incentive to push ever-more computation onto the sensor device~\cite{sonic}.
+Prior chapters have presented progress on this challenge.
+\graham{Say something about system stack}
 % 
-Unfortunately, widely available ULP computing platforms are fundamentally inefficient and needlessly limit applications.
-%
-New architectures are needed with a strong focus on ULP ($<$1\,mW), \emph{energy-minimal} operation.
-
-\paragraph{Sensing workloads are pervasive}
-The opportunity for tiny, ULP devices is enormous~\cite{lucia2017intermittent}.
+\autoref{chapter:sonic} described how to enable machine inference on commodity MCUs and \autoref{chapter:manic} discussed \manic, an energy-efficient vector-dataflow co-processor.
 % 
-These types of embedded systems can be deployed to a wide range of environments, including harsh environments like the ocean or space~\cite{denby2020orbital}.
-%
-Sensors on board these devices produce rich data sets that require sophisticated processing~\cite{naderiparizi2018towards,nardello2019camaroptera}.
+\manic is a big improvement over COTS devices, but it stills fall short due to high switching activity
+in the shared execution pipeline, a significant inefficiency at ULP-scale.
 % 
-Machine learning and advanced digital signal processing are becoming important tools for applications deployed on ULP sensor devices~\cite{sonic}.
-
-This increased need for processing is in tension with the ULP domain.
-%
-The main constraint these systems face is \emph{severely limited energy},
-either due to small batteries or weak energy harvesting.
+Eliminating these overheads can reduce energy by nearly half, proving that, despite their low operating power, \manic and other existing programmable ULP designs~\cite{dally:ieee08:elm,hempstead2005ultra,warneke200417,nazhandali2005energy} are not energy-minimal.
 % 
-One possible solution is to offload processing to a more powerful edge device.
+Alternatively, custom ASICs would achieve energy-minimality, but come at high upfront cost~\cite{hotmobile2021} and with severely limited application scope, risking quick obsolece.
 % 
-However, communication takes much more energy than local computation or storage~\cite{sonic,zebranet}.
-% 
-The only viable solution is therefore to process data locally and transmit only a minimum of filtered/preprocessed data,
-discarding the rest.
-%
-This operating model has a major implication: the capability of future ULP embedded systems will depend largely on the energy-efficiency of the onboard compute resources.
-%
-
-\paragraph{Existing programmable ULP devices are too inefficient}
-Commercial-off-the-shelf (COTS) ULP devices are 
-% 
-general-purpose and highly programmable,
-but they pay a high energy tax for this flexibility.
-% 
-Prior work has identified this failing of COTS devices and has addressed some of the sources of inefficiency~\cite{dally:ieee08:elm,manic,hempstead2005ultra,warneke200417,nazhandali2005energy}.
-% 
-Specifically, \manic~\cite{manic} targeted instruction and data-movement energy, the majority of wasted energy in COTS devices.
-%
-\manic is a big improvement over COTS devices, but
-%
-we show that designs like \manic still fall short due to high switching activity
-in the shared execution pipeline,
-which is a significant inefficiency at ULP-scale.
-%
-Eliminating these overheads can reduce energy by nearly half, proving that, despite their low operating power,
-existing ULP designs are not energy-minimal.
-
-\paragraph{ASICs can minimize energy, but they are too inflexible}
-%
-For any application, a custom ASIC will minimize energy consumption.
-%
-E.g., prior work has demonstrated extreme energy efficiency on neural networks when all hardware is specialized~\cite{reagen2016minerva,andri2016yodann,lee2018unpu,bong201714}.
-%
-But this efficiency comes at high upfront cost and with severely limited application scope.
-% 
-Applications in the ULP sensing domain are still evolving,
-increasing the risk that an ASIC will quickly become obsolete.
-%
-Moreover, cost is a major consideration in these applications,
-making ASIC development even harder to justify~\cite{hotmobile2021}.
-%
+Thus, there is still a need for new architectures that achieve ULP ($<$1\,mW), \emph{energy-minimal} operation while maintaining a high degree of design flexibility and ease of programmability.
 
 \paragraph{\Ulp CGRAs are the answer}
 %
-The goal of this paper is to address the energy-efficiency shortcomings of prior designs while maintaining a high degree of design flexibility and ease of programmability.
-%
-Our solution is \snafuframe,%
+This chapter presents \snafuframe,%
 \footnote{\underline{S}imple \underline{N}etwork of \underline{A}rbitrary \underline{F}unctional \underline{U}nits.}
 a framework to generate ULP, energy-minimal coarse-grain reconfigurable arrays (CGRAs).
 %
@@ -112,7 +57,7 @@ and it reduces design effort of tape-out via top-down synthesis of CGRAs.
 
 \figSNAFUIntro
 
-\paragraph{Contributions} This paper contributes the following:
+\paragraph{Contributions} This chapter contributes the following:
 \begin{compactitem}
 \item We present \snafuframe, the first flexible CGRA-generator for ULP, energy-minimal systems.
   \snafuframe makes it easy to integrate new functional units,
@@ -146,15 +91,3 @@ and it reduces design effort of tape-out via top-down synthesis of CGRAs.
   deployments.
   
 \end{compactitem}
-
-\paragraph{Road map}
-%
-\autoref{sec:motivation} motivates \snafu.
-%
-\autoref{sec:overview} gives an overview of \snafu,
-and Secs.~\ref{sec:flexible}, \ref{sec:energy}, and \ref{sec:arch} describe it.
-%
-Secs.~\ref{sec:method} and \ref{sec:eval} present our evaluation methodology and results.
-%
-Finally, \autoref{sec:case} compares \snafu to ASICs, and
-\autoref{sec:conclusion} concludes.

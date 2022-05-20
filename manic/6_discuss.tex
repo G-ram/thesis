@@ -1,5 +1,6 @@
 \section{Discussion}
 \label{manic:discuss}
+\graham{Say something about system stack}
 There are four key take-aways from our experience building \manic and the \msilicon prototype.
 % 
 First, \msilicon emphasizes even more the inefficiency of existing commodity MCUs.
@@ -35,4 +36,4 @@ For example, one instruction could be operating on benchmark data, while another
 
 \manic's high switching activity is solved by \snafu (~\autoref{chapter:snafu}) and \riptide (~\autoref{chapter:riptide}).
 % 
-\riptide and \snafu are ULP CGRAs that leverage spatial dataflow to minimize switching activity by effectively duplicating and not sharing pipeline resources.
+\riptide and \snafu are ULP CGRAs that leverage spatial dataflow to minimize switching activity by effectively duplicating and then dividing-up pipeline resources.

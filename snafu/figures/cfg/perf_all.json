@@ -277,7 +277,7 @@
     "sci_not": true,
 	"major": ["FFT", "DWT", "Viterbi", "SMM", "DMM", "SCONV", "DCONV", "SMV", "DMV", "SORT"],
 	"width": 10,
-	"height": 6,
+	"height": 5,
 	"rect": [0, 0, 1, 0.9],
 	"minor_spacing": 2.5,
 	"major_spacing": 1.5,
