@@ -14,7 +14,8 @@
     \hfill
     \begin{minipage}{0.32\linewidth}
     	\centering
-	\includegraphics[width=\linewidth]{riptide/figures/pdf/perf_avg-graph-crop.pdf}
+    	\vspace{1.1em}
+			\includegraphics[width=\linewidth]{riptide/figures/pdf/perf_avg-graph-crop.pdf}
     \end{minipage}
 
     \caption{\riptide improves energy-efficiency and performance over the
@@ -27,7 +28,7 @@
 \newcommand{\figRipTideIntro}{
   \begin{figure}[t]
     \centering
-    \includegraphics[width=0.9\linewidth]{riptide/figures/pdf/overview.pdf}
+    \includegraphics[width=0.7\linewidth]{riptide/figures/pdf/overview.pdf}
     \caption{\riptide is a co-designed compiler and CGRA microarchitecture
       that executes programs written in a \emph{high-level language}
       with \emph{minimal energy} and high performance.
@@ -43,9 +44,9 @@
 }
 
 \newcommand{\figRipTideSystem}{
-\begin{figure}[t]
+\begin{figure}[htb]
 	\centering
-    \includegraphics[width=\linewidth]{riptide/figures/pdf/system.pdf}
+    \includegraphics[width=0.6\linewidth]{riptide/figures/pdf/system.pdf}
     \caption{\riptide is a compiler and CGRA microarchitecture that maps
       high-level code with arbitrary control flow and memory access to
       an energy-minimal CGRA fabric. To maximize efficiency while
@@ -87,7 +88,7 @@
 \newcommand{\figRipTideLSO}{
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=\linewidth]{riptide/figures/pdf/lso.pdf}
+	\includegraphics[width=0.7\linewidth]{riptide/figures/pdf/lso.pdf}
 	\caption{\riptidecomp's middle-end enforces memory ordering. For 
     \texttt{example2}, an ordering graph (OG) that is 
     iteratively pruned and reduced.}
@@ -111,7 +112,7 @@
       \label{tab:riptide:isa}
       \scriptsize
       \resizebox{\linewidth}{!}{%
-      \begin{tabular*}{3.675in}{lccl}
+      \begin{tabular}{lccl}
         \toprule 
         \textbf{Operator(s)}    & \textbf{Category} & \textbf{Symbol(s)}                                & \textbf{Semantics}                         \\
         \midrule 
@@ -124,7 +125,7 @@
         Merge, order            & Synchronization   & \texttt{M}, \texttt{O}                            & See \autoref{fig:riptide:cf:gates}                 \\ 
         Stream                  & Stream            & \texttt{STR}                                      & See \autoref{fig:riptide:cf:gates}                 \\ 
         \bottomrule 
-      \end{tabular*}}
+      \end{tabular}}
     \end{center}
 \end{table}
 }
@@ -173,6 +174,33 @@
 \end{figure*}
 }
 
+\newcommand{\figRipTideArchBlock}{
+\begin{figure}[t]
+	\centering
+	\includegraphics[height=2.5in]{riptide/figures/pdf/block.pdf}
+	\caption{\riptide's ULP CGRA fabric.}
+	\label{fig:riptide:arch:block}
+\end{figure}
+}
+
+\newcommand{\figRipTideMicroArch}{
+\begin{figure}[t]
+	\begin{minipage}{0.49\linewidth}
+		\centering
+		\includegraphics[height=2.5in]{riptide/figures/pdf/pe.pdf}
+		\caption{PE microarchitecture}
+		\label{fig:riptide:arch:pe}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.49\linewidth}
+		\centering
+		\includegraphics[height=2.5in]{riptide/figures/pdf/router.pdf}
+		\caption{Router microarchitecture}
+		\label{fig:riptide:arch:router}
+	\end{minipage}
+\end{figure}
+}
+
 \newcommand{\figRipTideFilter}{
 \begin{figure}[htb]
 	\centering
@@ -209,7 +237,7 @@
 \begin{figure*}[htb]
 	\begin{minipage}{\linewidth}
 		\centering
-		\includegraphics[height=0.15in]{riptide/figures/pdf/counts_legend-graph-crop.pdf}
+		\includegraphics[height=0.2in]{riptide/figures/pdf/counts_legend-graph-crop.pdf}
 		
 		\vspace{0.2em}
 
@@ -232,7 +260,7 @@
 \newcommand{\figRipTideLoCResults}{
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=0.6\linewidth]{riptide/figures/pdf/loc_legend-graph-crop.pdf}
+	\includegraphics[height=0.2in]{riptide/figures/pdf/loc_legend-graph-crop.pdf}
 	
 	\vspace{0.1em}
 

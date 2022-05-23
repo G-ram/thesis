@@ -104,8 +104,6 @@ transitively ordered by some other path in the OG corresponding to control- and
 data-dependence orderings.
 %
 
-\figRipTideArch
-
 To simplify its OG, \riptidecomp uses transitive reduction (TR)~\cite{aho-tr}, which prior work
 deployed to simplify ordering relation graphs for parallel
 execution of loops~\cite{midkiff-padua,compiler-sync}.
@@ -268,7 +266,7 @@ stream if possible, and fuses the stream into the memory operation.
 \riptidecomp's backend takes a DFG and a CGRA topology description and generates
 scalar code to invoke \riptide and a bitstream to configure the \riptide fabric.
 % 
-The compiler's mapper uses a mixed integer linear program constraint problem formulation, the
+The compiler's mapper uses a mixed integer linear program constraint problem formulation (see~\autoref{appendix:riptide:ilp}), the
 solution to which maps DFG nodes and edges to hardware PEs, CF-modules, and
 links.
 % 

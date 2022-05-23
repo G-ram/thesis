@@ -1,21 +1,17 @@
-Recent advances in machine learning,
-sensor devices, and
-embedded systems open the door
-to a wide range of sensing applications,
-such as
-civil-infrastructure or wilderness monitoring,
-public safety and security,
-medical devices,
-and chip-scale satellites~\cite{kicksat2}.
-%
-To achieve long (e.g., 5+ year) deployment lifetimes,
-these applications rely on on-device processing
-to limit off-device communication.
-%
 Computing at the extreme edge
 calls for ultra-low-power ($<$1\,mW),
 \emph{extremely energy-efficient},
-and \emph{general-purpose} processing~\cite{sonic}.
+and \emph{general-purpose} processing.
+% 
+Prior chapters have built out a new ULP sensor system stack that fits these requirements.
+% 
+\autoref{chapter:sonic} contributed \sonic, a software system, to enable inference on intermittent, energy-harvesting devices.
+%
+\autoref{chapter:manic} contributed \manic and \msilicon, a new vector-dataflow computer architecture and corresponding silicon prototype.
+%
+\autoref{chapter:snafu} contributed \snafu, a ULP CGRA architecture that implemented spatial-vector-dataflow execution to further reduce energy.
+% 
+Compilation, the subject of this chapter, is the final piece to this new system stack.
 
 \paragraph{Why general-purpose?} 
 The need for extreme energy efficiency suggests a role for
@@ -23,11 +19,7 @@ application-specific integrated circuits (ASICs), but ASICs
 come with several major disadvantages.
 %% that make general-purpose hardware a better option.
 %
-Computations in smart sensing applications are diverse, spanning deep
-learning, signal processing, compression, encoding, decryption,
-planning, control, and symbolic reasoning~\cite{Gobieski2018IntermittentDN}.
-%
-Only a general-purpose solution can support all of these, as it is
+Computations in smart sensing applications are diverse, making it is
 infeasible to build an ASIC for every conceivable task~\cite{edge-offload,moonwalk}.
 %
 Moreover, the rapid pace of change in these applications (e.g., due to
@@ -37,6 +29,7 @@ a multi-year deployment~\cite{edge-offload}.
 %
 Finally, by targeting all computations, general-purpose designs
 can achieve much greater scale than specialized designs --- perhaps trillions of devices~\cite{arm-trillions}.
+% 
 Scale reduces device cost,
 makes advanced manufacturing nodes economically viable,
 and mitigates carbon footprint~\cite{gupta2022chasing}.
@@ -48,26 +41,26 @@ Architects' challenge is thus to reconcile generality and efficiency.
 
 \paragraph{CGRAs are both programmable and efficient!}
 %
-Recent work has shown that coarse-grained reconfigurable
+The previous chapter showed that coarse-grained reconfigurable
 arrays (CGRAs) can achieve energy efficiency competitive with ASICs
-while remaining programmable by software~\cite{snafu,nowatzki2017domain,weng2020dsagen}.
+while remaining programmable by software.
 %
-As shown in \autoref{fig:riptide:intro},
-a CGRA~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is an array of processing elements
-(PEs) connected by an on-chip network (NoC).
+% As shown in \autoref{fig:riptide:intro},
+% a CGRA~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is an array of processing elements
+% (PEs) connected by an on-chip network (NoC).
+% %
+% CGRAs are programmed by mapping a computation's control and dataflow
+% onto the array, i.e., by assigning operations to PEs and configuring
+% the NoC to route values between dependent operations.
 %
-CGRAs are programmed by mapping a computation's control and dataflow
-onto the array, i.e., by assigning operations to PEs and configuring
-the NoC to route values between dependent operations.
-%
-A CGRA's efficiency derives from avoiding overheads intrinsic to von
+\snafu was designed from the ground-up to minimize energy, avoiding overheads intrinsic to von
 Neumann architectures, specifically instruction fetch/control and data
 buffering in a centralized register file.
-
-In the context of ultra-low-power sensing applications,
-\snafu~\cite{snafu} is a CGRA framework designed from
-the ground up to minimize energy, in contrast to prior,
-performance-focused CGRAs (\autoref{sec:background}).
+% 
+% In the context of ultra-low-power sensing applications,
+% \snafu~\cite{snafu} is a CGRA framework designed from
+% the ground up to minimize energy, in contrast to prior,
+% performance-focused CGRAs (\autoref{sec:background}).
 %
 \snafu CGRAs reduce energy by 5$\times$ vs.\ ultra-low-power von Neumann
 cores, and they come within 3$\times$ of ASIC energy efficiency.
@@ -120,7 +113,7 @@ computation from mapping successfully.
 To avoid these issues, some CGRAs (including \snafu) require
 hand-coded assembly, raising a large barrier to adoption~\cite{snafu,yang2021spzip,nowatzki:isca17:stream-dataflow}.
 
-\paragraph{\riptide's solution.}
+\paragraph{\riptide's solution}
 %
 \riptide is a co-designed CGRA compiler and microarchitecture that
 supports arbitrary control flow and memory access patterns
@@ -182,7 +175,9 @@ operations, so that \riptide can support deeply nested loops with complex
 control flow on a small CGRA.
 %
 
-\paragraph{Contributions.}
+\figRipTideIntroResults
+
+\paragraph{Contributions}
 This paper contributes the following:
 \begin{compactitem}
 
@@ -218,8 +213,7 @@ This paper contributes the following:
   compelling edge over ASICs for the majority of computations.
 \end{compactitem}
 
-\figRipTideIntroResults
-\paragraph{Summary of results.}
+\paragraph{Summary of results}
 %
 We implement a complete \riptide system in RTL and synthesize it in an
 industrial sub-28nm FinFET process with compiled memories.
@@ -237,13 +231,13 @@ Compared to equivalent ASICs for {\tt dmm}, {\tt sort}, and {\tt fft},
 \riptide achieves these benefits on software written in C, cf.\ hand-coded
 vector assembly in \snafu.
 
-\paragraph{Road map.}
-%
-\autoref{sec:background} covers background, and
-\autoref{sec:overview} gives an overview of \riptide.
-%
-Secs.~\ref{sec:cf}, \ref{sec:compiler}, and \ref{sec:arch} present
-\riptide's architecture, compiler, and microarchitecture, respectively.
-%
-Secs.~\ref{sec:method} and \ref{sec:eval} evaluate \riptide.
-\autoref{sec:implications} concludes by discussing \riptide's broader implications.
+% \paragraph{Road map}
+% %
+% \autoref{sec:background} covers background, and
+% \autoref{sec:overview} gives an overview of \riptide.
+% %
+% Secs.~\ref{sec:cf}, \ref{sec:compiler}, and \ref{sec:arch} present
+% \riptide's architecture, compiler, and microarchitecture, respectively.
+% %
+% Secs.~\ref{sec:method} and \ref{sec:eval} evaluate \riptide.
+% \autoref{sec:implications} concludes by discussing \riptide's broader implications.

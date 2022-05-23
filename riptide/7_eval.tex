@@ -2,9 +2,6 @@
 \label{riptide:eval}
 
 \figRipTidePrimaryArchResults
-\figRipTidePrimaryCompilerResults
-\figRipTideFINResults
-\figRipTideLoCResults
 
 We evaluate \riptide to show that it is easy to program in a high-language,
 uses 25\% less energy than the state of the art,
@@ -96,6 +93,8 @@ The complete \riptide system is approximately 0.5mm$^2$ and operates between
 Overall, the complete system, including memory, achieves 141 MOPS/mW vs.\ 110 
 MOPS/mW for \snafu's full system.
 
+\figRipTidePrimaryCompilerResults
+\figRipTideLoCResults
 \subsection{Compiler characterization}
 \riptide's compiler effectively optimizes dataflow graphs, reducing operation
 counts by 26\% while enforcing memory ordering vs.\ an unoptimized DFG without
@@ -105,6 +104,8 @@ The compiler also reduces programmer effort: \riptide compiles from C with
 no hand-coded assembly, requiring just 8.7 added LoC on average over the original
 C (mostly for wrappers).
 
+% \figRipTideFINResults
+% \figRipTideLoCResults
 \paragraph{\riptide's compiler reduces operation counts.} Reducing operation count
 is important because they consume PEs in \riptide's fabric.
 %
@@ -122,7 +123,7 @@ The third bar adds unoptimized memory ordering, which {\em increases} operations
 % 
 Mapping this graph to hardware is challenging due to its size.
 % 
-The fourth bar applies \riptide's ordering optimizations (\autoref{sec:compiler}), reducing operation count (vs. unoptimized ordering) by 27.7\%.
+The fourth bar applies \riptide's ordering optimizations (\autoref{riptide:compiler}), reducing operation count (vs. unoptimized ordering) by 27.7\%.
 % 
 The fifth bar adds programmer-inserted ({\tt restrict}) annotations on pointers
 to better inform LLVM's alias analysis, reducing operation count by 18.2\%.
@@ -144,6 +145,7 @@ On average, vector adds 17 LoC vs. scalar, \snafu adds 21 LoC vs. scalar, and
 Annotations in \riptide represent a small fraction of the overall LoC, just 11.2\%
 and, on average, the programmer adds 4.5 annotations per benchmark.
 
+\figRipTideFINResults
 \subsection{CF in the NoC saves energy \& area}
 \autoref{fig:riptide:eval:fin} quantifies the benefits of implementing control flow in the NoC (CFiN).
 % 

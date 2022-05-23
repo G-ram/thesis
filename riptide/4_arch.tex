@@ -1,3 +1,5 @@
+\figRipTideArchBlock
+
 \section{RipTide Microarchitecture}
 \label{riptide:arch}
 
@@ -11,7 +13,7 @@ The fabric integrates a RISC-V scalar core and a 256KB
 
 \subsection{Tagless dataflow scheduling}
 
-\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{riptide:background}).
+\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{chapter:background:cgra:ordered}).
 %
 The fabric does not reorder tokens because \riptide adds ordering operators where
 control may diverge.
@@ -83,6 +85,8 @@ but most of these are actually implemented in \riptide's NoC (see below).
 
 \item \emph{Stream PEs} implement common affine iterators (\autoref{riptide:cf}).
 \end{compactitem}
+
+\figRipTideMicroArch
 
 \subsection{Bufferless NoC}
 
