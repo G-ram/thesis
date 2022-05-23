@@ -1,11 +1,12 @@
 The opportunity for tiny, ULP devices is enormous~\cite{lucia2017intermittent}, but enabling sophisticated processing on these devices remains challenging.
 % 
-Prior chapters have presented progress on this challenge.
-\graham{Say something about system stack}
+Prior chapters have presented progress on this challenge, contributing to a new ULP sensor system stack.
 % 
-\autoref{chapter:sonic} described how to enable machine inference on commodity MCUs and \autoref{chapter:manic} discussed \manic, an energy-efficient vector-dataflow co-processor.
+\autoref{chapter:sonic} described softwate to enable machine inference on commodity MCUs and \autoref{chapter:manic} proposed \manic and \msilicon, a new computer architecture and silicon prototype, respectively.
 % 
-\manic is a big improvement over COTS devices, but it stills fall short due to high switching activity
+\manic is an energy-efficient vector-dataflow co-processor that is a big improvement over COTS devices.
+% 
+However, it stills fall short due to high switching activity
 in the shared execution pipeline, a significant inefficiency at ULP-scale.
 % 
 Eliminating these overheads can reduce energy by nearly half, proving that, despite their low operating power, \manic and other existing programmable ULP designs~\cite{dally:ieee08:elm,hempstead2005ultra,warneke200417,nazhandali2005energy} are not energy-minimal.

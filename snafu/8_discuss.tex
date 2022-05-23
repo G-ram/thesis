@@ -1,2 +1,26 @@
 \section{Discussion}
 \label{snafu:discuss}
+This chapter added to the computer architecture component of the new ULP sensor system stack.
+% 
+It presented \snafuframe, a framework for generating ultra-low-power CGRAs that maximizes flexibility while minimizing energy.
+% 
+\snafuframe takes a {\em bring your own functional unit} approach, allowing easy integration of custom logic,
+% 
+and it minimizes energy by aggressively favoring efficiency over performance throughout the design.
+% 
+We used \snafuframe to generate \snafuarch, a complete ULP CGRA that uses $41\%$ less energy and is $4.4\times$ faster than \manic, the prior state-of-the-art general-purpose ULP system.
+%
+Moreover, \snafuarch is competitive with ASICs and can be incrementally
+specialized to trade off efficiency and programmability.
+
+This success of \snafu makes it clear that the more a program is offloaded to \snafu, the more efficient it will be.
+% 
+However, while \snafu is highly programmable, offloading an entire program may be impractical or impossible.
+% 
+This is because \snafu requires hand-coded vector assembly and only targets vectorizable inner-loops.
+% 
+It has no support for outer-loops or more irregular control-flow patterns.
+% 
+What is required is \riptide (\autoref{chapter:riptide}), the final component of the new ULP system stack.
+% 
+\riptide, dicussed next, is a dataflow compiler co-designed with a new CGRA fabric that compiles programs written in higher-level languages (like C) and supports general-purpose control-flow.

@@ -158,48 +158,98 @@
 \end{figure}
 }
 
+% \newcommand{\figSNAFUSensUnrollResults}{
+% \begin{figure*}[t]
+% 	\centering
+% 	\includegraphics[width=0.5\linewidth]{snafu/figures/pdf/energy_all_norm_legend-graph-crop.pdf}\\
+% 	\vspace{0.4em}
+% 	\begin{minipage}{0.31\linewidth}
+% 		\begin{subfigure}[t]{0.49\linewidth}
+% 			\centering
+% 			\includegraphics[height=1in]{snafu/figures/pdf/sens_size_energy-graph-crop.pdf}
+% 			\caption{Energy.}
+% 			\label{fig:snafu:sens:size:energy}
+% 		\end{subfigure}
+% 		\hfill
+% 		\begin{subfigure}[t]{0.49\linewidth}
+% 			\centering
+% 			\includegraphics[height=1in]{snafu/figures/pdf/sens_size_perf-graph-crop.pdf}
+% 			\caption{Speedup.}
+% 			\label{fig:snafu:sens:size:perf}
+% 		\end{subfigure}
+% 		\vspace{1.1em}
+% 		\caption{\snafuarch vs.\ the scalar design across three input sizes -- small (S), medium (M) and large (L).}
+% 		\label{fig:snafu:sens:size}
+% 	\end{minipage}
+%   \hfill
+% 	\begin{minipage}{0.67\linewidth}
+% 		\begin{subfigure}[t]{0.49\columnwidth}
+% 			\centering
+% 			\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_norm-graph-crop.pdf}
+% 			\caption{Energy.}
+% 			\label{fig:snafu:unroll:energy}
+% 		\end{subfigure}
+% 		\hfill
+% 		\begin{subfigure}[t]{0.49\columnwidth}
+% 			\centering
+% 			\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_perf-graph-crop.pdf}
+% 			\caption{Speedup.}
+% 			\label{fig:snafu:unroll:perf}
+% 		\end{subfigure}
+% 		\caption{Energy and speedup of \manic, un\manic (w/ loop unrolling), \snafuarch, and un\snafuarch (w/ loop unrolling), normalized to \snafuarch. un\snafuarch uses $31\%$ less energy and is $2.2\times$ faster \snafuarch; \manic benefits much less.}
+% 		\label{fig:snafu:unroll}
+% 	\end{minipage}
+% 	\label{fig:snafu:sens}
+% \end{figure*}
+% }
+
+\newcommand{\figSNAFUSensInputResults}{
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=0.5\linewidth]{snafu/figures/pdf/energy_all_norm_legend-graph-crop.pdf}\\
+	\vspace{0.4em}
+	\hfill
+	\begin{subfigure}[t]{0.2\linewidth}
+		\centering
+		\includegraphics[height=1in]{snafu/figures/pdf/sens_size_energy-graph-crop.pdf}
+		\caption{Energy.}
+		\label{fig:snafu:sens:size:energy}
+	\end{subfigure}
+	\hspace{1em}
+	\begin{subfigure}[t]{0.2\linewidth}
+		\centering
+		\includegraphics[height=1in]{snafu/figures/pdf/sens_size_perf-graph-crop.pdf}
+		\caption{Speedup.}
+		\label{fig:snafu:sens:size:perf}
+	\end{subfigure}
+	\hfill
+	\begin{minipage}{0.001\linewidth}
+	\end{minipage}
+	\caption{\snafuarch vs.\ the scalar design across three input sizes -- small (S), medium (M) and large (L).}
+	\label{fig:snafu:sens:size}
+\end{figure*}
+}
+
 \newcommand{\figSNAFUSensUnrollResults}{
 \begin{figure*}[t]
 	\centering
 	\includegraphics[width=0.5\linewidth]{snafu/figures/pdf/energy_all_norm_legend-graph-crop.pdf}\\
 	\vspace{0.4em}
-	\begin{minipage}{0.31\linewidth}
-		\begin{subfigure}[t]{0.49\linewidth}
-			\centering
-			\includegraphics[height=1in]{snafu/figures/pdf/sens_size_energy-graph-crop.pdf}
-			\caption{Energy.}
-			\label{fig:snafu:sens:size:energy}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[t]{0.49\linewidth}
-			\centering
-			\includegraphics[height=1in]{snafu/figures/pdf/sens_size_perf-graph-crop.pdf}
-			\caption{Speedup.}
-			\label{fig:snafu:sens:size:perf}
-		\end{subfigure}
-		\vspace{1.1em}
-		\caption{\snafuarch vs.\ the scalar design across three input sizes -- small (S), medium (M) and large (L).}
-		\label{fig:snafu:sens:size}
-	\end{minipage}
-        \hfill
-	\begin{minipage}{0.67\linewidth}
-		\begin{subfigure}[t]{0.49\columnwidth}
-			\centering
-			\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_norm-graph-crop.pdf}
-			\caption{Energy.}
-			\label{fig:snafu:unroll:energy}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[t]{0.49\columnwidth}
-			\centering
-			\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_perf-graph-crop.pdf}
-			\caption{Speedup.}
-			\label{fig:snafu:unroll:perf}
-		\end{subfigure}
-		\caption{Energy and speedup of \manic, un\manic (w/ loop unrolling), \snafuarch, and un\snafuarch (w/ loop unrolling), normalized to \snafuarch. un\snafuarch uses $31\%$ less energy and is $2.2\times$ faster \snafuarch; \manic benefits much less.}
-		\label{fig:snafu:unroll}
-	\end{minipage}
-	\label{fig:snafu:sens}
+	\begin{subfigure}[t]{0.49\columnwidth}
+		\centering
+		\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_norm-graph-crop.pdf}
+		\caption{Energy.}
+		\label{fig:snafu:unroll:energy}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.49\columnwidth}
+		\centering
+		\includegraphics[width=0.99\linewidth]{snafu/figures/pdf/case_unroll_perf-graph-crop.pdf}
+		\caption{Speedup.}
+		\label{fig:snafu:unroll:perf}
+	\end{subfigure}
+	\caption{Energy and speedup of \manic, un\manic (w/ loop unrolling), \snafuarch, and un\snafuarch (w/ loop unrolling), normalized to \snafuarch. un\snafuarch uses $31\%$ less energy and is $2.2\times$ faster \snafuarch; \manic benefits much less.}
+	\label{fig:snafu:unroll}
 \end{figure*}
 }
 
@@ -294,18 +344,18 @@
 \newcommand{\figSNAFUScratchResults}{
 	\begin{figure}[t]
 		\centering
-		\includegraphics[width=0.9\columnwidth]{snafu/figures/pdf/energy_all_norm_legend-graph-crop.pdf}\\
+		\includegraphics[width=0.5\columnwidth]{snafu/figures/pdf/energy_all_norm_legend-graph-crop.pdf}\\
 		\vspace{0.4em}
 		\begin{subfigure}{0.49\columnwidth}
 			\centering
-			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_scratch_norm-graph-crop.pdf}
+			\includegraphics[height=1.5in]{snafu/figures/pdf/case_scratch_norm-graph-crop.pdf}
 			\caption{Energy.}
 			\label{fig:snafu:scratch:energy}
 		\end{subfigure}
 		\hfill
 		\begin{subfigure}{0.49\columnwidth}
 			\centering
-			\includegraphics[width=\linewidth]{snafu/figures/pdf/case_scratch_perf-graph-crop.pdf}
+			\includegraphics[height=1.5in]{snafu/figures/pdf/case_scratch_perf-graph-crop.pdf}
 			\caption{Speedup.}
 			\label{fig:snafu:scratch:perf}
 		\end{subfigure}

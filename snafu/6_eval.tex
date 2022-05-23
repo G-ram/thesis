@@ -10,7 +10,7 @@ We now evaluate \snafuarch to show:
 (4)~\snafuframe is easily extended with new PEs to improve efficiency.
 (5)~Significant opportunities remain to improve efficiency in the compiler.
 
-\figSNAFUSensUnrollResults
+\figSNAFUSensInputResults
 
 \subsection{Main results}
 \autoref{fig:snafu:primary} shows that \snafuarch is much more energy-efficient and performant vs.\ all baselines.
@@ -137,11 +137,10 @@ With too few buffers, PEs stall due to lack of buffer space.
 %
 Two buffers is enough to eliminate most of these stalls, and four buffers is optimal. 
 
+\figSNAFUSensUnrollResults
+
 \subsection{Case studies}
 We conduct two case studies \emph{(i)}~to show that there are opportunities to further improve performance and energy efficiency with only software changes; and \emph{(ii)}~to demonstrate the flexibility of \snafuframe's BYOFU approach.
-
-\figSNAFUScratchResults
-\figSNAFUAccel % Babysat
 
 \paragraph{Loop-unrolling leads to significantly improved energy and performance}
 We show the potential of further compiler optimizations through a case study on loop unrolling.
@@ -157,6 +156,7 @@ the same set of baselines.
 %
 These results make it clear that \snafuarch can effectively exploit instruction-level parallelism and that there is an opportunity for the compiler to further improve efficiency.
 
+\figSNAFUScratchResults
 \paragraph{\snafuframe makes it easy to add new FUs}
 Initially, \snafuarch did not have scratchpad PEs.
 %

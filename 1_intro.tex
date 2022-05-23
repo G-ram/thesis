@@ -165,21 +165,21 @@ The following contributions form the basis for the thesis and the new system sta
 \item[\textbf{[Software]}]
 \textbf{\sonic is the first demonstration of DNN inference on energy-harvesting device (\autoref{chapter:sonic}): }
 
-\sonic is an intermittence-aware software system with specialized support for DNN inference. 
+\sonic is the software-component of the new ULP sensor system stack.
 % 
-It runs optimized networks found using GENESIS, a tool that automatically compresses networks to balance inference accuracy and energy.
+It is an intermittence-aware software system with specialized support for DNN inference. 
+% 
+\sonic runs optimized networks found using GENESIS, a tool that automatically compresses networks to balance inference accuracy and energy.
 % 
 \sonic introduces loop continuation, a new technique that dramatically reduces the cost of guaranteeing correct intermittent execution for loop-heavy code like DNN inference. 
 % 
 Across three neural networks on a commercially available MCU, \sonic reduces inference energy by $6.9\times$ over the state-of-the-art.
-% 
-\graham{add sentence saying why relates to thesis}
 
 \item[\textbf{[Architecture]}]
 \textbf{\manic is energy-efficient vector-dataflow co-processor (\autoref{chapter:manic}): }
-\manic is an efficient vector-dataflow architecture for ultra-low-power embedded systems.  
+\manic contributes new computer architecture to the ULP system stack.
 % 
-It achieves high energy-efficiency without sacrificing programmability and generality.
+It is an efficient vector-dataflow architecture for ultra-low-power embedded systems, achieving high energy-efficiency without sacrificing programmability and generality.
 % 
 \manic introduces \emph{vector-dataflow execution}, allowing it to exploit the
 dataflows in a sequence of vector instructions and amortize instruction
@@ -189,25 +189,28 @@ By forwarding values from producers to consumers, \manic avoids costly vector re
 % 
 By carefully scheduling code and avoiding dead register writes, \manic avoids costly vector register writes.
 % 
-On average, \manic is $2.8\times$ more energy efficient than a scalar baseline and $XX\%$ more energy-efficient than a vector baseline.
-% 
-\graham{add sentence saying why relates to thesis}
+On average, \manic is $XX\times$ more energy efficient than a scalar baseline and $12\%$ more energy-efficient than a vector baseline.
 
 \item[\textbf{[Silicon]}]
 \textbf{\msilicon proves the energy-efficiency of \manic (\autoref{manic:silicon}): }
 
-\msilicon is a silicon prototype of the \manic architecture that demonstrates the energy-efficiency of the design.
+\msilicon represents the silicon component of the new ULP sensor system stack.
 % 
-It is a complete, standalone system possessing a RISC-V scalar core, the \manic co-processor, a data cache, an instruction cache, and main memory composed of 1KB of bootloader ROM, 64KB of SRAM, and 256KB of non-volatile embedded MRAM.
+It is a prototype of the \manic architecture that demonstrates the energy-efficiency of the design.
+% 
+\msilicon is a complete, standalone system possessing a RISC-V scalar core, the \manic co-processor, a data cache, an instruction cache, and main memory composed of 64KB of SRAM and 256KB of non-volatile embedded MRAM.
 % 
 The design is implemented in Intel-16 (22nm) high-threshold-voltage process and achieves a max efficiency of 256 MOPS/mW drawing just 19$\mu$W at 4MHz.
 % 
-\graham{add sentence saying why relates to thesis}
 
 \item[\textbf{[Architecture]}]
 \textbf{\snafu generates ULP CGRAs (\autoref{chapter:snafu}): }
 
-\snafu builds on \manic's vector-dataflow execution model, generating ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
+\snafu also represents new computer architecture in the ULP system stack.
+% 
+\snafu generates ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution, building on \manic's vector-dataflow execution model.
+% 
+\snafu generates ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
 % 
 In spatial-vector-dataflow execution, a dataflow graph (DFG) is mapped spatially across the fabric of processing elements, applying the same DFG to many input data values, and routing intermediate values directly from producers to consumers.
 % 
@@ -215,12 +218,11 @@ This minimizes instruction and data-movement energy, just like \manic, and elimi
 % 
 \snafu uses 41$\%$ less energy and runs 4.4$\times$ faster than \manic.
 % 
-\graham{add sentence saying why relates to thesis}
 
 \item[\textbf{[Architecture \& Compilation]}]
 \textbf{\riptide is an energy-minimal dataflow compiler \& CGRA architecture (\autoref{chapter:riptide}): }
 
-\riptide rounds out the system stack, providing an ULP CGRA architecture and co-designed compiler that compiles high-level C-code to the new hardware.
+\riptide rounds out the system stack, providing an ULP CGRA \emph{architecture} and co-designed \emph{compiler} that compiles high-level C-code to the new hardware.
 % 
 It proposes a new set of program primitives that support arbitrary control-flow, irregular memory accesses, common program idioms, and memory ordering without needing to tag values to save energy; this requires careful analysis by the compiler to guarantee correctness, particularly to enforce control-flow and memory ordering.
 % 
@@ -232,7 +234,6 @@ Instead, \riptide reuses existing hardware in the on-chip network to directly im
 % 
 Compared to \snafu, \riptide uses 25\% less energy and is also XX\% faster without requiring hand-coded assembly.
 % 
-\graham{add sentence saying why relates to thesis}
 
 \end{itemize}
 
