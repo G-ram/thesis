@@ -1,4 +1,4 @@
-PDFS := overview.pdf device.pdf power.pdf
+PDFS := overview.pdf device.pdf power.pdf future_model.pdf future_model_legend.pdf
 
 PDFDIR := pdf
 PNGDIR := png
@@ -42,3 +42,7 @@ $(PDFDIR)/device.pdf: pdf/doc_data.txt
 
 $(PDFDIR)/power.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_03.pdf $(PDFDIR)/power.pdf
+
+$(PDFDIR)/future_model.pdf $(PDFDIR)/future_model_legend.pdf: model.py camera.json
+	python3 model.py  --cfg=camera.json --dest=$(PDFDIR)/future_model.pdf \
+		--legend=$(PDFDIR)/future_model_legend.pdf

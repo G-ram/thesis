@@ -1,2 +1,60 @@
 \chapter{Future work}
 \label{chapter:future}
+This thesis has contributed a new ULP system stack that opens up many future research directions.
+% 
+In particular, the success of \snafu and \riptide make it possible to consider research questions besides those having to do with energy-efficiency.
+% 
+This chapter will discuss future work on improving area efficiency, performance, and programmability of CGRAs.
+
+\section{Quantifying the progress made}
+
+\figFutureModel
+\subsection{Is compute energy-efficiency still a bottleneck?}
+To answer the question of whether the energy-efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems, we modelled device lifetime of such systems as function of problem size.
+%
+Device lifetime is directly related to energy-efficiency (in battery-powered systems) and problem size is a proxy for the amount of compute required and the amount of data that needs to be transmitted.
+% 
+\autoref{fig:future:model} shows two \riptide-based systems (red) as well as a system that transmits all data collected (blue), a system similar to \sonic that relies on a scalar MCU (green), and a theoretical system that achieves 10TOPS/W (black).
+% 
+Each system is composed of 1) a single AA battery, 2) a theoretical sensor (based on HM01B0 ULP camera), 3) an ULP MCU (e.g. scalar, \riptide, or theoretical), and 4) a bluetooth (BLE) radio.
+% 
+Besides the transmit-all configuration, each system is modelled to run a neural network similar to those in \sonic to smartly discard uninteresting data.
+% 
+Further, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e. class label) or it could be a fragment of data deemed interesting.
+
+If the goal is to achieve a device lifetime of five years, while processing a QQVGA frame once every five seconds, 
+
+
+\section{Future research directions}
+	\subsection{Area}
+		\paragraph{Time-multiplexing}
+		\paragraph{Alternative control-flow models}
+		\paragraph{Optimal PE mix}
+
+	\subsection{Performance}
+		\paragraph{Parallelization}
+			- top-level control/scheduling
+		\subsubsection{Programming the memory}
+			\paragraph{Memory hierarchy}
+				- coherence
+			\paragraph{Scratchpad management}
+			\paragraph{Memory partitioning}
+		\subsubsection{Speculation}
+			\paragraph{Loop speculation}
+			\paragraph{Memory speculation}
+		\subsubsection{Compiler optimizations}
+			\paragraph{Code scheduling}
+			\paragraph{Loop unrolling}
+			\paragraph{Loop auto-parallelization}
+
+	\subsection{Programmability}
+		\paragraph{Choosing the right IR}
+		\paragraph{Scheduling}
+		\paragraph{Annotations}
+		\paragraph{DSLs}
+
+\section{Long-term implications}
+\graham{should this be the conclusion?}
+\paragraph{Energy-efficiency matters at all scales}
+\paragraph{Extreme heterogeneity is not the answer}
+\paragraph{At last mass adoption of pure dataflow}

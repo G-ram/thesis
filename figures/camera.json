@@ -1,0 +1,18 @@
+{
+	"sensor_power": 0.002,
+	"sensor_freq": [0.2, 1.0],
+	"sensor_latency": 0.03,
+	"compute_multiplier": 200,
+	"transmit_bandwidth": [0.7, 2.1],
+	"transmit_power": [0.01, 0.1],
+	"transmit_freq": [0.001, 0.01],
+	"problem_size": [1, 5e4],
+	"energy_budget": 10000.0,
+	"lifetime_target": 5.0,
+	"buckets": 100,
+	"ideal_efficiency": 10000.0,
+	"riptide_efficiency": 140.0,
+	"scalar_efficiency": 10.0,
+	"sensor_size": 19200,
+	"summary_multiplier": 0.001
+}
