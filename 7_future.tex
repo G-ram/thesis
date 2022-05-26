@@ -18,40 +18,137 @@ Device lifetime is directly related to energy-efficiency (in battery-powered sys
 % 
 Each system is composed of 1) a single AA battery, 2) a theoretical sensor (based on HM01B0 ULP camera), 3) an ULP MCU (e.g. scalar, \riptide, or theoretical), and 4) a bluetooth (BLE) radio.
 % 
-Besides the transmit-all configuration, each system is modelled to run a neural network similar to those in \sonic to smartly discard uninteresting data.
+Besides the transmit-all configuration, each system is modelled to run a neural network similar to those in \sonic to smartly discard uninteresting data, transmitting approximately every $20$ minutes (v. 5s interval of sensor readings).
 % 
 Further, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e. class label) or it could be a fragment of data deemed interesting.
 
-If the goal is to achieve a device lifetime of five years, while processing a QQVGA frame once every five seconds, 
-
+If the goal is to achieve a device lifetime of five years, while processing a QQVGA ($160\times120$) frame once every five seconds, \riptide-based systems achieve this target, while the transmit-all system and the \sonic-like, scalar-MCU system fall well short.
+% 
+In fact, the \riptide-based system (lighter red) actually gets quite close to the theoretical system that achieves a much higher efficiency of 10 TOPS/W.
+% 
+This suggests that the energy-efficiency of compute is no longer the bottleneck --- rather the energy-efficiency of the radio is now more important.
+% 
+\riptide (Summary) (dark red) further supports this conclusion; efficient onboard compute enables summarization/compression of sensor data, which minimizes communication energy and extends lifetime even more. 
+% 
+Thus, future ULP sensor systems need only maintain \riptide's level of energy-efficiency, while addressing other open problems.
 
 \section{Future research directions}
-	\subsection{Area}
-		\paragraph{Time-multiplexing}
-		\paragraph{Alternative control-flow models}
-		\paragraph{Optimal PE mix}
+Many open problems remain in ULP sensor systems and specifically power-constrained CGRAs.
+% 
+They can be classified into three categories: increasing area efficiency, scaling performance, and expanding programmability.
+% 
+Progress on each of these fronts will be important to drive adoption.
 
-	\subsection{Performance}
-		\paragraph{Parallelization}
-			- top-level control/scheduling
-		\subsubsection{Programming the memory}
-			\paragraph{Memory hierarchy}
-				- coherence
-			\paragraph{Scratchpad management}
-			\paragraph{Memory partitioning}
-		\subsubsection{Speculation}
-			\paragraph{Loop speculation}
-			\paragraph{Memory speculation}
-		\subsubsection{Compiler optimizations}
-			\paragraph{Code scheduling}
-			\paragraph{Loop unrolling}
-			\paragraph{Loop auto-parallelization}
+\subsection{Area}
+\riptide's programmability and energy-efficiency come at the cost of area.
+% 
+\riptide is larger than several ASICs combined.
+% 
+Thus, improving area efficiency is an important goal for future designs, especially to lower fabrication costs and make even larger, more-capable fabrics competitive.
 
-	\subsection{Programmability}
-		\paragraph{Choosing the right IR}
-		\paragraph{Scheduling}
-		\paragraph{Annotations}
-		\paragraph{DSLs}
+\paragraph{Time-multiplexing}
+Area efficiency can be improved by increasing resource utilization through time-multiplexing.
+% 
+\riptide only supports a single operation per PE, so resources are underutilized when operations fire rarely.
+% 
+This is especially true for operations in outer-loops.
+% 
+Instead by mapping and time-multiplexing multiple operations on the same PE, the PE's resources will be better utilized.
+% 
+This increases area efficiency, makes it possible to map larger programs onto smaller fabrics, and potentially decreases compilation times by simplifying mapping constraints.
+
+There are two possible approaches: fine-grain~\cite{weng2020hybrid} and coarse-grain~\cite{nguyen2021fifer}.
+% 
+In the fine-grain approach, multiple operations share a single PE and incoming operands trigger reconfiguration of the PE.
+% 
+In the coarse-grain approach, a kernel is split into multiple subkernels with the CGRA switching between them when progress is stalled on the active subkernel.
+
+There is a role for the compiler in each approach.
+% 
+For fine-grain multiplexing, the compiler needs to determine which operations should multiplex.
+% 
+This may mean reasoning about the program's critical path, only time-multiplexing operations off this path.
+% 
+For coarse-grain multiplexing, the compiler needs to determine where to split a kernel, while considering live-in and live-out values and the cost of reconfiguration.
+
+\paragraph{Alternative control-flow models}
+Area efficiency can also be improved by reducing the resources needed by a program.
+% 
+In particular, supporting arbitrary control-flow requires allocating a significant amount of resources (especially routing) to control-flow operations.
+% 
+Alternative control-flow models, therefore, may improve area efficiency if they require fewer control-flow operations.
+% 
+\riptide's steering-based ($\phi^-1$) control-flow model requires steering gates for every incoming value in untaken branches.
+% 
+Instead, there may be situations where selection ($\phi$) or even predication use less resources and/or achieve better performance.
+% 
+It is also possible for the compiler with hardware support to mix these control-flow models to minimize area, maximize resource utilization, or even increase performance.
+
+\paragraph{Optimizing the topology}
+Finally, an additional way to improve area efficiency is to optimize the CGRA topology and resource mix so that they better match the requirements of applications~\cite{revamp,melchert2021automated}.
+% 
+For example, a CGRA fabric could be specialized~\cite{weng2020dsagen} for a set of applications, like linear algebra kernels, to significantly reduce area ($>2\times$).
+% 
+This entails merging the computation graphs of a set of applications to form a minimally-sized common graph that can be used to generate CGRA hardware.
+% 
+The common graph, however, is only as representative as the set of applications are.
+% 
+Thus, there is a trade-off between area and programmability that will require collaboration between hardware designers and application programmers to strike the right balance.
+
+\subsection{Performance}
+Performance is another dimension future designs could seek to optimize.
+% 
+CGRAs like \riptide already outperform (in-order) scalar and vector designs by unlocking a large amount instruction-level parallelism.
+% 
+But there are other ways to improve performance, including thread-level parallelism, speculation, caching (and other memory hierarchy optimizations) and compiler optimizations (e.g. loop unrolling, etc.).
+% 
+Scaling up the performance of \riptide-like designs could make them competitive in different computing domains like wearables or mobile phones.
+
+\paragraph{Parallelization}
+Exploiting thread-level parallelism is a natural next step to boost performance for power-constrained CGRAs.
+% 
+Multiple threads could be mapped to the same fabric, running in parallel on different PEs or time-multiplexing onto the same PEs.
+%
+Multiple threads could also be mapped to separate fabrics. 
+% 
+\riptide is tiny compared ($<0.5mm^2$) to even a wearable CPU and could be replicated 100s of times to support many threads in parallel.
+% 
+This design offers two significant benefits over vector-processors/GPUs.
+% 
+% First, threads would not run in lockstep.
+% % 
+% This means threads would be able to diverge without under-utilizing resources.
+% % 
+% It also means that threads could exploit instruction level parallelism.
+% % 
+% Second, the design could scale better v. vector-processor/GPU since it does not rely on a monolithic register file.
+% % 
+% Second, thread divergence is better supported since threads would not run in lockstep.
+% % 
+% And third, the design would be able to exploit the substantial amount of instruction-level parallelism.
+% 
+With that said, there are many interesting challenges with this design.
+% 
+Questions remain regarding thread scheduling and synchronization, memory hierarchy design, and the programming interface to name a few.
+
+\subsubsection{Programming the memory}
+	\paragraph{Memory hierarchy}
+		- coherence
+	\paragraph{Scratchpad management}
+	\paragraph{Memory partitioning}
+\subsubsection{Speculation}
+	\paragraph{Loop speculation}
+	\paragraph{Memory speculation}
+\subsubsection{Compiler optimizations}
+	\paragraph{Code scheduling}
+	\paragraph{Loop unrolling}
+	\paragraph{Loop auto-parallelization}
+
+\subsection{Programmability}
+	\paragraph{Choosing the right IR}
+	\paragraph{Scheduling}
+	\paragraph{Annotations}
+	\paragraph{DSLs}
 
 \section{Long-term implications}
 \graham{should this be the conclusion?}
