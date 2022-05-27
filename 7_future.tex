@@ -7,6 +7,7 @@ In particular, the success of \snafu and \riptide make it possible to consider r
 This chapter will discuss future work on improving area efficiency, performance, and programmability of CGRAs.
 
 \section{Quantifying the progress made}
+\graham{Graph here showing MSP430 NN, SCALAR NN, RIPTIDE NN}
 
 \figFutureModel
 \subsection{Is compute energy-efficiency still a bottleneck?}
@@ -76,7 +77,7 @@ Area efficiency can also be improved by reducing the resources needed by a progr
 % 
 In particular, supporting arbitrary control-flow requires allocating a significant amount of resources (especially routing) to control-flow operations.
 % 
-Alternative control-flow models, therefore, may improve area efficiency if they require fewer control-flow operations.
+Alternative control-flow models, therefore, may improve area efficiency if they require fewer operations.
 % 
 \riptide's steering-based ($\phi^-1$) control-flow model requires steering gates for every incoming value in untaken branches.
 % 
@@ -104,24 +105,22 @@ But there are other ways to improve performance, including thread-level parallel
 % 
 Scaling up the performance of \riptide-like designs could make them competitive in different computing domains like wearables or mobile phones.
 
-\paragraph{Parallelization}
+\subsubsection{Parallelization}
 Exploiting thread-level parallelism is a natural next step to boost performance for power-constrained CGRAs.
 % 
 Multiple threads could be mapped to the same fabric, running in parallel on different PEs or time-multiplexing onto the same PEs.
 %
 Multiple threads could also be mapped to separate fabrics. 
 % 
-\riptide is tiny compared ($<0.5mm^2$) to even a wearable CPU and could be replicated 100s of times to support many threads in parallel.
+\riptide is tiny compared ($<0.5mm^2$) to even a wearable CPU and could be replicated hundreds of times to support many threads in parallel.
 % 
 This design offers two significant benefits over vector-processors/GPUs.
 % 
-% First, threads would not run in lockstep.
+First, threads would not run in lockstep.
 % % 
-% This means threads would be able to diverge without under-utilizing resources.
-% % 
-% It also means that threads could exploit instruction level parallelism.
-% % 
-% Second, the design could scale better v. vector-processor/GPU since it does not rely on a monolithic register file.
+This means threads would better exploit instruction level parallelism and would be able to diverge without under-utilizing resources.
+% It also means that threads could better exploit instruction level parallelism.
+Second, the design could scale better v. vector-processors/GPUs since it does not rely on a monolithic register file.
 % % 
 % Second, thread divergence is better supported since threads would not run in lockstep.
 % % 
@@ -132,26 +131,75 @@ With that said, there are many interesting challenges with this design.
 Questions remain regarding thread scheduling and synchronization, memory hierarchy design, and the programming interface to name a few.
 
 \subsubsection{Programming the memory}
-	\paragraph{Memory hierarchy}
-		- coherence
-	\paragraph{Scratchpad management}
-	\paragraph{Memory partitioning}
+As performance is scaled with more threads, memory becomes a bottleneck.
+% 
+New memory hierarchies and programming models need to be developed to minimize data movement and maximize utilization of available memory bandwidth.
+
+\paragraph{Memory hierarchy}
+Future CGRA memory hierarchies will be composed of both caches and scratchpads.
+% 
+Caches simplify the programmer's job, but raise the question of coherence.
+% 
+Coherence is especially challenging since CGRAs (potentially running many different threads) may have tens or even hundreds of memory accessors.
+% 
+Scratchpads offer an alternative, but complicate the job of the programmer.
+% 
+The CGRA needs to a provide a rich set of synchronization primitives so that code is correct and performant.
+
+\paragraph{Programming models}
+Memory management can be simplified with novel programming models.
+% 
+Using higher-level abstractions (e.g. functional languages or domain-specific languages) might allow the compiler to generate code to manage a hierarchy of scratchpads.
+%
+These interfaces and/or programmer annotations might also allow the compiler to co-locate data with computation.
+% 
+This is especially important for future CGRA fabrics that might contains hundreds of PE.
+% 
+Partitioning memory to physically locate computation close to data improves performance and energy-efficiency by minimizing data movement.
+
 \subsubsection{Speculation}
-	\paragraph{Loop speculation}
-	\paragraph{Memory speculation}
+Speculation is another lever future CGRA designs could pull to improve performance.
+%
+The key is to dynamically eliminate sequentializing dependencies without costing significant resources or energy on misspeculations.
+
+\paragraph{Loop speculation}
+One form of speculation of interest is loop speculation --- speculating on the next iteration(s) of a loop.
+% 
+This would improve performance and increase resource utilization as there would be more work in flight.
+% This would increase resource utilization as there would be more work in flight.
+% 
+Further, \riptide already maintains the order of loop iterations so misspeculations could be handled by restoring from a checkpoint of an earlier loop iteration.
+% 
+However, there are some costs: values need to be tagged with the loop iteration and speculative stores would need to be buffered and subsequent loads checked against these buffered stores.
+
+\paragraph{Memory speculation}
+Another form of speculation that would boost performance is memory speculation.
+% 
+ % and specifically speculating that memory operations will not alias.
+% 
+It is difficult for the compiler to prove memory operations will not alias, resulting in extra dependencies between the operations.
+% 
+This sequentialize code and may lengthen critical paths.
+% 
+However, many memory operations, at runtime, will not access the same locations so enforcing the dependencies between them wastes time.
+% 
+Instead, a transactional memory system that speculates on whether memory operations will alias could make sense.
+% 
+Detecting true aliases and recovering after an aborted transaction, though, are challenging especially in CGRAs where there is no centralized control.
+
 \subsubsection{Compiler optimizations}
-	\paragraph{Code scheduling}
-	\paragraph{Loop unrolling}
-	\paragraph{Loop auto-parallelization}
+The compiler can also play a role in increasing performance by automatically refactoring code.
+%
+To reduce the lengths of critical paths and/or loop initiation intervals, the compiler could flatten dependence chains and perform code-motion to reduce inner-loop work.
+% 
+There could be a feedback loop between the middle-end optimizer of the compiler and the backend-mapper (that solves for the mapping to CGRA hardware) to inform which of the transformations are undertaken.
+% 
+The compiler could also unroll loops to expose more instruction level parallelism or even auto-parallelize loops by duplicating loop bodies and splitting iteration spaces.
+% 
+These transformations trade more resources for additional performance so future compilers will need accurate cost models to make optimal decisions.
 
 \subsection{Programmability}
-	\paragraph{Choosing the right IR}
-	\paragraph{Scheduling}
-	\paragraph{Annotations}
-	\paragraph{DSLs}
-
-\section{Long-term implications}
-\graham{should this be the conclusion?}
-\paragraph{Energy-efficiency matters at all scales}
-\paragraph{Extreme heterogeneity is not the answer}
-\paragraph{At last mass adoption of pure dataflow}
+\paragraph{Choosing the right IR}
+\paragraph{Scheduling}
+\paragraph{Annotations}
+\paragraph{DSLs}
