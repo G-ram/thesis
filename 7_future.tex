@@ -2,9 +2,9 @@
 \label{chapter:future}
 This thesis has contributed a new ULP system stack that opens up many future research directions.
 % 
-In particular, the success of \snafu and \riptide make it possible to consider research questions besides those having to do with energy-efficiency.
+In particular, the success of \snafu and \riptide make it possible to consider research questions besides those to do with energy-efficiency.
 % 
-This chapter will discuss future work on improving area efficiency, performance, and programmability of CGRAs.
+This chapter will discuss future work on improving area efficiency, performance, and compilation in the context of CGRAs.
 
 \section{Quantifying the progress made}
 \graham{Graph here showing MSP430 NN, SCALAR NN, RIPTIDE NN}
@@ -149,7 +149,7 @@ The CGRA needs to a provide a rich set of synchronization primitives so that cod
 \paragraph{Programming models}
 Memory management can be simplified with novel programming models.
 % 
-Using higher-level abstractions (e.g. functional languages or domain-specific languages) might allow the compiler to generate code to manage a hierarchy of scratchpads.
+Using higher-level abstractions (e.g. functional languages or DSLs) might allow the compiler to generate code to manage a hierarchy of scratchpads.
 %
 These interfaces and/or programmer annotations might also allow the compiler to co-locate data with computation.
 % 
@@ -198,8 +198,73 @@ The compiler could also unroll loops to expose more instruction level parallelis
 % 
 These transformations trade more resources for additional performance so future compilers will need accurate cost models to make optimal decisions.
 
-\subsection{Programmability}
-\paragraph{Choosing the right IR}
-\paragraph{Scheduling}
-\paragraph{Annotations}
-\paragraph{DSLs}
+\subsection{Compilation}
+Improving compilation for CGRAs is another important topic for future work.
+% 
+While \riptide made significant progress on this, it has a few limitations, including no support for methods and single-entry-multi-exit loops, that could be addressed in future iterations of its compiler.
+% 
+There are also some more fundamental questions, regarding how programs are represented, how to accelerate the mapping of a program to hardware, and the correct programming interface.
+
+\subsubsection{Choosing the right IR}
+CGRA compilation is dependent on the composition of the CGRA fabric that is being targetted.
+% 
+This means that if there are several devices with different CGRA fabrics a program needs to be recompiled for each.
+% 
+Further low-level hardware details need to be exposed to the compiler so that it can correctly optimize and map a program.
+% 
+This complicates not only compiler development, but also increases compilation complexity and reduces portability since the programmer must compile for a specific fabric.
+
+
+Instead compilation could be split into two phases, one phase that is device-agnostic and another that optimizes for a specific device.
+% 
+This is similar to the approach taken for Nvidia GPUs; first CUDA programs are compiled to PTX~\cite{ptx} (device-agnostic byte-code) and then the PTX is optimized on the host machine for the target device.
+% 
+For CGRAs, compilation would be split between dataflow compilation and mapping.
+% 
+% Dataflow compilation is device agnostic, while mapping optimizes and maps a program to a specific device.
+Dataflow compilation converts a program to an intermediate representation (IR) that can be targetted to many different CGRA fabrics.
+% 
+Then, mapping maps and optimizes the IR to a specific fabric.
+% 
+The key is developing an IR for a program that captures the right amount of information.
+% 
+Too simple and the mapper may not have enough information to perform low-level, device-specific optimizations.
+% 
+Too complex and the mapper will be complicated, making mapping slow and development costly.
+%
+And at the same time, the IR should maintain backwards compatibility, while being extensible as hardware matures and gains new capabilities.
+% 
+% Thus careful design of the IR is fundamental for future compilation pipelines.
+
+\subsubsection{Scaling mapping}
+Mapping a program to a specific CGRA fabric is challenging since it reduces to finding a colored subgraph isomorphism between a program's computation graph and CGRA hardware resources.
+% 
+For relatively small programs (small number of operations), \riptide's integer-linear programming-based mapper does well to find a valid mapping, but as program size increases mapping times increase superlinearly.
+% 
+For example, while DMV (12 operations) takes $<10s$ to map onto a $6\times6$ fabric, DFS (80 operations) takes over an hour.
+% 
+New encoding methods and ways of solving the problem are required.
+% 
+One possibility is to reformulate the problem in terms of boolean satisifiability and use SAT-solvers to find a valid mapping.
+% 
+SAT may be a better approach since all variables are already binary in the ILP formulation.
+% 
+Early results support this conclusion --- DFS takes just $\approx1.5m$ v. $\approx75m$ with ILP.
+% 
+Custom search heuristics or changes to the encoding could reduce this time even more.
+% 
+This boost in performance will enable future compilers to use mapping in a feedback loop to choose which optimization passes to apply to maximize/minimize different applications objectives.
+
+\subsubsection{Changing the programming interface}
+The programming interface also affects compilation by dictating the amount and type of information supplied to the compiler.
+% 
+Program annotations or domain specific languages can better expose program structure, enabling the compiler to reduce memory dependences (by simplifying alias analysis), increase parallelization, or pipeline loops to name a few optimizations. 
+% 
+Different programming interfaces may also simplify the programmer's job by providing higher-level primitives.
+
+However, rather than redesigning the entire system for a specific interface or DSL, they should build on and extend a general-purpose interface like what \riptide provides.
+% 
+DSLs can use the general-purpose interface as a crutch when programs only partially fit the the model of the DSL.
+% 
+This increases the applicability of DSLs and prevents one-off designs that require significant hardware changes when application requirements change.
+
