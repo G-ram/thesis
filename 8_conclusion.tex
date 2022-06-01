@@ -1,5 +1,54 @@
 \chapter{Conclusion}
 \label{chapter:conclusion}
-\paragraph{Energy-efficiency matters at all scales}
-\paragraph{Extreme heterogeneity is not the answer}
-\paragraph{At last mass adoption of pure dataflow}
+This thesis has presented a new ULP sensor system stack that will enable future applications of ``beyond-the-edge'' intelligence.
+%
+The overarching goal has been to reduce energy at each level of the stack without sacrificing programmability.
+%
+From software to silicon, we have contributed the following systems to meeting this goal:
+% discussed have reduced energy and in many cases improved performance, while maintaining programmability.
+%
+
+\begin{itemize}
+
+\item \sonic is a machine inference software runtime system for intermittently-operating, energy-harvesting devices.
+% 
+It leverages the regular structure of inference to reduce the costs of guaranteeing correct execution under frequent power failures.
+% 
+\sonic, though, was more than just the first to demonstrate of inference on such devices.
+% 
+Through modelling it showed the importance of accurate, local inference.
+% 
+It also exposed the inefficiencies of existing commercial devices and stressed the need for new architectures.
+
+\item \manic was our response to the need for new architectures.
+% 
+\manic developed vector-dataflow execution that amortized the cost of instruction fetch (vector execution) and minimized data supply energy (VRF accesses) by forwarding intermediates directly from producers to consumers (dataflow execution).
+% 
+\msilicon showed the benefits of the vector-dataflow execution in a real testchip prototype, but also exposed the limitations of the implementation, wasting energy reconfiguring shared pipeline resources from cycle-to-cycle.
+
+\item \snafu generates ULP CGRAs that eliminate this cost of reconfiguring shared pipeline resources.
+% 
+\snafu implements spatial-vector-dataflow execution where each PE is assigned a single operation for the duration of a kernel's execution.
+% 
+This along with \snafu's bufferless NoC and implementation of ordered dataflow minimize energy.
+% 
+At the same time, \snafu maximizes flexibility by taking a ``bring-your-own-functional'' unit approach that allows designers to easily integrate custom operations.
+% 
+\snafu is competitive with ASIC designs while maintaining a high-degree of programmability.
+% 
+Through iterative and selective specialization, \snafu can further close the gap to ASIC designs.
+
+\item \riptide observes that the more computation offloaded to an ULP CGRA fabric the more efficient the overall system.
+% 
+It develops a dataflow compiler and ULP CGRA architecture that directly targets programs written in C to reduce programmer effort to offload computation.
+% 
+It introduces a general-purpose control-flow model that supports arbitrary control-flow and irregular memory accesses, leveraging existing resources in the on-chip network to implement CF operations.
+% 
+\riptide achieves the best of both worlds --- it narrows the gap to ASIC designs even more than \snafu, while improving on programmability.
+\end{itemize}
+
+These contributions form the basis of a new energy-minimal, ULP sensor system stack.
+% 
+They demonstrate that exteme energy-efficiency can be achieved without compromising on programmability.
+%
+This is the power of rethinking the entire stack, optimizing at multiple levels at once reduces energy, increases performance, and ultimately enables new applications.
