@@ -1,0 +1,194 @@
+\chapter{Constraint-based scheduling} 
+
+\section{\snafu's ILP for mapping}
+The following describes the integer linear program for \snafu's mapper.
+% 
+It is based on prior work~\cite{nowatzki2013general}.
+
+\begin{table}[htb]
+	\centering
+	\resizebox{0.75\linewidth}{!}{
+		\begin{tabular}{ll}
+			\toprule
+			\bf Variables  					& \bf Explanation \\
+			\midrule
+			\multicolumn{2}{l}{\bf Inputs: Program} \\
+			$V$ 							& Set of program vertices \\
+			$E$ 							& \thead[l]{Set of program edges \\
+			Each edge is a tuple of the form, $(v_{src},v_{dst})$, \\
+			(source vertex, destination vertex)} \\
+			\midrule
+			\multicolumn{2}{l}{\bf Inputs: CGRA} \\
+			$N$ 							& Set of CGRA nodes (PEs) \\
+			$R$ 							& Set of CGRA routers \\
+			$L$ 							& Set of CGRA NoC links \\
+			$H_{nl}[N,L]$ 					& 
+				\thead[l]{Node-to-link matrix \\ 
+				$H_{nl}(n, l) = 1$ if link $l$ originates from node $n$} \\
+			$H_{rl}[R,L]$ 					& 
+				\thead[l]{Router-to-link matrix \\ 
+				$H_{rl}(n, l) = 1$ if link $l$ originates from router $r$} \\
+			$H_{ln}[L,N]$ 					& 
+				\thead[l]{Router-to-node matrix \\ 
+				$H_{ln}[l, n] = 1$ if link $l$ is an input to node $n$} \\
+			$H_{lr}[L,R]$ 					& 
+				\thead[l]{Link-to-router matrix \\ 
+				$H_{lr}[l, r] = 1$ if link $l$ is an input to router $r$} \\
+			\midrule
+			\multicolumn{2}{l}{\bf Inputs: Compatibility} \\
+			$C_{vn}[V,N]$ 					& \thead[l]{Vertex-node compatibility matrix \\
+			$C_{vn}[v,n]=1$ if vertex $v$ can be mapped to node $n$} \\
+			\toprule
+			\multicolumn{2}{l}{\bf Outputs} \\
+			$M_{vn}[V,N]$ & Mapping of program vertices to CGRA nodes\\
+			$M_{el}[E,L]$ & Mapping of program edges to CGRA links\\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Variables for \snafu's ILP.}
+	\label{tab:snafu:appendix:ilp:vars}
+\end{table}
+
+\paragraph{Helper functions}
+\begin{equation*}
+src(e) = v_{src}
+\end{equation*}
+\begin{equation*}
+dst(e) = v_{dst}
+\end{equation*}
+
+\paragraph{Integer linear program}
+
+\begin{equation*}
+\text{minimize }\sum_e \sum_l M_{el}[e,l] \text{ subject to}
+\end{equation*}
+
+\begin{enumerate}
+\item $M_{vn} \le C_{vn}$
+
+\textbf{Explanation:} Vertex is mapped to a compatible node.
+\item $\forall v, \, \sum\limits_n M_{vn}[v,n] = 1$
+
+\textbf{Explanation:} Every vertex is mapped to one node.
+\item $\forall n, \, \sum\limits_v M_{vn}[v,n] \le 1$
+
+\textbf{Explanation:} No node has multiple vertices mapped to it.
+\item $M_{el} H_{lr} = M_{el} H_{rl}^T$
+
+\textbf{Explanation:} If edge is mapped to incoming link of a router, then it also has to be mapped to an outgoing link of the router (preservation of flow).
+\item $\forall e, \, M_{el}[e]H_{ln} = M_{vn}[dst(e)]$ 
+
+\textbf{Explanation:} If a vertex is mapped to a node, then the inputs to the vertex must be mapped to incoming links of that node.
+\item $\forall e, \, M_{el}[e]H_{nl}^T = M_{vn}[src(e)]$
+
+\textbf{Explanation:} If a vertex is mapped to a node, then the outputs of the vertex must be mapped to outgoing links of that node.
+\item $\forall e_1, e_2 | src(e_1) \ne src(e_2), \, M_{el}[e_1] + M_{el}[e_2] \le 1$
+
+\textbf{Explanation:} If edges do not originate from the same node, they can not share links.
+\end{enumerate}
+
+Please note that we adopt numpy-like indexing; for example, $M_{el}[e]$ returns a $1\times |L|$ vector, representing the link assignments for edge $e$.
+% 
+Also, $M_{el}[:,l]$ extracts a $|E|\times 1$ column vector and represents the assignment of link, $l$, across all edges.
+
+\section{\riptide's ILP for mapping}
+
+\begin{table}[h]
+	\centering
+	\resizebox{0.75\linewidth}{!}{
+		\begin{tabular}{ll}
+			\toprule
+			\bf Variables  					& \bf Explanation \\
+			\midrule
+			\multicolumn{2}{l}{\bf Inputs: Program} \\
+			$V$ 							& Set of program vertices \\
+			$E$ 							& \thead[l]{Set of program edges \\
+			Each edge is a tuple of the form, $(v_{src},p_{src}, v_{dst}, p_{dst})$, \\
+			(source vertex, source port, destination vertex, destination port)} \\
+			\midrule
+			\multicolumn{2}{l}{\bf Inputs: CGRA} \\
+			$N$ 							& Set of CGRA nodes (PEs) \\
+			$F$ 							& Set of control-flow nodes in NoC, $F \subset N$ \\
+			$R$ 							& Set of CGRA routers \\
+			$L$ 							& Set of CGRA NoC links \\
+			$H_{nl}[N,L]$ 					& 
+				\thead[l]{Node-to-link matrix \\ 
+				$H_{nl}(n, l) = 1$ if link $l$ originates from node $n$} \\
+			$H_{rl}[R,L]$ 					& 
+				\thead[l]{Router-to-link matrix \\ 
+				$H_{rl}(n, l) = 1$ if link $l$ originates from router $r$} \\
+			$H_{ln}[L,N]$ 					& 
+				\thead[l]{Router-to-node matrix \\ 
+				$H_{ln}[l, n] = 1$ if link $l$ is an input to node $n$} \\
+			$H_{lr}[L,R]$ 					& 
+				\thead[l]{Link-to-router matrix \\ 
+				$H_{lr}[l, r] = 1$ if link $l$ is an input to router $r$} \\
+			\midrule
+			\multicolumn{2}{l}{\bf Inputs: Compatibility} \\
+			$C_{vn}[V,N]$ 					& \thead[l]{Vertex-node compatibility matrix \\
+			$C_{vn}[v,n]=1$ if vertex $v$ can be mapped to node $n$} \\
+			$C_{el}[E,L]$ 					& \thead[l]{Edge-link compatibility matrix \\
+			$C_{el}[E,L]=1$ if edge $e$ can be mapped to link $l$} \\
+			\toprule
+			\multicolumn{2}{l}{\bf Outputs} \\
+			$M_{vn}[V,N]$ & Mapping of program vertices to CGRA nodes\\
+			$M_{el}[E,L]$ & Mapping of program edges to CGRA links\\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Variables for \riptide's ILP.}
+	\label{tab:riptide:appendix:ilp:vars}
+\end{table}
+
+\paragraph{Helper functions}
+\begin{equation*}
+src(e) = v_{src}
+\end{equation*}
+\begin{equation*}
+dst(e) = v_{dst}
+\end{equation*}
+\begin{equation*}
+oport(e) = p_{src}
+\end{equation*}
+
+\paragraph{Integer linear program}
+
+\begin{equation*}
+\text{minimize }\sum_e \sum_l M_{el}[e,l] \text{ subject to}
+\end{equation*}
+
+\begin{enumerate}
+\item $M_{vn} \le C_{vn}$
+
+\textbf{Explanation:} Vertex is mapped to a compatible node.
+\item $M_{el} \le C_{el}$
+
+\textbf{Explanation:} Edge is mapped to a compatible link (ports of producer \& consumer match).
+\item $\forall n, \, \sum\limits_v M_{vn}[v,n] \le 1$
+
+\textbf{Explanation:} No node has multiple vertices mapped to it.
+\item $M_{el} H_{lr} = M_{el} H_{rl}^T$
+
+\textbf{Explanation:} If edge is mapped to incoming link of a router, then it also has to be mapped to an outgoing link of the router (preservation of flow).
+\item $\forall e, n |n \notin F, \, M_{el}[e]H_{ln}[:,n] = M_{vn}[dst(e)]$ 
+
+\textbf{Explanation:} If a vertex is mapped to a node (not control-flow node in NoC), then the inputs to the vertex must be mapped to incoming links of that node.
+\item $\forall e,n|n \notin F, \, M_{el}[e]H_{nl}^T[:,n] = M_{vn}[src(e)]$
+
+\textbf{Explanation:} If a vertex is mapped to a node (not control-flow node in NoC), then the outputs of the vertex must be mapped to outgoing links of that node.
+\item $\forall e, n |n \in F, \, M_{el}[e]H_{ln}[:,n] \ge M_{vn}[dst(e)]$ 
+
+\textbf{Explanation:} If a vertex is mapped to a control-flow node in NoC, then the inputs to the vertex must be mapped to incoming links of that node.
+\item $\forall e,n|n \in F, \, M_{el}[e]H_{nl}^T[:,n] \ge M_{vn}[src(e)]$
+
+\textbf{Explanation:} If a vertex is mapped to a control-flow node in NoC, then the outputs of the vertex must be mapped to outgoing links of that node.
+\item $\forall e_1, e_2 | src(e_1) \ne src(e_2)  \bigcup oport(e_1) \ne oport(e_2), \, M_{el}[e_1] + M_{el}[e_2] \le 1$
+
+\textbf{Explanation:} If edges do not originate from the same node or do not have the same ouput port, they can not share links.
+\item $\forall n |n \in F, \, M_{el}H_{ln}[:,n] + \sum\limits_v M_{vn}[v,n] \ge M_{el}H_{nl}^T[:,n]$ 
+
+\textbf{Explanation:} If a vertex is not mapped to a control-flow node in NoC, then a value can be passed through, so if edge is mapped to incoming link then it is also mapped to outgoing link.
+\item $\forall n |n \in F, \, M_{el}H_{ln}[:,n] \le \sum\limits_v M_{vn}[v,n] + M_{el}H_{nl}^T[:,n]$ 
+
+\textbf{Explanation:} If a vertex is not mapped to a control-flow node in NoC, then a value can be passed through, so if edge is mapped to incoming link then it is also mapped to outgoing link.
+\end{enumerate}
