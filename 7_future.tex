@@ -11,7 +11,7 @@ This chapter will discuss future work on improving area efficiency, performance,
 
 \figFutureModel
 \subsection{Is compute energy-efficiency still a bottleneck?}
-To answer the question of whether the energy-efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems, we modelled device lifetime of such systems as function of problem size.
+To answer the question of whether the energy-efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems, we modeled device lifetime of such systems as function of problem size.
 %
 Device lifetime is directly related to energy-efficiency (in battery-powered systems) and problem size is a proxy for the amount of compute required and the amount of data that needs to be transmitted.
 % 
@@ -19,7 +19,7 @@ Device lifetime is directly related to energy-efficiency (in battery-powered sys
 % 
 Each system is composed of 1) a single AA battery, 2) a theoretical sensor (based on HM01B0 ULP camera), 3) an ULP MCU (e.g. scalar, \riptide, or theoretical), and 4) a bluetooth (BLE) radio.
 % 
-Besides the transmit-all configuration, each system is modelled to run a neural network similar to those in \sonic to smartly discard uninteresting data, transmitting approximately every $20$ minutes (v. 5s interval of sensor readings).
+Besides the transmit-all configuration, each system is modeled to run a neural network similar to those in \sonic to smartly discard uninteresting data, transmitting approximately every $20$ minutes (v. 5s interval of sensor readings).
 % 
 Further, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e. class label) or it could be a fragment of data deemed interesting.
 
@@ -153,7 +153,7 @@ Using higher-level abstractions (e.g. functional languages or DSLs) might allow 
 %
 These interfaces and/or programmer annotations might also allow the compiler to co-locate data with computation.
 % 
-This is especially important for future CGRA fabrics that might contains hundreds of PE.
+This is especially important for future CGRA fabrics that might contains hundreds of PEs.
 % 
 Partitioning memory to physically locate computation close to data improves performance and energy-efficiency by minimizing data movement.
 
@@ -206,7 +206,7 @@ While \riptide made significant progress on this, it has a few limitations, incl
 There are also some more fundamental questions, regarding how programs are represented, how to accelerate the mapping of a program to hardware, and the correct programming interface.
 
 \subsubsection{Choosing the right IR}
-CGRA compilation is dependent on the composition of the CGRA fabric that is being targetted.
+CGRA compilation is dependent on the composition of the CGRA fabric that is being targeted.
 % 
 This means that if there are several devices with different CGRA fabrics a program needs to be recompiled for each.
 % 
@@ -222,7 +222,7 @@ This is similar to the approach taken for Nvidia GPUs; first CUDA programs are c
 For CGRAs, compilation would be split between dataflow compilation and mapping.
 % 
 % Dataflow compilation is device agnostic, while mapping optimizes and maps a program to a specific device.
-Dataflow compilation converts a program to an intermediate representation (IR) that can be targetted to many different CGRA fabrics.
+Dataflow compilation converts a program to an intermediate representation (IR) that can be targeted to many different CGRA fabrics.
 % 
 Then, mapping maps and optimizes the IR to a specific fabric.
 % 
@@ -241,7 +241,7 @@ Mapping a program to a specific CGRA fabric is challenging since it reduces to f
 % 
 For relatively small programs (small number of operations), \riptide's integer-linear programming-based mapper does well to find a valid mapping, but as program size increases mapping times increase superlinearly.
 % 
-For example, while DMV (12 operations) takes $<10s$ to map onto a $6\times6$ fabric, DFS (80 operations) takes over an hour.
+For example, while DMV (12 operations) takes $<10s$ to map onto a $6\times6$ fabric, DFS ($\approx 50$ operations) takes over an hour.
 % 
 New encoding methods and ways of solving the problem are required.
 % 

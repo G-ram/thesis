@@ -18,11 +18,11 @@ Specifically it contributes 1) \sonic, a software framework that enables machine
 % 
 \manic fixed these problems by combining vector execution to amortize instruction fetch with dataflow execution to minimize data supply energy by forwarding intermediate values directly from producers to consumers.
 % 
-\snafu extended \manic's vector-dataflow to further reduce energy by minimzing the toggling of shared pipeline resources.
+\snafu extended \manic's vector-dataflow to further reduce energy by minimizing the toggling of shared pipeline resources.
 % 
-It implemented spatial-vector-dataflow execution that spatially lays out computation across a fabric of PEs and assigns at most one operation to each PE.
+Its generated CGRAs implement spatial-vector-dataflow execution that spatially lays out computation across a fabric of PEs, keeping each PE configured in the same way throughout kernel execution.
 % 
 Finally, \riptide improves overall system efficiency by compiling and offloading to its CGRA, programs written in C with complex control-flow and irregular memory accesses. 
 % 
-Together these contributions form the basis of a new ULP sensor system stack that is $>2$ orders of magnitude more efficient than existing devices, enabling new emerging applications that require intelligence ``beyond-the-edge.''
+Together these contributions form the basis of a new ULP sensor system stack that is $>2$ orders of magnitude more efficient than existing systems, enabling new emerging applications that require intelligence ``beyond-the-edge.''
 \end{abstract}

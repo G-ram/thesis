@@ -17,21 +17,21 @@ on simple, ultra-low-power systems?
 % 
 The answer --- a new system stack --- is the objective of this work.
 
-Energy-efficiency is the key determinant of device and application performance.
-% 
-For devices powered by batteries, energy dictates lifetime and for devices harvesting energy from the environment, energy dictates performance by controlling the frequency of recharging.
-% 
-However, existing systems suffer fundamental inefficiencies.
-% 
-One solution is to offload computation, but communication costs more than compute.
-% 
-Another solution is to specialize hardware for a particular application, but specialization compromises on programmability and adaptability.
-% 
-The only approach, therefore, is to redesign the system stack --- from software to silicon --- to increase energy-efficiency while maintaining programmability.
-% 
-This work  contributes software, a compiler, computer architecture, and a silicon implementation towards this goal.
-% 
-The key insight is that new execution models can resolve the underlying tension between energy-efficiency and general-purpose programmability.
+% Energy-efficiency is the key determinant of device and application performance.
+% % 
+% For devices powered by batteries, energy dictates lifetime and for devices harvesting energy from the environment, energy dictates performance by controlling the frequency of recharging.
+% % 
+% However, existing systems suffer fundamental inefficiencies.
+% % 
+% One solution is to offload computation, but communication costs more than compute.
+% % 
+% Another solution is to specialize hardware for a particular application, but specialization compromises on programmability and adaptability.
+% % 
+% The only approach, therefore, is to redesign the system stack --- from software to silicon --- to increase energy-efficiency while maintaining programmability.
+% % 
+% This work  contributes software, a compiler, computer architecture, and a silicon implementation towards this goal.
+% % 
+% The key insight is that new execution models can resolve the underlying tension between energy-efficiency and general-purpose programmability.
 
 \section{Challenges}
 There are a multitude of challenges to supporting sophisticated processing on ULP sensor devices.
@@ -40,7 +40,7 @@ These devices are severely resource and energy-constrained, complicating applica
 % 
 There is a need for extreme energy-efficiency without sacrificing programmability.
 % 
-This the central theme to the specific challenges detailed below.
+This is the central theme to the following challenges.
 
 \subsubsection{Offloading computation does not scale}
 Offloading computation from a ULP device to a more powerful nearby computer (e.g., at the ``edge'' or cloud) is one approach to the increased processing sophistication and sensed data volume of applications in the ULP domain.
@@ -59,7 +59,7 @@ this is not practical for power-, energy-, and bandwidth-limited sensor devices~
 Since offloading is infeasible,
 the alternative is to process data \emph{locally} on the sensor node itself.
 % 
-My work, \sonic, demonstrates how systems can use commodity off-the-shelf microcontrollers (COTS MCU) to filter sensed data locally so that only meaningful data (as defined by the application) are transmitted.
+Our work, \sonic, demonstrates how systems can use commodity off-the-shelf microcontrollers (COTS MCU) to filter sensed data locally so that only meaningful data (as defined by the application) are transmitted.
 % 
 Processing data locally minimizes the high energy cost of communication, reducing energy by $\approx20\times$ compared to a design that always offloads, but makes the application highly sensitive to the energy-efficiency of computation.
 
@@ -85,7 +85,7 @@ applications.
 % 
 But this generality comes at at a high power, energy, and performance cost.
 
-Programmability is expensive in two main ways~\cite{horowitz:isscc14:energy-keynote,hameed2010understanding,balfour_elm_thesis}.
+Programmability is expensive in three main ways~\cite{horowitz:isscc14:energy-keynote,hameed2010understanding,balfour_elm_thesis}.
 First, \emph{instruction supply} consumes significant energy: in the best case, the energy of
 an instruction cache hit, and in the worst case, the energy of a main memory
 read and instruction cache fill.  
@@ -95,9 +95,10 @@ out-of-order execution pipelines~\cite{msp430fr5994,traber2016pulpino}, the ener
 instruction supply constitutes a significant fraction of total operating energy.
 %
 Second, data supply through \emph{register file (RF) access} also consumes significant energy.
+% 
+And third, \emph{pipeline-control} can burn significant energy as resources are reconfigured from cycle-to-cycle to run different operations.
 %
-Together, instruction and data supply can consume
-$54.4\%$ of the average execution energy across a variety of representative workloads for ULP devices.
+Together, instruction fetch/decode, data supply, and pipeline-control can consume at least $54.4\%$ of the average execution energy across a variety of representative workloads for ULP devices.
 
 \subsubsection{Specialization can limit programmability}
 To combat the energy costs of generality, some recent work has turned to
@@ -107,7 +108,7 @@ programmability~\cite{chen:isca16:eyeriss,chen:asplos14:diannao,du:isca15:shidia
 % 
 Specialization customizes a system's control and datapath to accommodate a
 particular workload (e.g., deep neural networks~\cite{chen:isca16:eyeriss,chen:asplos14:diannao}),
-eliminating inessential inefficiencies like instruction supply and RF access.
+eliminating inessential inefficiencies like instruction supply, RF access, and pipeline-control.
 % 
 The downsides of specialization are its high non-recurring engineering cost and its inability to support a wide range of applications.
 % 
@@ -146,14 +147,14 @@ This work proposes a complete system stack that leverages new execution models t
 % 
 This approach enables new applications in the ULP domain as improved energy efficiency makes sophisticated workloads practical, while maintaining support for programmability allows for iteration, development of new algorithms, and quick deployment. 
 % 
-My work fills out the stack -- from software to compilation to computer architecture and to silicon implementation.
+Our work fills out the stack -- from software to compilation to computer architecture and to silicon implementation.
 % 
 Together these works support the following thesis:
 
 \begin{adjustwidth}{1cm}{1cm}
 High energy-efficiency can be achieved 
 % with new execution models integrated 
-across the system stack from software to silicon without compromising on programmability by leveraging new execution models to reduce instruction and data supply energies.
+across the system stack from software to silicon without compromising on programmability by leveraging new execution models to reduce instruction fetch/decode, pipeline-control, and data supply energies.
 % 
 
 \end{adjustwidth}
@@ -163,7 +164,7 @@ The following contributions form the basis for the thesis and the new system sta
 \begin{itemize}
 
 \item[\textbf{[Software]}]
-\textbf{\sonic is the first demonstration of DNN inference on energy-harvesting device (\autoref{chapter:sonic}): }
+\textbf{\sonic is the first demonstration of DNN inference on an energy-harvesting device (\autoref{chapter:sonic}): }
 
 \sonic is the software-component of the new ULP sensor system stack.
 % 
@@ -173,10 +174,10 @@ It is an intermittence-aware software system with specialized support for DNN in
 % 
 \sonic introduces loop continuation, a new technique that dramatically reduces the cost of guaranteeing correct intermittent execution for loop-heavy code like DNN inference. 
 % 
-Across three neural networks on a commercially available MCU, \sonic reduces inference energy by $6.9\times$ over the state-of-the-art.
+Across three neural networks on a commercially available MCU, \sonic reduces inference energy by $6.9\times$ over the prior state-of-the-art.
 
 \item[\textbf{[Architecture]}]
-\textbf{\manic is energy-efficient vector-dataflow co-processor (\autoref{chapter:manic}): }
+\textbf{\manic is an energy-efficient vector-dataflow co-processor (\autoref{chapter:manic}): }
 \manic contributes new computer architecture to the ULP system stack.
 % 
 It is an efficient vector-dataflow architecture for ultra-low-power embedded systems, achieving high energy-efficiency without sacrificing programmability and generality.
@@ -189,7 +190,7 @@ By forwarding values from producers to consumers, \manic avoids costly vector re
 % 
 By carefully scheduling code and avoiding dead register writes, \manic avoids costly vector register writes.
 % 
-On average, \manic is $XX\times$ more energy efficient than a scalar baseline and $12\%$ more energy-efficient than a vector baseline.
+On average, \manic is $XX\times$ \graham{DATA} more energy efficient than a scalar baseline and $12\%$ more energy-efficient than a vector baseline.
 
 \item[\textbf{[Silicon]}]
 \textbf{\msilicon proves the energy-efficiency of \manic (\autoref{manic:silicon}): }
@@ -210,11 +211,11 @@ The design is implemented in Intel-16 (22nm) high-threshold-voltage process and 
 % 
 \snafu generates ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution, building on \manic's vector-dataflow execution model.
 % 
-\snafu generates ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
+% \snafu generates ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution.
 % 
 In spatial-vector-dataflow execution, a dataflow graph (DFG) is mapped spatially across the fabric of processing elements, applying the same DFG to many input data values, and routing intermediate values directly from producers to consumers.
 % 
-This minimizes instruction and data-movement energy, just like \manic, and eliminates unnecessary switching activity because operations do not share execution hardware.
+This minimizes instruction and data-movement energy, just like \manic, and reduces pipeline-control energy by eliminating unnecessary switching activity as operations do not share execution hardware.
 % 
 \snafu uses 41$\%$ less energy and runs 4.4$\times$ faster than \manic.
 % 
@@ -228,11 +229,11 @@ It proposes a new set of program primitives that support arbitrary control-flow,
 % 
 To save even more energy, \riptide offloads control-flow operations into the on-chip network.
 % 
-\riptide observes that these operations are simple but prevelant, so it is wasteful to assign them to processing elements.
+\riptide observes that these operations are simple but prevalent, so it is wasteful to assign them to processing elements.
 % 
 Instead, \riptide reuses existing hardware in the on-chip network to directly implement control-flows operations.
 % 
-Compared to \snafu, \riptide uses 25\% less energy and is also XX\% faster without requiring hand-coded assembly.
+Compared to \snafu, \riptide uses 25\% less energy and is also XX\%\graham{DATA} faster without requiring hand-coded assembly.
 % 
 
 \end{itemize}

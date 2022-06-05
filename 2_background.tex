@@ -43,7 +43,7 @@ Application requirements have to be carefully balanced with the energy consumpti
 \paragraph{Battery-backed systems}
 Some devices rely on batteries~\cite{culler2002mica,jackson_2019,rowe2011sensor}.
 % 
-These devices can quickly deplete their battery even if the application is simplying logging data.
+These devices can quickly deplete their battery even if the application is simply logging data.
 % 
 Battery lifetimes can be improved by adding a energy-harvester, like a solar cell or radio-frequency harvester, that can recharge the battery.
 % 
@@ -202,7 +202,7 @@ Fortunately there has been much work on reducing network footprint and improving
 % 
 % Three strategies are of particular note: pruning, reduced precision and network design.
 
-\subsection{Algorthmic improvements to NN inference}
+\subsection{Algorithmic improvements to NN inference}
 \label{chapter:background:inference:algorithm}
 Since DNNs are robust to noise, algorithmic optimizations can be made that reduce NN memory footprint and increase inference performance without significantly impacting accuracy.
 % 
@@ -220,7 +220,7 @@ These algorithmic improvements sometimes come with modifications to the training
 % 
 Networks can be fine-tuned during the final stages (final 20-30\% of epochs) of training to adapt to algorithmic changes.
 % 
-During fine-tuning, the forward direction (i.e. inference) adopts the algorthmic change (e.g. reduced precision or pruning), while the backward direction remains the same.
+During fine-tuning, the forward direction (i.e. inference) adopts the algorithmic change (e.g. reduced precision or pruning), while the backward direction remains the same.
 % 
 This allows the network to adjust its weights to the algorithmic change.
 
@@ -228,7 +228,7 @@ More exotic training regimes have also been explored to enforce additional prope
 % 
 Binary networks~\cite{lin2018binary} learn binary (-1, +1) weights that simplify multiplication to a single {\tt and} operation.
 % 
-Structured sparsity can also be enforced~\cite{deng2018permdnn,nakkiran:interspeech15:compressing,}.
+Structured sparsity can also be enforced~\cite{deng2018permdnn,nakkiran:interspeech15:compressing}.
 % 
 Pruning can lead to extremely sparse layers without much structure which can lead to irregular memory accesses.
 % 
@@ -253,7 +253,7 @@ DNNs~\cite{jouppi:isca17:tpu}.
 The key to the efficiency of these architectures is to maximize data reuse and
 optimize data movement.
 % 
-For example, Eyeriss~\cite{chen:isca16:eyeriss} introduces row-stationary dataflow to maximize reuse on a spatial fabric, while MAERI~\cite{maeri} designs a new on-chip network specialized for DNN dataflows (including hard-to-accelerator LSTMS).
+For example, Eyeriss~\cite{chen:isca16:eyeriss} introduces row-stationary dataflow to maximize reuse on a spatial fabric, while MAERI~\cite{maeri} designs a new on-chip network specialized for DNN dataflows (including hard-to-accelerate LSTMS).
 
 The circuits community has also responded, taping-out extremely specialized accelerators with orders of magnitude higher energy-efficiency.
 %
@@ -261,7 +261,8 @@ These designs use low-level VLSI techniques (e.g. sub-threshold computing~\cite{
 % 
 Unfortunately this extreme energy-efficiency comes at the expense of programmability (and perhaps reliability in the case of analog circuits).
 % 
-In fact, some accelerators specialize to the particular NN architecture~\cite{bankman2018always} or even hard-code weights~\cite{something}.
+In fact, some accelerators specialize to the particular NN architecture~\cite{bankman2018always}.
+% or even hard-code weights~\cite{something}.
 
 The work described in \autoref{chapter:manic}, \autoref{chapter:snafu}, and \autoref{chapter:riptide} take a different approach and focus on entirely different power domain (mW v. $\mu$W).
 % 
@@ -282,7 +283,7 @@ These architectures exploit structure in the program (among data and control-flo
 \label{chapter:background:program:vector}
 Vector machines exploit data-parallelism to amortize instruction supply energy (i.e. fetch, decode, and issue) across many operations.
 % 
-Early vector machines targetted super-computing~\cite{cray_patent}, but most commercially available architectures (e.g., AVX~\cite{avx} and GPUs~\cite{fermi}) today support vectors.
+Early vector machines targeted super-computing~\cite{cray_patent}, but most commercially available architectures (e.g., AVX~\cite{avx} and GPUs~\cite{fermi}) today support vectors.
 % 
 These vector designs target performance and operate at a power budget
 orders-of-magnitude higher than that contributed by this thesis.
@@ -343,21 +344,21 @@ Dennis proposed the first dataflow architecture in 1975, introducing a small set
 % 
 In 1990, the MIT tagged token dataflow machine showed how to practically implement dataflow in hardware.
 % 
-The design relies on the use of a domain-specific language, called Id~\cite{id-compiler}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism.
+The design relies on the use of a domain-specific language, called Id~\cite{id}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism.
 
 Later, Wavescalar~\cite{swanson2003wavescalar} and Trips~\cite{trips} identified dataflow locality as the key determinant of sequential code performance.
 % 
 Wavescalar compiles C/C++ programs to WaveCache, a grid of simple compute units and memory that co-locates computation with data.
 % 
-Wavescalar handles arbitrary control-flow by tagging data (to distiguish instances of a value across loop iterations) and enforcing memory ordering by  converting memory dependences to data dependences during compilation.
+Wavescalar handles arbitrary control-flow by tagging data (to distinguish instances of a value across loop iterations) and enforcing memory ordering by  converting memory dependences to data dependences during compilation.
 % 
-Despite preserving dataflow locality, it is clear that Wavescalar was not designed to minimize energy: the architecture relies on expensive tag-token matching and still fetches instructions, constantly reconfiguring compute pipelines.
+Despite preserving dataflow locality, Wavescalar was not designed to minimize energy --- the architecture relies on expensive tag-token matching and still fetches instructions, constantly reconfiguring compute pipelines.
 
-Trips extracts hyperblocks (multiple basic blocks without backedges) from programs and executed these hyperblocks in dataflow-fashion across a mesh of processing elements.
+Trips extracts hyperblocks (multiple basic blocks without backedges) from programs and executes these hyperblocks in dataflow-fashion across a mesh of processing elements.
 % 
-Trips heavily relies on speculation to increase performance; in-flight operations numbered in the hundreds or even thousands.
+Trips heavily relies on speculation to increase performance; in-flight operations number in the hundreds or even thousands.
 % 
-This amount of speculation inevitibaly wastes energy by discarding mispeculated work.
+This amount of speculation inevitably wastes energy by discarding mispeculated work.
 % 
 Further, Trips constantly reconfigures PE pipelines for each hyperblock, toggling control and data signals.
 
@@ -423,10 +424,10 @@ CGRA design can be categorized in four ways as identified by \cite{weng2020hybri
 % 
 They are distinct by the way they schedule operations and whether PE resources are shared.
 % 
-Specifically the four types of CGRAs are: systolic (statically scheduled \& dedicated PEs), shared-systolic (statically scheduled \& PEs shared),  tagged-dataflow (dynamically schedule \& PEs shared), and ordered-dataflow (dynamically scheduled \& dedicated PEs).
+Specifically the four types of CGRAs are: systolic (statically scheduled \& dedicated PEs), shared-systolic (statically scheduled \& PEs shared),  tagged-dataflow (dynamically scheduled \& PEs shared), and ordered-dataflow (dynamically scheduled \& dedicated PEs).
 
 \paragraph{Systolic}
-Systolic designs~\cite{tartan,piperench,fpca,warp,nowatzki:isca17:stream-dataflow} rely on the compiler to schedule operations in space and time.
+Systolic designs~\cite{mishra2006tartan,goldstein2000piperench,fpca,warp,nowatzki:isca17:stream-dataflow} rely on the compiler to schedule operations in space and time.
 % 
 These designs achieve high performance and energy-efficiency by eliminating dynamic control, but make compilation challenging.
 % 
@@ -442,9 +443,9 @@ To maximize utilization of available hardware, the compiler generates schedules 
 This makes scheduling even more challenging v. systolic designs.
 
 \paragraph{Tagged-dataflow}
-Tagged-dataflow designs~\cite{swanson2003wavescalarvoitsechov2014single,ttda,trips,parashar2013triggered} dynamically schedule operations in time (and potentially in space) and time-multiplex PE resources.
+Tagged-dataflow designs~\cite{swanson2003wavescalar,voitsechov2014single,ttda,trips,parashar2013triggered} dynamically schedule operations in time (and potentially in space) and time-multiplex PE resources.
 % 
-These designs tag data tokens and then match tags to distiguish between multiple instances of a single value, dynamically firing/enabling an operation when tags of inputs match.
+These designs tag data tokens and then match tags to distinguish between multiple instances of a single value, dynamically firing/enabling an operation when tags of inputs match.
 % 
 This tagging mechanism maximizes performance, allowing speculation and the re-ordering of operations and even entire loop iterations.
 % 
@@ -555,18 +556,18 @@ as steering never fires unneeded operations.
 \subsection{Compare \& contrast different CGRA designs}
 \autoref{fig:power} and \autoref{tab:motivation} summarize the CGRA design space, comparing different CGRA designs to work of this thesis, \snafu and \riptide.
 % 
-In particuler, the figures highlight what makes the ULP sensor domain different.
+In particular, the figures highlight what makes the ULP sensor domain different.
 % 
 Specifically, most prior CGRAs target much higher power domains ($\approx$100\,mW~\cite{weng2020dsagen,karunaratne2017hycube,nowatzki:isca17:stream-dataflow,tan2018stitch,weng2020hybrid} or even up to 100\,W~\cite{plasticine,voitsechov2014single}),
 and their design decisions do not translate well to the ULP domain.
 %
 The few CGRAs targeting ULP operation ($\approx$1\,mW)~\cite{ipa,cma,srp} are not flexible and leave energy savings on the table. 
 % 
-They places restrictictions on programs, e.g. supporting only simple, single-nested loops.
+They places restrictions on programs, e.g. supporting only simple, single-nested loops.
 
 In contrast, this thesis presents \snafu and \riptide that are designed from the ground-up to minimize energy (even at the expense of area and performance) while maximizing flexibility.
 % 
-\snafu and \riptide, like DSAGEN~\cite{weng2020dsagen}, generate CGRAs, but instead of targetting performance, target ULP operation.
+\snafu and \riptide, like DSAGEN~\cite{weng2020dsagen}, generate CGRAs, but instead of targeting performance, target ULP operation.
 %
 They minimize PE energy by statically assigning operations
 to specific PEs and, unlike prior low-power
@@ -579,13 +580,13 @@ This NoC is a contrast with prior ULP CGRAs~\cite{cma,srp,ipa}
 that restrict communication to a PE's immediate neighbors.
 %
 Unlike many prior CGRAs that are statically scheduled,
-\snafu \& \riptide implements dynamic dataflow firing
+\snafu \& \riptide implement dynamic dataflow firing
 to support variable latency FUs.
 %
 Dynamic dataflow firing is essential to \snafu \& \riptide's flexibility
 and ability to support arbitrary, heterogeneous PEs in a single fabric.
 %
-\snafu \& \riptide avoids expensive tag-token matching~\cite{plasticine,dyser}
+\snafu \& \riptide avoid expensive tag-token matching~\cite{plasticine,dyser}
 by disallowing out-of-order execution, unlike high-performance designs~\cite{ttda,parashar2013triggered,voitsechov2014single,swanson2003wavescalar}.
 % 
 Lastly, \riptide targets more than simple, vectorizable loops~\cite{karunaratne2017hycube,ipa,cma,srp}, compiling programs directly from C and supporting deeply-nested loops and irregular memory accesses.
