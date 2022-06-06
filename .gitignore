@@ -5,6 +5,7 @@ paper.log
 paper.out
 paper.pdf
 *.aux
+*.bak
 paper.run.xml
 paper.toc
 paper.lof
