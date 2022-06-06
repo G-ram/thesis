@@ -5,7 +5,7 @@ To evaluate \manic, we taped-out a silicon prototype.
 % 
 The chip, \msilicon, has two objectives: 1) be a viable replacement for existing MCUs in ULP sensor deployments and 2) validate vector-dataflow execution against competing execution models.
 % 
-Towards the first objective, \msilicon meets the criteria for remote ULP sensor deployments; specifically, the testchip operates at extreme low-power, supports general-purpose programs, can run standalone (without an external FPGA or MCU driving control), has I2C and GPIO to communicate with sensors and integrates a non-volatile main memory, a requirement for devices that may suffer (frequent) power failures.
+Towards the first objective, \msilicon meets the criteria for remote ULP sensor deployments; specifically, the testchip operates at extreme low-power, supports general-purpose programs, can run standalone (without an external FPGA or MCU driving control), has $I^2 C$ and GPIO to communicate with sensors and integrates a non-volatile main memory, a requirement for devices that may suffer (frequent) power failures.
 % 
 Towards the second objective, the \msilicon testchip includes several independent designs that implement different execution models for comparison, including scalar, vector, and vector-dataflow.
 
@@ -17,7 +17,7 @@ They include a scalar design, an optimized vector design, and \manic.
 % 
 Logic at the top-level controls which design is active and arbitrates chip IO among the designs.
 %
-The designs share a common core consisting of: a RISC-V (RV32emi) microcontroller, a 2-KB instruction cache, a 4-KB data cache, a module that handles I2C communication and programming, a module that handles GPIO communication, a module that tracks statistics about device operation, and main memory composed of 64KB of SRAM, 1KB of ROM, and 256KB of embedded MRAM (eMRAM). 
+The designs share a common core consisting of: a RISC-V (RV32emi) microcontroller, a 2-KB instruction cache, a 4-KB data cache, a module that handles $I^2 C$ communication and programming, a module that handles GPIO communication, a module that tracks statistics about device operation, and main memory composed of 64KB of SRAM, 1KB of ROM, and 256KB of embedded MRAM (eMRAM). 
 % 
 The scalar design adds no additional components to this common core.
 % 
@@ -56,7 +56,7 @@ Verification of chip design is the most important step in the tape-out process.
 % 
 % and showed its value with \msilicon as bring-up was efficient (less than three days).
 % 
-For \msilicon, it involved three items: 1) integration of design-for-test (DFT) structures to allow for easy debugging, 2) safeguards in the event certain features do not work and 3) comprehensive unit and integration testing at each level of hardware abstraction (e.g pre- and post- synthesis and post-place-and-route).
+For \msilicon, it involved three items: 1) integration of design-for-test (DFT) structures to allow for easy debugging, 2) safeguards in the event certain features did not work and 3) comprehensive unit and integration testing at each level of hardware abstraction (e.g pre- and post- synthesis and post-place-and-route).
 % 
 The following paragraphs describe the design-for-test strategy and chip bring-up in more detail.
 
@@ -65,7 +65,7 @@ DFT is a design methodology that makes a design robust to feature failure.
 % 
 For \msilicon, we developed a series of standard DFT modules with scan-chain interfaces that wrap selectively-chosen registers, SRAM macros, and the eMRAM macro.
 % 
-This allows each of these structures to be read and written to directly while interactively minimally with on-chip logic.
+This allows each of these structures to be read and written to directly while interacting minimally with on-chip logic.
 % 
 There are two important examples of note in \msilicon.
 % 
@@ -88,11 +88,11 @@ These built-in safeguards are not only important for debugging, but also protect
 \paragraph{Programming and communication with the chip} 
 To program and communicate with the \msilicon prototype, we co-developed an Arduino-based programmer with \msilicon's bootloader using an FPGA implementation of \msilicon.
 % 
-The Arduino-based programmer converts serial commands to I2C commands; passing data to and from the computer to the testchip.
+The Arduino-based programmer converts serial commands to $I^2 C$ commands; passing data to and from the computer to the testchip.
 % 
 Programming is initiated by the testchip which asks the programmer for the application size.
 % 
-The programmer then communicates with the computer to get the application's binary size and responds to the testchip over I2C.
+The programmer then communicates with the computer to get the application's binary size and responds to the testchip over $I^2 C$.
 % 
 Then the testchip repeatedly asks the programmer for bytes of the application binary.
 % 

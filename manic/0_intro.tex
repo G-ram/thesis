@@ -35,6 +35,7 @@ But, programmability and energy-efficiency are in tension, since programmability
 Our goal is to design a highly programmable architecture that \emph{hides microarchitectural complexity while eliminating the energy costs of programmability}.
 
 \paragraph{Existing low-power architectures fall short}
+\graham{this paragraph is a duplicate}
 %% Unfortunately, existing low-power architectures fall short of this ideal.
 Ultra-low-power COTS MCUs used in many deeply embedded sensor nodes
 (e.g., TI MSP430, ARM M0+ \& M4+) fail
@@ -62,14 +63,17 @@ Together, we estimate that instruction and data supply consume
 $54.4\%$ of the average execution energy in our workloads.
 
 \paragraph{Programming pitfalls of architectural specialization}
+\graham{this paragraph is a duplicate}
 %Specialization
 To combat the energy costs of generality, some recent work has turned to
 microarchitectural specialization, making a system energy-efficient at the
 expense of generality and
 programmability~\cite{chen:isca16:eyeriss,chen:asplos14:diannao,du:isca15:shidiannao,liu:isca15:pudiannao,chen2014dadiannao,venkatesh2010conservation}.
+% 
 Specialization customizes a system's control and datapath to accommodate a
 particular workload (e.g., deep neural networks~\cite{chen:isca16:eyeriss,chen:asplos14:diannao}),
 eliminating inessential inefficiencies like instruction supply and RF access.
+% 
 The downside of specialization is its 
 inability to support a wide range of applications (see the \textit{ASIC} dot in~\autoref{fig:manic:intro}).
 
@@ -150,7 +154,7 @@ To evaluate \manic, we taped-out a test-chip in Intel's 22nm high-threshold volt
 % We tape-out \manic in Intel's 22nm high-threshold voltage process and
 We measured the energy of the various designs in the test-chip across a collection of programs appropriate to the deeply embedded domain.
 %
-\manic reduces energy by $XX\%$ v. the scalar design and by $XX$ v. the vector design.
+\manic reduces energy by $3.4\times$ v. the scalar design and by $12\%$ v. the vector design.
 % 
 % Using post-synthesis energy estimates, we show that \manic
 % is within $XX\%$ of the energy of an idealized design while remaining fully general and making few, unobtrusive changes to the ISA and software development stack.

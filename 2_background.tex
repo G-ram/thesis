@@ -105,7 +105,7 @@ Checkpoint-based systems insert checkpoints into programs using compiler, runtim
 % 
 Just-in-time (JIT) checkpointing is the most popular strategy.
 % 
-In JIT checkpointing, hardware monitors the voltage of the capacitor and when the voltage dips below a pre-determined threshold indicating a power failure is imminent, triggers an interrupt that checkpoints program state. 
+In JIT checkpointing, hardware monitors the voltage of the capacitor and when the voltage dips below a predetermined threshold indicating a power failure is imminent, triggers an interrupt that checkpoints program state. 
 % 
 The interrupt writes back the volatile state of the program, including program counter and stack, to non-volatile memory.
 % 
@@ -168,14 +168,14 @@ continuously powered (i.e. wired) embedded systems may interface with larger mem
 via a serial bus ($I^{2}C$ or SPI), most ULP sensor devices do
 not due to their high access energy and latency.
 %
-The typical operating power of an COTS ULP device is around 1--3mW.
+The typical operating power of an COTS ULP device is around 1--5mW.
 
 \subsubsection{Architecture}
 COTS ULP devices achieve ULP operation by being simple.
 % 
 They have an 3--5 stage, in-order scalar core, which may lack instruction and/or data caches.
 % 
-Some MCUs also come with a vector co-processor such as TI's Low Energy Accelerator (LEA) or support for vector extensions like Arm's Neon~\cite{neon} vector ISA.
+Some MCUs also come with a vector co-processor such as TI's Low Energy Accelerator (LEA)~\cite{lea} or support for vector extensions like Arm's Neon~\cite{neon} vector ISA.
 % 
 Additionally, some MCUs also include DMA engines and accelerators for tasks like AES encryption~\cite{msp430fr5994}.
 % 
@@ -376,12 +376,10 @@ efficiency.
 Even with significant changes to the compiler toolchain, ELM poses
 a risk of unpredictable performance and high programming cost. 
 
-Since Wavescalar, Trips, and ELM there has been a resurgence of spatial-dataflow architectures because they offer better energy-efficiency and performance with lower hardware complexity.
-% 
-The next section goes into more detail.
-
 \section{Coarse-grain reconfigurable arrays}
-Spatial-dataflow architectures known as coarse-grain reconfigurable arrays (CGRAs) achieve high energy-efficiency and performance.
+Since Wavescalar, Trips, and ELM there has been a resurgence of spatial-dataflow architectures, called coarse-grain reconfigurable arrays (CGRAs), because they offer better energy-efficiency and performance with lower hardware complexity.
+% 
+% CGRAs achieve high energy-efficiency and performance with lower hardware complexity.
 % 
 A CGRA architecture~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} is a spatial array of
 processing elements (PEs) connected by an on-chip interconnect (NoC).
@@ -411,7 +409,7 @@ These contexts expose a wide range of hardware design choices, including PE
 operation set, PE complexity, and NoC topology.
 % 
 Further, PEs may be homogeneous or heterogeneous; the latter is more area- and
-energy-efficient, but creates a combinatorically large design space~\cite{revamp}.
+energy-efficient, but creates a combinatorally large design space~\cite{revamp}.
 % 
 PEs typically include functional units for arithmetic, logic,
 and memory access, but can also include 
@@ -572,7 +570,7 @@ In contrast, this thesis presents \snafu and \riptide that are designed from the
 They minimize PE energy by statically assigning operations
 to specific PEs and, unlike prior low-power
 CGRAs~\cite{tan2018stitch,karunaratne2017hycube,ipa,cma,srp},
-minimizes switching by not sharing PEs between operations.
+minimize switching by not sharing PEs between operations.
 %
 Likewise, to minimize NoC energy, \snafu \& \riptide implement a statically configured, bufferless, multi-hop NoC,
 similar to HyCube~\cite{karunaratne2017hycube}.

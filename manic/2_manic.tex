@@ -198,7 +198,7 @@ dependent instructions in the instruction window.
 %
 The buffer has a single read port, single write port, and an single entry (32b$\times$16) for each vector register.
 %
-It is simple (1r1w) and small (16B in total), which corresponds
+It is simple (1r1w) and small (64B in total), which corresponds
 corresponds to a very low static power and access energy compared to the very 
 high static power and access energy of the vector register file.
 %
@@ -234,7 +234,7 @@ not have dcaches and have extremely small icaches on the order of
 %
 However, we find that even small or moderately sized dcaches (512B) are effective in minimizing the number of accesses to main memory. 
 %
-We measured miss curves for the seven different application we consider; 
+We measured miss curves for the different application we consider; 
 for each application there is an extreme drop-off in the number of misses for even 
 small cache sizes,  and with a 512B cache the curves are basically flat.
 %
@@ -254,7 +254,7 @@ very small relative to the operating period.
 %
 
 \subsection{Putting it together with an example}
-We illustrate the operation of the Decode \& Rename logic, renaming table, instruction
+We illustrate the operation of the decode \& rename logic, renaming table, instruction
 buffer, and forwarding buffer with an example of \manic's operation, shown in
 \autoref{fig:manic:vde:issue}. 
 %
@@ -268,35 +268,35 @@ as they decode and later execute.
 
 \figMANICMANICa
 
-\paragraph{Issuing instructions and renaming operands}
+\paragraph{Decoding instructions and renaming operands}
 The figure shows a three-instruction program and illustrates how
-the issue logic populates the instruction buffer and remaps registers for each
+the decode \& rename logic populates the instruction buffer and remaps registers for each
 instruction.
 
 \begin{itemize}
 \item {\tt vload}:
-The issue logic records the load in the instruction window and, since the instruction
+The rename logic records the load in the instruction window and, since the instruction
 is a vector load and requires a base address, also inserts the base address ({\tt \&a} forwarded from the scalar register file) into the xdata buffer.
 % 
-In addition, the issue logic writes an empty renaming entry to {\tt v0} in the renaming table along with the index of the instruction in the instruction buffer.
+In addition, the logic writes an empty renaming entry to {\tt v0} in the renaming table along with the index of the instruction in the instruction buffer.
 %
 An empty renaming entry at execution time signifies a vector register write.
-However, during issue, an empty entry may be filled by an instruction added to
-the instruction window later during the same issue phase.
+However, during decode \& rename, an empty entry may be filled by an instruction added to
+the instruction window later during the same decode \& rename phase.
 \item {\tt vmul}: The multiply instruction consumes two register operands that are not in the renaming table and, at execution time, will issue
 two vector register file reads.
 %
-As with the load, the issue logic records the multiply's output register with 
+As with the load, the rename logic records the multiply's output register with 
 an empty entry in the renaming table as well as the index of the multiply in the
 instruction buffer.
 \item {\tt vadd}:
 The add's inputs are {\tt v0} and {\tt v1} with the kill annotation indicating
 that the instruction kills register {\tt v0}.
 %
-The issue logic looks up each input operand in the renaming table and, finding 
+The rename logic looks up each input operand in the renaming table and, finding 
 both have valid entries, identifies this instruction as the target for forwarding.
 %
-The issue logic remaps {\tt v0} to refer to the first entry of the forwarding
+The rename logic remaps {\tt v0} to refer to the first entry of the forwarding
 buffer and {\tt v1} to the second position. 
 %
 The load instruction in the instruction buffer (found by the saved index in the renaming table) 
@@ -315,7 +315,7 @@ to avoid register file writes.
 \figMANICMANICb
 
 \paragraph{Executing a window of instructions}
-After issue, the window of instructions is ready to execute.
+After decode \& rename, the window of instructions is ready to execute.
 \autoref{fig:manic:vde:execute} shows (via the orange control-flow arcs) how \manic
 executes the entire window vertically for a single vector element before moving
 on to execute the entire window for the second vector element.

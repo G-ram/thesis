@@ -12,7 +12,7 @@ such as machine learning (ML) inference using a deep neural network (DNN).
 As processing sophistication has increased, sensor device capability also
 has matured to include high-definition image sensors~\cite{naderiparizi2018towards} and multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume.
 %
-This shift poses a challenge: how can we perform sophisticated computations
+This progress poses a challenge: how can we perform sophisticated computations
 on simple, ultra-low-power systems?
 % 
 The answer --- a new system stack --- is the objective of this work.
@@ -36,11 +36,11 @@ The answer --- a new system stack --- is the objective of this work.
 \section{Challenges}
 There are a multitude of challenges to supporting sophisticated processing on ULP sensor devices.
 % 
-These devices are severely resource and energy-constrained, complicating application development and limiting the lifetimes of deployed devices.
+These devices are severely resource- and energy-constrained, complicating application development and limiting the lifetimes of deployed devices.
 % 
 There is a need for extreme energy-efficiency without sacrificing programmability.
 % 
-This is the central theme to the following challenges.
+This is the central theme to the this thesis.
 
 \subsubsection{Offloading computation does not scale}
 Offloading computation from a ULP device to a more powerful nearby computer (e.g., at the ``edge'' or cloud) is one approach to the increased processing sophistication and sensed data volume of applications in the ULP domain.
@@ -190,7 +190,7 @@ By forwarding values from producers to consumers, \manic avoids costly vector re
 % 
 By carefully scheduling code and avoiding dead register writes, \manic avoids costly vector register writes.
 % 
-On average, \manic is $XX\times$ \graham{DATA} more energy efficient than a scalar baseline and $12\%$ more energy-efficient than a vector baseline.
+On average, \manic is $3.4\times$ more energy efficient than a scalar baseline and $12\%$ more energy-efficient than a vector baseline.
 
 \item[\textbf{[Silicon]}]
 \textbf{\msilicon proves the energy-efficiency of \manic (\autoref{manic:silicon}): }
@@ -233,7 +233,7 @@ To save even more energy, \riptide offloads control-flow operations into the on-
 % 
 Instead, \riptide reuses existing hardware in the on-chip network to directly implement control-flows operations.
 % 
-Compared to \snafu, \riptide uses 25\% less energy and is also XX\%\graham{DATA} faster without requiring hand-coded assembly.
+Compared to \snafu, \riptide uses 25\% less energy and is also 17\% faster without requiring hand-coded assembly.
 % 
 
 \end{itemize}
