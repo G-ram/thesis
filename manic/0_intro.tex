@@ -5,7 +5,7 @@ satellites.
 % 
 These applications require a new ULP sensor system stack.
 % 
-\autoref{chapter:sonic} contributed a software component to this new system stack, describing how these devices can be made ``intelligent'' with on-device machine inference using \sonic.
+\autoref{chapter:sonic} contributed a software component to this new stack, describing how these devices can be made ``intelligent'' with on-device machine inference using \sonic.
 % 
 However, \sonic also demonstrated that existing systems suffer fundamental
 inefficiencies that demand new, extremely energy-efficient computer
@@ -27,56 +27,20 @@ A computation-heavy sensor system also needs to be highly programmable to suppor
 % 
 But, programmability and energy-efficiency are in tension, since programmability often carries a significant energy penalty.
 % 
-% There are two key criteria that make a computation-heavy sensor system effective.
-% First, the device must process data locally at a low operating power and with \emph{extremely high energy-efficiency}.
-% Second, the device must be \emph{programmable} and general to support a wide variety of applications.
-% % 
-% These goals are in tension, since programmability often carries a significant energy penalty.
 Our goal is to design a highly programmable architecture that \emph{hides microarchitectural complexity while eliminating the energy costs of programmability}.
 
 \paragraph{Existing low-power architectures fall short}
-\graham{this paragraph is a duplicate}
-%% Unfortunately, existing low-power architectures fall short of this ideal.
-Ultra-low-power COTS MCUs used in many deeply embedded sensor nodes
-(e.g., TI MSP430, ARM M0+ \& M4+) fail
-to meet the criteria for an effective sensor node.
-%
-These MCUs are general-purpose, programmable devices that support a variety of
-applications.  
-%
-However, COTS MCUs pay a high power, energy, and performance cost for their
-generality and programmability (see the \textit{COTS MCU} dot in~\autoref{fig:manic:intro}).  
-%
-
-Programmability is expensive in two main ways~\cite{horowitz:isscc14:energy-keynote,hameed2010understanding,balfour_elm_thesis}.
-First, \emph{instruction supply} consumes significant energy: in the best case, the energy of
-an instruction cache hit, and in the worst case, the energy of a main memory
-read and instruction cache fill.  
-%
-Lacking sophisticated microarchitectural features such as superscalar and
-out-of-order execution pipelines~\cite{msp430fr5994,traber2016pulpino}, the energy overhead of
-instruction supply constitutes a significant fraction of total operating energy.
-%
-Second, data supply through \emph{register file (RF) access} also consumes significant energy.
-%
-Together, we estimate that instruction and data supply consume
-$54.4\%$ of the average execution energy in our workloads.
+While \autoref{chapter:sonic} showed that it is possible to run sophisticated processing on existing devices, ULP COTS MCUs (e.g., TI MSP430, ARM M0+ \& M4+) nonetheless fail to meet the criteria for effective sensor nodes.
+% 
+Their scalar execution models pay a high price for general purpose programmability
+(see the \textit{COTS MCU} dot in~\autoref{fig:manic:intro}), wasting energy fetching \& decoding instructions, controlling execution pipeline resources, and supplying data.
 
 \paragraph{Programming pitfalls of architectural specialization}
-\graham{this paragraph is a duplicate}
-%Specialization
-To combat the energy costs of generality, some recent work has turned to
-microarchitectural specialization, making a system energy-efficient at the
-expense of generality and
-programmability~\cite{chen:isca16:eyeriss,chen:asplos14:diannao,du:isca15:shidiannao,liu:isca15:pudiannao,chen2014dadiannao,venkatesh2010conservation}.
+Specialization of a system's control or datapath is one way to reduce the tax of general-purpose programmability, eliminating inessential hardware structures and functions for a particular application.
 % 
-Specialization customizes a system's control and datapath to accommodate a
-particular workload (e.g., deep neural networks~\cite{chen:isca16:eyeriss,chen:asplos14:diannao}),
-eliminating inessential inefficiencies like instruction supply and RF access.
-% 
-The downside of specialization is its 
-inability to support a wide range of applications (see the \textit{ASIC} dot in~\autoref{fig:manic:intro}).
+But this comes at the expense of flexibility and generality (see the \textit{ASIC} dot in~\autoref{fig:manic:intro}), making a highly specialized design susceptible to quick obsolescence.
 
+\paragraph{Existing programmable, efficient designs are insufficient}
 In contrast to specialization, another approach to programmable
 energy-efficiency is to target a conventional vector architecture (such as
 NVidia's Jetson TX2~\cite{jetsontx2}, ARM NEON~\cite{neon}, or TI LEA~\cite{lea}), amortizing the cost of instruction

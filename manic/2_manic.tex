@@ -85,7 +85,7 @@ The Decode \& Rename logic records the renaming in \manic's renaming table, whic
 fixed-size, directly-indexed table, with one entry for each register that can
 be renamed in a window of instructions.
 %
-After the Decode \& Rename identifies dependent operations and performs renaming for the window, it dispatches the window of operations for execution.
+After Decode \& Rename identifies dependent operations and performs renaming for the window, it dispatches the window of operations for execution.
 
 
 \paragraph{Instruction buffer}
@@ -114,7 +114,7 @@ the dependence tracking that they introduce.
 % 
 Instead, these operations execute one element at a time, ultimately writing to the vector register file. 
 
-A store also ends issuing for a window.  A store may write to a memory
+A store also ends the decoding and renaming of a window.  A store may write to a memory
 location that a later operation loads from. Such a through-memory dependence is 
 unknown until execution time.  Consequently, \manic conservatively assumes
 that the address of any store may alias with the address of any load or store in the window (i.e., in a later vector element).
@@ -198,8 +198,7 @@ dependent instructions in the instruction window.
 %
 The buffer has a single read port, single write port, and an single entry (32b$\times$16) for each vector register.
 %
-It is simple (1r1w) and small (64B in total), which corresponds
-corresponds to a very low static power and access energy compared to the very 
+It is simple (1r1w) and small (64B in total), which corresponds to a very low static power and access energy compared to the very 
 high static power and access energy of the vector register file.
 %
 By accessing the forwarding buffer instead of accessing the vector register
@@ -210,14 +209,21 @@ than one that executes without \manic.
 RISC-V V contains {reduction} instructions like \texttt{vredsum v1 v2},
 which adds up all elements of \texttt{v2} and writes the sum into the first element of \texttt{v1}.
 %
-\manic relies on the forwarding buffer to avoid VRF accesses for reductions.
+% \manic has a register for reductions for accumulating relies on the forwarding buffer to avoid VRF accesses for reductions.
 % 
-Instead of writing partial results to the VRF,
-\manic allocates space in the forwarding buffer for partial accumulation.
+\manic supports these operations efficiently without accessing the VRF by accumulating partial results in a single 32b reduction register.
 % 
-The Decode \& Rename logic recognizes a reduction, allocates space, and remaps the second source operand and the destination to point to the entry in the forwarding buffer.
+This is possible because windows close on reductions so there will only ever be a single reduction per window.
+% , avoiding accessing the VRF.
 % 
-During the Execute phase, \manic will then use the partial result in the forwarding buffer as one source for the reduction (e.g., sum)
+% Instead of writing partial results to the VRF,
+% \manic has a single 32b reduction register for accumulating partial results.
+% 
+% allocates space in the forwarding buffer for partial accumulation.
+% 
+The Decode \& Rename logic recognizes a reduction, and remaps the second source operand and the destination to point to the reduction register.
+% 
+During the Execute phase, \manic will then use the partial result in the reduction register as one source for the reduction (e.g., sum)
 and overwrite it with the new value as it is produced.
 % 
 This optimization re-purposes \manic's existing dataflow mechanisms
@@ -254,7 +260,7 @@ very small relative to the operating period.
 %
 
 \subsection{Putting it together with an example}
-We illustrate the operation of the decode \& rename logic, renaming table, instruction
+We illustrate the operation of the Decode \& Rename logic, renaming table, instruction
 buffer, and forwarding buffer with an example of \manic's operation, shown in
 \autoref{fig:manic:vde:issue}. 
 %
@@ -270,7 +276,7 @@ as they decode and later execute.
 
 \paragraph{Decoding instructions and renaming operands}
 The figure shows a three-instruction program and illustrates how
-the decode \& rename logic populates the instruction buffer and remaps registers for each
+the Decode \& Rename logic populates the instruction buffer and remaps registers for each
 instruction.
 
 \begin{itemize}
@@ -281,8 +287,8 @@ is a vector load and requires a base address, also inserts the base address ({\t
 In addition, the logic writes an empty renaming entry to {\tt v0} in the renaming table along with the index of the instruction in the instruction buffer.
 %
 An empty renaming entry at execution time signifies a vector register write.
-However, during decode \& rename, an empty entry may be filled by an instruction added to
-the instruction window later during the same decode \& rename phase.
+However, during Decode \& Rename, an empty entry may be filled by an instruction added to
+the instruction window later during the same Decode \& Rename phase.
 \item {\tt vmul}: The multiply instruction consumes two register operands that are not in the renaming table and, at execution time, will issue
 two vector register file reads.
 %
@@ -315,7 +321,7 @@ to avoid register file writes.
 \figMANICMANICb
 
 \paragraph{Executing a window of instructions}
-After decode \& rename, the window of instructions is ready to execute.
+After Decode \& Rename, the window of instructions is ready to execute.
 \autoref{fig:manic:vde:execute} shows (via the orange control-flow arcs) how \manic
 executes the entire window vertically for a single vector element before moving
 on to execute the entire window for the second vector element.

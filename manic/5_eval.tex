@@ -29,7 +29,7 @@ This shows the benefits of vector execution; in particular, the vectorized imple
 \paragraph{Why is \manic not even more efficient?}
 Although \manic does reduce energy on average v. the vector baseline, the reduction is only $12\%$.
 % 
-This is because, while \manic effectively reduces VRF accesses (purple decreases in \autoref{fig:manic:cache:energy}), it reconfigures the execution pipeline every cycle as iterates through entries in the instruction buffer, executing a single vector element across the instruction window.
+This is because, while \manic effectively reduces VRF accesses (purple decreases in \autoref{fig:manic:cache:energy}), it reconfigures the execution pipeline every cycle as it iterates through entries in the instruction buffer, executing a single vector element across the instruction window.
 % 
 This toggles control and data signals, which burns energy (green increases in \autoref{fig:manic:cache:energy}) and cancels out some of the gains from reducing VRF accesses.
 % 
