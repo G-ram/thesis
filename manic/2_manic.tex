@@ -50,9 +50,9 @@ at which it dies.
 \label{manic:manic:uarch}
 \manic's microarchitecture is split along the two phases of execution: Decode \& Rename and Execute.
 % 
-During the Decode \& Rename Phase, \manic buffers a window of decoded instructions (``Insn Buffer'') and identifies dataflow between them, renaming operands to point to the ``Forwarding Buffer'' as dataflow allows.
+During the Decode \& Rename phase, \manic buffers a window of decoded instructions (``Insn Buffer'') and identifies dataflow between them, renaming operands to point to the ``Forwarding Buffer'' as dataflow allows.
 % 
-Then during the Execute Phase, \manic cycles through the instruction buffer (``VIssue''), determines where the source of each instruction operand (``VGate''), executes the operation (``VExecute'' and ``VMemory''), and performs a write back if necessary (``VWriteback'').
+Then during the Execute phase, \manic cycles through the instruction buffer (``VIssue''), determines the source of each instruction operand (``VGate''), executes the operation (``VExecute'' and ``VMemory''), and performs a write back if necessary (``VWriteback'').
 %
 \autoref{fig:manic:block} shows the two phases of execution as well as the different microarchitectural components of each.
 
@@ -89,10 +89,10 @@ After Decode \& Rename identifies dependent operations and performs renaming for
 
 
 \paragraph{Instruction buffer}
-\manic uses its instruction buffer to store an decoded window of
+\manic uses its instruction buffer to store a decoded window of
 instructions that have had their register operands renamed by the Decode \& Rename logic.
 % 
-Each entry of buffer tells the Execute phase where to read and write an operand.
+Each entry of the buffer tells the Execute phase where to read and write an operand.
 % 
 For input operands, the instruction buffer controls whether to fetch an operand from the
 vector register file, from the Xdata buffer (data buffered from the scalar core like base address or stride), or from \manic's forwarding buffer (in the case of an
@@ -158,11 +158,11 @@ The prevalence of each hazard depends on the size of the buffers associated with
 The first hazard is most common, while the second is rare.
 
 \subsubsection{Execute}
-The Execute Phase begins once a {\tt vfence} instruction is reached or there is a structural hazard.
+The Execute phase begins once a {\tt vfence} instruction is reached or there is a structural hazard.
 % 
 \manic has a five-stage execution pipeline consisting of: VIssue, VGate, VExecute, VMemory, and VWriteback.
 % 
-VIssue tracks execution progress and maintains a pointer into the instruction buffer, reads decoded instructions, and (only if necessary) initiates VRF reads;
+VIssue tracks execution progress, maintains a pointer into the instruction buffer, reads decoded instructions, and (only if necessary) initiates VRF reads;
 VGate determines the source for each operand (the VRF, Xdata buffer, Forwarding buffer, or bypass paths) and steers operands to the multiplier or ALU;
 VExecute computes the ALU and multiplier results;
 VMemory issues loads and stores;
