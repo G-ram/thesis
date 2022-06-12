@@ -1,0 +1,66 @@
+{
+	"stacks": {
+		"msp430" :{
+			"keys": ["energy"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"scalar" :{
+			"keys": ["physical./scalar_top.energy.total"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"riptide" :{
+			"keys": ["physical./flow_top.energy.total"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "msp430.json",
+				"label": "MSP430",
+				"stack": "msp430",
+				"normalize": {
+					"src": "msp430.json",
+					"stack": "msp430"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/nn/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "scalar",
+				"normalize": {
+					"src": "msp430.json",
+					"stack": "msp430"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/nn/flow/flow/result.json",
+				"label": "Riptide",
+				"stack": "riptide",
+				"normalize": {
+					"src": "msp430.json",
+					"stack": "msp430"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 3,
+	"rect": [0.0, 0.0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"invert": true,
+	"log": true,
+	"ylabel": "Energy savings\n(v. MSP430)",
+	"draw_norm": true,
+	"annotate": true	
+}
