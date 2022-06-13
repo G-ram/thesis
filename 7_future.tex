@@ -8,11 +8,27 @@ This chapter will discuss future work on improving area efficiency, performance,
 
 \figProgress
 \section{Quantifying the progress made}
-\graham{Graph here showing MSP430 NN, SCALAR NN, RIPTIDE NN}
+\autoref{fig:progress} quantifies the significant progress that this thesis has made towards a new ULP, energy-minimal sensor system stack.
+%
+We compare an MSP430 with our scalar design and to \riptide running neural network inference (network is a derivative of Lenet~\cite{lecun:ieee89:lenet}).
+% 
+For the MSP430, we run the network on-device to measure latency and estimate power using the datasheet. 
+% 
+For our scalar design and \riptide, we implement each using a high-threshold voltage, industrial-grade process and use a post-synthesis annotated switching model to estimate power (same methodology as in~\autoref{riptide:method}).
+% 
+\autoref{fig:progress:energy} shows energy savings: our scalar design is already an aggressive baseline, saving $98\times$ energy v. MSP430; \riptide improves even further, saving a massive $1676\times$.
+% 
+Even adjusting for process technology, \riptide saves $\approx 283 \times$ energy v. MSP430, suggesting that a signficant portion of energy savings comes from the architecture and not from process technology scaling.
+% 
+\autoref{fig:progress:perf} shows a similar trend in speedup: our scalar design is $11.7\times$ faster than the MSP430 and \riptide is $234.8\times$ faster.
+% 
+Together the energy savings and speedup of \riptide v. MSP430 and v. our scalar design represent significant progress and make \riptide an ideal platform for new applications in the ULP domain.
 
 \figFutureModel
 \subsection{Is compute energy-efficiency still a bottleneck?}
-To answer the question of whether the energy-efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems, we modeled device lifetime of such systems as function of problem size.
+With the progress that has been made, the natural question is whether the energy-efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems.
+% 
+To answer this question, we modeled device lifetime of such systems as function of problem size.
 %
 Device lifetime is directly related to energy-efficiency (in battery-powered systems) and problem size is a proxy for the amount of compute required and the amount of data that needs to be transmitted.
 % 

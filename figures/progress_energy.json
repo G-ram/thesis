@@ -57,7 +57,7 @@
 	"minor_padding": 5,
 	"major_padding": 45,
 	"barwidth": 1.1,
-	"fontsize": 16,
+	"fontsize": 12,
 	"invert": true,
 	"log": true,
 	"ylabel": "Energy savings\n(v. MSP430)",
