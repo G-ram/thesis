@@ -213,7 +213,10 @@ def main(args):
 			if annotate:
 				for p in bar:
 					height = p.get_height()
-					ax.annotate(f'{height:.1f}',
+					s = f'{height:.1f}'
+					if height < 0.1:
+						s = f'{height:.2f}'
+					ax.annotate(s,
 						xy=(p.get_x() + p.get_width() / 2, height),
 						xytext=(0, 4), # 3 points vertical offset
 						textcoords="offset points",

@@ -1,6 +1,6 @@
 PDFS := overview.pdf device.pdf power.pdf \
 	future_model.pdf future_model_legend.pdf \
-	progress_energy-graph.pdf progress_perf-graph.pdf
+	progress_energy-graph.pdf progress_perf-graph.pdf progress_eff-graph.pdf
 
 PDFDIR := pdf
 PNGDIR := png
