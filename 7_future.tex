@@ -12,11 +12,11 @@ This chapter will discuss future work on improving area efficiency, performance,
 %
 We compare an MSP430 with our scalar design and to \riptide running neural network inference (network is a derivative of Lenet~\cite{lecun:ieee89:lenet}).
 % 
-For the MSP430, we run the network on-device to measure latency and estimate power using the datasheet. 
+For the MSP430 and the Cortex-M3, we run the network the on-device to measure latency and estimate power using the corresponding datasheet. 
 % 
 For our scalar design and \riptide, we implement each using a high-threshold voltage, industrial-grade process and use a post-synthesis annotated switching model to estimate power (same methodology as in~\autoref{riptide:method}).
 % 
-\autoref{fig:progress:energy} shows energy savings: our scalar design is already an aggressive baseline, saving $98\times$ energy v. MSP430; \riptide improves even further, saving a massive $1676\times$.
+\autoref{fig:progress:energy} shows energy savings: our scalar design is already an aggressive baseline, saving $98\times$ energy v. MSP430 and Cortex-M3; \riptide improves even further, saving a massive $1676\times$.
 % 
 Even adjusting for process technology, \riptide saves $\approx 283 \times$ energy v. MSP430, suggesting that a signficant portion of energy savings comes from the architecture and not from process technology scaling.
 % 

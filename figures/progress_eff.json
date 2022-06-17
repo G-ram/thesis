@@ -1,16 +1,6 @@
 {
 	"stacks": {
-		"msp430" :{
-			"keys": ["efficiency"],
-			"labels": ["Efficiency"],
-			"colors": ["#9f7ccf"]
-		},
-		"scalar" :{
-			"keys": ["efficiency"],
-			"labels": ["Efficiency"],
-			"colors": ["#9f7ccf"]
-		},
-		"riptide" :{
+		"s" :{
 			"keys": ["efficiency"],
 			"labels": ["Efficiency"],
 			"colors": ["#9f7ccf"]
@@ -21,17 +11,22 @@
 			{
 				"src": "msp430.json",
 				"label": "MSP430",
-				"stack": "msp430"
+				"stack": "s"
+			},
+			{
+				"src": "stm32l152re.json",
+				"label": "Cortex-M3",
+				"stack": "s"
 			},
 			{
 				"src": "../riptide/data/compress/xrun/large/nn/plain/scalar/result.json",
 				"label": "Scalar",
-				"stack": "scalar"
+				"stack": "s"
 			},
 			{
 				"src": "../riptide/data/compress/xrun/large/nn/flow/flow/result.json",
 				"label": "Riptide",
-				"stack": "riptide"
+				"stack": "s"
 			}
 		]
 	],

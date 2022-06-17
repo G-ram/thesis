@@ -1,6 +1,6 @@
 {
 	"stacks": {
-		"msp430" :{
+		"hw" :{
 			"keys": ["energy"],
 			"labels": ["Energy"],
 			"colors": ["#9f7ccf"]
@@ -21,10 +21,19 @@
 			{
 				"src": "msp430.json",
 				"label": "MSP430",
-				"stack": "msp430",
+				"stack": "hw",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "msp430"
+					"stack": "hw"
+				}
+			},
+			{
+				"src": "stm32l152re.json",
+				"label": "Cortex-M3",
+				"stack": "hw",
+				"normalize": {
+					"src": "msp430.json",
+					"stack": "hw"
 				}
 			},
 			{
@@ -33,7 +42,7 @@
 				"stack": "scalar",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "msp430"
+					"stack": "hw"
 				}
 			},
 			{
@@ -42,7 +51,7 @@
 				"stack": "riptide",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "msp430"
+					"stack": "hw"
 				}
 			}
 		]
