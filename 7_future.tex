@@ -10,7 +10,7 @@ This chapter will discuss future work on improving area efficiency, performance,
 \section{Quantifying the progress made}
 \autoref{fig:progress} quantifies the significant progress that this thesis has made towards a new ULP, energy-minimal sensor system stack.
 %
-We compare an MSP430 with our scalar design and to \riptide running neural network inference (network is a derivative of Lenet~\cite{lecun:ieee89:lenet}).
+We compare an MSP430, Cortex-M3, and our scalar design to \riptide running neural network inference (network is a derivative of Lenet~\cite{lecun:ieee89:lenet}).
 % 
 For the MSP430 and the Cortex-M3, we run the network the on-device to measure latency and estimate power using the corresponding datasheet. 
 % 
@@ -26,7 +26,7 @@ Even adjusting for process technology, \riptide saves $\approx 283 \times$ energ
 is $234.8\times$ faster than the MSP430.
 % Our scalar design is $11.7\times$ faster than the MSP430 and \riptide is $234.8\times$ faster.
 % 
-Together the energy savings, efficiency, and speedup of \riptide v. MSP430 and v. our scalar design represent significant progress and make \riptide an ideal platform for new applications in the ULP domain.
+Together the energy savings, efficiency, and speedup of \riptide v. MSP430, Cortex-M3, and our scalar design represent significant progress and make \riptide an ideal platform for new applications in the ULP domain.
 
 \figFutureModel
 \subsection{Is compute energy-efficiency still a bottleneck?}
