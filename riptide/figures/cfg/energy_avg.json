@@ -62,6 +62,6 @@
 	"barwidth": 1.1,
 	"fontsize": 16,
 	"invert": true,
-	"ylabel": "Energy savings (v. scalar)",
+	"ylabel": "Energy savings\n(v. scalar)",
 	"draw_norm": true
 }

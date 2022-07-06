@@ -214,7 +214,7 @@ def main(args):
 				for p in bar:
 					height = p.get_height()
 					s = f'{height:.1f}'
-					if height < 0.1:
+					if height < 1:
 						s = f'{height:.2f}'
 					ax.annotate(s,
 						xy=(p.get_x() + p.get_width() / 2, height),

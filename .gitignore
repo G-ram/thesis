@@ -11,6 +11,7 @@ paper.toc
 paper.lof
 paper.lot
 *-crop.pdf
+*~*
 figures/pdf
 figures/figures-crop.pdf
 figures/bld

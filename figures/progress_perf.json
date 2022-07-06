@@ -1,16 +1,6 @@
 {
 	"stacks": {
-		"hw" :{
-			"keys": ["latency"],
-			"labels": ["Cycles"],
-			"colors": ["#9f7ccf"]
-		},
-		"scalar" :{
-			"keys": ["latency"],
-			"labels": ["Cycles"],
-			"colors": ["#9f7ccf"]
-		},
-		"riptide" :{
+		"lat" :{
 			"keys": ["latency"],
 			"labels": ["Cycles"],
 			"colors": ["#9f7ccf"]
@@ -21,37 +11,37 @@
 			{
 				"src": "msp430.json",
 				"label": "MSP430",
-				"stack": "hw",
+				"stack": "lat",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "hw"
+					"stack": "lat"
 				}
 			},
 			{
 				"src": "stm32l152re.json",
 				"label": "Cortex-M3",
-				"stack": "hw",
+				"stack": "lat",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "hw"
+					"stack": "lat"
 				}
 			},
 			{
 				"src": "../riptide/data/compress/xrun/large/nn/plain/scalar/result.json",
 				"label": "Scalar",
-				"stack": "scalar",
+				"stack": "lat",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "hw"
+					"stack": "lat"
 				}
 			},
 			{
 				"src": "../riptide/data/compress/xrun/large/nn/flow/flow/result.json",
 				"label": "Riptide",
-				"stack": "riptide",
+				"stack": "lat",
 				"normalize": {
 					"src": "msp430.json",
-					"stack": "hw"
+					"stack": "lat"
 				}
 			}
 		]
