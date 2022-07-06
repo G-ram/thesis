@@ -1,0 +1,80 @@
+{
+	"stacks": {
+		"stack": {
+			"keys": ["stream-lso-cr-all.cf_pes"],
+			"labels":["CF"],
+			"colors": ["#9f7ccf"],
+			"total": "stream-lso-cr-all.pes"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../riptide/data/counts/dmv.json",
+				"label": "DMV",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/dmm.json",
+				"label": "DMM",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/dconv.json",
+				"label": "DConv",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/smv.json",
+				"label": "SMV",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/smm.json",
+				"label": "SMM",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/sconv.json",
+				"label": "SConv",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/sort.json",
+				"label": "Sort",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/fft.json",
+				"label": "FFT",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/bfs.json",
+				"label": "BFS",
+				"stack": "stack"
+			},
+			{
+				"src": "../riptide/data/counts/dfs.json",
+				"label": "DFS",
+				"stack": "stack"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 5,
+	"height": 3,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 60,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"ylabel": "PE Count",
+	"remaining_color": "#a1dab4",
+	"remaining_label": "Other PEs",
+	"draw_norm": true,
+	"norm_value": 36
+}

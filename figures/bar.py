@@ -84,6 +84,7 @@ def main(args):
 	remaining_label = get_param(cfg, 'remaining_label', 'Remaining')
 	yticklabelfontsize = get_param(cfg, 'yticklabelfontsize', fontsize)
 	annotate = get_param(cfg, 'annotate', False)
+	norm_value = get_param(cfg, 'norm_value', 1.0)
 
 	if invert: invert = -1
 	else: invert = 1
@@ -262,7 +263,7 @@ def main(args):
 			ax.yaxis.get_offset_text().set_fontsize(fontsize)
 		if draw_norm:
 			ax.plot(ax.get_xlim(), 
-				[1.0, 1.0], '--', color='grey', linewidth=1.5)
+				[norm_value, norm_value], '--', color='grey', linewidth=1.5)
 			ax.margins(x=0.0)
 			if not log: ax.set_ylim((0, max(1.05, max(ax.get_ylim()))))
 

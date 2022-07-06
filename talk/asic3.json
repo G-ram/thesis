@@ -1,0 +1,367 @@
+{
+	"stacks": {
+		"stack1": {
+			"keys":[
+				"physical./scalar_top/MM.energy.total",
+				"physical./scalar_top/CORE.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./scalar_top.energy.total"
+		},
+		"stack2": {
+			"keys":[
+				"physical./vector_top/MM.energy.total",
+				"physical./vector_top/CORE.energy.total",
+				"physical./vector_top/VECTOR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./vector_top.energy.total"
+		},
+		"stack3": {
+			"keys":[
+				"physical./manic_top/MM.energy.total",
+				"physical./manic_top/CORE.energy.total",
+				"physical./manic_top/VECTOR.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./manic_top.energy.total"
+		},
+		"stack4": {
+			"keys":[
+				"physical./snafu_top/MM.energy.total",
+				"physical./snafu_top/CORE.energy.total",
+				"physical./snafu_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./snafu_top.energy.total"
+		},
+		"stack5": {
+			"keys":[
+				"physical./flow_top/MM.energy.total",
+				"physical./flow_top/CORE.energy.total",
+				"physical./flow_top/CGRA.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./flow_top.energy.total"
+		},
+		"stack6": {
+			"keys":[
+				"physical./dmm_top/MM.energy.total",
+				"physical./dmm_top/CORE.energy.total",
+				"physical./dmm_top/DMM.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./dmm_top.energy.total"
+		},
+		"stack7": {
+			"keys":[
+				"physical./sort_top/MM.energy.total",
+				"physical./sort_top/CORE.energy.total",
+				"physical./sort_top/SORT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./sort_top.energy.total"
+		},
+		"stack8": {
+			"keys":[
+				"physical./fft_top/MM.energy.total",
+				"physical./fft_top/CORE.energy.total",
+				"physical./fft_top/FFT.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "physical./fft_top.energy.total"
+		},
+		"stack9": {
+			"keys":[
+				"scalar.energy.mm",
+				"scalar.energy.core"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "scalar.energy.total"
+		},
+		"stack10": {
+			"keys":[
+				"vector.energy.mm",
+				"vector.energy.core",
+				"vector.energy.vector"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "vector.energy.total"
+		},
+		"stack11": {
+			"keys":[
+				"manic.energy.mm",
+				"manic.energy.core",
+				"manic.energy.vector"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "manic.energy.total"
+		},
+		"stack12": {
+			"keys":[
+				"snafu.energy.mm",
+				"snafu.energy.core",
+				"snafu.energy.cgra"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "snafu.energy.total"
+		},
+		"stack13": {
+			"keys":[
+				"flow.energy.mm",
+				"flow.energy.core",
+				"flow.energy.cgra"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			],
+			"total": "flow.energy.total"
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/accel/dmm/result.json",
+				"label": "ASIC",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/accel/sort/result.json",
+				"label": "ASIC",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/panic/snafu/result.json",
+				"label": "SNAFU",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+				"label": "RipTide",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/accel/fft/result.json",
+				"label": "ASIC",
+				"stack": "stack8",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMM", "Sort", "FFT"],
+	"width": 7,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 50,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"subplots": true,
+	"ylim": [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+	"xlim": [2, 112],
+	"ylabel": "Normalized energy (v. RipTide)"
+}
