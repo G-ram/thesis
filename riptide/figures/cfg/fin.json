@@ -173,7 +173,8 @@
 				"src": "../data/compress/smm_fused_into_pe.json",
 				"label": "No FIN",
 				"stack": "stack2",
-				"normalize": {"src": "../data/compress/smm_fused_into_pe.json",
+				"normalize": {
+					"src": "../data/compress/smm_fused_into_pe.json",
 					"stack": "stack1"
 				}
 			},

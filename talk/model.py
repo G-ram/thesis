@@ -1,233 +1,174 @@
 import argparse
-import json
-import os
-import numpy as np
+
 import matplotlib as mpl
-if os.environ.get('DISPLAY','') == '':
-	print('no display found. Using non-interactive Agg backend')
-	mpl.use('Agg')
-import matplotlib.pyplot as plt
+# mpl.use('Agg')
+
 import matplotlib.style as style
-import matplotlib.patches as patches
-from matplotlib.ticker import ScalarFormatter
-plt.rc('text', usetex=True)
-mpl.rcParams['pdf.fonttype'] = 42
-mpl.rcParams['ps.fonttype'] = 42
 style.use('bmh')
 
-def get(data, pattern):
-	pattern = pattern.split('.')
-	cur_idx = data
-	found = True
-	for key in pattern:
-		if key.startswith('[') and type(cur_idx) is list:
-			cur_idx = cur_idx[int(key[1:-1])]
-		elif key in cur_idx:
-			cur_idx = cur_idx[key]
-		else:
-			found = False
-			break
+import matplotlib.pyplot as plt
+from matplotlib import rcParams
+rcParams['pdf.fonttype'] = 42
+rcParams['ps.fonttype'] = 42
+import numpy as np
 
-	return found, cur_idx if found else None
+from matplotlib import rc
+rc('text', usetex=True)
 
-def get_param(cfg, key, default=None, required=False):
-	found, val = get(cfg, key)
-	if not found and default is None and required:
-		print('%s not found in cfg' % key)
-		exit(-1)
-	elif not found:
-		return default
+########################################
+# parameters
 
-	return val
+Von = 1.233
+Voff = 0.9952 
 
-def get_range(l, buckets):
-	step = (max(l) - min(l)) / buckets
-	return np.arange(min(l), max(l) + 1e-7, step)
+p = 0.05
 
-def seconds2years(s):
-	return s / (365 * 24 * 3600)
+Esense = 10e-3
 
-def seconds2days(s):
-	return s / (24 * 3600)
+commPacketCapSize = 900e-3
+commPacketEnergy = 0.5 * commPacketCapSize * (Von ** 2 - Voff ** 2)
+commPacketSize = 8
+commImageSize = 28 * 28 * 1
+commImagePackets = 1. * commImageSize / commPacketSize
+EcommImage = commPacketEnergy * commImagePackets
 
-def years2seconds(y):
-	return y * (365 * 24 * 3600)
+commResultSize = 8 # single packet
+commResultPackets = 1. * commResultSize / commPacketSize
+EcommResult = commPacketEnergy * commResultPackets
 
-def main(args):
-	with open(args.cfg, 'r') as f:
-		cfg = json.load(f)
+def setEcomm(commPackets):
+    global EcommImage
+    EcommImage = commPacketEnergy * commPackets
 
-	sensor_power = get_param(cfg, 'sensor_power')
-	sensor_freq = get_param(cfg, 'sensor_freq')
-	sensor_latency = get_param(cfg, 'sensor_latency')
-	compute_freq = get_param(cfg, 'compute_freq')
-	compute_multiplier = get_param(cfg, 'compute_multiplier')
-	transmit_bandwidth = get_param(cfg, 'transmit_bandwidth')
-	transmit_power = get_param(cfg, 'transmit_power')
-	transmit_freq = get_param(cfg, 'transmit_freq')
-	problem_size = get_param(cfg, 'problem_size')
-	buckets = get_param(cfg, 'buckets')	
-	energy_budget = get_param(cfg, 'energy_budget')
-	lifetime_target = years2seconds(get_param(cfg, 'lifetime_target'))
-	riptide_efficiency = get_param(cfg, 'riptide_efficiency')
-	scalar_efficiency = get_param(cfg, 'scalar_efficiency')
-	ideal_efficiency = get_param(cfg, 'ideal_efficiency')
-	sensor_size = get_param(cfg, 'sensor_size')
-	summary_multiplier = get_param(cfg, 'summary_multiplier')
+inferCapSize = 1e-3
+inferCapDischarges = 100 # 4 for SVM
+Einfer = inferCapDischarges * 0.5 * inferCapSize * (Von ** 2 - Voff ** 2)
 
-	problem_size_range = get_range(problem_size, buckets)
-	sensor_freq_range = get_range(sensor_freq, buckets)
-	transmit_freq_range = get_range(transmit_freq, buckets)
+inferOps = 6e5
+def opsToEinfer(ops):
+    return np.array(ops) * Einfer / inferOps
 
-	transmit_all = {}
-	for size in problem_size_range:
-		for freq in sensor_freq_range:
-			transmit_latency = size / (max(transmit_bandwidth) * 1e6 / 8)
-			transmit_energy = transmit_latency * min(transmit_power) * freq
-			sensor_energy = sensor_latency * sensor_power * freq
-			lifetime = energy_budget / (transmit_energy + sensor_energy)
-			if freq not in transmit_all: transmit_all[freq] = []
-			transmit_all[freq].append((size, lifetime))
+print('Sensing costs:', Esense)
+print('Communication costs (image):', EcommImage)
+print('Communication costs (result):', EcommResult)
+print('Inference costs:', Einfer)
 
-	scalar_discard = {}
-	riptide_discard = {}
-	ideal_discard = {}
-	ideal_summary_discard = {}
-	riptide_summary_discard = {}
-	for size in problem_size_range:
-		for sfreq in sensor_freq_range:
-			if sfreq not in scalar_discard: 
-				scalar_discard[sfreq] = {}
-				riptide_discard[sfreq] = {}
-				ideal_discard[sfreq] = {}
-				ideal_summary_discard[sfreq] = {}
-				riptide_summary_discard[sfreq] = {}
+########################################
+# model equations
 
-			for tfreq in transmit_freq_range:
-				transmit_latency = size / (min(transmit_bandwidth) * 1e6 / 8)
-				transmit_summary_latency = transmit_latency * summary_multiplier
+def baseline(accuracy):
+    return p / (Esense + EcommImage)
 
-				transmit_energy = transmit_latency * max(transmit_power) * tfreq				
-				transmit_summary_energy = \
-					transmit_summary_latency * max(transmit_power) * tfreq
+def idealImage(accuracy):
+    return p / (Esense + p * EcommImage)
 
-				sensor_energy = sensor_latency * sensor_power * sfreq
-				ops = size * compute_multiplier / 1e9
+def naiveImage(accuracy):
+    # return p / (Esense + Einfer + p * EcommImage)
+    discharges = 749
+    EnergyInfer = discharges * 0.5 * inferCapSize * (Von ** 2 - Voff ** 2)
+    return p * accuracy / (Esense + EnergyInfer + ((p * accuracy) + (1-p) * (1-accuracy)) * EcommImage)
 
-				scalar_energy = ops / scalar_efficiency * sfreq
-				scalar_lifetime = energy_budget / \
-					(scalar_energy + transmit_energy + sensor_energy)
+def sonicImage(accuracy):
+    return p * accuracy / (Esense + Einfer + ((p * accuracy) + (1-p) * (1-accuracy)) * EcommImage)
 
-				riptide_energy = ops / riptide_efficiency * sfreq
-				riptide_lifetime = energy_budget / \
-					(riptide_energy + transmit_energy + sensor_energy)
+def idealResult(accuracy):
+    return p / (Esense + p * EcommResult)
 
-				riptide_summary_lifetime = energy_budget / \
-					(riptide_energy + transmit_summary_energy + sensor_energy)
+def naiveResult(accuracy):
+    # return p / (Esense + Einfer + p * EcommResult)
+    global inferCapSize
+    discharges = 749
+    EnergyInfer = discharges * 0.5 * inferCapSize * (Von ** 2 - Voff ** 2)
+    return p * accuracy / (Esense + EnergyInfer + ((p * accuracy) + (1-p) * (1-accuracy)) * EcommResult)
 
-				ideal_energy = ops / ideal_efficiency * sfreq
-				ideal_lifetime = energy_budget / \
-					(ideal_energy + transmit_energy + sensor_energy)
-				ideal_summary_lifetime = energy_budget / \
-					(ideal_energy + transmit_summary_energy + sensor_energy)
+def sonicResult(accuracy):
+    return p * accuracy / (Esense + Einfer + ((p * accuracy) + (1-p) * (1-accuracy)) * EcommResult)
 
-				# print(round(size, 2), 
-				# 	round(tfreq, 2), 
-				# 	round(sfreq, 2),
-				# 	f'transmit: {transmit_energy:e}',
-				# 	f'sensor: {sensor_energy:e}')
+def sonicDetailed(ops, truepositive, truenegative):
+    return p * np.array(truepositive) / (Esense + opsToEinfer(ops) + (p * np.array(truepositive) + (1-p) * (1-np.array(truenegative))) * EcommImage)
 
-				# for name, energy, lifetime in [
-				# 	('scale', scalar_energy, scalar_lifetime), 
-				# 	('rip', riptide_energy, riptide_lifetime), 
-				# 	('rsum', riptide_energy, riptide_summary_lifetime), 
-				# 	('ideal', ideal_energy, ideal_lifetime)]:
-				# 	('isum', ideal_energy, ideal_summary_lifetime)]:
-				# 	print(f'{name}: {energy:e} {seconds2years(lifetime):.2} ', end='')
-				# print('')
+if __name__ == "__main__":
+    x = [0.88, 0.9865, 1]
+    print('Sonic-Image / Always-Send-Image at', x, 'accuracy:', sonicImage(np.array(x)) / baseline(1))
+    print('Sonic-Image / Naive-Image at', x, 'accuracy:', sonicImage(np.array(x)) / naiveImage(1))
+    print('Sonic-Image / Ideal-Image at', x, 'accuracy:', sonicImage(np.array(x)) / idealImage(1))
+    print('Sonic-Result / Always-Send-Image at', x, 'accuracy:', sonicResult(np.array(x)) / baseline(1))
+    print('Sonic-Result / Naive-Result at', x, 'accuracy:', sonicResult(np.array(x)) / naiveResult(1))
+    print('Sonic-Result / Ideal-Result at', x, 'accuracy:', sonicResult(np.array(x)) / idealResult(1))
 
-				if tfreq not in scalar_discard[sfreq]: 
-					scalar_discard[sfreq][tfreq] = []
-					riptide_discard[sfreq][tfreq] = []
-					ideal_discard[sfreq][tfreq] = []
-					ideal_summary_discard[sfreq][tfreq] = []
-					riptide_summary_discard[sfreq][tfreq] = []
+x = np.linspace(0, 1, 100)
+def transform(y):
+    return np.zeros_like(x) + y
 
-				scalar_discard[sfreq][tfreq].append((size, scalar_lifetime))
-				riptide_discard[sfreq][tfreq].append((size, riptide_lifetime))
-				riptide_summary_discard[sfreq][tfreq].append((size, riptide_summary_lifetime))
-				ideal_discard[sfreq][tfreq].append((size, ideal_lifetime))
-				ideal_summary_discard[sfreq][tfreq].append((size, ideal_summary_lifetime))
+########################################
+# wouldn't it be great if numpy supported braces natively?
 
-	# return
+def brace():
+    def half_brace(x, beta):
+        x0, x1 = x[0], x[-1]
+        y = 1/(1.+np.exp(-1*beta*(x-x0))) + 1/(1.+np.exp(-1*beta*(x-x1)))
+        return y
+    xmax, xstep = 1, .005
+    xaxis = np.arange(0, xmax, xstep)
+    y0 = half_brace(xaxis[:len(xaxis)//2], 100.)
+    y = np.concatenate((y0, y0[::-1]))
+    y -= 0.5
+    return xaxis, y
+br = brace()
 
-	def to_years(l):
-		return list(map(seconds2years, l))
+########################################
+# wouldn't it be great if numpy supported sig figs natively?
 
-	sfreq = min(sensor_freq_range)
-	tfreq = min(transmit_freq_range)
+def sigfigs(x, n):
+    print(x, )
+    i = 0
+    while x > 10. ** n:
+        x /= 10.
+        i += 1
+    while x < 10. ** (n-1):
+        x *= 10.
+        i -= 1
+    x = int(x + 0.5)
+    x *= 10 ** i
+    print(x)
+    return x
 
-	fig = plt.figure(figsize=(6,4))
-	plt.ylabel('Lifetime (years)')
-	plt.xlabel('Problem size (input bytes)')
-	plt.axhline(seconds2years(lifetime_target), color='grey', linestyle='--')
-	plt.text(-2000, seconds2years(lifetime_target) + 0.5, 'Target\nlifetime', 
-		fontsize=12)
-	plt.axvline(sensor_size, color='darkgrey', linestyle='--')
-	plt.text(sensor_size + 500, 26, 'QQVGA (160x120)', fontsize=12)
-	plt.plot(
-		[x for x, _ in transmit_all[sfreq]], 
-		[seconds2years(y) for _, y in transmit_all[sfreq]], 
-		color='blue', label='Transmit always')
-	plt.plot(
-		[x for x, _ in scalar_discard[sfreq][tfreq]], 
-		[seconds2years(y) for _, y in scalar_discard[sfreq][tfreq]], 
-		color='green', label='Scalar')
-	plt.plot(
-		[x for x, _ in riptide_discard[sfreq][tfreq]], 
-		[seconds2years(y) for _, y in riptide_discard[sfreq][tfreq]], 
-		color='red', label='RipTide')
-	plt.plot(
-		[x for x, _ in riptide_summary_discard[sfreq][tfreq]], 
-		[seconds2years(y) for _, y in riptide_summary_discard[sfreq][tfreq]], 
-		color='darkred', label='RipTide (Summary)')
-	plt.plot(
-		[x for x, _ in ideal_discard[sfreq][tfreq]], 
-		[seconds2years(y) for _, y in ideal_discard[sfreq][tfreq]], 
-		color='black', label='Hypothetical (10TOPS/W)')
-	# plt.plot(
-	# 	[x for x, _ in ideal_summary_discard[sfreq][tfreq]], 
-	# 	[seconds2years(y) for _, y in ideal_summary_discard[sfreq][tfreq]], 
-	# 	color='black')
+def plots(args):
+    ########################################
+    # send images plot
 
-	hdls, lbls = fig.axes[0].get_legend_handles_labels()
-	fig_legend = plt.figure(figsize=(len(lbls) * 2, 2))
-	fig_legend.legend(hdls, lbls, loc='center', ncol=1)
+    def plotBrace(y0, y1, padding=0):
+        xs = 1.02 + 0.05 * br[1] + padding
+        # xs = [1.02 + 0.05 * br[1][0]] + xs.tolist() + [1.02 + 0.05 * br[1][-1]]
+        ys = 1e3 * (br[0]*(y1 - y0) + y0)
+        # ys = [1e3 * (br[0][0]*(y1 - y0) + y0)] + ys.tolist() + [1e3 * (br[0][-1]*(y1 - y0) + y0)]
+        plt.plot(xs, ys,
+                 clip_on=False, color='grey', lw=1) # , transform=fig.gca().transAxes)
+        plt.text(1.08 + padding, 1e3 * (y1 + y0) / 2, ('%s' % sigfigs(y1 / y0, 2)) + r'$\times$',
+                 color='grey', fontsize=11, ha = 'left', va = 'center')
 
-	if args.dest:
-		fig.savefig(args.dest)
-		if args.legend:
-			fig_legend.savefig(args.legend)
-	else:
-		plt.show()
+    ########################################
+    # send results only plot
 
-if __name__ == '__main__':
-	parser = argparse.ArgumentParser()
-	parser.add_argument(
-		'--cfg',
-		type=str,
-		help='Config JSON file')	
-	parser.add_argument(
-		'--dest',
-		type=str,
-		help='Destination')
-	parser.add_argument(
-		'--show',
-		action='store_true',
-		help='Show graph')
-	parser.add_argument(
-		'--legend',
-		type=str,
-		help='Legend destination')
-	args = parser.parse_args()
-	main(args)
+    fig = plt.figure(figsize=(6.5,4))
+    plt.plot(x, 1e3 * transform(baseline(x)), label='Always send image')
+    plt.plot(x, 1e3 * transform(idealResult(x)), label=r'Ideal (send result only)', ls='--')
+    plt.plot(x, 1e3 * transform(sonicResult(x)), label='Local inference')
+    plotBrace(sonicResult(1.), round(idealResult(1.), 2), padding=0)
+    plotBrace(baseline(1.), round(sonicResult(1.), 2), padding=0)
+    plt.ylabel(r'Interesting \textit{results} sent' + '\nper harvested kilo-Joule')
+    plt.xlabel('Accuracy')
+    plt.xlim(0,1)
+    plt.legend(loc='lower center', bbox_to_anchor=[0,1.02,1,1.1], ncol=3, columnspacing=1.5, handletextpad=0.25, fontsize=12)
+    plt.tight_layout()
+    if args.dest: plt.savefig(args.dest + '_results.pdf')
+    # plt.show()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--dest',
+        type=str,
+        help='Destination file')
+    args = parser.parse_args()
+    plots(args)
