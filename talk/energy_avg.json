@@ -1,0 +1,66 @@
+{
+	"stacks": {
+		"stack9": {
+			"keys":["scalar.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack10": {
+			"keys":["vector.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack11": {
+			"keys":["manic.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack12": {
+			"keys":["snafu.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack13": {
+			"keys":["flow.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#41b6c4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "Scalar",
+				"stack": "stack9"
+			},
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "Vector",
+				"stack": "stack10"
+			},
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "MANIC",
+				"stack": "stack11"
+			},
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "SNAFU",
+				"stack": "stack12"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 3,
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"invert": true,
+	"ylabel": "Energy savings\n(v. scalar)",
+	"draw_norm": true
+}

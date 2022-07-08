@@ -1,0 +1,66 @@
+{
+	"stacks": {
+		"scalar" :{
+			"keys": ["scalar.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"vector" :{
+			"keys": ["vector.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"manic" :{
+			"keys": ["manic.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"snafu" :{
+			"keys": ["snafu.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		},
+		"flow" :{
+			"keys": ["flow.perf"],
+			"labels": ["Cycles"],
+			"colors": ["#41b6c4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "Scalar",
+				"stack": "scalar"
+			},
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "Vector",
+				"stack": "vector"
+			},
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "MANIC",
+				"stack": "manic"
+			},
+			{
+				"src": "../riptide/figures/bld/avg_scalar.json",
+				"label": "SNAFU",
+				"stack": "snafu"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 3,
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"invert": true,
+	"ylabel": "Speedup\n(v. scalar)",
+	"draw_norm": true
+}

@@ -1,0 +1,245 @@
+{
+	"stacks": {
+		"stack1" :{
+			"keys": ["original.energy"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack2" :{
+			"keys": ["all_cf_pes.energy"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack3" :{
+			"keys": ["fused_into_pe.energy"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"stack4" :{
+			"keys": ["physical./flow_top/CGRA.energy.total"],
+			"labels": ["Energy"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../riptide/data/compress/dmv_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/dmv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../riptide/data//compress/xrun/large/dmv/flow/flow/no_fin/result.json",
+				"label": "No CFiN",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../riptide/data/compress/dmv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/dmm_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/dmm_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/dmm_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/dmm_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/dconv_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/dconv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/dconv_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/dconv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/smv_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/smv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../riptide/data//compress/xrun/large/smv/flow/flow/no_fin/result.json",
+				"label": "No CFiN",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../riptide/data/compress/smv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/smm_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/smm_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/smm_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {"src": "../riptide/data/compress/smm_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/sconv_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/sconv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/sconv_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/sconv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/sort_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/sort_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/sort_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/sort_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/fft_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/fft_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/fft_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/fft_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/bfs_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/bfs_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/bfs_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/bfs_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/dfs_fused_into_pe.json",
+				"label": "RipTide",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/dfs_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"x": true,
+				"src": "../riptide/data/compress/dfs_fused_into_pe.json",
+				"label": "No CFiN",
+				"stack": "stack2",
+				"normalize": {
+					"src": "../riptide/data/compress/dfs_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			}
+		]
+	],
+	"sci_not": true,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
+	"width": 10,
+	"height": 5,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 65,
+	"barwidth": 1.2,
+	"fontsize": 16,
+	"ylabel": "Normalized Energy\n(v. RipTide)"
+}
