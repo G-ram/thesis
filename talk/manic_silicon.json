@@ -1,0 +1,50 @@
+{
+	"stacks": {
+		"avg_scalar": {
+			"keys":["284.NoCache.Scalar.Energy.SRAM", "284.NoCache.Scalar.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]
+		},
+		"avg_base": {
+			"keys":["284.NoCache.Baseline.Energy.SRAM", "284.NoCache.Baseline.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]
+		},
+		"avg_manic": {
+			"keys":["284.NoCache.MANIC.Energy.SRAM", "284.NoCache.MANIC.Energy.Logic"],
+			"labels":["SRAM", "Logic"],
+			"colors": ["#9f7ccf", "#a1dab4"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../manic/figures/bld/avg.json",
+				"label": "Scalar",
+				"stack": "avg_scalar"
+			},
+			{
+				"src": "../manic/figures/bld/avg.json",
+				"label": "Vector",
+				"stack": "avg_base"
+			},
+			{
+				"src": "../manic/figures/bld/avg.json",
+				"label": "MANIC",
+				"stack": "avg_manic"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 3,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 60,
+	"barwidth": 1.1,
+	"fontsize": 16,
+	"ylabel": "Normalized energy\n(v. scalar)"
+}
