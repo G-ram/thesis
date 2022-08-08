@@ -1,0 +1,66 @@
+{
+	"stacks": {
+		"lat" :{
+			"keys": ["latency"],
+			"labels": ["Cycles"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/msp430.json",
+				"label": "MSP430",
+				"stack": "lat",
+				"normalize": {
+					"src": "../data/msp430.json",
+					"stack": "lat"
+				}
+			},
+			{
+				"src": "../data/stm32l152re.json",
+				"label": "Cortex-M3",
+				"stack": "lat",
+				"normalize": {
+					"src": "../data/msp430.json",
+					"stack": "lat"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/nn/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "lat",
+				"normalize": {
+					"src": "../data/msp430.json",
+					"stack": "lat"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/nn/flow/flow/result.json",
+				"label": "Riptide",
+				"stack": "lat",
+				"normalize": {
+					"src": "../data/msp430.json",
+					"stack": "lat"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 3,
+	"rect": [0.0, 0.0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"minor_rotation": 45,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"invert": true,
+	"log": true,
+	"ylabel": "Speedup\n(v. MSP430)",
+	"draw_norm": true,
+	"annotate": true	
+}

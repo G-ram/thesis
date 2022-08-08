@@ -1,1 +1,120 @@
-{"physical": {"/snafu_top": {"energy": {"dynamic": 7.191640271999998e-08, "internal": 5.582393796e-08, "leakage": 2.500106946e-09, "switching": 1.609246476e-08, "total": 7.441654896000001e-08}, "power": {"dynamic": 0.0005490639999999999, "internal": 0.000426202, "leakage": 1.90877e-05, "switching": 0.000122862, "total": 0.000568152}}, "/snafu_top/ALIGNER": {"energy": {"dynamic": 7.269010157999999e-10, "internal": 4.5101260259999997e-10, "leakage": 2.937907596e-13, "switching": 2.7588841319999997e-10, "total": 7.27194411e-10}, "power": {"dynamic": 5.549709999999999e-06, "internal": 3.44337e-06, "leakage": 2.24302e-09, "switching": 2.10634e-06, "total": 5.55195e-06}}, "/snafu_top/CGRA": {"energy": {"dynamic": 3.2169748938e-08, "internal": 2.061284652e-08, "leakage": 9.152790713999999e-10, "switching": 1.1556902418e-08, "total": 3.308502408e-08}, "power": {"dynamic": 0.0002456081, "internal": 0.000157374, "leakage": 6.98793e-06, "switching": 8.82341e-05, "total": 0.000252596}}, "/snafu_top/CORE": {"energy": {"dynamic": 9.261949446000001e-09, "internal": 7.492488234e-09, "leakage": 8.57958294e-11, "switching": 1.769461212e-09, "total": 9.347741346000001e-09}, "power": {"dynamic": 7.07127e-05, "internal": 5.72033e-05, "leakage": 6.5503e-07, "switching": 1.35094e-05, "total": 7.13677e-05}}, "/snafu_top/INSN_DATA_CONFLICT": {"energy": {"dynamic": 9.465806718e-12, "internal": 2.613326058e-12, "leakage": 6.706176e-16, "switching": 6.8524806599999996e-12, "total": 9.466474715999999e-12}, "power": {"dynamic": 7.22691e-08, "internal": 1.99521e-08, "leakage": 5.12e-12, "switching": 5.2317e-08, "total": 7.22742e-08}}, "/snafu_top/MM": {"energy": {"dynamic": 2.9736559674e-08, "internal": 2.72582478e-08, "leakage": 1.498568376e-09, "switching": 2.478311874e-09, "total": 3.123506256e-08}, "power": {"dynamic": 0.0002270313, "internal": 0.00020811, "leakage": 1.14412e-05, "switching": 1.89213e-05, "total": 0.000238472}}}, "perf": 6549, "count": 1817}
+{
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 3.07130858866836e-08,
+            "internal": 1.9649971569456e-08,
+            "leakage": 8.365645237631999e-10,
+            "switching": 1.10631143172276e-08,
+            "total": 3.15496504104468e-08
+        }
+    },
+    "count": 1817,
+    "noc": {
+        "energy": {
+            "dynamic": 7.87145476368e-11,
+            "internal": 9.62874950544e-10,
+            "leakage": 7.87145476368e-11,
+            "switching": 4.937881007724003e-10,
+            "total": 1.5353775989532002e-09
+        }
+    },
+    "perf": 6549,
+    "physical": {
+        "/snafu_top": {
+            "energy": {
+                "dynamic": 7.191640271999998e-08,
+                "internal": 5.582393796e-08,
+                "leakage": 2.500106946e-09,
+                "switching": 1.609246476e-08,
+                "total": 7.441654896000001e-08
+            },
+            "power": {
+                "dynamic": 0.0005490639999999999,
+                "internal": 0.000426202,
+                "leakage": 1.90877e-05,
+                "switching": 0.000122862,
+                "total": 0.000568152
+            }
+        },
+        "/snafu_top/ALIGNER": {
+            "energy": {
+                "dynamic": 7.269010157999999e-10,
+                "internal": 4.5101260259999997e-10,
+                "leakage": 2.937907596e-13,
+                "switching": 2.7588841319999997e-10,
+                "total": 7.27194411e-10
+            },
+            "power": {
+                "dynamic": 5.549709999999999e-06,
+                "internal": 3.44337e-06,
+                "leakage": 2.24302e-09,
+                "switching": 2.10634e-06,
+                "total": 5.55195e-06
+            }
+        },
+        "/snafu_top/CGRA": {
+            "energy": {
+                "dynamic": 3.2169748938e-08,
+                "internal": 2.061284652e-08,
+                "leakage": 9.152790713999999e-10,
+                "switching": 1.1556902418e-08,
+                "total": 3.308502408e-08
+            },
+            "power": {
+                "dynamic": 0.0002456081,
+                "internal": 0.000157374,
+                "leakage": 6.98793e-06,
+                "switching": 8.82341e-05,
+                "total": 0.000252596
+            }
+        },
+        "/snafu_top/CORE": {
+            "energy": {
+                "dynamic": 9.261949446000001e-09,
+                "internal": 7.492488234e-09,
+                "leakage": 8.57958294e-11,
+                "switching": 1.769461212e-09,
+                "total": 9.347741346000001e-09
+            },
+            "power": {
+                "dynamic": 7.07127e-05,
+                "internal": 5.72033e-05,
+                "leakage": 6.5503e-07,
+                "switching": 1.35094e-05,
+                "total": 7.13677e-05
+            }
+        },
+        "/snafu_top/INSN_DATA_CONFLICT": {
+            "energy": {
+                "dynamic": 9.465806718e-12,
+                "internal": 2.613326058e-12,
+                "leakage": 6.706176e-16,
+                "switching": 6.8524806599999996e-12,
+                "total": 9.466474715999999e-12
+            },
+            "power": {
+                "dynamic": 7.22691e-08,
+                "internal": 1.99521e-08,
+                "leakage": 5.12e-12,
+                "switching": 5.2317e-08,
+                "total": 7.22742e-08
+            }
+        },
+        "/snafu_top/MM": {
+            "energy": {
+                "dynamic": 2.9736559674e-08,
+                "internal": 2.72582478e-08,
+                "leakage": 1.498568376e-09,
+                "switching": 2.478311874e-09,
+                "total": 3.123506256e-08
+            },
+            "power": {
+                "dynamic": 0.0002270313,
+                "internal": 0.00020811,
+                "leakage": 1.14412e-05,
+                "switching": 1.89213e-05,
+                "total": 0.000238472
+            }
+        }
+    }
+}

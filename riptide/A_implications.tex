@@ -1,0 +1,86 @@
+\section{Conclusion: Implications for General-Purpose Architecture and Dark Silicon}
+\label{sec:implications}
+
+\autoref{fig:eval:energy} and \autoref{fig:eval:perf} compare the energy and performance for {\tt dmm} on \riptide v.\ an equivalent ASIC.
+%
+\riptide does not compromise much on energy or performance --- coming within 46\% and 3\%, respectively --- but it is not a free lunch.
+%
+There is a high area cost for \riptide's programmability: \riptide is 57$\times$ larger than the ASIC.%
+\footnote{This is without including main memory, which is half of chip area. Also, {\tt dmm} is an extreme case; e.g., \riptide is $9\times$ larger than {\tt fft}. On {\tt fft}, the ASIC yields larger improvements in energy (saving 67\%) and performance (by 62\%) v. \riptide. This is because \riptide has too few resources to offload the entire {\tt fft} kernel and the ASIC uses scratchpads for twiddle factors.}
+%
+The question is, is \riptide's programmability worth the extra area?
+
+\riptide area is inflated partly because of low utilization on PEs that perform outer loops.
+%
+\riptide only supports one operation per PE, so entire PEs are consumed even if an operation fires rarely.
+%
+A future design could revisit this constraint to allow limited time-multiplexing,
+either at a fine~\cite{weng2020hybrid} or coarse~\cite{nguyen2021fifer} granularity.
+
+Regardless, the area difference shows potentially large cost savings from ASICs,
+so long as a computation is performed frequently enough to overcome
+ASICs' upfront design and verification costs.
+%
+Standardized, pervasive tasks like JPEG compression and wireless communication protocols are good candidates for ASICs.
+%
+But if the computation is prone to change
+or used infrequently, then this cost advantage rapidly disappears.
+
+Some have proposed that, with increasing transistor budgets and
+stagnating power budgets, processors should embrace extreme
+heterogeneity and assemble a large number of distinct
+ASICs~\cite{venkatesh2010conservation,taylor2012dark}.
+%
+The ``garden of ASICs'' approach lets architects do something
+with extra transistors, but it significantly increases
+system design and verification cost.
+%% all the disadvantages
+%% of ASICs: high upfront costs and narrow applicability.
+%
+Moreover, it creates herculean
+challenges in system integration,
+%
+as there is no standard programming interface for ASICs,
+obsolescence is monotonic and likely inevitable,
+and programs must be somehow partitioned between ASICs
+and cores with accompanying data-coordination issues.
+
+\riptide suggests an alternative approach.
+%
+Rather than spend area on ASICs that will idle most of the time,
+instead build an energy-minimal, programmable dataflow fabric.
+%
+The two designs take similar area with a few dozen ASICs.
+%
+And the dataflow fabric is cheaper to design, more broadly applicable,
+and easier to use --- programs can be simply compiled for a
+different target.
+%
+Finally, as a general-purpose design, programmable dataflow fabrics
+can create a self-sustaining ecosystem that aggregates optimizations
+and achieves sufficient scale to justify cutting-edge silicon.
+%
+All told, while dataflow fabrics like \riptide are not a replacement
+for ASICs, they will play an important role in
+improving the efficiency of general-purpose processing
+as designs are increasingly constrained by energy instead of area,
+and they will reduce the demand for specialized hardware to accelerate
+the majority of applications.
+
+%% \begin{compactenum}
+%% \item We are not compromising on perf / area (much) v.an ASIC, but its not a free lunch.
+%% \item There is a high area cost in \riptide v.ASIC.
+%% \item This is partly due to low PE utilization in outer loops, which has XYZ potential architectural solution (discuss Fifer, Revel, etc).
+%% \item (With time-multiplexing, FFT would get even better.)
+%% \item So ASICs can still make sense from a cost point of view, if you are going to be doing the same fixed computation over and over.
+%% \item (and can achieve scale to amortize NRE cost.)
+%% \item But a ‘garden of ASICs’ approach still doesn’t make sense bc the ASIC area advantage disappears if you have ~100 ASICs and only use one of them.
+%% \item (And you add in high NRE for each.)
+%% \item So for most computations, an energy-minimal reconfigurable fabric like \riptide is a better approach than ‘garden of ASICs’ (like dark silicon ppl have been proposing)
+%% \item Add to it the programmability problem if you have 275 different asics and a changing codebase.
+%% \item Prog prob 1: no standard asic interface so each different asic has a different programming requirement.
+%% \item Prog prob 2: without loopy hw patching stuff like qs-cores, obsolesence is monotonic and inevitable.
+%% \item Prog prob 3: code not applicable to asic in part needs to be split up and run part asic, part cpu, with complex data mgmt and glue code added in.
+%% \item We avoid all 3 problems w/ gen-purp + compiler from high-level lang
+%% \item Revisit arguments about scale + flywheel of aggregating optimizations and shifting to better tech process? sustainability?
+%% \end{compactenum}

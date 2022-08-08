@@ -225,205 +225,212 @@
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "dmm_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "dmm_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "dmm_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "dmm_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "dconv_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "dconv_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "dconv_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "dconv_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "smv_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "smv_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "smv_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "smv_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "smm_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "smm_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "smm_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "smm_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "sconv_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "sconv_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "sconv_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "sconv_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "sort_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "sort_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "sort_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "sort_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "fft_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "fft_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "fft_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "fft_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "bfs_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "Vector",
+				"label": "",
 				"stack": "bfs_vector"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "SNAFU",
+				"label": "",
 				"stack": "bfs_snafu"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "bfs_riptide"
 			}
 		],
 		[
 			{
 				"src": "../data/loc.json",
-				"label": "Scalar",
+				"label": "",
 				"stack": "dfs_scalar"
 			},
 			{
 				"src": "../data/loc.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "dfs_riptide"
+			},
+			{
+				"x": true
+			},
+			{
+				"x": true
 			}
 		]
 	],
 	"sci_not": false,
 	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
 	"width": 10,
-	"height": 4,
+	"height": 5,
 	"rect": [0, 0, 1, 0.9],
 	"minor_spacing": 2,
 	"major_spacing": 1.5,
-	"minor_padding": 5,
-	"major_padding": 60,
+	"minor_annotate": true,
+	"major_padding": 5,
 	"barwidth": 1.1,
-	"fontsize": 16,
-	"xlim": [2, 93],
+	"fontsize": 18,
+	"xlim": [2, 96.5],
 	"ylabel": "\\# of code additions",
 	"remaining_color": "#a1dab4",
-	"remaining_label": "C-code"
+	"remaining_label": "C-code",
+	"annotate_offset": 3
 }

@@ -21,6 +21,8 @@
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{makecell}
+\usepackage{pifont}
+\usepackage[percent]{overpic}
 
 %% https://tex.stackexchange.com/questions/55664/fake-small-caps-with-xetex-fontspec
 %% https://tex.stackexchange.com/questions/364994/putting-a-matrix-inside-of-caption-gives-caption-has-an-extra
@@ -118,5 +120,12 @@ linecolor=orange,textsize=scriptsize,prependcaption]{todonotes}
 \else
 \newcommand{\graham}[1]{}
 \fi
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+\newcommand{\cmark}{\textcolor{darkgreen}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{darkred}{\ding{55}}}
+\newcommand{\hmark}{\textcolor{darkyellow}{\ding{51}}}
 
 \captionsetup{justification=raggedright,singlelinecheck=true,width=\linewidth}

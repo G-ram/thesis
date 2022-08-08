@@ -34,7 +34,16 @@
 			},
 			{
 				"src": "../data//compress/xrun/large/dmv/flow/flow/no_fin/result.json",
-				"label": "No FIN",
+				"label": "No CFiN",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/compress/dmv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data//compress/xrun/large/dmv/flow/flow/no_fin/result.json",
+				"label": "All PEs",
 				"stack": "stack4",
 				"normalize": {
 					"src": "../data/compress/dmv_fused_into_pe.json",
@@ -54,7 +63,7 @@
 		[
 			{
 				"src": "../data/compress/dmm_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/dmm_fused_into_pe.json",
@@ -64,7 +73,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/dmm_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/dmm_fused_into_pe.json",
@@ -73,7 +82,7 @@
 			},
 			{
 				"src": "../data/compress/dmm_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/dmm_fused_into_pe.json",
@@ -82,7 +91,7 @@
 			},
 			{
 				"src": "../data/compress/dmm_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/dmm_fused_into_pe.json",
@@ -93,7 +102,7 @@
 		[
 			{
 				"src": "../data/compress/dconv_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/dconv_fused_into_pe.json",
@@ -103,7 +112,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/dconv_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/dconv_fused_into_pe.json",
@@ -112,7 +121,7 @@
 			},
 			{
 				"src": "../data/compress/dconv_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/dconv_fused_into_pe.json",
@@ -121,7 +130,7 @@
 			},
 			{
 				"src": "../data/compress/dconv_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/dconv_fused_into_pe.json",
@@ -132,7 +141,7 @@
 		[
 			{
 				"src": "../data/compress/smv_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/smv_fused_into_pe.json",
@@ -141,7 +150,16 @@
 			},
 			{
 				"src": "../data//compress/xrun/large/smv/flow/flow/no_fin/result.json",
-				"label": "No FIN",
+				"label": "",
+				"stack": "stack4",
+				"normalize": {
+					"src": "../data/compress/smv_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data//compress/xrun/large/smv/flow/flow/no_fin/result.json",
+				"label": "",
 				"stack": "stack4",
 				"normalize": {
 					"src": "../data/compress/smv_fused_into_pe.json",
@@ -150,7 +168,7 @@
 			},
 			{
 				"src": "../data/compress/smv_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/smv_fused_into_pe.json",
@@ -161,7 +179,7 @@
 		[
 			{
 				"src": "../data/compress/smm_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/smm_fused_into_pe.json",
@@ -171,7 +189,15 @@
 			{
 				"x": true,
 				"src": "../data/compress/smm_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
+				"stack": "stack2",
+				"normalize": {"src": "../data/compress/smm_fused_into_pe.json",
+					"stack": "stack1"
+				}
+			},
+			{
+				"src": "../data/compress/smm_fused_into_pe.json",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/smm_fused_into_pe.json",
@@ -180,16 +206,7 @@
 			},
 			{
 				"src": "../data/compress/smm_fused_into_pe.json",
-				"label": "All PEs",
-				"stack": "stack2",
-				"normalize": {
-					"src": "../data/compress/smm_fused_into_pe.json",
-					"stack": "stack1"
-				}
-			},
-			{
-				"src": "../data/compress/smm_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/smm_fused_into_pe.json",
@@ -200,7 +217,7 @@
 		[
 			{
 				"src": "../data/compress/sconv_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/sconv_fused_into_pe.json",
@@ -210,7 +227,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/sconv_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/sconv_fused_into_pe.json",
@@ -219,7 +236,7 @@
 			},
 			{
 				"src": "../data/compress/sconv_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/sconv_fused_into_pe.json",
@@ -228,7 +245,7 @@
 			},
 			{
 				"src": "../data/compress/sconv_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/sconv_fused_into_pe.json",
@@ -239,7 +256,7 @@
 		[
 			{
 				"src": "../data/compress/sort_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/sort_fused_into_pe.json",
@@ -249,7 +266,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/sort_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/sort_fused_into_pe.json",
@@ -258,7 +275,7 @@
 			},
 			{
 				"src": "../data/compress/sort_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/sort_fused_into_pe.json",
@@ -267,7 +284,7 @@
 			},
 			{
 				"src": "../data/compress/sort_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/sort_fused_into_pe.json",
@@ -278,7 +295,7 @@
 		[
 			{
 				"src": "../data/compress/fft_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/fft_fused_into_pe.json",
@@ -288,7 +305,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/fft_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/fft_fused_into_pe.json",
@@ -297,7 +314,7 @@
 			},
 			{
 				"src": "../data/compress/fft_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/fft_fused_into_pe.json",
@@ -306,7 +323,7 @@
 			},
 			{
 				"src": "../data/compress/fft_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/fft_fused_into_pe.json",
@@ -317,7 +334,7 @@
 		[
 			{
 				"src": "../data/compress/bfs_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/bfs_fused_into_pe.json",
@@ -327,7 +344,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/bfs_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/bfs_fused_into_pe.json",
@@ -336,7 +353,7 @@
 			},
 			{
 				"src": "../data/compress/bfs_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/bfs_fused_into_pe.json",
@@ -345,7 +362,7 @@
 			},
 			{
 				"src": "../data/compress/bfs_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/bfs_fused_into_pe.json",
@@ -356,7 +373,7 @@
 		[
 			{
 				"src": "../data/compress/dfs_fused_into_pe.json",
-				"label": "RipTide",
+				"label": "",
 				"stack": "stack1",
 				"normalize": {
 					"src": "../data/compress/dfs_fused_into_pe.json",
@@ -366,7 +383,7 @@
 			{
 				"x": true,
 				"src": "../data/compress/dfs_fused_into_pe.json",
-				"label": "No FIN",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/dfs_fused_into_pe.json",
@@ -375,7 +392,7 @@
 			},
 			{
 				"src": "../data/compress/dfs_fused_into_pe.json",
-				"label": "All PEs",
+				"label": "",
 				"stack": "stack2",
 				"normalize": {
 					"src": "../data/compress/dfs_fused_into_pe.json",
@@ -384,7 +401,7 @@
 			},
 			{
 				"src": "../data/compress/dfs_fused_into_pe.json",
-				"label": "Fused",
+				"label": "",
 				"stack": "stack3",
 				"normalize": {
 					"src": "../data/compress/dfs_fused_into_pe.json",
@@ -396,14 +413,15 @@
 	"sci_not": true,
 	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
 	"width": 10,
-	"height": 4,
-	"xlim": [2, 93],
+	"height": 5,
+	"xlim": [2, 97],
+	"ylim": 3,
 	"rect": [0, 0, 1, 0.9],
 	"minor_spacing": 2,
 	"major_spacing": 1.5,
-	"minor_padding": 5,
-	"major_padding": 60,
-	"barwidth": 1.2,
-	"fontsize": 16,
+	"minor_annotate": true,
+	"major_padding": 5,
+	"barwidth": 1.1,
+	"fontsize": 18,
 	"ylabel": "Energy"
 }

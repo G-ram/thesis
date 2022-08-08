@@ -1,0 +1,120 @@
+{
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 1.4496802053097107e-07,
+            "internal": 9.881250281510397e-08,
+            "leakage": 5.571710614079998e-10,
+            "switching": 4.615551771586705e-08,
+            "total": 1.4552519159237904e-07
+        }
+    },
+    "count": 153,
+    "noc": {
+        "energy": {
+            "dynamic": 1.1359995865920002e-09,
+            "internal": 9.371912166489603e-08,
+            "leakage": 1.1359995865920002e-09,
+            "switching": 9.135488180413294e-08,
+            "total": 1.8621000305562093e-07
+        }
+    },
+    "perf": 49608,
+    "physical": {
+        "/flow_top": {
+            "energy": {
+                "dynamic": 4.9741743168e-07,
+                "internal": 3.5133080111999996e-07,
+                "leakage": 1.3694189184e-08,
+                "switching": 1.4608663056e-07,
+                "total": 5.1111221616e-07
+            },
+            "power": {
+                "dynamic": 0.000501348,
+                "internal": 0.000354107,
+                "leakage": 1.38024e-05,
+                "switching": 0.000147241,
+                "total": 0.000515151
+            }
+        },
+        "/flow_top/ALIGNER": {
+            "energy": {
+                "dynamic": 3.17020023216e-10,
+                "internal": 2.8131109343999997e-10,
+                "leakage": 2.5538496048e-12,
+                "switching": 3.5708929775999996e-11,
+                "total": 3.1957374383999996e-10
+            },
+            "power": {
+                "dynamic": 3.195251e-07,
+                "internal": 2.83534e-07,
+                "leakage": 2.57403e-09,
+                "switching": 3.59911e-08,
+                "total": 3.22099e-07
+            }
+        },
+        "/flow_top/CGRA": {
+            "energy": {
+                "dynamic": 3.30042024e-07,
+                "internal": 1.9253162448e-07,
+                "leakage": 1.693170648e-09,
+                "switching": 1.3751039952e-07,
+                "total": 3.3173464896e-07
+            },
+            "power": {
+                "dynamic": 0.00033265,
+                "internal": 0.000194053,
+                "leakage": 1.70655e-06,
+                "switching": 0.000138597,
+                "total": 0.000334356
+            }
+        },
+        "/flow_top/CORE": {
+            "energy": {
+                "dynamic": 1.26605172096e-08,
+                "internal": 1.1578507199999999e-08,
+                "leakage": 6.4850256432e-10,
+                "switching": 1.0820100096e-09,
+                "total": 1.3309032671999998e-08
+            },
+            "power": {
+                "dynamic": 1.276056e-05,
+                "internal": 1.167e-05,
+                "leakage": 6.53627e-07,
+                "switching": 1.09056e-06,
+                "total": 1.34142e-05
+            }
+        },
+        "/flow_top/INSN_DATA_CONFLICT": {
+            "energy": {
+                "dynamic": 1.0578975451199999e-12,
+                "internal": 2.9224370448e-13,
+                "leakage": 4.506390719999999e-15,
+                "switching": 7.656538406399999e-13,
+                "total": 1.0624049280000001e-12
+            },
+            "power": {
+                "dynamic": 1.0662569999999999e-09,
+                "internal": 2.94553e-10,
+                "leakage": 4.542e-12,
+                "switching": 7.71704e-10,
+                "total": 1.0708e-09
+            }
+        },
+        "/flow_top/MM": {
+            "energy": {
+                "dynamic": 1.54396913112e-07,
+                "internal": 1.4693889599999998e-07,
+                "leakage": 1.1348623728e-08,
+                "switching": 7.458017112e-09,
+                "total": 1.6574528879999998e-07
+            },
+            "power": {
+                "dynamic": 0.00015561695,
+                "internal": 0.0001481,
+                "leakage": 1.14383e-05,
+                "switching": 7.51695e-06,
+                "total": 0.000167055
+            }
+        }
+    }
+}

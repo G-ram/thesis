@@ -1,0 +1,80 @@
+\section{RipTide Overview}
+\label{sec:overview}
+
+% \figRipTideSystem
+
+\riptide is a compiler and microarchitecture for ultra-low-power, energy-minimal CGRAs.
+%
+At its core is an ISA (\autoref{sec:cf}) that supports arbitrary control flow without expensive associative tag matching.
+% 
+The compiler (\autoref{sec:compiler}) transforms programs written in high-level C into dataflow graphs using this ISA.
+% 
+It also enforces memory ordering and optimizes programs by fusing loop induction variables into single stream operators.
+% 
+\riptide's CGRA fabric efficiently executes compiled programs (\autoref{sec:arch}).
+% 
+It minimizes switching activity by assigning a single operation per PE.
+% 
+Additionally, it reuses hardware in the NoC to implement control-flow operations without wasting PE resources.
+% 
+\riptide improves energy efficiency / performance
+by 25\% / 17\% v.\ prior
+energy-minimal CGRAs~\cite{snafu} and by 6.6$\times$ / 6.2$\times$
+v.\ a ULP scalar core.
+
+% \paragraph{\riptide's control-flow paradigm minimizes energy.}
+% \riptide introduces a new control-flow paradigm, discussed in \autoref{sec:cf}, that supports arbitrary programs without expensive tag-token matching hardware.
+% 
+% Specifically, \riptide adopts a steering ($\phi^{-1}$) control-flow model, which minimizes energy by gating disabled paths so that values are only sent where they will be actually used.
+% 
+% \riptide introduces the \emph{carry gate}, a new control-flow operator that supports nested loops without tags,
+% as well as other operations to maintain memory and cross-iteration orderings efficiently.
+% 
+%% The carry gate maintains order between and across loop nests (eliminating the need to tag values) without eliminating the parallelism important to performance.
+
+% \paragraph{\riptidecomp compiles arbitrary C-code to energy-minimal and performant CGRA configurations.}
+%
+% \riptide's compiler (\autoref{sec:compiler}) leverages LLVM~\cite{llvm} and several
+% custom compiler passes to convert arbitrary programs to dataflow
+% graphs schedulable onto \riptide's CGRA hardware.
+%
+% \riptidecomp supports steering control and introduces a novel
+% memory-ordering analysis to enforce load-store ordering with low
+% overhead.
+% 
+% Additionally, \riptidecomp applies several optimizations to dataflow
+% graphs, including operation fusion (e.g., ``streamifying'' affine loops by fusing loop headers)
+% to reduce operation count, improve performance, and ease mapping operations onto the fabric.
+
+%% nzb: de-emph CGRA-generator
+%% 
+%% \paragraph{\riptideframe generates ULP CGRAs that run arbitrary programs}
+%% \riptideframe (\autoref{sec:arch}) extends the framework from \snafu ~\cite{snafu} to support the execution of arbitrary programs.
+%% % 
+%% This means modifying the NoC to support control flow, adding new processing elements to support control-flow and streaming operations, and making the framework even more flexible by allowing PEs to specify an arbitrary number of inputs and outputs.
+%% % 
+%% By building \snafu's framework, \riptideframe maintains ULP, energy-minimal operation, while supporting arbitrary programs.
+
+% \paragraph{\riptide's CGRA microarchitecture minimizes switching activity.}
+%
+% \riptide's CGRA microarchitecture prioritizes energy efficiency above all other metrics.
+%
+% It adopts and improves techniques from prior work~\cite{snafu} to
+% reduce switching activity and minimize fabric energy:
+%
+% e.g., mapping exactly one operation per PE,
+% tagless dataflow firing,
+% and statically routing values in a bufferless NoC.
+
+% \paragraph{Offloading control flow to the NoC enables complex programs on small CGRA fabrics with negligible hardware overhead.}
+% \riptidearch supports control-flow operations directly in the NoC by reusing existing NoC hardware.
+% 
+% Control-flow operations are simple, but numerous.
+% 
+% This means that allocating them to entire PEs is unnecessary and wasteful
+% --- programs are often unmappable if control-flow operations require PEs.
+% 
+% Instead, \riptide implements these operations directly in NoC routers by reusing existing switch crossbars,
+% which already perform most of the required logic.
+% % 
+% This allows more sophisticated programs to be mapped on smaller fabrics at a lower energy cost (\tmp{XX}\%).\nzb{What is this number supposed to be a comparison of? Maybe don't need this sentence unless there's a clean experiment we're referencing.}

@@ -1,0 +1,68 @@
+\documentclass[conference,letterpaper]{IEEEtran}
+\input{headers}
+\input{floats}
+
+% Ensure letter paper
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
+
+\pagenumbering{arabic}
+\graphicspath{{figures/}}
+
+\fancypagestyle{firstpage}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyhead[C]{\normalsize{\em Confidential draft --- Do not distribute!}} 
+  \fancyfoot[C]{\thepage}}
+
+\newcommand{\wave}{\includegraphics[height=12pt]{figures/pdf/wave-crop}\hspace{0.5in}}
+\title{\wave{\riptideraw}\reflectbox{\wave}\\\resizebox{\linewidth}{!}{A programmable, energy-minimal dataflow compiler and architecture}\vspace{-.5em}}
+\author{
+  \resizebox{\linewidth}{!}{%
+    \Large Graham Gobieski,$^*$ Souradip Ghosh,$^*$ Marijn Heule,$^*$ Todd Mowry,$^*$ Tony Nowatzki,$^\dagger$ Nathan Beckmann,$^*$ Brandon Lucia$^*$}
+  \\[2pt]
+  \normalsize $^*$ Carnegie Mellon University \qquad $^\dagger$ University of California at Los Angeles
+  \\[1pt]
+  \normalsize \sf \{gobieski, souradip\}@cmu.edu \quad tjn@cs.ucla.edu \quad \{mheule, tcm, beckmann\}@cs.cmu.edu \quad blucia@andrew.cmu.edu
+  \\
+  \mbox{}
+}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{firstpage}
+\pagestyle{firstpage}
+%% \pagestyle{plain}
+  
+\begin{abstract}
+  \input{0_abstract.tex}
+\end{abstract}
+
+\begin{IEEEkeywords}
+  Energy-minimal, ultra-low-power, programmable, general-purpose, reconfigurable, CGRA, dataflow, compiler.
+\end{IEEEkeywords}
+
+\input{1_intro.tex}
+\input{2_background.tex}
+\input{3_overview.tex}
+\input{4_cf.tex}
+\input{5_compiler.tex}
+\input{6_arch.tex}
+\input{7_fin.tex}
+\input{8_method.tex}
+\input{9_eval.tex}
+\input{A_implications.tex}
+% \input{B_conclusion.tex}
+\input{C_acks.tex}
+
+%% \clearpage
+\bibliographystyle{IEEEtranS}
+\bibliography{refs,confs}
+
+\clearpage
+\input{D_appendix.tex}
+%% \input{micro_rebuttal.tex}
+
+\end{document}
+

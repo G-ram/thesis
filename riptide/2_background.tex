@@ -1,0 +1,614 @@
+\section{Background}
+\label{sec:background}
+
+\tabRipTideSnippets
+
+\riptide is motivated by emerging energy-constrained sensing applications.
+%
+CGRAs avoid inefficiencies of von Neumann cores,
+but prior CGRAs have limited programmability or efficiency.
+%
+This section motivates \riptide's contributions in the context of prior work.
+
+\subsection{Context: Computing at the extreme edge}
+
+Long-lived, sensor-based applications (e.g., wilderness monitoring, public safety, tiny
+satellites)~\cite{snapl2017,denby2020orbital} run on batteries or harvested
+energy and are often inaccessible once deployed.
+%
+These energy sources impose a tight design constraint;
+e.g., an amortized power budget of 65\,\textmu W with a AA battery
+over five years.   
+%
+Given the high energy cost of off-device communication,
+sensor devices should process data \emph{locally} to capitalize
+on their limited energy~\cite{sonic}.
+%% On-device processing is highly beneficial in these applications to
+%% avoid the high energy consumption of off-device communication.
+%
+%Off-device communication takes orders-of-magnitude more energy than computing locally,
+%creating a strong incentive for on-device processing of sensor data~\cite{sonic}.
+%
+%% The key advantage of co-locating efficient compute hardware with
+%% sensors is the ability to operate an application largely without a
+%% reliable radio link to send data to the cloud.
+%
+%computation must consume
+%minimum energy.
+%
+%% maximizing the energy benefit of eliminating
+%% radio communication.
+%
+%% Efficiency extends deployment lifetime in battery-powered
+%% applications, and efficiency corresponds to responsiveness and
+%% performance in energy-harvesting applications~\cite{phase-cal, manic,
+%%   sonic, snafu}.
+%
+%Computing must also be fast to meet performance requirements.\brandon{this statement feels a little do-nothing; performance is going fast.  maybe we need to be more specific?  latency or throughput requirements? it is actually somewhat complicated why we care about performance in ULP -- can be response time, can be sensor rate deadline, can be linked to even frequency in environment, perhaps other factors, too.}
+%% , so efficiency cannot be achieved by dropping
+%% voltage far into the subthreshold regime.
+%
+%% Moreover, due to the diversity and rapid evolution in these
+%% applications, general-purpose programmability is important to future-proof
+%% devices against application changes during their multi-year deployment.
+
+On-device compute efficiency thus has a significant impact on device
+value, but unfortunately existing architectures fail to meet the needs
+of these applications.
+%
+Application-specific integrated circuits (ASICs) offer high compute
+efficiency, but are too inflexible for most long-lived
+energy-constrained applications because they cannot adapt as
+applications change~\cite{hotmobile2021}.
+%
+Moreover, ASIC efficiency comes at a high, upfront cost in design,
+verification, and manufacturing, limiting their applicability to a few
+stable workloads.
+
+Alternatively, programmable cores offer flexibility, but burn most energy
+(upwards of 90\%)
+on instruction fetch, pipeline control, and register-file access.
+%
+Luckily, this inefficiency is not fundamental.
+%
+Real programs have abundant instruction and data locality that von
+Neumann cores exploit poorly, as instructions share an execution
+pipeline and communicate through a register file.
+%
+%% (Instruction and data caches do not address inefficiencies \emph{within the core.})
+%
+Exploiting this locality is the key to reconciling efficiency and programmability.
+
+%% - context
+%% - von neumann bad
+
+%% - cgra good
+%%   - spatial distribution is the key (connect to locality lost in von neumann)
+%%     - SNAFU????
+%%   --> need to run everything on cgra
+%%   - in particular, weird nested loops, irregular mem acc, etc
+%%   - can't hop back and forth to core (core bad)
+
+\subsection{CGRAs can dramatically improve efficiency}
+
+CGRA architectures~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx,torng2021ultra}
+are designed with this locality in mind and
+can reduce energy v.\ a von Neumann core by a large factor.
+%
+The key to CGRA efficiency is \emph{spatial distribution} of compute and communication.
+%
+Rather than time-multiplex all instructions on a shared pipeline,
+which significantly increases switching activity~\cite{snafu},
+CGRAs spatially distribute instructions across processing elements (PEs).
+%
+Rather than send values through a register file,
+PEs communicate them via on-chip network (NoC).
+
+% \paragraph{CGRAs come in all shapes and sizes}
+% Most CGRAs are designed as
+% co-processors alongside a core~\cite{tan2018stitch,hauser1997garp,beret,seed,adres,charm,camel,goldstein2000piperench,plasticine,wave,gorgon,capstan,q100,nowatzki:isca17:stream-dataflow,weng2020hybrid,dadu2019towards,polygraph,taskstream,voitsechov2014single,nguyen2021fifer,morphosys,ppa,fpca},
+% but they can be
+% components of a processor pipeline~\cite{dyser,dynaspam,chimera}
+% or memory hierarchy~\cite{livia,oskin:isca98:active-pages,schwedock:isca22:tako}.
+
+\paragraph{CGRA applicability limits efficiency.}
+Hence, to minimize energy, one would ideally run an entire program on the CGRA.
+%
+Two considerations prevent this.
+%
+First, any unsupported computations (e.g., outer loops, irregular memory access)
+must run on the core, creating a Amdahl bottleneck on end-to-end
+efficiency.
+%
+Second, large computations cannot fit on CGRA and must be broken
+into smaller ones, with intermediate values spilled to scratchpads or main memory.
+%% Infrequently executed blocks are often executed
+%% on the core.
+
+%% - systolic cgra bad
+%%   - regular code only
+%%   - great efficiency but too limited
+%% - why are systolic so limited?
+%%   - they are targetting perf
+%%     - metrics: perf / area, initiation interval
+%%     - weird outer loops and irregular memory accs are fundamentally terrible for these goals
+%%     --> not a good fit
+
+\subsection{Limitations of prior CGRAs}
+
+Prior CGRAs mostly target loop nests with easily analyzable, regular control;
+see the examples in \autoref{tab:background}.
+%
+Especially in the ultra-low-power (ULP) domain, 
+most CGRAs are ``systolic,'' i.e., statically
+scheduled with fixed operation latencies.
+
+\paragraph{Why only simple control?}
+Like nearly all processors, prior CGRAs primarily \emph{maximize
+performance} under an area or power budget.
+%
+Key CGRA metrics have been PE utilization and initiation interval
+(i.e., cycles between the start of consecutive loop iterations).
+%
+For this reason, it does not make sense for most CGRAs to support
+outer loops with low utilization
+or irregular loops and memory accesses that require expensive hardware to maintain performance.
+%
+Resources are better spent on unrolling regular inner loops to improve performance. % that maximize performance per area.
+%% especially since regular, dense computations constitute a large fraction
+%% of program execution.
+
+%%   - exceptions prove the rule
+%%     - revel, recognizes problem and tries to solve w hybrid arch
+%%     - extensive programmer annotations needed
+%%     - still focused on perf/area, utilization, still limited scope
+
+Revel~\cite{weng2020hybrid} and ultra-elastic CGRAs~\cite{torng2021ultra} stand out from prior work in recognizing and partially addressing these limitations (\autoref{tab:background}).
+% Prior work has partially recognized and addressed these limitations.
+% 
+Revel~\cite{weng2020hybrid} supports outer loops with a hybrid architecture that maps tight inner loops to a systolic array and outer loops to a tagged-token dataflow fabric.
+% 
+Ultra-elastic CGRAs~\cite{torng2021ultra} accelerate singly nested irregular loops through a ratiochronous clocking scheme.
+% 
+Despite this added support, these designs are still limited to a subset of common program idioms and target a different, performance-oriented domain than \riptide.
+% , these design target a different, performance-oriented domain v. \riptide and still only support a subset of program patterns.
+% 
+% \riptide, on the other hand, supports entire functions and targets energy-efficiency not performance,
+% 
+% is designed to maximize system energy-efficiency by executing entire functions on its fabric.
+% They also offer uneven improvements --- across a small set of benchmarks UE-CGRAs are $0.8-1.5\times$ as energy-efficient as an in-order scalar core.
+
+% Revel~\cite{weng2020hybrid} recognizes the outer-loop problem and develops a hybrid dataflow architecture.
+% % 
+% It maps tight inner-loops to a systolic array and assigns outer-loop operations to a tagged-token dataflow fabric.
+% % 
+% Revel maximizes area-normalized performance, but it supports only a subset of operations that it can parallelize well
+% and it requires several programmer annotations.
+
+% Ultra-elastic CGRAs~\cite{torng2021ultra} tackle the problem of (singly-nested) irregular loops.
+% % 
+% They implement a ratiochronous clocking scheme that boosts the performance of critical paths, while saving energy on non-critical paths.
+% % 
+% However, these benefits are limited to programs with singly-nested loops and are uneven --- across a small set of benchmarks UE-CGRAs are $0.8-1.5\times$ as energy-efficient as an in-order scalar core.
+
+\paragraph{Relevance to \riptide: Energy is our goal, not performance.}
+%
+\riptide is designed to \emph{minimize energy}.
+%
+Many choices in \riptide only make sense in this context.
+%
+Extreme efficiency requires offloading as much of programs as possible onto the CGRA.
+% 
+% To achieve the extreme efficiency required of ULP applications,
+% it is important to offload as much of programs as possible onto the CGRA.
+%
+Tricks like loop unrolling do not save energy; in fact, they
+can \emph{cost} energy by running more instructions on the core
+(e.g., for outer loops or setup).
+%
+
+Hence, \emph{energy-minimal CGRAs need to support
+arbitrary control flow and memory access patterns,}
+%
+but they must do so while maintaining high energy efficiency.
+%
+This means they cannot add expensive microarchitectural mechanisms
+or significantly increase program size.
+%
+\emph{\riptide reconciles these conflicting goals by offloading most control
+operations to its NoC,} where they reuse existing circuitry
+and do not consume scarce PEs.
+
+\snafu~\cite{snafu} is a recent framework for generating
+energy-minimal CGRAs.
+%
+\snafu adopts many microarchitectural techniques to save energy,
+but requires vector assembly and is thus limited to simple control flow (\autoref{tab:background}).
+%
+\riptide targets the same domain and uses \snafu as its baseline design.
+
+%% - other options: classic dataflow
+%%   - get rid of core, everything is dataflow! run everything!
+%%   - but heavily time multiplexed --> lose systolic energy benefits
+%%   - optimizing perf --> out-of-order execution or massive memory-level parallelism --> expensive uarch mechanisms like tagged tokens, large fifos
+%% - riptide is neat
+%%   - like classic dataflow, trying to run all kinds of programs
+%%   - like classic cgra, spatially distributes operations for energy efficiency
+%%   - ordered dataflow
+%%   - steering control flow
+
+\subsection{Dynamic dataflow architectures}
+
+Closely related to CGRAs are classic dynamic dataflow architectures.
+% 
+These designs also express programs as a dataflow graph of dependent operations, but, unlike CGRAs, are designed as a \emph{replacement} for cores, not a co-processor.
+%
+They thus support arbitrary, complex control
+%
+and, to support large programs, they store the dataflow graph in memory and execute it on a shared execution pipeline~\cite{swanson2003wavescalar,ttda,monsoon,dennis1975preliminary}.
+%
+In this respect, they resemble von Neumann cores, and unfortunately lose much of the energy benefits of CGRAs' spatial distribution.
+
+Some dataflow architectures have combined spatial and temporal execution~\cite{trips,raw,swanson2003wavescalar,mishra2006tartan,parashar2013triggered,voitsechov2014single,voitsechov2018inter} (see, e.g., Wavescalar in ~\autoref{tab:background}).
+%
+These performance-oriented designs require expensive microarchitectural mechanisms
+to maintain performance with highly variable memory latency
+(e.g., associative tag matching due to operand re-ordering, or large on-chip buffers to hide latency with memory-level parallelism).
+
+\paragraph{Relevance to \riptide: Balancing generality and efficiency.}
+%
+\riptide also targets executing arbitrary code written in high-level languages.
+%
+But to maintain energy efficiency, \riptide spatially distributes instructions
+and avoids expensive microarchitectural mechanisms.
+%
+In particular, \riptide employs \emph{ordered-dataflow} scheduling,
+which tolerates variable latency
+and also avoids tag matching by disallowing
+out-of-order execution so that inputs are always matched on arrival.
+%
+Ordered dataflow potentially loses performance v.\ out-of-order
+execution, but, again, \riptide focuses on energy.
+%
+(Regardless, the performance loss is small at ULP scale because main memory
+fits in a single cycle.)
+
+Moreover, like other dataflow
+architectures~\cite{swanson2003wavescalar,dataflow-a-complement,mishra2006tartan,beret,seed,dennis1975preliminary},
+\riptide adopts a \emph{steering} control paradigm ($\phi^{-1}$), where
+values are routed only to dependent operations.
+%
+Steering minimizes energy because values are only sent where they
+are actually needed,
+unlike predication or selection ($\phi$) control used
+in some CGRAs~\cite{trips,snafu}.
+% \brandon{I kind of liked the gentle break down of steering v predication v selection that was here before.  i think this version assumes the reader knows the area a bit more than the old version, which may be fair enough given our reviewers}.
+%
+However, since loop iterations may take different paths through
+control flow, steering risks token re-ordering, which
+would lead to incorrect results in \riptide's ordered-dataflow model.
+%
+\riptide's compiler guarantees correct ordering by inserting ordering
+operations where necessary.
+
+%% - dimensions of cgra architecture
+
+\subsection{Dimensions of CGRA architecture}
+There are many dimensions of CGRA architecture that affect energy-efficiency, throughput, and programmability.
+% 
+\riptide is carefully designed along each dimension to reduce energy and maximize programmability.
+
+% \paragraph{Dataflow paradigm}
+% Ordered, tagged, systolic - space + space \& time
+
+\paragraph{Programming interface.}
+CGRAs can be programmed in many different ways.
+% 
+Some~\cite{snafu,dally:ieee08:elm} expose low-level interfaces that require expert knowledge.
+% 
+Others~\cite{plasticine} develop domain-specific languages~\cite{sujeeth2014delite} that simplify compilation and the architecture, but also limit the scope of supported applications.
+% 
+Still others take a more general-purpose approach~\cite{swanson2003wavescalar},
+compiling from languages originally developed for CPUs.
+% , compiling from languages like C.
+% 
+\riptide takes this approach to maximize programmability.
+We choose to compile from C because C is popular in embedded applications.
+
+\paragraph{PE type(s).}
+CGRAs offer a wide range of designs choices, including PE
+operation set, PE complexity, and NoC.
+%
+A CGRA's PEs typically support arithmetic, logic, memory accesses,
+%
+or more specialized functionality~\cite{snafu,weng2020dsagen,dadu2019towards,q100,gorgon,capstan,polygraph,taskstream}.
+%
+PEs may be homogeneous or heterogeneous; the latter is more area- and
+energy-efficient, but creates a combinatorially large design space~\cite{revamp}.
+%
+\riptide is a heterogeneous design, with PEs specialized for
+arithmetic and memory.
+%
+One could view \riptide's programmable NoC routers
+as specialized PEs that support only control operations.
+
+%%   - mapping is hard
+%%     - esp. if latency is variable
+%%     - esp. if tons of control ops are added
+\paragraph{Mapping is hard.}
+Like hardware synthesis, a CGRA compiler must find a layout of
+operations that fits within fabric resources with valid routes between
+all producers and consumers.
+%
+In a performance-focused CGRA, the compiler must also reason
+about timing to maximize utilization and minimize
+initiation interval~\cite{pathseeker,chordmap,lee2021ultra,himap,4dcgra,amp2020,ureca,balasubramanian2018laser,pager2015software,hamzeh2012epimap,karunaratne2018dnestmap}.
+% 
+This analysis is further complicated by control flow (e.g., branching) and operations with variable latencies (e.g., memory operations).
+%
+With such a large search space, optimization-based methods often
+do not converge in a reasonable time~\cite{hybrid-sched,nowatzki2013general} and heuristic approaches can yield poor results.
+% 
+% Recent work proposed graph convolutional networks as a
+% solution~\cite{mirhoseini2020chip}.
+
+\riptide's focus on energy also helps with mapping.
+% 
+Non-heuristic methods like SAT and integer linear programming (ILP) are feasible in \riptide
+%
+because its compiler need not reason about timing or utilization,
+greatly simplifying mapping.
+%
+\riptide can also offload control-flow operations to its NoC, freeing up scarce PEs for the mapper to use for other operations.
+
+
+
+\paragraph{CGRA memory-ordering model.}
+
+A CGRA design must ensure correct memory-operation ordering.
+%
+% In the ordered-dataflow model targeted by \riptide, the goal is identifying
+% aliasing memory references and inserting a minimum of ordering
+% operations to guarantee correctness with low overhead.
+%
+% Alias analysis enables the compiler to order aliasing memory operations that
+% could otherwise be re-ordered (e.g., by divergent control flow on consecutive
+% loop iterations).
+%
+Some CGRAs and dataflow designs enforce total memory ordering or intra-thread
+ordering~\cite{swanson2003wavescalar, voitsechov2014single}, and work on optimized 
+ordering has been limited to small, acyclic DFGs with help from hardware disambiguation~\cite{nachos}.
+%
+\riptide's compiler uses a new path-sensitive ordering graph reduction analysis
+that reduces ordering overheads for arbitrary cyclic DFGs and ensures correctness 
+in \riptide's execution model.
+%% \vspace{1in}
+
+%% \subsection{Motivation: CGRAs can be efficient}
+
+%% CGRA architectures~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx} spatially arrange 
+%% processing elements (PEs), connected by an on-chip network (NoC).
+%% %
+%% A PE consumes inputs and produces outputs 
+%% consumed by other PEs, forming pipelines corresponding to 
+%% program dataflow.
+%% %
+%% %
+%% CGRA efficiency derives from avoiding control and data-movement overheads.
+%% %% \brandon{Come to think of it, we probably also want to run down ELM, manic, and friends here, too, saying that these vN designs aren't great for programming and efficiency reasons}
+%% %
+%% A CGRA avoids control overheads by mapping an operation to a PE, avoiding the
+%% need for instruction fetch and decode.
+%% %
+%% A CGRA mitigates data movement overheads by avoiding large register
+%% files, instead moving operands directly from a
+%% producer PE to consumer PEs.
+
+%% \paragraph{CGRA design space.}
+%% A wide variety of CGRA architectures target different domains.
+%% %
+%% CGRAs exist as standalone cores~\cite{trips,raw,swanson2003wavescalar,mishra2006tartan},
+%% co-processors~\cite{tan2018stitch,hauser1997garp,beret,seed,adres,charm,camel,goldstein2000piperench},
+%% components of a processor pipeline~\cite{dyser,dynaspam,chimera}
+%% or memory hierarchy~\cite{livia,oskin:isca98:active-pages,schwedock:isca22:tako},
+%% or as accelerators~\cite{plasticine,wave,gorgon,capstan,q100,nowatzki:isca17:stream-dataflow,weng2020hybrid,dadu2019towards,polygraph,taskstream,voitsechov2014single,nguyen2021fifer,morphosys,ppa,fpca}.
+%% %
+%% CGRAs offer a wide range of designs choices, including PE
+%% operation set, PE complexity, and NoC.
+%% %
+%% A CGRA's PEs typically support arithmetic, logic, memory accesses,
+%% %
+%% and specialized functionality~\cite{snafu,weng2020dsagen,dadu2019towards,q100,gorgon,capstan,polygraph,taskstream}.
+%% %
+%% PEs may be homogeneous or heterogeneous; the latter is more area- and
+%% energy-efficient, but creates a combinatorially large design space~\cite{revamp}.
+
+%% \paragraph{Scheduling operations.}
+%% For regular applications, a compiler can statically time and route operations in a fabric
+%% often called a \emph{systolic array}.
+%% %
+%% For irregular applications, CGRAs often adopt \emph{dynamic dataflow firing},
+%% where an operation issues once its inputs arrive.
+%% %
+%% However, matching inputs is challenging, especially in high-performance designs
+%% with out-of-order execution~\cite{swanson2003wavescalar,ttda,monsoon,parashar2013triggered}.
+%% %
+%% Out-of-order token matching requires token tags in associative memories, which must
+%% be large enough to avoid deadlock, incurring a high energy cost.
+%% %\souradip{E maybe doesn't like this. "challenging, especially", "high energy cost"}
+%% %BML: I think this one doesn't cross the emotion threshold
+%% %
+%% To mitigate these overheads, Revel~\cite{weng2020hybrid} combines systolic and
+%% tagged dataflow in a single, heterogeneous fabric.
+%% %
+%% \emph{Ordered dataflow} entirely avoids tag matching by disallowing
+%% out-of-order execution so that inputs are always matched on arrival.
+%% %
+%% But ordered-dataflow designs must guarantee that the effects of re-ordered
+%% operations are never observable, which is particularly challenging in \riptide's
+%% steering control paradigm, which we describe below. 
+%% %which is significantly more flexible, allowing more code to be run on the CGRA. 
+%% %
+
+%% \paragraph{Performance v.\ energy.}
+%% Like nearly all processors,
+%% prior CGRAs primarily \emph{maximize performance} under
+%% an area or power budget.
+%% %
+%% As such, key CGRA metrics have been PE utilization and initiation interval
+%% (i.e., cycles between the start of consecutive loop iterations).
+%% %
+%% In contrast, \riptide \emph{minimizes energy} with performance as a secondary
+%% benefit deriving from the inherent parallelism in a CGRA.
+%% %
+%% Many design choices in \riptide only make sense in this context of energy minimization.
+
+%% \snafu~\cite{snafu} is a recent framework for generating
+%% {energy-minimal} CGRAs.
+%% %
+%% %% \snafu is designed to minimize ener
+%% %% energy efficiency.
+%% %
+%% To minimize switching activity and buffering in the fabric, \snafu
+%% maps a single operation to each PE and statically routes values
+%% between PEs.
+%% %
+%% \snafu also uses tagless ordered dataflow.
+%% %
+%% These design choices reduce energy compared to performance-focused CGRAs.
+%% %
+%% \riptide targets the same domain, and uses \snafu as its baseline design.
+
+%% %% Moreover, \snafu provides a generic PE interface that makes it
+%% %% easy to selectively specialize the CGRA at design time
+%% %% by adding custom PEs for important operations.
+%% %% %
+%% %% Evaluated in an industrial sub-28nm FinFET process, \snafu
+%% %% improves energy efficiency by 5$\times$ v.\ a simple von Neumann core
+%% %% and comes within $3\times$ of equivalent ASICs.
+
+%% \subsection{Challenge: Compiling to CGRA}
+%% % \paragraph{CGRA compilation.}
+%% %
+%% Compiling to a CGRA is challenging.
+%% %
+%% Like hardware synthesis, the compiler must find a layout of
+%% operations that fits within fabric resources with valid routes between
+%% all producers and consumers.
+%% %
+%% In a performance-focused CGRA, the compiler must also reason
+%% about time to maximize utilization and minimize
+%% initiation interval~\cite{pathseeker,chordmap,lee2021ultra,himap,4dcgra,amp2020,ureca,balasubramanian2018laser,pager2015software,hamzeh2012epimap,karunaratne2018dnestmap}.
+%% %
+%% With such a large search space, optimization-based methods often
+%% do not converge in a reasonable time~\cite{hybrid-sched,nowatzki2013general}.
+%% %
+%% Most CGRA compilers use heuristics~\cite{opencgra,revamp,park2008edge,mei2002dresc,dora,nowatzki2013general,hybrid-sched,weng2020dsagen} that can 
+%% fail, take an excessive amount of time, or produce poor mappings.
+%% %
+%% Recent work proposed graph convolutional networks as a
+%% solution~\cite{mirhoseini2020chip}.
+
+%% %% Control flow further complicates compilation because it introduces
+%% %% many new operations to a computation's dataflow graph,
+%% %% making mapping even more challenging.
+%% %% %
+%% %% Many prior CGRAs assume simple, regular control (e.g., affine inner
+%% %% loops) and build simple iterators directly into
+%% %% the CGRA fabric~\cite{tons,of,stuff}.
+%% %% %
+%% %% This approach greatly simplifies control and reduces operation count,
+%% %% but it limits the complexity of computations that can be run on the
+%% %% CGRA, forcing more work onto inefficient cores (e.g., outer loops).
+%% %% %
+%% %% \snafu in particular suffers from this inefficiency and wastes
+%% %% significant energy on outer loops.
+
+%% Unlike these prior compilers for which an optimization-based approach is
+%% infeasible, \riptide's compiler can use either SAT-based or ILP-based mappers to find a valid mapping.
+%% %
+%% Optimization-based mapping is tractable because \riptide's compiler need not reason
+%% about timing or utilization.
+%% %
+%% The problem is additionally simplified because \riptide offloads control flow
+%% operations to hardware in the NoC, reducing pressure on PEs and making it
+%% easier to find an acceptable mapping.
+
+%% \paragraph{Control flow in dataflow architectures}
+%% The CGRA's control-flow model also affects compilation.
+%% % 
+%% There are three competing control-flow models for dataflow execution:
+%% predication, selection ($\phi$), and steering ($\phi^{-1}$).
+%% % 
+%% In general, each has benefits and drawbacks.
+%% %
+%% We observe that in \riptide's energy-constrained context, steering is best because it avoids
+%% routing values to the not-taken branch paths, which we explain next.
+
+%% %Predication routes values unnecessarily.
+%% Predication converts code with conditionals into straightline code, simplifying execution and making predication appealing for GPU and vector architectures~\cite{avx,hennessy2011computer}.
+%% %
+%% In predication, only the taken side of a branch fully executes, while the not-taken side partially executes, passing the enabled side's result through to consumers.
+%% %
+%% Predication is simple in a CGRA because a token arrives on every path,
+%% ordering operands, but only at a high performance and enegy cost, because
+%% values flow through the not-taken path.
+%% % 
+%% %% These drawbacks make predication unattractive for the energy-minimal domain.
+%% %
+%% \snafu uses predication and consequently supports only simple, affine loops
+%% (disallowing back-edges).
+
+%% %\paragraph{Selection ($\phi$) burns energy on paths not taken.}
+%% %% Selection is another control-flow paradigm not suitable to the ULP domain.
+%% % 
+%% Selection ($\phi$) fully executes both sides of a branch, choosing one side's
+%% result at a mux based on the branch decider.
+%% %
+%% Selection evaluates the both sides of the branch and its condition 
+%% speculatively in parallel, making selection common in performance-oriented CGRAs.
+%% % 
+%% However, selection wastes energy by throwing away work.
+
+%% Steering ($\phi^{-1}$) is the most energy efficient control flow option.
+%% %
+%% Steering routes tokens to only the taken side of a branch based on the branch's
+%% decider.
+%% %
+%% Steering serializes the execution of the branch's taken side its decider, but
+%% does not execute its not-taken side.
+%% %
+%% Steering featured in the original dataflow paper~\cite{dennis1975preliminary}
+%% and other dataflow machines~\cite{swanson2003wavescalar,dataflow-a-complement,mishra2006tartan,beret,seed}.
+%% % 
+%% %
+
+%% \riptide uses steering to minimize energy, never executing not-taken conditional
+%% paths.
+%% %as steering never fires unneeded operations.
+%% %
+%% However, since loop iterations may take different paths through
+%% control flow, steering risks token re-ordering, which
+%% would lead to incorrect results in \riptide's ordered-dataflow model.
+%% %
+%% \riptide's compiler guarantees correct ordering by inserting ordering operations
+%% where necessary. 
+
+%% \subsection{Solution: \riptide v.\ prior work}
+%% \riptide is our solution to the requirements of the ULP domain and the need for general-purpose programmability.
+%% %
+%% % \autoref{tab:snippets} shows that \riptide stands out v.\ prior work.
+%% It stands out from prior work as shown in \autoref{tab:snippet}.
+%% % 
+%% In particular, \riptide targets energy-efficiency and supports a wide-variety of program constructs directly from C.
+%% % 
+%% Some CGRAs like HyCube~\cite{karunaratne2017hycube} (also related compilation schemes like~\cite{pathseeker,chordmap,lee2021ultra,himap,4dcgra,amp2020,ureca,balasubramanian2018laser,pager2015software,hamzeh2014branch,hamzeh2012epimap,karunaratne2018dnestmap}) target performance, only support simple affine loop-nests, have limited or no support for conditional execution, and require spatial and temporal scheduling of operations.
+%% % 
+%% Other CGRAs like Revel~\cite{weng2020hybrid} (or~\cite{plasticine}) support a wider variety of programs, but are still limited to their supported program patterns.
+%% % 
+%% Still others like Wavescalar~\cite{swanson2003wavescalar} have general-purpose support for programs, but target $>3$ orders of magnitude higher power and are dynamically scheduled.
+%% %
+%% Lastly, there is \snafu~\cite{snafu} that targets the ULP domain, but only supports vectorizable inner-loop nests and require hand-coded assembly.
+%% % 
+%% In contrast, \riptide seeks to minimize energy, while supporting programs with irregular or affine loop nests, irregular memory accesses, conditional execution, and aliasing memory operations. 
+

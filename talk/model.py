@@ -183,10 +183,10 @@ def main(args):
 		[x for x, _ in scalar_discard[sfreq][tfreq]], 
 		[seconds2years(y) for _, y in scalar_discard[sfreq][tfreq]], 
 		color='green', label='Scalar')
-	plt.plot(
-		[x for x, _ in riptide_discard[sfreq][tfreq]], 
-		[seconds2years(y) for _, y in riptide_discard[sfreq][tfreq]], 
-		color='red', label='RipTide')
+	# plt.plot(
+	# 	[x for x, _ in riptide_discard[sfreq][tfreq]], 
+	# 	[seconds2years(y) for _, y in riptide_discard[sfreq][tfreq]], 
+	# 	color='red', label='RipTide')
 	# plt.plot(
 	# 	[x for x, _ in riptide_summary_discard[sfreq][tfreq]], 
 	# 	[seconds2years(y) for _, y in riptide_summary_discard[sfreq][tfreq]], 

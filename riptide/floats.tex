@@ -14,44 +14,87 @@
     \hfill
     \begin{minipage}{0.32\linewidth}
     	\centering
-    	\vspace{1.1em}
-			\includegraphics[width=\linewidth]{riptide/figures/pdf/perf_avg-graph-crop.pdf}
+	\includegraphics[width=\linewidth]{riptide/figures/pdf/perf_avg-graph-crop.pdf}
     \end{minipage}
 
     \caption{\riptide improves energy-efficiency and performance over the
-      state-of-the-art, while compiling programs from high-level C
-      (vs.\ vector assembly in SNAFU).}
-    \label{fig:riptide:intro:results}
+      state of the art, while compiling programs from high-level C
+      (v.\ vector assembly in SNAFU).}
+    \label{fig:intro:results}
   \end{figure}
 }
 
 \newcommand{\figRipTideIntro}{
   \begin{figure}[t]
     \centering
-    \includegraphics[width=0.7\linewidth]{riptide/figures/pdf/overview.pdf}
-    \caption{\riptide is a co-designed compiler and CGRA microarchitecture
+    \includegraphics[width=0.9\linewidth]{riptide/figures/pdf/new_overview.pdf}
+    \caption{\riptide is a co-designed compiler and CGRA architecture
       that executes programs written in a \emph{high-level language}
       with \emph{minimal energy} and high performance.
       %
-      \riptide \emph{introduces new control-flow primitives} to
+      \riptide introduces new control-flow primitives to
       support common programming idioms, like deeply nested loops
       and irregular memory accesses, while minimizing overhead.
       %
-      Finally, \riptide implements its control-flow \emph{in the NoC} to
+      \riptide implements control flow \emph{in the NoC} to
       increase utilization and ease compilation.}
-    \label{fig:riptide:intro}
+    \label{fig:intro}
   \end{figure}
 }
 
+\newcommand{\figRipTideCTime}{
+  \begin{figure}[t]
+    \centering
+    \includegraphics[width=0.9\linewidth]{riptide/figures/pdf/ctime-graph-crop.pdf}
+    \caption{Compilation times (16 threads, Intel i9-9900K) using SAT and ILP mapping. SAT is 15.1$\times$ faster than ILP on average.}
+    \label{fig:ctime}
+  \end{figure}
+}
+
+\newcommand{\figRipTideSATEnergy}{
+  \begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.9\linewidth]{riptide/figures/pdf/sat-graph-crop.pdf}
+    \caption{Normalized energy of \riptide w/ SAT mapping v.\ ILP mapping. Solutions from the ILP mapper use 4.3\% less energy on average.}
+    \label{fig:sat:energy}
+  \end{figure}
+}
+
+\newcommand{\figRipTideSATResults}{
+	\begin{figure}[htb]
+		\centering
+		\begin{subfigure}{0.49\linewidth}
+			\begin{Overpic}{
+		      \includegraphics[width=\linewidth]{riptide/figures/pdf/ctime-graph-crop.pdf}
+		    }
+		    \put (18,57){
+		    	\includegraphics[height=0.14in]{riptide/figures/pdf/ctime_tlegend-graph-crop.pdf}
+		    }
+		  \end{Overpic}
+			\caption{Compilation time.}
+			\label{fig:sat:ctime}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}{0.49\linewidth}
+			\vspace{-0.6em}
+			\includegraphics[width=\linewidth]{riptide/figures/pdf/sat-graph-crop.pdf}
+			\caption{Normalized energy.}
+			\label{fig:sat:energy}
+		\end{subfigure}
+		\caption{Compilation time (16 threads, Intel i9-9900K) and normalized energy (v.\ ILP) of SAT and ILP mappers. SAT is 15.1$\times$ faster than ILP, but uses 4.7\% more energy.}
+		\label{fig:sat}
+	\end{figure}
+}
+
 \newcommand{\figRipTideSystem}{
-\begin{figure}[htb]
+\begin{figure}[t]
 	\centering
-    \includegraphics[width=0.6\linewidth]{riptide/figures/pdf/system.pdf}
+    \includegraphics[width=\linewidth]{riptide/figures/pdf/system.pdf}
     \caption{\riptide is a compiler and CGRA microarchitecture that maps
       high-level code with arbitrary control flow and memory access to
       an energy-minimal CGRA fabric. To maximize efficiency while
       minimizing area, \riptide implements control flow in the NoC.}
-    \label{fig:riptide:system}
+    \label{fig:system}
 \end{figure}
 }
 
@@ -59,8 +102,8 @@
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/cf.pdf}
-	\caption{Semantics of new control-flow operations in \riptide.}
-	\label{fig:riptide:cf:gates}
+	\caption{Semantics of new control-flow operators in \riptide.}
+	\label{fig:cf:gates}
 \end{figure}
 }
 
@@ -69,7 +112,7 @@
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/execute.pdf}
 	\caption{}
-	\label{fig:riptide:cf:execute}
+	\label{fig:cf:execute}
 \end{figure*}
 }
 
@@ -81,19 +124,126 @@
     compiles C code to LLVM-IR using \texttt{clang}. The middle-end
     produces an optimized dataflow graph (DFG) that enforces memory ordering
     and \riptide's control paradigm.}
-	\label{fig:riptide:compiler}
+	\label{fig:compiler}
 \end{figure*}
 }
 
 \newcommand{\figRipTideLSO}{
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=0.7\linewidth]{riptide/figures/pdf/lso.pdf}
+	\includegraphics[width=0.8\linewidth]{riptide/figures/pdf/lso.pdf}
 	\caption{\riptidecomp's middle-end enforces memory ordering. For 
-    \texttt{example2}, an ordering graph (OG) that is 
+    \texttt{example}, an ordering graph (OG) that is 
     iteratively pruned and reduced.}
-	\label{fig:riptide:lso}
+	\label{fig:lso}
 \end{figure}
+}
+
+\newcommand{\tabRipTideSnippets}{
+\begin{table*}[t]
+	\caption{Qualitative comparison of \riptide to prior work.
+          \riptide's goal is to \emph{minimize energy}
+          by executing \emph{entire functions} on the CGRA fabric.
+          To achieve this, \riptide supports arbitrary control flow and irregular memory access,
+          whereas prior CGRAs are limited to affine loops or a subset of common program idioms.
+          \riptide compiles lightly annotated C to an efficient CGRA configuration.
+        }
+	\label{tab:background}
+	\centering
+	\resizebox{\linewidth}{!}{
+		\scriptsize
+		\begin{tabular}{p{0.35in}P{1.25in}P{1.25in}P{1.25in}P{1.25in}P{1.25in}P{1.35in}}
+			\toprule & 
+			 	% \bf HyCube~\cite{karunaratne2017hycube} & 
+			 	\bf Revel~\cite{weng2020hybrid} & 
+			 	\bf UE-CGRA~\cite{torng2021ultra} & 
+			 	\bf Wavescalar~\cite{swanson2003wavescalar} &
+			 	\bf \snafu~\cite{snafu} & 
+			 	\bf \riptide \\[.5ex]
+			\midrule
+			% \bf Related &
+			% 	\cite{hamzeh2012epimap,dave2018ramp,pager2015software,ureca,amp2020,lee2021ultra,chordmap,pathseeker,karunaratne2018dnestmap,hamzeh2014branch,balasubramanian2018laser} &
+			% 	- &
+			% 	\cite{voitsechov2014single,parashar2013triggered,trips,ttda} & 
+			% 	- & 
+			%	- \\[.5ex]
+			\bf Goal & 
+				% \raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/watch.pdf}} Performance & 
+				\raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/watch.pdf}} Performance / Area & 
+				\raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/watch.pdf}} Performance or \linebreak \raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/lightning.pdf}}Energy & 
+				\raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/watch.pdf}} Performance & 
+				\raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/lightning.pdf}} Energy & 
+				\raisebox{-.3\height}{\includegraphics[height=0.125in]{riptide/figures/pdf/lightning.pdf}} Energy \\[.5ex]
+			\bf Power & 
+			% 10s mW & 
+			100s mW & 1s mW & 1000s mW & <\,1 mW & <\,1 mW \\[.5ex]
+			%% \bf Mapping
+                        %% & Spatial and temporal
+                        %% & Spatial and/or temporal
+                        %% & Spatial and temporal
+                        %% & Spatial only
+                        %% & Spatial only \\[.5ex]
+                        %% \bf Who maps?
+                        %% & Compiler
+                        %% & Compiler
+                        %% & Hardware
+                        %% & Compiler
+                        %% & Compiler \\[.5ex]
+      %% \bf \thead{$\dagger$ Constructs\\\& idioms} &
+      %% \texttt{HL, AL, CE,} [\texttt{DLN}] & 
+      %% \thead{\texttt{HL, DLN, AL,} \\ \texttt{CE, AP,} [\texttt{IMA}]} &
+      %% \thead{\texttt{HL, DLN, IMA,} \\ \texttt{IAL, MO, CE}} &
+      %% \thead{\texttt{IMA, AL, CE, AP}} & 
+      %% \thead{\texttt{HL, DLN, IMA, IAL,} \\ \texttt{OMO, CE,} [\texttt{AP}]}
+      %% \\[.5ex]
+                        \bf Target
+                        % & Affine loop nests
+                        & Imperfectly nested loops
+                        & Irregular inner loops
+                        & Arbitrary programs
+                        & Affine inner loops
+                        & Arbitrary functions \\[.5ex]
+                        \bf Code changes
+                        % & Loop pragmas
+                        & Loop pragmas
+                        & None
+                        & None
+                        & Vector assembly
+                        & Function annotation \\[.5ex]
+			% \bf \shortstack{Program\\consructs}&  &  & & & \\[.5ex]
+			%% \centering
+			%% \vspace{-5em}
+			%% \rotatebox[origin=c]{0}{\bf \shortstack{Program \\ support}}
+                        \bf \vspace{-6.25em}Exemplar\newline program
+                        &
+			% \includegraphics[height=0.95in]{riptide/figures/pdf/program_2.pdf} &
+			\includegraphics[height=0.95in]{riptide/figures/pdf/program_3.pdf} &
+			\includegraphics[height=0.95in]{riptide/figures/pdf/program_7.pdf} &
+			\includegraphics[height=0.95in]{riptide/figures/pdf/program_6.pdf} &
+			\includegraphics[height=0.95in]{riptide/figures/pdf/program_5.pdf} &
+			\includegraphics[height=0.95in]{riptide/figures/pdf/program_4.pdf} \\
+			\bottomrule
+		\end{tabular}
+	}
+  %% \begin{tablenotes}
+  %% \scriptsize
+  %% \item \textbf{Legend}: 
+  %% \texttt{HL} = uses high-level language; 
+  %% \texttt{DLN} = deep loop nests; 
+  %% \texttt{IMA} = indirect memory accesses; 
+  %% \texttt{AL} = affine loops; 
+  %% \texttt{IAL} = irregular or affine loops;  
+  %%       \texttt{MO} = memory ordering; 
+  %% \item \texttt{OMO} = optimized \texttt{MO}; 
+  %% \texttt{CE} = conditional execution; 
+  %% \texttt{AP} = annotations for programming; 
+  %% \texttt{AT} = annotations for targeting/offloading 
+  %% \item \textbf{*} Scheduling listed as "spatial" or "temporal" are \textit{static} schedules.
+  %% \item \textbf{$\dagger$}: Limited support for constructs/idioms indicated using brackets (e.g. [\texttt{CE}])
+  %% \item \textbf{$\ddagger$}: We uses a compiler command-line option to specify which function(s) to target for \riptide. 
+  %% \item
+  %% \end{tablenotes}
+\end{table*}
 }
 
 \newcommand{\figRipTideLSOResults}{
@@ -101,31 +251,188 @@
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/lso-graph-crop.pdf}
 	\caption{}
-	\label{fig:riptide:eval:fin}
+	\label{fig:eval:fin}
 \end{figure}
+}
+
+\newcommand{\tabRipTideMotivate}{
+	\begin{table}[htb]
+	\label{tab:motivate}
+	\caption{Qualitative comparison of \riptide to prior work.}
+	\centering
+	\resizebox{\linewidth}{!}{
+		\renewcommand{\arraystretch}{1.5}
+		 \begin{tabular}{p{3cm}|ccccc|c} 
+	 		\toprule 
+		 		&	
+				\bf HiMap~\cite{himap} & 
+				\bf 4D-CGRA~\cite{4dcgra} &
+				\bf Plasticine~\cite{plasticine} &
+				\bf Wavescalar~\cite{swanson2003wavescalar} &
+				\bf Revel~\cite{weng2020hybrid} & 
+				\bf \thead{\riptide \\ (this work)} 
+			\\[.5ex] 
+			\midrule
+				\bf Most related &
+				\cite{hamzeh2012epimap,dave2018ramp,pager2015software,ureca,amp2020,lee2021ultra,chordmap,pathseeker} &
+				\cite{karunaratne2018dnestmap,hamzeh2014branch,balasubramanian2018laser} &
+				\cite{dyser,q100} &
+				\cite{voitsechov2014single,parashar2013triggered,trips,ttda} &
+				- &
+				\cite{snafu}
+			\\[.5ex]
+				\bf Goal &
+				Performance & 
+				Performance & 
+				Performance & 
+				Performance & 
+				Performance & 
+				Energy
+			\\[.5ex]
+				\bf Power &
+				10s mW &
+				10s mW &
+				1-3 W &
+				NA &
+				100s mW &
+				<1 mW
+			\\[.5ex]
+				\bf Dataflow &
+				Systolic &
+				Systolic &
+				Ordered &
+				Tagged &
+				Systolic \& Tagged &
+				Ordered	
+			\\[.5ex]
+				\bf Conditional \newline execution &
+				NA &
+				Steering &
+				Selection &
+				Steering &
+				Selection &
+				Steering
+			\\[.5ex]
+				\bf Scheduling \newline dimensions	&
+				Time \& space &
+				Time \& space &
+				Space &
+				Space &
+				Time \&/ space &
+				Space
+			\\[.5ex]
+				\bf Source language &
+				C & C & Delite & C & C & C
+			\\[.5ex]
+				\bf Resource \newline heterogeneity &
+				\xmark & \xmark & Limited & \xmark & \cmark & \cmark
+			\\[.5ex]
+				\bf No tag-matching &
+				\cmark & \xmark & \cmark & \xmark & \cmark/\xmark & \cmark
+			\\[.5ex]
+				\bf Operations w/ \newline unknown latencies &
+				\xmark & \xmark & \cmark & \cmark & \cmark/\xmark & \cmark	
+			\\[.5ex]
+				\bf Deep loop nests &
+				\cmark & Limited & Limited & \cmark & Fit pattern & \cmark	
+			\\[.5ex]
+				\bf Irregular loops &
+				\xmark & \xmark & \xmark & \cmark & \xmark & \cmark	
+			\\[.5ex]
+				\bf Irregular memory \newline accesses &
+				\xmark & \xmark & Fit pattern & \cmark & Fit pattern & \cmark	
+			\\[.5ex]
+				\bf Enforces memory \newline ordering &
+				\xmark & \xmark & DSL-assisted & \cmark & None & \cmark
+			\\[.5ex]
+			\bottomrule
+		 \end{tabular}
+	}
+	\end{table}
+}
+
+\newcommand{\tabRipTideTax}{
+	\begin{table}[htb]
+	\label{tab:motivate}
+	\caption{Qualitative comparison of \riptide to prior work.}
+  \begin{threeparttable}
+	\centering
+	\resizebox{\linewidth}{!}{
+		\renewcommand{\arraystretch}{1.5}
+		 \begin{tabular}{p{3cm}|cccc|c} 
+	 		\toprule 
+		 		\bf CGRA Paradigm &	
+        \bf Static * & 
+        \bf \thead{High-perf. \\ (ordered dataflow)} &
+        \bf \thead{High-perf. \\ (tag-token dataflow)} &
+				\bf Hybrid & 
+        \bf \thead{ULP \\ (ordered dataflow)}
+			\\[.5ex] 
+			\midrule
+				\bf Most related &
+        \thead{HiMap~\cite{himap}, 4D-CGRA~\cite{4dcgra}, etc. \\ (~\cite{hamzeh2012epimap,dave2018ramp,pager2015software,ureca,amp2020,lee2021ultra,chordmap,pathseeker, karunaratne2018dnestmap,hamzeh2014branch,balasubramanian2018laser})} &
+        \thead{Plasticine$\ddagger$~\cite{plasticine}, \\ etc. (~\cite{dyser,q100})} &
+        \thead{Wavescalar~\cite{swanson2003wavescalar}, \\ etc. (~\cite{voitsechov2014single,parashar2013triggered,trips,ttda})} &
+				Revel~\cite{weng2020hybrid} &
+        \thead{\textbf{\riptide (this work)} \\ and SNAFU~\cite{snafu}}
+			\\[.5ex]
+				\bf Power consumption &
+				10s mW &
+				10s mW &
+				1-3 W &
+				100s mW &
+				<1 mW
+			\\[.5ex]
+        \bf Program support $\dagger$ &
+        \texttt{RA, AL,} [\texttt{CE, DLN}] & 
+        \texttt{AL, CE,} [\texttt{DLN, IMA}] & 
+        \thead{\texttt{IAL, CE, DLN,} \\ \texttt{IMA, MO,} [\texttt{OMO}]} &
+        \texttt{RA, AL, CE,} [\texttt{IMA}] &
+        \thead{\texttt{IAL, CE, DLN,} \\ \texttt{IMA, OMO,} [\texttt{RA}]}
+			\\[.5ex]
+				\bf Offload granularity &
+        \thead{Single loops or loop \\ nests (see~\autoref{fig:snippets}a,b)} &
+        \thead{Loop nests or  whole \\ programs (see~\autoref{fig:snippets}b,c)} &
+        \thead{Whole programs \\ (see~\autoref{fig:snippets}d)} &
+        \thead{Loop nests \\ (see~\autoref{fig:snippets}c)} &
+        \thead{Whole programs \\ (see~\autoref{fig:snippets}d)}	
+      \\[.5ex]
+			\bottomrule
+		 \end{tabular}
+	}
+  \begin{tablenotes}
+    \tiny
+  \item \textbf{Legend}: \texttt{RA} = requires annotations; \texttt{DLN} = deep loop nests; \texttt{IMA} = indirect memory accesses; \texttt{AL} = affine loops;
+  \item \texttt{IAL} = [irregular | affine] loops; \texttt{MO} = memory ordering; \texttt{OMO} = optimized \texttt{MO}; \texttt{CE} = conditional execution
+  \item \textbf{$\dagger$}: Limited program support is indicated using brackets (e.g. [\texttt{CE}])
+  \item \textbf{$\ddagger$}: We note that Plasticine uses a parallel patterns DSL, different than most CGRAs. 
+  \item \textbf{*} "Static" refers to kernels scheduled to the CGRA across space \textit{and} time.
+  \end{tablenotes}
+  \end{threeparttable}
+	\end{table}
 }
 
 \newcommand{\figRipTideISA}{
 \begin{table}[t]
     \begin{center}
       \caption{\riptide's instruction set architecture (ISA).}
-      \label{tab:riptide:isa}
+      \label{tab:isa}
       \scriptsize
       \resizebox{\linewidth}{!}{%
-      \begin{tabular}{lccl}
+      \begin{tabular*}{4.0in}{lccl}
         \toprule 
         \textbf{Operator(s)}    & \textbf{Category} & \textbf{Symbol(s)}                                & \textbf{Semantics}                         \\
         \midrule 
         Basic binary ops        & Arithmetic        & $+$, $-$, $<<$, $!=$, etc.                        & $a$ \texttt{op} $b$                        \\ 
         Multiply, clip          & Multiplier        & $*$, \texttt{clip}                                & $a$ \texttt{op} $b$                        \\ 
-        Load                    & Memory            & \texttt{ld}                                       & \texttt{ld} $base$, $idx$                  \\
-        Store                   & Memory            & \texttt{st}                                       & \texttt{st} $base$, $idx$, $val$           \\
+        Load                    & Memory            & \texttt{ld}                                       & \texttt{ld} $base$, $idx$(, $dep$)                 \\
+        Store                   & Memory            & \texttt{st}                                       & \texttt{st} $base$, $idx$, $val$(, $dep$)           \\
         Select                  & Control Flow      & \texttt{sel}                                      & $cond$ \texttt{?} $val0$ \texttt{:} $val1$ \\ 
-        Steer, carry, invariant & Control Flow      & (\texttt{T} | \texttt{F}), \texttt{C}, \texttt{I} & See \autoref{fig:riptide:cf:gates}                 \\ 
-        Merge, order            & Synchronization   & \texttt{M}, \texttt{O}                            & See \autoref{fig:riptide:cf:gates}                 \\ 
-        Stream                  & Stream            & \texttt{STR}                                      & See \autoref{fig:riptide:cf:gates}                 \\ 
+        Steer, carry, invariant & Control Flow      & (\texttt{T} | \texttt{F}), \texttt{C}, \texttt{I} & See \autoref{fig:cf:gates}                 \\ 
+        Merge, order            & Synchronization   & \texttt{M}, \texttt{O}                            & See \autoref{fig:cf:gates}                 \\ 
+        Stream                  & Stream            & \texttt{STR}                                      & See \autoref{fig:cf:gates}                 \\ 
         \bottomrule 
-      \end{tabular}}
+      \end{tabular*}}
     \end{center}
 \end{table}
 }
@@ -136,14 +443,14 @@
 		\centering
 		\includegraphics[height=1.52in]{riptide/figures/pdf/cf.pdf}
 		\caption{Control-flow gates.}
-		\label{fig:riptide:cf:gates}
+		\label{fig:cf:gates}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.74\linewidth}
 		\centering
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/execute.pdf}
 		\caption{Shows an example execution.}
-		\label{fig:riptide:cf:execute}
+		\label{fig:cf:execute}
 	\end{minipage}
 \end{figure*}
 }
@@ -154,7 +461,7 @@
 		\centering
 		\includegraphics[height=2in]{riptide/figures/pdf/block.pdf}
 		\caption{\riptide's ULP CGRA fabric.}
-		\label{fig:riptide:arch:block}
+		\label{fig:arch:block}
 	\end{minipage}
 	\hfill
 	\hspace{4em}
@@ -162,43 +469,42 @@
 		\centering
 		\includegraphics[height=2in]{riptide/figures/pdf/pe.pdf}
 		\caption{PE microarchitecture}
-		\label{fig:riptide:arch:pe}
+		\label{fig:arch:pe}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.3\linewidth}
 		\centering
 		\includegraphics[height=2in]{riptide/figures/pdf/router.pdf}
 		\caption{Router microarchitecture}
-		\label{fig:riptide:arch:router}
+		\label{fig:arch:router}
 	\end{minipage}
+	% \hfill
+	% \begin{minipage}{0.36\linewidth}
+	% 	\centering
+	% 	\includegraphics[height=0.5in]{riptide/figures/pdf/filter.pdf}
+	% 	\hfill
+	% 	\vspace{0.5em}
+	% 	% \begin{table}
+	% 	\small
+	% 	\begin{tabular}{ll}
+	% 	\toprule
+	% 	\textbf{Operation} & \textbf{Explanation} \\
+	% 	\midrule
+	% 	No connection	 & - 		\\
+	% 	Direct         & O = I 	\\
+	% 	Steer      	 & (\autoref{fig:cf:gates}) \\
+	% 	Carry	       & A = carry, I = init (\autoref{fig:cf:gates}) \\
+	% 	Invariant      & (\autoref{fig:cf:gates}) \\
+	% 	Select         & O = (D) ? I : A \\
+	% 	Merge         & O = I || A \\
+	% 	Order         & O = (D) ? I : A (D \& I or !D \& A) \\
+	% 	\bottomrule
+	% 	\end{tabular}
+	% 	\caption{Operations supported in NoC.}
+	% 	\label{fig:micro:ops}
+	% 	% \end{table}
+	% \end{minipage}
 \end{figure*}
-}
-
-\newcommand{\figRipTideArchBlock}{
-\begin{figure}[t]
-	\centering
-	\includegraphics[height=2.5in]{riptide/figures/pdf/block.pdf}
-	\caption{\riptide's ULP CGRA fabric.}
-	\label{fig:riptide:arch:block}
-\end{figure}
-}
-
-\newcommand{\figRipTideMicroArch}{
-\begin{figure}[t]
-	\begin{minipage}{0.49\linewidth}
-		\centering
-		\includegraphics[height=2.5in]{riptide/figures/pdf/pe.pdf}
-		\caption{PE microarchitecture}
-		\label{fig:riptide:arch:pe}
-	\end{minipage}
-	\hfill
-	\begin{minipage}{0.49\linewidth}
-		\centering
-		\includegraphics[height=2.5in]{riptide/figures/pdf/router.pdf}
-		\caption{Router microarchitecture}
-		\label{fig:riptide:arch:router}
-	\end{minipage}
-\end{figure}
 }
 
 \newcommand{\figRipTideFilter}{
@@ -206,11 +512,11 @@
 	\centering
 	\includegraphics[width=0.5\linewidth]{riptide/figures/pdf/filter.pdf}
 	\caption{Basic control-flow module in \riptide's routers.}
-	\label{fig:riptide:filter}
+	\label{fig:filter}
 \end{figure}
 }
 
-\newcommand{\figRipTidePrimaryArchResults}{
+\newcommand{\figRipTideEnergyResults}{
 \begin{figure*}[t]
 	\begin{minipage}{\linewidth}
 		\centering
@@ -219,16 +525,19 @@
 		\vspace{0.2em}
 
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/energy-graph-crop.pdf}
-		\caption{Shows the energy (normalized to \riptide) of scalar, vector, \snafu, \riptide across ten benchmarks. \riptide uses 25\% less energy than \snafu. }
-		\label{fig:riptide:eval:energy}
+		\caption{Energy (v. \riptide) of scalar, vector, \snafu, \riptide across ten benchmarks. \riptide uses 25\% less energy than \snafu. }
+		\label{fig:eval:energy}
 	\end{minipage}
-
+\end{figure*}
+}
+\newcommand{\figRipTidePerformanceResults}{
+\begin{figure*}[t]
 	\begin{minipage}{\linewidth}
 		\centering
 		\vspace{1em}
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/perf-graph-crop.pdf}
-		\caption{Shows the speedup v. scalar of scalar, vector, \snafu, and \riptide across ten benchmarks. \riptide is 17\% faster than \snafu.}
-		\label{fig:riptide:eval:perf}
+		\caption{Speedup (v.\ scalar) of scalar, vector, \snafu, and \riptide across ten benchmarks. \riptide is 17\% faster than \snafu.}
+		\label{fig:eval:perf}
 	\end{minipage}
 \end{figure*}
 }
@@ -237,14 +546,22 @@
 \begin{figure*}[htb]
 	\begin{minipage}{\linewidth}
 		\centering
-		\includegraphics[height=0.2in]{riptide/figures/pdf/counts_legend-graph-crop.pdf}
+		\includegraphics[height=0.15in]{riptide/figures/pdf/counts_legend-graph-crop.pdf}
 		
 		\vspace{0.2em}
 
 		\includegraphics[width=\linewidth]{riptide/figures/pdf/counts-graph-crop.pdf}
-        \caption{Shows operator counts for ten different benchmarks. Starting with an unoptimized, unordered baseline (\texttt{Raw}), compiler optimizations reduce operator counts while enforcing memory ordering, making it feasible to map benchmarks to hardware.}
-		\label{fig:riptide:eval:ops}
+        \caption{Operator counts for ten different benchmarks. Starting with an unoptimized, unordered baseline (\texttt{Raw}), compiler optimizations reduce operator counts while enforcing memory ordering, making it feasible to map benchmarks to hardware.}
+		\label{fig:eval:ops}
 	\end{minipage}
+	% \begin{minipage}{0.49\linewidth}
+	% 	\centering
+	% 	\vspace{1em}
+	% 	\includegraphics[width=\linewidth]{riptide/figures/pdf/insn-graph-crop.pdf}
+		
+	% 	\caption{Dynamic scalar instruction counts}
+	% 	\label{fig:eval:insn}
+	% \end{minipage}
 \end{figure*}
 }
 
@@ -252,21 +569,21 @@
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/fin-graph-crop.pdf}
-	\caption{Quantifies the benefits of control flow in the NoC. \riptide uses 45\% , 42\%, and 29\% less energy than \riptide w/ No CFiN, a fabric where all CF ops are PEs (All PEs), and a fabric that fuses CF ops into PEs (Fused).  }
-	\label{fig:riptide:eval:fin}
+	\caption{Control flow in the NoC saves energy. \riptide uses 45\% , 40\%, and 27\% less energy than \riptide w/ No CFiN, a fabric where all CF ops are PEs (``All PEs''), and a fabric that fuses CF ops into PEs (``Fused'').  }
+	\label{fig:eval:fin}
 \end{figure}
 }
 
 \newcommand{\figRipTideLoCResults}{
 \begin{figure}[htb]
 	\centering
-	\includegraphics[height=0.2in]{riptide/figures/pdf/loc_legend-graph-crop.pdf}
+	\includegraphics[width=0.6\linewidth]{riptide/figures/pdf/loc_legend-graph-crop.pdf}
 	
 	\vspace{0.1em}
 
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/loc-graph-crop.pdf}
-	\caption{Shows the number of code additions for ten benchmarks running on scalar, vector, \snafu, and \riptide. \riptide requires no hand-coded assembly unlike vector and \snafu.}
-	\label{fig:riptide:eval:loc}
+	\caption{The number of code additions for ten benchmarks running on scalar, vector, \snafu, and \riptide. \riptide requires no hand-coded assembly unlike vector and \snafu.}
+	\label{fig:eval:loc}
 \end{figure}
 }
 
@@ -275,20 +592,435 @@
 	\centering
 	\includegraphics[width=0.9\linewidth]{riptide/figures/pdf/block.pdf}
 	\caption{}
-	\label{fig:riptide:block}
+	\label{fig:block}
 \end{figure}
 }
 
 \newcommand{\tabRipTideMicroParams}{
 \begin{table}
 \caption{Microarchitectural parameters.}
-\label{tab:riptide:params}
+\label{tab:params}
 \end{table}
 }
 
 \newcommand{\tabRipTideAppParams}{
 \begin{table}
 \caption{Application parameters.}
-\label{tab:riptide:apps}
+\label{tab:apps}
 \end{table}
 }
+
+\newcommand{\figRipTideProgress}{
+\begin{figure}[t]
+	\centering
+	\begin{subfigure}{0.49\linewidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{riptide/figures/pdf/progress_energy-graph-crop.pdf}	
+		\caption{Energy savings.}
+		\label{fig:progress:energy}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}{0.49\linewidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{riptide/figures/pdf/progress_perf-graph-crop.pdf}	
+		\caption{Speedup.}
+		\label{fig:progress:perf}
+	\end{subfigure}
+\caption{Energy savings and speedup of DNN inference on \riptide v.\ MSP430, ARM Cortex-M3, and our scalar core.}
+\label{fig:progress}
+\end{figure}
+}
+
+\newcommand{\figRipTideArea}{
+  \begin{figure}[h]
+    \begin{minipage}{0.45\linewidth}
+      \caption{Area breakdown for a complete \riptide system.
+        Area is dominated by the CGRA fabric and main memory
+        (SRAM + arbitration logic),
+        eaching taking about half of the system.
+        The scalar core is just 2.5\% of system area.
+        The NoC takes 54\% of CGRA area,
+        and PEs (\textmu core + FUs) take 42\%.
+        }
+    \label{fig:eval:area}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\linewidth}
+      \includegraphics[width=\linewidth]{riptide/figures/pdf/area_pie-crop.pdf}
+    \end{minipage}
+  \end{figure}
+}
+
+\newcommand{\tabRipTideSATHelpers}{
+\begin{table}[htb]
+  \caption{SAT formulation helper functions.}
+  \label{tab:sat:helpers}
+  \centering
+  \resizebox{\linewidth}{!}{
+    \begin{tabular}{p{2.2cm}|l}
+      \toprule
+      \bf Function & \bf Explanation \\[.5ex] 
+      \midrule
+      \lstinline[style=custompython]|add(clauses)| & 
+        add clauses to formulation \\[.5ex] 
+      \lstinline[style=custompython]|where(condition)| & 
+        returns indices where condition is true \\[.5ex] 
+      \lstinline[style=custompython]|or(a, axis=None)| & 
+        conjuction of array elements along an axis \\[.5ex] 
+      \lstinline[style=custompython]|atmost1(a)| & 
+        constrains at most one array element to true \\[.5ex] 
+      \lstinline[style=custompython]|exactly1(a)| & 
+        constrains exactly one array element to true \\[.5ex] 
+      \lstinline[style=custompython]|src(e)| & 
+        returns source vertex of edge, e \\[.5ex] 
+      \lstinline[style=custompython]|dst(e)| & 
+        returns destination vertex of edge, e \\[.5ex] 
+      \lstinline[style=custompython]|can\_share(e1, e2)| & 
+       checks if edges, e1 \& e2, can share the same link \\[.5ex] 
+      \midrule
+    \end{tabular} 
+  }
+\end{table}	
+}
+
+\newcommand{\tabRipTideMapVars}{
+\begin{table}[h]
+  \centering
+  % Yeah I know this hacky but to get all these tables on the same page is real
+  % challenge
+  %% \captionsetup{singlelinecheck=false,justification=raggedright,margin=38pt}
+  \caption{Inputs \& variables of ILP \& SAT formulations.}
+  \label{tab:map:vars}
+
+  \resizebox{0.5\linewidth}{!}{
+    \begin{tabular}{ll}
+			\toprule
+			\bf Input & \bf Explanation \\
+			\midrule
+			$V$ & Set of DFG vertices \\
+			$E$ & Set of DFG edges \\
+			$N$ & Set of hardware nodes (PEs \& CF-modules) \\
+			$F$ & Set of CF-modules $F \subset N$ \\
+			$R$ & Set of hardware routers \\
+			$L$ & Set of hardware links \\
+			$C_{el}(E, L) = 1$ if $e$ can map to $l$ & Edge-link compatibility matrix \\
+			$C_{vn}(V, N) = 1$ if $v$ can map to $n$ & Vertex-node compatibility matrix \\
+			$H_{ln}(L, N) = 1$ if $l$ originates from $n$ & Link-to-node matrix \\
+			$H_{nl}(N, L) = 1$ if $l$ comes from $n$ & Node-to-link matrix \\
+			$H_{lr}(L, R) = 1$ if $l$ originates from $r$ & Link-to-router matrix \\
+			$H_{rl}(R, L) = 1$ if $l$ comes from $r$ & Router-to-link matrix \\
+			\toprule
+			\bf Variable & \bf Explanation \\
+			\midrule
+			$M_{vn}(V,N) = 1$ if $v$ is mapped to $n$& Vertex-to-node matrix \\
+			$M_{el}(E,L) = 1$ if $e$ is mapped to $l$& Edge-to-link matrix \\
+			\bottomrule
+		\end{tabular}
+  }
+\end{table}	
+}
+
+\newcommand{\tabRipTideSAT}{
+\begin{table*}[h]
+\caption{SAT formulation.}
+\label{tab:sat}
+\centering
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{ll}
+	\toprule
+		\bf Clause & \bf Explanation \\
+	\midrule
+	$\forall e \in E, l \in L | C_{el}(e,l) = 0, \neg M_{el}(e,l)$ & 
+			Edges are mapped to compatible links \\ 
+	$\forall v \in V, n \in N | C_{vn}(v,n) = 0, \neg M_{vn}(v,n)$ &	
+			Vertices are mapped to compatible nodes \\	
+	$\forall v \in V, ExactlyOne(\{M_{vn}(v,n) | n \in N\})$ &
+			Every vertex must be mapped to a node \\
+	$\forall n \in N, AtMostOne(\{M_{vn}(v,n) | v \in V\})$ &
+			No node can be used by more than one vertex	\\
+	$\forall r \in R, e \in E, \lor_{l|H_{rl}(r,l)} M_{el}(e,l) \iff \lor_{H_{lr}(l,r)} M_{el}(e,l)$ &
+			An edge mapped to incoming link to a router must also be mapped to an outgoing link \\
+	$\forall r \in R, e \in E, AtMostOne(\{M_{el}(e,l)| l \in L \; and \; H_{rl}(r,l)\})$ &
+			An edge can only be mapped to a single outgoing link of a router \\
+	$\forall e \in E, n \in N | n \notin F, \lor_{l|H_{nl}(n,l)} M_{el}(e,l) \iff M_{vn}(src(e), n)$ &
+			If a vertex is mapped to a non-CF node, then the input edges are mapped to incoming links\\
+	$\forall e \in E, n \in N | n \notin F, \lor_{l|H_{ln}(l,n)} M_{el}(e,l) \iff M_{vn}(dst(e), n)$ &
+			If a vertex is mapped to a non-CF node, then the output edges are mapped to outgoing links\\
+	$\forall l \in L, e_1 \in E, e_2 \in E | src(e_1) \neq src(e_2), \neg M_{el}(e_1,l) \lor \neg M_{el}(e_2, l)$ &
+			Edges that do not share the same source are not mapped to the same links\\
+	$\forall e \in E, n \in F, K_{nl}(e,n) \lor \neg M_{vn}(src(e), n)$ &
+			If a vertex is mapped to a CF node, then the output edges are mapped to outgoing links\\
+	$\forall e \in E, n \in F, K_{ln}(e,n) \lor \neg M_{vn}(dst(e), n)$ &
+			If a vertex is mapped to a CF node, then the input edges are mapped to incoming links\\
+	$(\forall e \in E, n \in F, (K_{ln}(e,n) \lor K_{n} \lor \neg K_{nl}(e,n) )\land$
+ 	&
+			Unused CF-modules can pass through edges\\
+	\hspace{4em}$(\neg K_{ln}(e,n) \lor K_{n}(n) \lor K_{nl}(e,n)) \land$
+	$(\neg K_{ln}(e,n) \lor \neg M_{vn}(src(e), n))$ & \\
+	$\forall e \in E, n \in F, l \in L | H_{ln}(l,n), \neg M_{el}(e,l) \lor K_{ln}(e)$ &
+			An edge mapped to an output link of CF-module cannot be mapped to an input of the CF-module\\
+	\midrule
+	\end{tabular}
+}
+
+\resizebox{\linewidth}{!}{
+  \begin{tabular}{l|l|l|l|l}
+		$src(e) := v \in V $ and v is the source of e &
+		$dst(e) := v \in V $ and v is the destination of e&
+		$K_{nl}(e,n) := \lor_{l|H_{nl}(n,l)}M_{el}(e,l)$ &
+		$K_{ln}(e,n) := \lor_{l|H_{ln}(l, n)}M_{el}(e,l)$&
+		$K_{n}(n) := \lor_{v\in V}M_{vn}(v,n)$\\
+	\end{tabular}
+}
+\end{table*}
+}
+
+\newcommand{\tabRipTideILP}{
+\begin{table*}[h]
+\caption{ILP formulation.}
+\label{tab:ilp}
+\centering
+\resizebox{0.4\linewidth}{!}{
+	\begin{tabular}{ll}
+		\bf Objective: &
+		\textbf{\textit{minimize}} $\sum_{e \in E, l \in L} M_{el}(e, l)$ \textit{subject to}
+	\end{tabular}
+}
+
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{ll}
+	\toprule
+		\bf Constraint & \bf Explanation \\
+	\midrule
+		$\forall e \in E, l \in L, M_{el}(e,l) \le C_{el}(e,l)$ &
+		Edges are mapped to compatible links \\	
+		$\forall v \in V, n \in N, M_{vn}(v,n) \le C_{vn}(v,n)$ &
+		Vertices are mapped to compatible nodes \\
+		$\forall v \in V, \sum_{n \in N} M_{vn}(v,n) = 1$ &
+		Every vertex must be mapped to a node \\
+		$\forall n \in N, \sum_{v \in V} M_{vn}(v,n) \le 1$ &
+		No node can be used by more than one vertex \\
+		$\forall e \in E, r \in R, \sum_{l\in L}M_{el}(e,l)H_{lr}(l,r) = \sum_{l \in L}M_{el}(e,l)H_{rl}(r,l)$ &
+		Flow into a router must equal the flow out \\
+		$\forall e \in E, n \in N | n \notin F, \sum_{l \in L}M_{e,l}(e)H_{nl}(n, l) = M_{vn}(src(e),n)$ &
+		If a vertex is mapped to a non-CF node, then the output edges are mapped to outgoing links\\
+		$\forall e \in E, n \in N | n \notin F, \sum_{l \in L}M_{e,l}(e)H_{ln}(l, n) = M_{vn}(dst(e),n)$ &
+		If a vertex is mapped to a non-CF node, then the input edges are mapped to incoming links\\
+		$\forall l \in L, e_1 \in E, M_{el}(e_1,l) + max_{e_2 \in E | src(e_1) \ne src(e_2)} M_{el}(e_2,l)\le 1$ &
+		Edges that do not share the same source are not mapped to the same links\\
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{ln}(l,n) + \sum_{v \in V}M_{vn}(v,n) \ge \sum_{l \in L} M_{el}(e,l)H_{nl}(n,l)$ &
+		Unused CF-modules can pass through edges \\
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{ln}(l,n) \le \sum_{v \in V}M_{vn}(v,n) + \sum_{l \in L} M_{el}(e,l)H_{nl}(n,l)$ &
+		Unused CF-modules can pass through edges \\
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{nl}(n, l) \ge M_{vn}(src(e), n)$ &
+		If a vertex is mapped to a CF node, then the output edges are mapped to outgoing links\\
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{ln}(l, n) \ge M_{vn}(dst(e), n)$ &
+		If a vertex is mapped to a CF node, then the input edges are mapped to incoming links\\
+	\midrule
+	\end{tabular}
+}
+\resizebox{0.5\linewidth}{!}{
+	\begin{tabular}{l|l}
+		$src(e) := v \in V $ and v is the source of e &
+		$dst(e) := v \in V $ and v is the destination of e
+	\end{tabular}
+}
+\end{table*}
+}
+
+\newcommand{\lowtext}[1]{\raisebox{-0.5em}[0pt][0pt]{#1\ \ }}
+
+\newcommand{\tabRipTideEvalCompare}{
+  \begin{table*}[h]
+    \centering
+    \caption{Comparison of \riptide to other low-power CGRAs.
+      \riptide supports a broader set of programs
+      while improving energy efficiency.
+      \riptide's performance is low, but this is primarily because
+      we have not yet pushed frequency (there is ample
+      timing slack at 50\,MHz).}
+    \label{tab:eval:compare}
+    \footnotesize
+%%     \resizebox{0.8\linewidth}{!}{
+      \begin{tabular}{lcccc@{\hskip 2em}cc}
+	\toprule
+	& 
+	% \bf CMA-1~\cite{cma} &
+	% \bf ULP-SRP~\cite{srp} & 
+	\bf \makecell[c]{HyCube\\testchip$^\star$~\cite{wang2019hycube}} &
+        \bf \makecell[c]{HM-HyCube\\REVAMP~\cite{revamp}} &
+	\bf \makecell[c]{UE-CGRA\\\cite{torng2021ultra,torng_pan_2021}} &
+%% 	\bf Revel$^\dag$~\cite{nowatzki2018hybrid} &
+	\bf \makecell[c]{\snafu\\\cite{snafu}} &
+	\multicolumn{2}{c}{\makecell{\bf \riptide\\\em(this work)}}\\ 
+	\midrule
+	Irregular loops &
+	% \xmark & 
+	% \xmark & 
+	\xmark & 
+	\xmark & 
+	\cmark & 
+%% 	\xmark &
+	\xmark & 
+	\multicolumn{2}{c}{\cmark} \\
+	Loop nesting &
+	% \xmark & 
+	% \xmark & 
+	\xmark & 
+	\xmark & 
+	\xmark & 
+%% 	\cmark &
+	\xmark & 
+	\multicolumn{2}{c}{\cmark} \\
+	Memory ordering &
+	% \xmark & 
+	% \xmark & 
+	\xmark & 
+	\xmark & 
+	\xmark & 
+%% 	\xmark & 
+	\xmark & 
+	\multicolumn{2}{c}{\cmark} \\
+	Variable-latency ops &
+	% \xmark & 
+	% \xmark & 
+	\xmark & 
+	\xmark & 
+	\xmark & 
+%% 	\cmark &
+	\xmark & 
+	\multicolumn{2}{c}{\cmark} \\
+        \midrule
+	Node &
+	% Fujitsu\,65 &
+	% TSMC\,40LP &
+	40LP &
+        22 &
+	TSMC 28 &
+%% 	UMC 28 &
+	Intel 22FFL &
+	\multicolumn{2}{c}{Intel 22FFL} \\
+        Fabric dimensions &
+        % 8$\times$8 &
+        % 3$\times$3 &
+        4$\times$4 &
+        6$\times$6 &
+        8$\times$8 &
+%%         5$\times$5 &
+        6$\times$6 &
+        \multicolumn{2}{c}{6$\times$6} \\
+	Fabric area (mm$^{2}$) &
+	% 5.4 &
+	% --- &
+	--- & % 2.86
+	0.2 &
+	0.25 &
+%% 	0.13$\times$8 &
+	0.27 &
+	\multicolumn{2}{c}{0.25} \\
+        Frequency (MHz) &
+        % 210 &
+        % 7 &
+        488 &
+        100 &
+        750 &
+%%         1250 &
+        50 &
+        \multicolumn{2}{c}{50} \\
+        Memory size (KBs) &
+        % 6.25 &
+        % 384 &
+        4 &
+        64 &
+        192 &
+%%         256 &
+        256 &
+        \multicolumn{2}{c}{256} \\
+        \midrule
+        Benchmark &
+        % {\tt sum-abs-diff} &
+        % {\tt fft} &
+        {\tt fft} &
+        Linear algebra &
+        {\tt fft} &
+%%    	{\tt fft} &
+        {\tt fft} &
+        {\tt fft} & {\tt dmm$^\ddag$} \\
+	Fabric power (mW) &
+	% 11.2 &
+	% --- &
+	--- &
+	8.4 &
+	14.0 &
+%% 	1282 &
+	0.54 &
+	0.24 & 0.50 \\
+	System power (mW) &
+	% --- &
+	% 0.55 &
+	140 &
+	--- &
+	16.7 &
+%% 	1663 &
+	0.74 &
+	0.52 & 0.91\\
+	Performance (MOPS) &
+	% 2720 &
+	% --- &
+	5380 &
+	--- &
+	625 &
+%% 	20,078 &
+	71 &
+	62 & 164 \\
+	Fabric efficiency (MOPS/mW) &
+	% 243 &
+	% --- &
+	--- &
+	103 &
+	45 &
+%% 	16 &
+	134 &
+	254 & 328 \\
+	System efficiency (MOPS/mW) &
+	% --- &
+	% --- &
+	26 &
+	--- &
+	38 &
+%% 	12 &
+	97 &
+	117 & 180\\
+	\bottomrule
+      \end{tabular}
+%%     }
+    
+    \vspace{1pt}
+    
+    %% 	\resizebox{0.6\linewidth}{!}{
+    \begin{tabular}{c}
+      $^\star$\,Silicon implementation. \quad
+%%       $^\dag$\,High-level simulation. \quad
+      $^\ddag$\,Hand-tuned C software. % that unrolls twice along output column. 
+      % $^2$dmm operations: $ops\,=\,2n^3$ where n is matrix dimension. \\
+      % $^3$fft operations: $ops\,=\,2n(4nlog_2(n) - 6n + 8)$. where n is matrix dimension.\\
+    \end{tabular}
+    %% 	}
+  \end{table*}
+}
+
+% Revamp
+% X
+% X
+% X
+% X
+% Commercial 22
+% 6x6
+% 0.2
+% 100
+% Linear algebra kernels
+% 8.4
+% ---
+% Performance?
+% 172
+% ---

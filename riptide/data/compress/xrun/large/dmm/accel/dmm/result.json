@@ -1,4 +1,23 @@
 {
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 0.0,
+            "internal": 0.0,
+            "leakage": 0.0,
+            "switching": 0.0,
+            "total": 0.0
+        }
+    },
+    "noc": {
+        "energy": {
+            "dynamic": 0.0,
+            "internal": 0.0,
+            "leakage": 0.0,
+            "switching": 0.0,
+            "total": 0.0
+        }
+    },
+    "perf": 297539,
     "physical": {
         "/dmm_top": {
             "energy": {
@@ -112,6 +131,5 @@
                 "total": 1.12093e-10
             }
         }
-    },
-    "perf": 297539
+    }
 }

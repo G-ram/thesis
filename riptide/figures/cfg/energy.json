@@ -57,16 +57,19 @@
 			"keys":[
 				"physical./snafu_top/MM.energy.total",
 				"physical./snafu_top/CORE.energy.total",
-				"physical./snafu_top/CGRA.energy.total"
+				"noc.energy.total",
+				"cgra_minus_noc.energy.total"
 			], 
 			"labels":[
 				"Memory",
 				"Scalar",
+				"CGRA NoC",
 				"Vector/CGRA/Accel"
 			],
 			"colors": [
 				"#9f7ccf",
 				"#41b6c4",
+				"#5a9c70",
 				"#a1dab4"
 			],
 			"total": "physical./snafu_top.energy.total"
@@ -75,16 +78,19 @@
 			"keys":[
 				"physical./flow_top/MM.energy.total",
 				"physical./flow_top/CORE.energy.total",
-				"physical./flow_top/CGRA.energy.total"
+				"noc.energy.total",
+				"cgra_minus_noc.energy.total"
 			], 
 			"labels":[
 				"Memory",
 				"Scalar",
+				"CGRA NoC",
 				"Vector/CGRA/Accel"
 			],
 			"colors": [
 				"#9f7ccf",
 				"#41b6c4",
+				"#5a9c70",
 				"#a1dab4"
 			],
 			"total": "physical./flow_top.energy.total"
@@ -200,16 +206,19 @@
 			"keys":[
 				"snafu.energy.mm",
 				"snafu.energy.core",
-				"snafu.energy.cgra"
+				"snafu.energy.noc",
+				"snafu.energy.cgra_minus_noc"
 			], 
 			"labels":[
 				"Memory",
 				"Scalar",
+				"CGRA NoC",
 				"Vector/CGRA/Accel"
 			],
 			"colors": [
 				"#9f7ccf",
 				"#41b6c4",
+				"#5a9c70",
 				"#a1dab4"
 			],
 			"total": "snafu.energy.total"
@@ -218,16 +227,19 @@
 			"keys":[
 				"flow.energy.mm",
 				"flow.energy.core",
-				"flow.energy.cgra"
+				"flow.energy.noc",
+				"flow.energy.cgra_minus_noc"
 			], 
 			"labels":[
 				"Memory",
 				"Scalar",
+				"CGRA NoC",
 				"Vector/CGRA/Accel"
 			],
 			"colors": [
 				"#9f7ccf",
 				"#41b6c4",
+				"#5a9c70",
 				"#a1dab4"
 			],
 			"total": "flow.energy.total"

@@ -1,0 +1,47 @@
+{
+	"stacks": {
+		"s" :{
+			"keys": ["efficiency"],
+			"labels": ["Efficiency"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/msp430.json",
+				"label": "MSP430",
+				"stack": "s"
+			},
+			{
+				"src": "../data/stm32l152re.json",
+				"label": "Cortex-M3",
+				"stack": "s"
+			},
+			{
+				"src": "../data/compress/xrun/large/nn/plain/scalar/result.json",
+				"label": "Scalar",
+				"stack": "s"
+			},
+			{
+				"src": "../data/compress/xrun/large/nn/flow/flow/result.json",
+				"label": "Riptide",
+				"stack": "s"
+			}
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 3,
+	"height": 3,
+	"rect": [0.0, 0.0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"log": true,
+	"ylabel": "Efficiency\n(MOPS/mW)",
+	"annotate": true	
+}

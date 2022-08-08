@@ -1,0 +1,181 @@
+{
+	"stacks": {
+		"stack1": {
+			"keys":[
+				"physical./scalar_top.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			]
+		},
+		"stack5": {
+			"keys":[
+				"physical./flow_top.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			]
+		},
+		"stack6": {
+			"keys":[
+				"physical./dmm_top.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			]
+		},
+		"stack7": {
+			"keys":[
+				"physical./sort_top.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			]
+		},
+		"stack8": {
+			"keys":[
+				"physical./fft_top.energy.total"
+			], 
+			"labels":[
+				"Memory",
+				"Scalar",
+				"Vector/CGRA/Accel"
+			],
+			"colors": [
+				"#9f7ccf",
+				"#41b6c4",
+				"#a1dab4"
+			]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/plain/scalar/result.json",
+				"label": "Current\ndevics",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+				"label": "Efficient",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/dmm/accel/dmm/result.json",
+				"label": "ASIC",
+				"stack": "stack6",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/plain/scalar/result.json",
+				"label": "Current\ndevics",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+				"label": "Efficient",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/sort/accel/sort/result.json",
+				"label": "ASIC",
+				"stack": "stack7",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			}
+		],
+		[
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/plain/scalar/result.json",
+				"label": "Current\ndevics",
+				"stack": "stack1",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+				"label": "Efficient",
+				"stack": "stack5",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			},
+			{
+				"src": "../riptide/data/compress/xrun/large/fft/accel/fft/result.json",
+				"label": "ASIC",
+				"stack": "stack8",
+				"normalize": {
+					"src": "../riptide/data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack5"
+				}
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMM", "Sort", "FFT"],
+	"width": 7,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 50,
+	"barwidth": 1.1,
+	"fontsize": 12,
+	"ylim": [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+	"ylabel": "Normalized energy\n(v. RipTide)"
+}

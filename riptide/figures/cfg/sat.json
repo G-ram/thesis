@@ -1,0 +1,128 @@
+{
+	"stacks": {
+		"stack": {
+			"keys":["physical./flow_top.energy.total"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		},
+		"avg": {
+			"keys":["avg"], 
+			"labels":["Energy"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/compress/xrun/large/dmv/flow/flow/sat/result.json",
+				"label": "DMV",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmv/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dmm/flow/flow/sat/result.json",
+				"label": "DMM",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dmm/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dconv/flow/flow/sat/result.json",
+				"label": "DConv",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dconv/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smv/flow/flow/sat/result.json",
+				"label": "SMV",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smv/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/smm/flow/flow/sat/result.json",
+				"label": "SMM",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/smm/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sconv/flow/flow/sat/result.json",
+				"label": "SConv",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sconv/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/sort/flow/flow/sat/result.json",
+				"label": "Sort",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/sort/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/fft/flow/flow/sat/result.json",
+				"label": "FFT",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/fft/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/bfs/flow/flow/sat/result.json",
+				"label": "BFS",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/bfs/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/compress/xrun/large/dfs/flow/flow/sat/result.json",
+				"label": "DFS",
+				"stack": "stack",
+				"normalize": {
+					"src": "../data/compress/xrun/large/dfs/flow/flow/result.json",
+					"stack": "stack"
+				}
+			},
+			{
+				"src": "../data/sat_ilp.json",
+				"label": "Avg",
+				"stack": "avg"
+			}	
+		]
+	],
+	"sci_not": false,
+	"major": [""],
+	"width": 5,
+	"height": 4,
+	"rect": [0, 0, 1, 0.9],
+	"minor_spacing": 2,
+	"major_spacing": 1.5,
+	"minor_padding": 5,
+	"major_padding": 45,
+	"barwidth": 1.1,
+	"fontsize": 19,
+	"annotate": true,
+	"annotate_offset": 0,
+	"annotate_rotation": 45,
+	"ylabel": "Normalized energy (v. ILP)"
+}

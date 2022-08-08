@@ -1,0 +1,120 @@
+{
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 6.77333539971842e-07,
+            "internal": 4.3459089487972e-07,
+            "leakage": 2.2815877386978006e-09,
+            "switching": 2.4274264509212206e-07,
+            "total": 6.796151277105397e-07
+        }
+    },
+    "count": 272,
+    "noc": {
+        "energy": {
+            "dynamic": 4.6260654993021984e-09,
+            "internal": 2.5220446708028e-07,
+            "leakage": 4.6260654993021984e-09,
+            "switching": 2.2233356264787794e-07,
+            "total": 4.7916409522746e-07
+        }
+    },
+    "perf": 200909,
+    "physical": {
+        "/flow_top": {
+            "energy": {
+                "dynamic": 1.6985087950799999e-06,
+                "internal": 1.1982413669e-06,
+                "leakage": 5.5516380333999995e-08,
+                "switching": 5.0026742818e-07,
+                "total": 1.75402396996e-06
+            },
+            "power": {
+                "dynamic": 0.000422706,
+                "internal": 0.000298205,
+                "leakage": 1.38163e-05,
+                "switching": 0.000124501,
+                "total": 0.000436522
+            }
+        },
+        "/flow_top/ALIGNER": {
+            "energy": {
+                "dynamic": 1.1543740922039998e-09,
+                "internal": 1.0599356112999998e-09,
+                "leakage": 1.0569902853599999e-11,
+                "switching": 9.4438480904e-11,
+                "total": 1.1649427092399999e-09
+            },
+            "power": {
+                "dynamic": 2.872878e-07,
+                "internal": 2.63785e-07,
+                "leakage": 2.63052e-09,
+                "switching": 2.35028e-08,
+                "total": 2.89918e-07
+            }
+        },
+        "/flow_top/CGRA": {
+            "energy": {
+                "dynamic": 1.1518715697e-06,
+                "internal": 6.8679536196e-07,
+                "leakage": 6.907653237999999e-09,
+                "switching": 4.6507620774e-07,
+                "total": 1.1587788211199998e-06
+            },
+            "power": {
+                "dynamic": 0.000286665,
+                "internal": 0.000170922,
+                "leakage": 1.7191e-06,
+                "switching": 0.000115743,
+                "total": 0.000288384
+            }
+        },
+        "/flow_top/CORE": {
+            "energy": {
+                "dynamic": 5.003108245239999e-08,
+                "internal": 4.590368831999999e-08,
+                "leakage": 2.6305577915199997e-09,
+                "switching": 4.1273941324e-09,
+                "total": 5.2661463443999996e-08
+            },
+            "power": {
+                "dynamic": 1.2451179999999999e-05,
+                "internal": 1.1424e-05,
+                "leakage": 6.54664e-07,
+                "switching": 1.02718e-06,
+                "total": 1.31058e-05
+            }
+        },
+        "/flow_top/INSN_DATA_CONFLICT": {
+            "energy": {
+                "dynamic": 1.8397839857e-12,
+                "internal": 5.018104093e-13,
+                "leakage": 1.8238519019999998e-14,
+                "switching": 1.3379735764e-12,
+                "total": 1.85802250472e-12
+            },
+            "power": {
+                "dynamic": 4.5786500000000005e-10,
+                "internal": 1.24885e-10,
+                "leakage": 4.539e-12,
+                "switching": 3.3298e-10,
+                "total": 4.62404e-10
+            }
+        },
+        "/flow_top/MM": {
+            "energy": {
+                "dynamic": 4.954456523617999e-07,
+                "internal": 4.6448151709999995e-07,
+                "leakage": 4.5961951929999996e-08,
+                "switching": 3.0964135261799996e-08,
+                "total": 5.414095732e-07
+            },
+            "power": {
+                "dynamic": 0.00012330101,
+                "internal": 0.000115595,
+                "leakage": 1.14385e-05,
+                "switching": 7.70601e-06,
+                "total": 0.00013474
+            }
+        }
+    }
+}

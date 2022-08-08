@@ -1,0 +1,566 @@
+\section{Evaluation}
+\label{sec:eval}
+
+\figRipTideEnergyResults
+
+\figRipTidePerformanceResults
+
+We evaluate \riptide to show that it is easy to program in a high-level language
+and use 25\% less energy than the state-of-the-art energy-minimal design,
+while improving performance by 17\% on average and up to 2.5$\times$.
+Moreover, control flow in the NoC is essential for large
+workloads and reduces energy by up to 2.3$\times$. % 2.26
+
+%% We evaluate \riptide to show 1) \riptide is programmable, compiling high-level-language
+%% code to its fabric, 2) \riptide is more energy-efficient than \snafu, the prior
+%% state of the art, using 50\% less energy on average, 3) \riptide is faster than
+%% \snafu by up to $2.5\times$ and 17\% on average, 4) \riptide's compiler
+%% improves programmability, completely avoiding the 27\% of \snafu's code that is
+%% hand-written assembly, and 5) \riptide's control flow in the NoC (CFiN) enables mapping large
+%% workloads and reduces energy costs  (by up to 2.25$\times$).   \brandon{this is
+%% a mess}
+
+\subsection{Main results}
+
+\paragraph{\riptide compiles high-level code to its fabric.} \riptide
+compiles, schedules, and runs ten applications on its 6$\times$6 fabric.
+% 
+For all but {\tt fft}, \riptide offloads the entire benchmark onto the fabric, including
+outer loops.
+% 
+For {\tt fft}, a 6$\times$6 fabric does not have enough arithmetic or multiplier PEs,
+so we split {\tt fft} into two separate functions. % that map successfully.
+%% but splitting the computation \riptide offloads more than \snafu. \brandon{by how much?}
+% 
+Further, \riptide maps and runs {\tt dfs}, which is {\em not possible} for
+the vector and \snafu baselines ($\times$s in the figures).
+
+\paragraph{\riptide saves energy.}
+\autoref{fig:eval:energy} presents energy of the scalar, vector, 
+\snafu, and ASICs normalized to \riptide.
+% 
+\riptide reduces energy by 6.6$\times$ v.\ scalar, 3.1$\times$ v.\ vector, and 25\% v.\ \snafu.
+%
+\riptide uses less energy across the board.
+% 
+\autoref{fig:eval:energy} breaks energy into memory, scalar, vector/CGRA, and CGRA NoC.
+% 
+\riptide saves energy v.\ scalar and vector because it does not fetch instructions,
+re-uses its configuration across many inputs, and forwards operands 
+directly from producers to consumers.
+% 
+\riptide uses less energy than \snafu by reducing scalar computation:  \riptide runs
+outer loops on the fabric, but \snafu runs them on the scalar core.
+% 
+Avoiding scalar work also eliminates instruction-fetch (memory) energy. 
+
+The only benchmark for which memory energy increases v.\ \snafu is {\tt fft}.
+% 
+\snafu uses scratchpads in the fabric for {\tt fft}, which reduces main memory energy.
+% 
+Even without scratchpads, \riptide shows an overall energy reduction.
+(\riptide currently lacks a programming interface for scratchpads,
+but can easily support them in hardware.)
+
+{\tt sconv} shows how control-flow costs in \riptide move from scalar core to the
+fabric (e.g., steer, carry).
+% 
+While \riptide reduces scalar energy, it adds fabric energy (v.\
+\snafu) to support outer loops.
+% 
+Scalar execution is a small fraction of overall energy for {\tt sconv},
+so \riptide provides no benefit on this benchmark.
+%
+Moreover, comparing fabric energy for \snafu and \riptide on {\tt sconv} shows that
+\riptide's microarchitectural additions cost little energy.
+%% and \riptide's
+%% scalar cost reduction is matched by its fabric cost increase and \snafu and
+%% \riptide have the same energy cost.
+% 
+
+\paragraph{\riptide runs C programs with near-ASIC efficiency.}
+\autoref{fig:eval:energy} also compares \riptide to hand-coded, fixed-function
+ASICs for {\tt dmm}, {\tt sort}, and {\tt fft}.
+% 
+\riptide uses $2.4\times$ more energy on average
+than the ASICs while
+compiling programs directly from C. % with full programmability.
+% 
+\riptide compares especially favorably to {\tt dmm}, using 46\% more energy.
+% 
+The data show that the cost of \riptide's programmability is low.
+
+\paragraph{\riptide is faster than prior energy-minimal CGRAs.}
+\autoref{fig:eval:perf} shows performance normalized to scalar.
+%
+\riptide is 6.2$\times$, 3.4$\times$, and 17\% faster than scalar, vector, and \snafu.
+%% % 
+%% and has within 36\% of the performance of the ASICs.
+%
+%
+%
+%% \autoref{fig:eval:perf} compares \riptide speedup (v.\ scalar) to scalar, vector,
+%% \snafu, and ASICs.
+%% % 
+%% \riptide is 6.6$\times$ and 3.4$\times$ faster than the scalar and vector designs, respectively.
+%
+%% \riptide achieves this performance from C code without hand-coded assembly.
+% 
+\riptide does especially well on {\tt bfs}, with a 2.5$\times$ speedup v.\ \snafu. The benefit comes
+from \riptide's ability to run {\tt bfs}'s irregular outer loop on the fabric, whereas
+% 
+\snafu is bottlenecked on the scalar core because its fabric runs only inner loops. % , running the outer loop on the scalar core.
+% 
+%% This strategy sequentializes inner loops and limits performance by scalar performance.
+
+\figRipTideArea
+\tabRipTideEvalCompare
+\figRipTidePrimaryCompilerResults
+
+\paragraph{\riptide is tiny and has extremely low power consumption.}
+\label{sec:eval:power_area}
+The complete \riptide system (CGRA, memory, and scalar core) is $\approx 0.5\text{mm}^2$.
+\autoref{fig:eval:area} breaks down system area among its components.
+\riptide operates between 320\textmu W and 910\textmu W,
+with negligible leakage (<\,3\%) due to \riptide's high-threshold-voltage process.
+% 
+Overall, the complete system, including memory, achieves
+180 MOPS/mW running a hand-tuned C implementation of {\tt dmm} that unrolls twice along the output column dimension.
+% 
+Without tuning, \riptide achieves 141 MOPS/mW on {\tt dmm}.
+
+\subsection{\riptide v. prior low-power CGRAs}
+\autoref{tab:eval:compare} compares \riptide against several recent CGRAs.
+% 
+We compare designs across their general-purpose programmability, architectural parameters, and reported performance, power, and efficiency.
+% 
+\riptide supports a broader range of programs and is more energy-efficient than prior CGRAs.
+%
+%% \riptide also performs worse, but this is primarily because we evaluate \riptide at 50\,MHz, significantly below its maximum frequency.
+
+\paragraph{Making a fair comparison.}
+%% Fairly comparing \riptide to prior CGRA designs is challenging. 
+\autoref{tab:eval:compare} gives absolute numbers for different designs and does not re-scale them to normalize the node.
+% 
+These numbers are our best effort at accurately characterizing prior designs v. \riptide.
+%
+Few prior CGRAs admit meaningful comparison, however, because prior work reports performance, power, and efficiency inconsistently.
+
+Concrete numbers for energy efficiency are hard to come by.
+%
+Many prior CGRAs focus on performance~\cite{plasticine,voitsechov2014single} or mapping~\cite{4dcgra,lee2021ultra,himap} and report metrics (e.g., initiation interval) that are not the focus of \riptide.
+% 
+Others report relative results~\cite{torng2021ultra,nguyen2021fifer} or use high-level models~\cite{weng2020hybrid,nguyen2021fifer} that make quantitative comparison difficult.
+%
+
+Differences in measurement methodology also make it challenging to compare reported results.
+% 
+Prior CGRAs often report \emph{total} operation count, including, e.g., loads, stores, and loop control, or are unclear about which operations are counted~\cite{srp,ipa,cma}.
+% 
+These numbers, though often reported as MOPS~\cite{srp,ipa}, are closer to MIPS as defined for traditional CPUs.
+% 
+%% Ideally, performance should measure the work required by a problem, independent of implementation (e.g., $2n^3$ ops for {\tt dmm} or $4 n \log_2 n + O(n)$ ops for {\tt fft}).
+%% % 
+%% However, standard practice in high-performance computing is to count all floating-point operations (FLOPS), which can increase operation count depending on implementation (e.g., to $10 n \log_2 n + O(n)$ ops for {\tt fft}).
+%% % 
+%% We define MOPS correspondingly --- counting the essential arithmetic operations of a kernel --- and verify that each comparison point is counting in the same way.
+%
+\autoref{tab:eval:compare} counts only essential arithmetic operations,%
+\footnote{Specifically, $2n^3$ ops for {\tt dmm} and $10 n \log_2 n + O(n)$ ops for {\tt fft}.}
+and we have verified with the authors
+of other designs in \autoref{tab:eval:compare} that they count MOPS the same way.
+%
+Finally, many prior CGRAs report power for the fabric only,
+excluding, e.g., the core and memory~\cite{revamp,cma,kim2009hierarchical}.
+%
+We report both fabric and full-system power, and focus on the latter.
+%
+\emph{Full-system MOPS/mW is the most important metric for
+the applications targeted by \riptide.}
+
+%% Finally, synthetic benchmarks and ``peak'' or ``steady-state'' results should be avoided because they can exaggerate benefits, skew conclusions, and may not capture significant energy sinks like memory or initialization.
+%% % 
+%% We report results for {\tt fft} on randomized input data for each design with Revel, \snafu, and \riptide being for end-to-end execution.
+
+\paragraph{\riptide is more programmable than prior CGRAs.}
+%
+\autoref{tab:eval:compare} highlights a number of programming
+features supported by \riptide that are unsupported by prior CGRAs.
+%
+In addition to making \riptide easier to program (\autoref{tab:background}),
+these features improve energy-efficiency by allowing \riptide to offload a larger fraction
+of a program onto the efficient CGRA fabric.
+
+\paragraph{\riptide is more energy-efficient than prior CGRAs.}
+\riptide is the most energy-efficient CGRA by a significant margin.
+% 
+Scaled to 22nm,
+both the HyCube testchip~\cite{wang2019hycube} and
+UE-CGRA~\cite{torng_pan_2021} achieve roughly 48 full-system MOPS/mW on {\tt fft}.
+%
+%Revel achieves $\approx 15 MOPS/mW$,
+% 
+\riptide achieves 117 full-system MOPS/mW,
+%more than $7\times$ better than Revel and
+which is 2.4$\times$ better,
+%
+even including \riptide's larger memory and
+despite {\tt fft} being the only kernel to not fit entirely on \riptide's fabric.
+%
+E.g., on {\tt dmm} with loop unrolling,
+efficiency improves to 180 full-system MOPS/mW.
+% 
+% {\tt fft} is also not ideal for \riptide --- it is the only kernel that does not fit entirely on fabric and would benefit from scratchpads which \riptide lacks. 
+% 
+% \nzb{Should we mention that {\tt fft} is really bad for \riptide?
+%   (1)~It is the only benchmark that doesn't fit on the fabric in a single function.
+%   (2)~It suffers from lack of scratchpads.
+%   There's low-hanging fruit to improve this more!}
+
+Using a different measurement methodology changes the absolute results dramatically,
+highlighting the challenge of making apples-to-apples comparisons between CGRAs.
+%
+If we count {\em all} operations, instead of only essential arithmetic (i.e., MIPS),
+\riptide achieves 400 MIPS/mW on {\tt fft}.
+%
+If we measure only the fabric, \riptide achieves 254 MOPS/mW
+and 859 MIPS/mW --- increasing reported efficiency by 7.3$\times$ v. full-system MOPS/mW.
+
+%% \autoref{tab:eval:compare} shows that
+Measuring only the fabric,
+a recent version of HyCube generated by REVAMP~\cite{revamp}
+achieves 103 fabric-only MOPS/mW,
+averaging across several linear
+algebra benchmarks.
+%
+(A tuned, heterogeneous fabric achieves 172MOPS/mW.)
+%
+\riptide achieves achieves 328 fabric-only MOPS/mW on unrolled {\tt dmm}.
+%
+Meaningful comparisons thus require a detailed understanding
+of what is being measured.
+
+\paragraph{\riptide's area is similar to prior CGRAs.}
+% \riptide is designed for the ULP sensor domain.
+\riptide is somewhat larger than prior CGRAs
+(7000 \textmu mm$^2$/PE for \riptide, v.
+5500 \textmu mm$^2$/PE for HyCube~\cite{revamp}\footnote{HM-HyCube generated using REVAMP~\cite{revamp}. The HyCube testchip~\cite{wang2019hycube} area includes I/O pads, etc., and is not directly comparable.}
+and 3900 \textmu mm$^2$/PE for UE-CGRA).
+% \nzb{Are these the right numbers? Should it be normalized to PE? This metric implies that everything that isn't a PE is pure overhead, which I think is OK.}
+% 
+Differences in NoC design help explain these discrepancies.
+%
+UE-CGRA has no routers, instead routing values through PEs.
+%
+% HyCube fuses a crossbar switch into each PE, but there is less overall connectivity v. \riptide.
+% \brandon{multiple routers per PE?  or do they fuse a router into each PE?\cmark}
+% %
+% \riptide's NoC is more flexible and powerful, implementing dynamic flow control and control-flow operators (\autoref{sec:fin}).
+% 
+HyCube's NoC accounts for 24\% of fabric area, with each PE containing a $4\times4$ crossbar switch.
+% 
+\riptide's NoC accounts for 54\% of fabric area, but offers more connectivity (more links and $8\times8$ switches) and capability (dynamic flow control and control-flow operators).
+%
+\snafu's 2D-mesh NoC accounts for 42\% of fabric area and uses the same switch design as \riptide, showing that \riptide's 2D-torus topology and CFMs add modest overhead.
+% \nzb{Converge on these numbers and \snafu context.}
+
+\paragraph{\riptide targets a different design point.}
+As currently evaluated, \riptide is much slower than prior CGRAs.
+%
+We evaluate \riptide at 50 MHz,
+v. 100s of MHz for prior designs.
+%
+\riptide has significant slack at 50 MHz
+and could run much faster.
+%
+We have not yet pushed frequency further
+due to \riptide's bufferless NoC
+and top-down synthesis flow,
+which requires additional tooling to
+estimate worst-case critical path.
+(A similar problem arises in FPGAs.)
+%
+Frequency in the 10s of MHz is
+common in ULP microcontrollers.
+
+Nevertheless, lower frequency means that \riptide's raw performance is well below prior CGRAs:
+%
+on {\tt fft}, 62 MOPS for \riptide v. 5,380 MOPS for HyCube
+and 625 MOPS for UE-CGRA.
+%
+Factoring out frequency, \riptide achieves 1.24 ops/cycle
+v. 11 ops/cycle for HyCube
+and 0.83 ops/cycle for UE-CGRA.
+%
+\riptide's lower ops/cycle is partly by design:
+\riptide trades performance for efficiency by mapping a single operation to each PE,
+whereas HyCube maps multiple operations per PE to maximize utilization.
+%
+This tradeoff makes sense for \riptide
+because it targets applications
+that are limited by energy, not performance (\autoref{sec:background}).
+
+Combining \riptide's low frequency and high energy-efficiency
+yields extremely low power consumption.
+%
+\riptide draws 2--3 orders-of-magnitude less power
+than HyCube and UE-CGRA.
+%
+Only \snafu and \riptide draw less than 1\,mW ---
+and this is the entire system, including the 256KB main memory.
+% \begin{itemize}
+% \item Metrics
+%   \begin{itemize}
+%   \item \autoref{tab:eval:compare} compares \riptide against several recent CGRAs.
+%   \item We compare CGRAs on their general-purpose programmability,
+%     design parameters, synthesis results,
+%     and performance \& efficiency on standard benchmarks.
+    
+%   \item Meaningful efficiency numbers are hard to come by for prior CGRAs.
+%   \item Prior CGRAs focus on performance:
+%     \begin{itemize}
+%     \item Many papers are on CGRA mapping, not new microarchitectures, and evaluate only on initiation interval.
+%     \item Prior CGRA frameworks (CGRA-ME, OpenCGRA) focus on area and frequency, not energy efficiency.
+%     \item Others report results relative to some baseline, or use high-level models like CACTI. $\Rightarrow$ No meaningful comparison possible.
+%     \end{itemize}
+%   \item MIPS v. MOPS.
+%     \begin{itemize}
+%     \item The choice of performance measure has a large impact on reported results.
+%     \item Prior CGRAs often measure \emph{total} operation count, including, e.g., loads, stores, and loop control.
+%     \item These numbers, though often reported as MOPS, are closer to MIPS (as defined for traditional CPUs).
+%     \item Ideally, we want a performance metric that measures the work required by a problem, independent of its implementation: e.g., $2n^3$ ops for {\tt dmm} or $4 n \log_2 n + O(n)$ ops for {\tt fft}.
+%     \item However, standard practice in high-performance computing is to count all floating-point operations (FLOPS),
+%       which can increase operation count depending on implementation (e.g., to $10 n \log_2 n + O(n)$ ops for {\tt fft}).
+%     \item We define MOPS correspondingly, counting only arithmetic operations corresponding to the essential computation in the kernel.
+%     \end{itemize}
+%   \end{itemize}
+% \item Benchmarks \& data sets.
+%   \begin{itemize}
+%   \item Synthetic benchmarks or ``peak'' results should be avoided.
+%   \item Easy to game, particularly on CGRAs (e.g., pass zeros in a cycle between PEs).
+%   \item ``Peak'' exaggerates benefit and skew conclusions.
+%   \item Memory, network, initialization are often significant energy sinks on a real application.
+%   \end{itemize}
+% \item Best practices
+%   \begin{itemize}
+%   \item Use a standard benchmark; we focus on {\tt fft}.
+%   \item Use randomized inputs to get realistic data toggling if a real-world dataset is unavailable.
+%   \item Report full-system energy, including memory and core initialization \& clean-up. Distinguish fabric and system energy.
+%   \item Report MOPS, not MIPS. Explicitly state how many operations are measured.
+%   \item When in doubt, contact the authors. (Much of our data was gathered via direct correspondence with authors of original papers.)
+%   \item None of this is new, but most prior CGRAs do not meet this standard.
+%   \item Shout-out to HyCube.
+%   \end{itemize}
+% \item Results
+%   \begin{itemize}
+%   \item Programmability.
+%     \begin{itemize}
+%     \item \riptide is uniquely programmable.
+%     \end{itemize}
+%   \item Node.
+%     \begin{itemize}
+%     \item \autoref{tab:eval:compare} gives absolute numbers for different designs and does not re-scale them to normalize node.
+%     \end{itemize}
+%   \item Area.
+%     \begin{itemize}
+%     \item HyCube is huge? (Even after accounting for 40nm v. 22nm.) (Other HyCube paper says 0.64mm$^2$ ... still huge.)
+%     \item Other designs are roughly 5000\textmu m$^2$ per PE.
+%     \end{itemize}
+%   \item Frequency.
+%     \begin{itemize}
+%     \item \riptide does not optimize raw performance and has the lowest frequency by far.
+%     \item 50\,MHz is not maximum frequency; significant slack remains.
+%     \item Not pushed further due to tooling w/ top-down synthesis.
+%     \end{itemize}
+%   \item Memory size.
+%     \begin{itemize}
+%     \item \riptide has the biggest memory, because in \riptide this is the main memory. Difference is largest v. HyCube.
+%     \end{itemize}
+%   \item Benchmark
+%     \begin{itemize}
+%     \item Everyone doing {\tt fft}; we additionally include {\tt dmm} because its the peak that we report elsewhere.
+%     \end{itemize}
+%   \item Power
+%     \begin{itemize}
+%     \item Wide range of power numbers; \snafu and \riptide only ones below 1\,mW.
+%     \item (Note that HyCube is in 40\,nm, v. 20-something\,nm for others.)
+%     \item \riptide is 30\% lower power than \snafu.
+%     \item Memory energy is significant; system $\gg$ array.
+%     \end{itemize}
+%   \item Performance
+%     \begin{itemize}
+%     \item \riptide is much lower performance than others, due to its reduced frequency. Again, this is not fundamental to the design, though we do give up area-normalized performance by mapping only one operation to each PE.
+%     \item MIPS v. MOPS makes a huge difference --- roughly 3$\times$.\nzb{HyCube is an outlier; is this because they unroll loops? Or because we're comparing across papers?}
+%     \item \riptide numbers with and without control ops: 349 $\rightarrow$ 611 and 169 $\rightarrow$ 207. (This carries through to affect MIPS/mW, showing the fragility of this metric.)
+%     \item \riptide worse performance on {\tt fft} because code must be split to fit on fabric and \snafu has scratchpads, which reduce bank conflicts in memory.
+%     \item \riptide is faster on {\tt dmm} (by 30\%) because the entire benchmark runs on fabric; this is more typical.
+%     \end{itemize}
+%   \item Efficiency
+%     \begin{itemize}
+%     \item \bigemph{\riptide is the most energy-efficient CGRA by a significant margin.}
+%     \item Scaled to 22nm, HyCube and UE-CGRA both get 48 MOPS/mW\nzb{Revel?} --- \riptide is more than 2$\times$ better.
+%     \item Moreover, RipTide does fixed-point arithmetic, which is more expensive than plain integer.
+%     \item (Note that HyCube estimated 90 MOPS/mW in simulation, but measured 26.4 MOPS/mW in silicon. The source of this discrepancy is unclear.)
+%     \item This is in spite of \riptide having a larger memory; e.g., using the $\sqrt{\text{size}}$ rule of thumb, increasing HyCube's 4\,KB memory to 256\,KB would reduce efficiency by 2.6$\times$. (Of course, data transfers from off-chip memory would reduce, and some data could be kept in caches or scratchpads, mitigating the impact on efficiency.)
+%     \item Measuring only the fabric, or measuring MIPS instead of MOPS, skews results dramatically --- e.g., on {\tt fft}, \riptide's 117 MOPS/mW increases to 859 fabric MIPS/mW. Evaluations must be explicit about what is being measured.
+%     \end{itemize}
+%   \end{itemize}
+% \end{itemize}
+
+% \autoref{tab:eval:compare} compares \riptide to other low-power CGRAs.
+% % 
+% The numbers in the table are our best effort at accurately characterizing prior designs v. \riptide.
+% % 
+% Full-system MOPS/mW is most meaningful, but numbers are often missing.
+% % 
+% Further sometimes it is unclear how operations (operations are a property of a specific kernel, not how it is implemented) are being counted and what is included in the power and energy numbers.
+% \graham{Is kernel the right word??}
+% % 
+% We contacted the authors of the prior work to answer these questions and to verify the accuracy of the information in the table.
+% % 
+% We also provide as much information as possible for \riptide to enable future  comparisons.
+
+\subsection{Compiler characterization}
+\label{sec:eval:compiler}
+\riptide's compiler effectively optimizes dataflow graphs, reducing operation
+count by 27\% while enforcing memory ordering v.\ an unoptimized DFG without
+ordering.
+% 
+The compiler also reduces programmer effort: \riptide compiles from C with
+no hand-coded assembly, requiring just 8.7 added LoC on average over the original
+C (mostly for wrappers).
+% 
+Lastly the compiler is fast --- the SAT mapper finds a solution to each benchmark in <\,3\,min and uses only 4.7\% more energy than the ILP mapper.
+
+\paragraph{\riptide's compiler reduces operation count.} Reducing operation count
+is important because operations consume PEs in \riptide's fabric.
+%
+\autoref{fig:eval:ops} shows operation counts by type with different optimizations applied.
+% 
+The first bar is an unoptimized DFG mapped to \riptide.
+% 
+This DFG requires many PEs to map to hardware and may yield incorrect
+results because it does not enforce memory ordering.
+% 
+The second bar adds streams, operator fusion, and redundant control-flow
+elimination, reducing operation count by 33\%.
+% 
+The third bar adds unoptimized memory ordering, which {\em increases} operation count by 82\% to ensure correctness.
+% 
+Mapping this graph to hardware is challenging due to its size.
+% 
+The fourth bar applies \riptide's ordering optimizations (\autoref{sec:compiler}), reducing operation count (v. the third bar) by 18\%.
+% 
+The fifth bar adds programmer-inserted annotations on pointers (C's {\tt restrict} keyword)
+to better inform LLVM's alias analysis, reducing operation count by 16\%.
+% 
+%Annotations sometimes increase operations if multiple, mutually exclusive alias sets are identified (i.e. {\tt bfs}).
+% 
+The last bar removes control-flow operations that map to \riptide's NoC, reducing
+the number of operations on PEs by 35\%, demonstrating the benefit of
+\riptide's control flow in the NoC.
+% 
+Between \riptide's compiler optimizations and implementation of control flow in the the NoC, \riptide reduces operations mapped to PEs by 52\% (first v. last bar) while enforcing memory ordering.
+% 
+%Larger, more sophisticated applications map to hardware because the control-flow tax is minimizing by assigning CF operations to the NoC.
+\figRipTideLoCResults
+
+\paragraph{\riptide reduces programmer effort.}
+\autoref{fig:eval:loc} counts code additions, including lines of code (LoC) in C, assembly, and {\tt restrict} annotations.  
+%
+%% We reasonably assume here that writing assembly is harder than C,
+%% which is harder than adding annotations.
+% 
+\riptide has no hand-written assembly, compiling directly from C, while  32\% and
+27\% of the LoC for the vector and \snafu baselines are hand-written assembly.
+% 
+On average, vector adds 17 LoC v.\ scalar, \snafu adds 21 LoC v.\ scalar, and
+\riptide adds just 8.7 lines.
+% 
+Annotations in \riptide represent a small fraction of the overall LoC, just 11.2\%
+and, on average, the programmer adds 4.5 annotations per benchmark.
+
+
+\figRipTideSATResults
+\paragraph{ILP v.\ SAT.}
+\autoref{fig:sat:ctime} shows the end-to-end compilation times for \riptide using its SAT and ILP mappers.
+% 
+\autoref{fig:sat:energy} compares the energies of the resulting mappings.
+% 
+SAT is $15.1\times$ faster than ILP on average, finding solutions to most benchmarks in under a minute.
+% 
+Rapid compilation makes SAT appropriate for iterative software development.
+% 
+On the other hand, ILP produces mappings that use 4.3\% less energy on average, making it ideal for final optimization prior to deployment.
+
+The consistently narrow energy gap between SAT and ILP suggests that good solutions are dense in \riptide;
+i.e., any valid mapping found by SAT is close to the optimal energy from ILP.
+%
+\riptide does not time-multiplex PEs, so mapping affects energy largely through routing distance.
+%
+But the loss in routing distance is constrained by routability
+(i.e., any valid mapping will tend to place dependent operations close to one another),
+and the energy impact of routing distance in \riptide is reduced by its bufferless NoC.
+%
+These observations help to explain why SAT performs well in \riptide.
+
+\figRipTideFINResults
+\subsection{Control flow in the NoC saves energy \& area}
+\label{sec:eval:fin}
+\autoref{fig:eval:fin} quantifies the benefits of implementing control flow in the NoC.
+% \nzb{I think we should re-structure this section around explicit synthesis results for the different schemes, explaining what they are and discussing area first. Then jump to complete system results. Right now it is hard to follow.}
+% 
+From left to right, the plot shows energy on:
+\begin{compactitem}
+\item \riptide: Control flow implemented in the NoC (CFiN).
+\item No CFiN: Control flow mapped to PEs on a 6$\times$6 fabric.
+\item All PEs: Control flow mapped to PEs, and fabric size increased as necessary to fit each benchmark.
+\item Fused: One control-flow operator fused into each PE, and fabric sized increased as necessary to fit each benchmark.
+\end{compactitem}
+% 
+We synthesize the first two configurations to estimate energy, while for the latter two configurations we extrapolate energy using area and power estimates for control-flow modules and PEs derived from the synthesized configurations.
+ 
+\riptide uses the least energy: 45\% less than No CFiN, 40\% less than All PEs, and 27\% less than Fused.
+% 
+\riptide's energy benefit stems from CFiN avoiding the overhead of a full PE.
+%
+Other configurations also have unique problems.
+% 
+No-CFiN is possible only for {\tt dmv} and {\tt smv}, which are small enough to map to the
+same \riptide fabric; other workloads have too many control-flow operators to map.
+% 
+The All PEs and Fused configurations add many control-flow PEs, wasting energy and area:
+% 
+\riptide is 22\% and 17\% smaller than All PEs and Fused, respectively.
+
+\subsection{End-to-end case study: \riptide makes saving energy easy}
+\label{eval:end2end}
+% 
+To evaluate the experience of developing for \riptide we deployed a full application --- DNN inference --- to the fabric.
+% 
+This experiment also allowed us to demonstrate the efficiency and performance of \riptide v.\ commercial, off-the-shelf ULP microcontrollers.
+
+The DNN we chose is a derivative of LeNet~\cite{lecun:ieee89:lenet} and has four layers: two convolution layers separated into three sublayers followed by two fully connected layers.
+% 
+Every layer is offloaded to \riptide's fabric, including convolution, fully connected, activation, pooling, and normalization layers.
+% 
+It was a straightforward process once we had working scalar code ---
+% 
+the compiler worked out of the box.
+
+\autoref{fig:progress} shows the energy and performance of \riptide running inference v.\ two COTS MCUs --- TI MSP430FR5994~\cite{msp430fr5994} and Arm Cortex-M3~\cite{stm32l1} --- as well as our scalar design.
+%
+For the MSP430 and Cortex-M3, we run the network on real hardware and use a digital multimeter to measure current draw,
+which matches datasheets.
+% 
+\autoref{fig:progress:energy} shows the massive energy savings of \riptide.
+% 
+\riptide achieves 64MOPS/mW, which is 1900$\times$ more than the MSP430 (0.03 MOPS/mW), 490$\times$ more than the Cortex-M3 (0.13 MOPS/mW), and $6.6\times$ more  than our scalar design (9.5 MOPS/mW).
+% 
+Even accounting for technology scaling, \riptide still saves roughly 321$\times$ v.\ MSP430 and 83$\times$ energy v.\ Cortex-M3.
+%
+The reason for such poor efficiency in the MCUs seems to be their non-volatile main memory.
+%
+\autoref{fig:progress:perf} shows that \riptide is also significantly faster: by $146\times$ v.\ MSP430, $13\times$ v.\ Cortex-M3, and $7.7\times$ v.\ our scalar design.
+
+\figRipTideProgress

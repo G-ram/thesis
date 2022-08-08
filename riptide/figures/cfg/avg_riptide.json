@@ -242,10 +242,14 @@
 				"physical./snafu_top/MM.energy.total",
 				"physical./snafu_top/CORE.energy.total",
 				"physical./snafu_top/CGRA.energy.total",
+				"cgra_minus_noc.energy.total",
+				"noc.energy.total",
 				"perf",
 				"count"
 			],
 			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
 				"physical./flow_top.energy.total",
 				"physical./flow_top.energy.total",
 				"physical./flow_top.energy.total",
@@ -258,10 +262,12 @@
 				"snafu.energy.mm",
 				"snafu.energy.core",
 				"snafu.energy.cgra",
+				"snafu.energy.cgra_minus_noc",
+				"snafu.energy.noc",
 				"snafu.perf",
 				"snafu.count"
 			],
-			"invert": [false, false, false, false, false, true]
+			"invert": [false, false, false, false, false, false, false, true]
 		}
 	},
 	{
@@ -313,10 +319,14 @@
 				"physical./flow_top/MM.energy.total",
 				"physical./flow_top/CORE.energy.total",
 				"physical./flow_top/CGRA.energy.total",
+				"cgra_minus_noc.energy.total",
+				"noc.energy.total",
 				"perf",
 				"count"
 			],
 			"normalize": [
+				"physical./flow_top.energy.total",
+				"physical./flow_top.energy.total",
 				"physical./flow_top.energy.total",
 				"physical./flow_top.energy.total",
 				"physical./flow_top.energy.total",
@@ -329,10 +339,12 @@
 				"flow.energy.mm",
 				"flow.energy.core",
 				"flow.energy.cgra",
+				"flow.energy.cgra_minus_noc",
+				"flow.energy.noc",
 				"flow.perf",
 				"flow.count"
 			],
-			"invert": [false, false, false, false, false, true]
+			"invert": [false, false, false, false, false, false, false, true]
 		}
 	}
 ]

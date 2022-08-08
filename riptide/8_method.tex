@@ -1,0 +1,79 @@
+\section{Experimental Methodology}
+\label{sec:method}
+
+We evaluate a complete \riptide system: the compiler built using LLVM and the
+microarchitecture fully implemented in RTL in Intel 22FFL,
+an industrial, sub-28nm FinFET process.
+
+\paragraph{Compiler.}
+\riptide's compiler passes extend LLVM 12.0~\cite{llvm} and we compile workloads with
+(\texttt{-Oz}) to optimize code size.  
+% 
+\riptide's compiler middle-end uses LLVM's
+flow-insensitive alias analyses for memory ordering.
+%
+We evaluate both \riptide's SAT and ILP mappers (see \autoref{sec:compiler:map}), but unless otherwise specified we use the ILP mapper.
+% 
+The ILP mapper uses CVXPY~\cite{cvxpy} and Gurobi 9.5~\cite{gurobi}.
+%
+The SAT mapper uses CaDiCal~\cite{cadical} to rewrite and simplify the problem's clauses and then uses a new parallel SAT solver, developed concurrently and based on YalSAT~\cite{yalsat}, to find a valid mapping.
+
+\paragraph{Hardware.}
+\label{method:hardware}
+\riptide is implemented completely in RTL, including the 6$\times$6 CGRA, RISC-V
+(RV32IMCE) scalar core, and 256KB
+%(8$\times$32KB banks w/ work-conserving round-robin arbitration)
+SRAM main memory. 
+% 
+We use Cadence Xcelium to verify correctness and measure
+performance.
+% 
+We synthesize \riptide using Cadence Genus and an
+high-threshold-voltage, FinFET PDK with compiled memories.
+% 
+To estimate power, we simulate full benchmarks post-synthesis and use Cadence
+Joules to estimate power from annotated switching activities.
+
+\paragraph{Baselines.}
+The evaluation compares to several baselines---scalar, vector, \snafu, and
+three ASICs---also implemented entirely in RTL, using the same design
+flow.
+% 
+All baselines and \riptide use the same scalar core and main memory.
+% 
+The scalar baseline is a simple, six-stage microcontroller.
+% 
+The vector baseline adds a single-lane co-processor~\cite{manic}.
+% 
+\snafu is the state-of-the-art energy-minimal CGRA.
+%% , but requires 
+%% hand-coded vector assembly programs.
+%% % 
+%% We compare to three custom ASICs on {\tt dmm}, {\tt sort}, and {\tt fft} to evaluate the costs of
+%% programmability in \riptide.
+
+\paragraph{Benchmarks.}
+We evaluate ten workloads important to the ULP domain on random inputs.
+% 
+For the vector baseline, we vectorized all code by hand (except {\tt dfs}, which does not 
+vectorize well).
+% 
+\snafu uses the vectorized code to generate its bitstreams.
+% 
+For \riptide, we compile and run the plain C implementation of each benchmark.
+%
+The exceptions are {\tt sort}, for which we use merge sort on the scalar core and
+radix sort for \riptide,
+%because it more easily maps to the CGRA fabric.
+and {\tt dmm}, in which, where explicitly noted, we hand-tune its software implementation to maximize efficiency.
+% 
+
+%\paragraph{Metrics}
+%We evaluate three main metrics: energy, performance, and the number of
+%operations.
+%% 
+%We measure performance and energy across the full execution of each benchmark.
+%% 
+%Energy results are normalized to the scalar design and performance results are reported in speedup v.\ scalar.
+%% 
+%We evaluate the optimizations made by our compiler by the number of operations required to be mapped to hardware to run a particular benchmark.

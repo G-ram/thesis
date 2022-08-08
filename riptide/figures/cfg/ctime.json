@@ -1,0 +1,260 @@
+{
+	"stacks": {
+		"sat_dmv": {
+			"keys": ["sat.dmv"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_dmm": {
+			"keys": ["sat.dmm"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_dconv": {
+			"keys": ["sat.dconv"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_smv": {
+			"keys": ["sat.smv"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_smm": {
+			"keys": ["sat.smm"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_sconv": {
+			"keys": ["sat.sconv"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_sort": {
+			"keys": ["sat.sort"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_fft": {
+			"keys": ["sat.fft"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_bfs": {
+			"keys": ["sat.bfs"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"sat_dfs": {
+			"keys": ["sat.dfs"],
+			"labels": ["SAT"],
+			"colors": ["#41b6c4"]
+		},
+		"ilp_dmv": {
+			"keys": ["ilp.dmv"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_dmm": {
+			"keys": ["ilp.dmm"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_dconv": {
+			"keys": ["ilp.dconv"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_smv": {
+			"keys": ["ilp.smv"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_smm": {
+			"keys": ["ilp.smm"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_sconv": {
+			"keys": ["ilp.sconv"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_sort": {
+			"keys": ["ilp.sort"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_fft": {
+			"keys": ["ilp.fft"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_bfs": {
+			"keys": ["ilp.bfs"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		},
+		"ilp_dfs": {
+			"keys": ["ilp.dfs"],
+			"labels": ["ILP"],
+			"colors": ["#9f7ccf"]
+		}
+	},
+	"srcs": [
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_dmv",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_dmv",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_dmm",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_dmm",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_dconv",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_dconv",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_smv",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_smv",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_smm",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_smm",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_sconv",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_sconv",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_sort",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_sort",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_fft",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_fft",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_bfs",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_bfs",
+				"scale": 1
+			}
+		],
+		[
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "ilp_dfs",
+				"scale": 1
+			},
+			{
+				"src": "../data/ctime.json",
+				"label": "",
+				"stack": "sat_dfs",
+				"scale": 1
+			}
+		]
+	],
+	"sci_not": false,
+	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS"],
+	"width": 5,
+	"height": 4,
+	"rect": [0.0, 0.0, 1, 0.9],
+	"minor_spacing": 1.8,
+	"major_spacing": 1.2,
+	"minor_padding": 5,
+	"major_padding": 5,
+	"barwidth": 1.2,
+	"fontsize": 20,
+	"log": true,
+	"major_rotation": 90,
+	"ylabel": "Time (s)"
+}

@@ -1,1 +1,120 @@
-{"physical": {"/snafu_top": {"energy": {"dynamic": 5.55865954992e-07, "internal": 4.4738935296e-07, "leakage": 3.828193264800001e-08, "switching": 1.0847660203200002e-07, "total": 5.941468852800001e-07}, "power": {"dynamic": 0.0002772786, "internal": 0.000223168, "leakage": 1.90959e-05, "switching": 5.41106e-05, "total": 0.000296374}}, "/snafu_top/ALIGNER": {"energy": {"dynamic": 9.210108680640002e-10, "internal": 8.046966127200001e-10, "leakage": 4.4649925728e-12, "switching": 1.16314255344e-10, "total": 9.254749785600001e-10}, "power": {"dynamic": 4.5942120000000003e-07, "internal": 4.01401e-07, "leakage": 2.22724e-09, "switching": 5.80202e-08, "total": 4.61648e-07}}, "/snafu_top/CGRA": {"energy": {"dynamic": 3.1360536612e-07, "internal": 2.1750811056000002e-07, "leakage": 1.4025381969600002e-08, "switching": 9.609725556000002e-08, "total": 3.276313896e-07}, "power": {"dynamic": 0.0001564335, "internal": 0.000108498, "leakage": 6.99618e-06, "switching": 4.79355e-05, "total": 0.00016343}}, "/snafu_top/CORE": {"energy": {"dynamic": 2.8622530130400004e-08, "internal": 2.6398353432000004e-08, "leakage": 1.31274678816e-09, "switching": 2.2241766984e-09, "total": 2.9935280928e-08}, "power": {"dynamic": 1.427757e-05, "internal": 1.31681e-05, "leakage": 6.54828e-07, "switching": 1.10947e-06, "total": 1.49324e-05}}, "/snafu_top/INSN_DATA_CONFLICT": {"energy": {"dynamic": 3.6620460806400004e-12, "internal": 1.01517417024e-12, "leakage": 9.123480720000001e-15, "switching": 2.6468719104000004e-12, "total": 3.6711835944e-12}, "power": {"dynamic": 1.826712e-09, "internal": 5.06392e-10, "leakage": 4.551e-12, "switching": 1.32032e-09, "total": 1.83127e-09}}, "/snafu_top/MM": {"energy": {"dynamic": 2.127079288032e-07, "internal": 2.0267318256000003e-07, "leakage": 2.2936602936000002e-08, "switching": 1.0034746243200001e-08, "total": 2.3564481240000003e-07}, "power": {"dynamic": 0.00010610356, "internal": 0.000101098, "leakage": 1.14413e-05, "switching": 5.00556e-06, "total": 0.000117545}}}, "perf": 100236, "count": 635}
+{
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 2.901167130331032e-07,
+            "internal": 2.0269885961517602e-07,
+            "leakage": 1.2810356601002402e-08,
+            "switching": 8.741785341792721e-08,
+            "total": 3.029270696341056e-07
+        }
+    },
+    "count": 635,
+    "noc": {
+        "energy": {
+            "dynamic": 1.2150253685976004e-09,
+            "internal": 1.4809250944824004e-08,
+            "leakage": 1.2150253685976004e-09,
+            "switching": 8.679402142072803e-09,
+            "total": 2.4703678455494397e-08
+        }
+    },
+    "perf": 100236,
+    "physical": {
+        "/snafu_top": {
+            "energy": {
+                "dynamic": 5.55865954992e-07,
+                "internal": 4.4738935296e-07,
+                "leakage": 3.828193264800001e-08,
+                "switching": 1.0847660203200002e-07,
+                "total": 5.941468852800001e-07
+            },
+            "power": {
+                "dynamic": 0.0002772786,
+                "internal": 0.000223168,
+                "leakage": 1.90959e-05,
+                "switching": 5.41106e-05,
+                "total": 0.000296374
+            }
+        },
+        "/snafu_top/ALIGNER": {
+            "energy": {
+                "dynamic": 9.210108680640002e-10,
+                "internal": 8.046966127200001e-10,
+                "leakage": 4.4649925728e-12,
+                "switching": 1.16314255344e-10,
+                "total": 9.254749785600001e-10
+            },
+            "power": {
+                "dynamic": 4.5942120000000003e-07,
+                "internal": 4.01401e-07,
+                "leakage": 2.22724e-09,
+                "switching": 5.80202e-08,
+                "total": 4.61648e-07
+            }
+        },
+        "/snafu_top/CGRA": {
+            "energy": {
+                "dynamic": 3.1360536612e-07,
+                "internal": 2.1750811056000002e-07,
+                "leakage": 1.4025381969600002e-08,
+                "switching": 9.609725556000002e-08,
+                "total": 3.276313896e-07
+            },
+            "power": {
+                "dynamic": 0.0001564335,
+                "internal": 0.000108498,
+                "leakage": 6.99618e-06,
+                "switching": 4.79355e-05,
+                "total": 0.00016343
+            }
+        },
+        "/snafu_top/CORE": {
+            "energy": {
+                "dynamic": 2.8622530130400004e-08,
+                "internal": 2.6398353432000004e-08,
+                "leakage": 1.31274678816e-09,
+                "switching": 2.2241766984e-09,
+                "total": 2.9935280928e-08
+            },
+            "power": {
+                "dynamic": 1.427757e-05,
+                "internal": 1.31681e-05,
+                "leakage": 6.54828e-07,
+                "switching": 1.10947e-06,
+                "total": 1.49324e-05
+            }
+        },
+        "/snafu_top/INSN_DATA_CONFLICT": {
+            "energy": {
+                "dynamic": 3.6620460806400004e-12,
+                "internal": 1.01517417024e-12,
+                "leakage": 9.123480720000001e-15,
+                "switching": 2.6468719104000004e-12,
+                "total": 3.6711835944e-12
+            },
+            "power": {
+                "dynamic": 1.826712e-09,
+                "internal": 5.06392e-10,
+                "leakage": 4.551e-12,
+                "switching": 1.32032e-09,
+                "total": 1.83127e-09
+            }
+        },
+        "/snafu_top/MM": {
+            "energy": {
+                "dynamic": 2.127079288032e-07,
+                "internal": 2.0267318256000003e-07,
+                "leakage": 2.2936602936000002e-08,
+                "switching": 1.0034746243200001e-08,
+                "total": 2.3564481240000003e-07
+            },
+            "power": {
+                "dynamic": 0.00010610356,
+                "internal": 0.000101098,
+                "leakage": 1.14413e-05,
+                "switching": 5.00556e-06,
+                "total": 0.000117545
+            }
+        }
+    }
+}

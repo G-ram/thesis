@@ -109,7 +109,7 @@
 			},
 			{
 				"src": "../data/compress/xrun/large/dmm/accel/dmm/result.json",
-				"label": "Accel",
+				"label": "ASIC",
 				"stack": "stack",
 				"normalize": {
 					"src": "../data/compress/xrun/large/dmm/plain/scalar/result.json",

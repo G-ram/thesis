@@ -1,36 +1,33 @@
-\figRipTideArchBlock
-
 \section{RipTide Microarchitecture}
-\label{riptide:arch}
+\label{sec:arch}
 
-\riptide is an energy-minimal, \ulp coarse-grained reconfigurable array (\autoref{fig:riptide:arch:block}).
+\riptide is an energy-minimal coarse-grained reconfigurable array (\autoref{fig:arch:block}).
 % 
-The 6$\times$6 fabric has a
-heterogeneous set of PEs connected via a bufferless, 2D-torus NoC.
+The 6$\times$6 fabric contains
+heterogeneous PEs connected via a bufferless, 2D-torus NoC.
 % 
-The fabric integrates a RISC-V scalar core and a 256KB
+A complete \riptide system contains a CGRA fabric, a RISC-V scalar core, and a 256KB
 (8$\times$32KB banks) SRAM main memory.
 
 \subsection{Tagless dataflow scheduling}
 
-\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{chapter:background:cgra:ordered}).
+\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{sec:background}).
 %
-The fabric does not reorder tokens because \riptide adds ordering operators where
-control may diverge.
+By adding ordering operators where control may diverge,
 %
-Tokens always match on arrival at a PE, obviating the need for tags.
+\riptide ensures that tokens always match on arrival at a PE, obviating the need for tags.
 %
 Tagless, asynchronous firing has a low hardware cost (one bit per input plus
-control logic).
+control logic),
 %
-Asynchronous dataflow firing lets \riptide tolerate variable operation latency
-(e.g., bank conflicts) and eliminates the need for the compiler to reason about
+and it lets \riptide tolerate variable operation latency
+(e.g., due to bank conflicts) while eliminating the need for the compiler to reason about
 operation timing.
 
 \subsection{Processing elements}
 \riptide's PEs perform all arithmetic and memory operations in the fabric.
 %
-\autoref{fig:riptide:arch:pe} shows the microarchitecture of a PE.
+\autoref{fig:arch:pe} shows the microarchitecture of a PE.
 % 
 The PE includes a functional unit (FU) and the \textmu core.
 % 
@@ -41,6 +38,10 @@ output values, and interfaces with top-level fabric control for PE configuration
 The \textmu core exposes a generic interface using a
 latency-insensitive ready/valid protocol to make it easy to add new
 operators.
+%% that makes integrating
+%% new FUs easy.
+%% % 
+%% Any FU implementing the interface can be configured to receive and send data over the NoC.
 %
 Inputs arrive on {\tt in\_data} when {\tt in\_valid} is high,
 and are consumed when {\tt fu\_ready} is high.
@@ -71,24 +72,24 @@ reconfiguration of some PEs while others
 finish computation on an old configuration.
 
 \paragraph{PE types.}
-\riptide includes a heterogeneous of PEs:
+\riptide includes a heterogeneous set of PEs:
 \begin{compactitem}
 \item \emph{Memory PEs} issue loads and stores to memory and have a ``row buffer'' that coalesces non-aliasing subword loads.
 
 \item \emph{Arithmetic PEs} implement basic ALU operations, e.g., compare, bitwise logic, add, subtract, shift, etc.
 
-\item \emph{Multiplier PEs} implement multiply, multiply + shift, multiply + fixed-point clip, and multiply-accumulate.
+\item \emph{Multiplier PEs} implement multiply, multiply + shift, multiply + fixed-point clip, and multiply + accumulate.
 
-\item \emph{Control-flow PEs} implement steer, invariant, carry, select, merge, and order (\autoref{riptide:cf}) ---
+\item \emph{Control-flow PEs} implement steer, invariant, carry, %select,
+  merge, and order (\autoref{sec:cf}) ---
 %
 but most of these are actually implemented in \riptide's NoC (see below).
 
-\item \emph{Stream PEs} implement common affine iterators (\autoref{riptide:cf}).
+\item \emph{Stream PEs} implement common affine iterators (\autoref{sec:cf}).
 \end{compactitem}
 
-\figRipTideMicroArch
-
 \subsection{Bufferless NoC}
+\label{arch:noc}
 
 \riptide connects PEs via a statically configured, multi-hop, bufferless
 on-chip network with routers.
@@ -102,3 +103,17 @@ and \riptide completely eliminates them.
 Similarly, \riptide's NoC is statically routed to eliminate routing
 look-up tables and flow-control mechanisms.
 % 
+
+% \subsection{Fabric control}
+% \riptide has a top-level fabric controller that works with the \textmu cores of PEs 
+% to control execution.
+% % 
+% When a kernel is invoked, the fabric controller raises {\tt ctrl\_en} high, enabling configured \textmu cores and corresponding FUs.
+% %
+% During execution, if the FU is not executing and/or does not have valid inputs, it must raise {\tt fu\_done}.
+% % 
+% The \textmu core passes this signal as {\tt ctrl\_done} to the fabric controller.
+% % 
+% Once fabric controller sees {\tt ctrl\_done} raised for every PE, execution is finished.
+% % 
+% The fabric controllers raises {\tt ctrl_clear} which resets the \textmu cores and functional units.

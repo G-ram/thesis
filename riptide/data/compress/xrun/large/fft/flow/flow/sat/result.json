@@ -1,0 +1,120 @@
+{
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 9.73847234604028e-07,
+            "internal": 6.412404110940802e-07,
+            "leakage": 4.244492164805594e-09,
+            "switching": 3.326068235099484e-07,
+            "total": 9.780917267688343e-07
+        }
+    },
+    "count": 37639,
+    "noc": {
+        "energy": {
+            "dynamic": 8.550675890794405e-09,
+            "internal": 4.137699624659199e-07,
+            "leakage": 8.550675890794405e-09,
+            "switching": 4.012027885940516e-07,
+            "total": 8.235234269507664e-07
+        }
+    },
+    "perf": 369254,
+    "physical": {
+        "/flow_top": {
+            "energy": {
+                "dynamic": 3.5999163266399996e-06,
+                "internal": 2.73235405364e-06,
+                "leakage": 1.02133440876e-07,
+                "switching": 8.675622729999999e-07,
+                "total": 3.70205936812e-06
+            },
+            "power": {
+                "dynamic": 0.00048745799999999997,
+                "internal": 0.000369983,
+                "leakage": 1.38297e-05,
+                "switching": 0.000117475,
+                "total": 0.000501289
+            }
+        },
+        "/flow_top/ALIGNER": {
+            "energy": {
+                "dynamic": 1.626107472056e-08,
+                "internal": 1.05901308692e-08,
+                "leakage": 1.93073315996e-11,
+                "switching": 5.670943851359999e-09,
+                "total": 1.6280408859999998e-08
+            },
+            "power": {
+                "dynamic": 2.201882e-06,
+                "internal": 1.43399e-06,
+                "leakage": 2.61437e-09,
+                "switching": 7.67892e-07,
+                "total": 2.2045e-06
+            }
+        },
+        "/flow_top/CGRA": {
+            "energy": {
+                "dynamic": 1.788819985664e-06,
+                "internal": 1.05501037356e-06,
+                "leakage": 1.2795168055599999e-08,
+                "switching": 7.33809612104e-07,
+                "total": 1.8016198063199998e-06
+            },
+            "power": {
+                "dynamic": 0.00024222080000000002,
+                "internal": 0.000142857,
+                "leakage": 1.73257e-06,
+                "switching": 9.93638e-05,
+                "total": 0.000243954
+            }
+        },
+        "/flow_top/CORE": {
+            "energy": {
+                "dynamic": 2.2643046689240002e-07,
+                "internal": 1.9139542582e-07,
+                "leakage": 4.834650007079999e-09,
+                "switching": 3.50350410724e-08,
+                "total": 2.31264518708e-07
+            },
+            "power": {
+                "dynamic": 3.0660530000000004e-05,
+                "internal": 2.59165e-05,
+                "leakage": 6.54651e-07,
+                "switching": 4.74403e-06,
+                "total": 3.13151e-05
+            }
+        },
+        "/flow_top/INSN_DATA_CONFLICT": {
+            "energy": {
+                "dynamic": 2.2809956882319996e-10,
+                "internal": 6.106826043119999e-11,
+                "leakage": 3.52268316e-14,
+                "switching": 1.6703130839199998e-10,
+                "total": 2.2813472180399998e-10
+            },
+            "power": {
+                "dynamic": 3.0886539999999996e-08,
+                "internal": 8.26914e-09,
+                "leakage": 4.77e-12,
+                "switching": 2.26174e-08,
+                "total": 3.08913e-08
+            }
+        },
+        "/flow_top/MM": {
+            "energy": {
+                "dynamic": 1.567988369472e-06,
+                "internal": 1.47517711508e-06,
+                "leakage": 8.447423758e-08,
+                "switching": 9.281125439199998e-08,
+                "total": 1.65246334556e-06
+            },
+            "power": {
+                "dynamic": 0.0002123184,
+                "internal": 0.000199751,
+                "leakage": 1.14385e-05,
+                "switching": 1.25674e-05,
+                "total": 0.000223757
+            }
+        }
+    }
+}

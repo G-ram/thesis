@@ -45,12 +45,12 @@
 			},
 			{
 				"src": "../data/counts/dmv.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/dmv.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -77,12 +77,12 @@
 			},
 			{
 				"src": "../data/counts/dmm.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/dmm.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -110,12 +110,12 @@
 			},
 			{
 				"src": "../data/counts/dconv.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/dconv.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -143,12 +143,12 @@
 			},
 			{
 				"src": "../data/counts/smv.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/smv.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -176,12 +176,12 @@
 			},
 			{
 				"src": "../data/counts/smm.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/smm.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -209,12 +209,12 @@
 			},
 			{
 				"src": "../data/counts/sconv.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/sconv.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -242,12 +242,12 @@
 			},
 			{
 				"src": "../data/counts/sort.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/sort.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -275,12 +275,12 @@
 			},
 			{
 				"src": "../data/counts/fft.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/fft.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -308,12 +308,12 @@
 			},
 			{
 				"src": "../data/counts/bfs.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/bfs.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -341,12 +341,12 @@
 			},
 			{
 				"src": "../data/counts/dfs.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/dfs.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{
@@ -373,12 +373,12 @@
 			},
 			{
 				"src": "../data/counts/avg_counts.json",
-				"label": "+Base LSO",
+				"label": "+Base Ord",
 				"stack": "stack3"
 			},
 			{
 				"src": "../data/counts/avg_counts.json",
-                "label": "+LSO Opts",
+                "label": "+Ord Opts",
 				"stack": "stack4"
 			},
 			{

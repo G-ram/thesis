@@ -13,6 +13,8 @@ from matplotlib.ticker import ScalarFormatter
 plt.rc('text', usetex=True)
 mpl.rcParams['pdf.fonttype'] = 42
 mpl.rcParams['ps.fonttype'] = 42
+mpl.rcParams['hatch.color'] = 'gray'
+mpl.rcParams['hatch.linewidth'] = 0.6
 style.use('bmh')
 
 colors = ['#a50026','#d73027','#f46d43','#fdae61','#fee090',
@@ -67,10 +69,12 @@ def main(args):
 	major_padding = get_param(cfg, 'major_padding', 25)
 	minor_padding = get_param(cfg, 'minor_padding', 25)
 	minor_rotation = get_param(cfg, 'minor_rotation', 90)
+	minor_annotate = get_param(cfg, 'minor_annotate', False)
 	major_rotation = get_param(cfg, 'major_rotation', 0)
 	overlay = get_param(cfg, 'overlay', False)
 	rect = get_param(cfg, 'rect', [0, 0, 1, 0.98])
 	ylabel = get_param(cfg, 'ylabel', '')
+	log = get_param(cfg, 'log', False)
 	dual_label = get_param(cfg, 'dual_label', '')
 	sci_not = get_param(cfg, 'sci_not', True)
 	subplots = get_param(cfg, 'subplots', False)
@@ -82,6 +86,9 @@ def main(args):
 	remaining_color = get_param(cfg, 'remaining_color', 'grey')
 	remaining_label = get_param(cfg, 'remaining_label', 'Remaining')
 	yticklabelfontsize = get_param(cfg, 'yticklabelfontsize', fontsize)
+	annotate = get_param(cfg, 'annotate', False)
+	annotate_offset = get_param(cfg, 'annotate_offset', 4)
+	annotate_rotation = get_param(cfg, 'annotate_rotation', 0)
 
 	if invert: invert = -1
 	else: invert = 1
@@ -185,8 +192,12 @@ def main(args):
 				if 'colors' in stack:
 					color = get_param(stack, 'colors.[%d]' % key_idx)
 
-				ax.bar(minor_ticks[-1], (d / normalize) ** invert, 
-					barwidth, running_height, color=color, 
+				hatch = None
+				if '-' in color:
+					color, hatch = color.split('-')
+
+				bar = ax.bar(minor_ticks[-1], (d / normalize) ** invert, 
+					barwidth, running_height, color=color, hatch=hatch,
 						label=label if label not in labels else '_nolegend_')
 
 				if not overlay: running_height += (d / normalize) ** invert
@@ -201,12 +212,25 @@ def main(args):
 				print('%s => total: %s remaining: %s' % (src, total, d))
 				# if d < 0.1: continue 
 
-				ax.bar(minor_ticks[-1], d, 
+				bar = ax.bar(minor_ticks[-1], d, 
 					barwidth, running_height, color=remaining_color, 
 					label=remaining_label if remaining_label not in labels else '_nolegend_')
 
 				if remaining_label not in labels: 
 					labels.append(remaining_label)
+
+			if annotate or minor_annotate:
+				for p in bar:
+					height = p.get_y() + p.get_height()
+					s = f'{height:.2f}' if annotate else minor_label
+					rotation = annotate_rotation if annotate else minor_rotation
+					ax.annotate(s,
+						xy=(p.get_x() + p.get_width() / 2, height),
+						xytext=(0, annotate_offset),
+						fontsize=fontsize,
+						rotation=rotation,
+						textcoords="offset points",
+						ha='center', va='bottom')
 
 		subplots_xlims[-1] = (subplots_xlims[-1][0], minor_ticks[-1])
 		major_labels.append(get_param(cfg, 'major.[%d]' % group_idx, ''))
@@ -220,7 +244,8 @@ def main(args):
 		ax.tick_params(axis='x', which='minor', labelsize=fontsize, 
 			pad=minor_padding, rotation=minor_rotation)
 		ax.set_xticks([tick + 0.02 for tick in minor_ticks[1:]], minor=True)
-		ax.set_xticklabels(minor_labels, minor=True, rotation=xtick_rotation)
+		if not minor_annotate:
+			ax.set_xticklabels(minor_labels, minor=True, rotation=xtick_rotation)
 
 		ax.tick_params(axis='x', which='major', labelsize=fontsize, 
 			pad=major_padding, rotation=major_rotation, bottom=False)
@@ -235,10 +260,13 @@ def main(args):
 
 		ax.tick_params(axis='y', which='major', labelsize=yticklabelfontsize)
 		ylim = get_param(cfg, 'ylim', max(ax.get_ylim()) * 1.025)
-		if type(ylim) is list:
-			ax.set_ylim((0, ylim[i]))
+		if log: 
+			ax.set_yscale('log')
 		else:
-			ax.set_ylim((0, ylim))
+			if type(ylim) is list:
+				ax.set_ylim((0, ylim[i]))
+			else:
+				ax.set_ylim((0, ylim))
 		if sci_not: 
 			ax.yaxis.set_major_formatter(ScalarFormatterForceFormat())
 			ax.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
@@ -247,7 +275,7 @@ def main(args):
 			ax.plot(ax.get_xlim(), 
 				[1.0, 1.0], '--', color='grey', linewidth=1.5)
 			ax.margins(x=0.0)
-			ax.set_ylim((0, max(1.05, max(ax.get_ylim()))))
+			if not log: ax.set_ylim((0, max(1.05, max(ax.get_ylim()))))
 
 	ylabel = ylabel.replace('$mu$', r'$\mu$')
 	axes[0].set_ylabel(ylabel, fontsize=fontsize)

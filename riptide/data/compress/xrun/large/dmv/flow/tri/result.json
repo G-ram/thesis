@@ -1,1 +1,119 @@
-{"physical": {"/flow_top": {"energy": {"dynamic": 8.171165380000001e-09, "internal": 5.5872106e-09, "leakage": 2.06915452e-10, "switching": 2.58395478e-09, "total": 8.37807798e-09}, "power": {"dynamic": 0.000573013, "internal": 0.00039181, "leakage": 1.45102e-05, "switching": 0.000181203, "total": 0.000587523}}, "/flow_top/ALIGNER": {"energy": {"dynamic": 9.90843266e-11, "internal": 6.042361280000001e-11, "leakage": 3.09717218e-14, "switching": 3.8660713800000004e-11, "total": 9.911527080000001e-11}, "power": {"dynamic": 6.94841e-06, "internal": 4.23728e-06, "leakage": 2.17193e-09, "switching": 2.71113e-06, "total": 6.95058e-06}}, "/flow_top/CGRA": {"energy": {"dynamic": 3.9248511e-09, "internal": 1.8290731600000002e-09, "leakage": 3.4539573800000004e-11, "switching": 2.09577794e-09, "total": 3.9593888200000004e-09}, "power": {"dynamic": 0.000275235, "internal": 0.000128266, "leakage": 2.42213e-06, "switching": 0.000146969, "total": 0.000277657}}, "/flow_top/CORE": {"energy": {"dynamic": 1.139085948e-09, "internal": 9.201535939999999e-10, "leakage": 9.274646960000001e-12, "switching": 2.1893235400000002e-10, "total": 1.148360652e-09}, "power": {"dynamic": 7.987979999999999e-05, "internal": 6.45269e-05, "leakage": 6.50396e-07, "switching": 1.53529e-05, "total": 8.05302e-05}}, "/flow_top/INSN_DATA_CONFLICT": {"energy": {"dynamic": 1.440503846e-12, "internal": 3.8856361e-13, "leakage": 7.496482e-17, "switching": 1.051940236e-12, "total": 1.44057372e-12}, "power": {"dynamic": 1.010171e-07, "internal": 2.72485e-08, "leakage": 5.257e-12, "switching": 7.37686e-08, "total": 1.01022e-07}}, "/flow_top/MM": {"energy": {"dynamic": 3.00512388e-09, "internal": 2.77625088e-09, "leakage": 1.6305169200000002e-10, "switching": 2.28873e-10, "total": 3.16818698e-09}, "power": {"dynamic": 0.000210738, "internal": 0.000194688, "leakage": 1.14342e-05, "switching": 1.605e-05, "total": 0.000222173}}}, "perf": 713}
+{
+    "cgra_minus_noc": {
+        "energy": {
+            "dynamic": 1.8612571002150398e-09,
+            "internal": 1.1314284135600003e-09,
+            "leakage": 9.438683305000001e-12,
+            "switching": 7.298286866550397e-10,
+            "total": 1.870695783520041e-09
+        }
+    },
+    "noc": {
+        "energy": {
+            "dynamic": 2.5100890495000003e-11,
+            "internal": 6.976447464399998e-10,
+            "leakage": 2.5100890495000003e-11,
+            "switching": 1.3659492533449602e-09,
+            "total": 2.0886948902799603e-09
+        }
+    },
+    "perf": 713,
+    "physical": {
+        "/flow_top": {
+            "energy": {
+                "dynamic": 8.171165380000001e-09,
+                "internal": 5.5872106e-09,
+                "leakage": 2.06915452e-10,
+                "switching": 2.58395478e-09,
+                "total": 8.37807798e-09
+            },
+            "power": {
+                "dynamic": 0.000573013,
+                "internal": 0.00039181,
+                "leakage": 1.45102e-05,
+                "switching": 0.000181203,
+                "total": 0.000587523
+            }
+        },
+        "/flow_top/ALIGNER": {
+            "energy": {
+                "dynamic": 9.90843266e-11,
+                "internal": 6.042361280000001e-11,
+                "leakage": 3.09717218e-14,
+                "switching": 3.8660713800000004e-11,
+                "total": 9.911527080000001e-11
+            },
+            "power": {
+                "dynamic": 6.94841e-06,
+                "internal": 4.23728e-06,
+                "leakage": 2.17193e-09,
+                "switching": 2.71113e-06,
+                "total": 6.95058e-06
+            }
+        },
+        "/flow_top/CGRA": {
+            "energy": {
+                "dynamic": 3.9248511e-09,
+                "internal": 1.8290731600000002e-09,
+                "leakage": 3.4539573800000004e-11,
+                "switching": 2.09577794e-09,
+                "total": 3.9593888200000004e-09
+            },
+            "power": {
+                "dynamic": 0.000275235,
+                "internal": 0.000128266,
+                "leakage": 2.42213e-06,
+                "switching": 0.000146969,
+                "total": 0.000277657
+            }
+        },
+        "/flow_top/CORE": {
+            "energy": {
+                "dynamic": 1.139085948e-09,
+                "internal": 9.201535939999999e-10,
+                "leakage": 9.274646960000001e-12,
+                "switching": 2.1893235400000002e-10,
+                "total": 1.148360652e-09
+            },
+            "power": {
+                "dynamic": 7.987979999999999e-05,
+                "internal": 6.45269e-05,
+                "leakage": 6.50396e-07,
+                "switching": 1.53529e-05,
+                "total": 8.05302e-05
+            }
+        },
+        "/flow_top/INSN_DATA_CONFLICT": {
+            "energy": {
+                "dynamic": 1.440503846e-12,
+                "internal": 3.8856361e-13,
+                "leakage": 7.496482e-17,
+                "switching": 1.051940236e-12,
+                "total": 1.44057372e-12
+            },
+            "power": {
+                "dynamic": 1.010171e-07,
+                "internal": 2.72485e-08,
+                "leakage": 5.257e-12,
+                "switching": 7.37686e-08,
+                "total": 1.01022e-07
+            }
+        },
+        "/flow_top/MM": {
+            "energy": {
+                "dynamic": 3.00512388e-09,
+                "internal": 2.77625088e-09,
+                "leakage": 1.6305169200000002e-10,
+                "switching": 2.28873e-10,
+                "total": 3.16818698e-09
+            },
+            "power": {
+                "dynamic": 0.000210738,
+                "internal": 0.000194688,
+                "leakage": 1.14342e-05,
+                "switching": 1.605e-05,
+                "total": 0.000222173
+            }
+        }
+    }
+}
