@@ -24,6 +24,11 @@
 \usepackage[percent]{overpic}
 \usepackage[T1]{fontenc}
 \usepackage[noadjust]{cite}
+\usepackage{cleveref}
+\usepackage{etoolbox}
+
+\crefformat{footnote}{#2\footnotemark[#1]#3}
+\patchcmd{\footnotemark}{\stepcounter{footnote}}{\refstepcounter{footnote}}{}{}
 
 %% https://tex.stackexchange.com/questions/55664/fake-small-caps-with-xetex-fontspec
 %% https://tex.stackexchange.com/questions/364994/putting-a-matrix-inside-of-caption-gives-caption-has-an-extra
