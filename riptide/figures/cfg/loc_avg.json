@@ -52,7 +52,7 @@
 	"sci_not": false,
 	"major": [""],
 	"width": 3,
-	"height": 4,
+	"height": 3.5,
 	"rect": [0.15, 0, 1, 0.83],
 	"minor_spacing": 2,
 	"major_spacing": 1.5,

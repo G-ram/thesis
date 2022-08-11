@@ -38,11 +38,11 @@ Device lifetime is directly related to energy-efficiency (in battery-powered sys
 % 
 \autoref{fig:future:model} shows two \riptide-based systems (red) as well as a system that transmits all data collected (blue), a system similar to \sonic that relies on a scalar MCU (green), and a theoretical system that achieves 10TOPS/W (black).
 % 
-Each system is composed of 1) a single AA battery, 2) a theoretical sensor (based on HM01B0 ULP camera), 3) an ULP MCU (e.g. scalar, \riptide, or theoretical), and 4) a bluetooth (BLE) radio.
+Each system is composed of 1) a single AA battery, 2) a theoretical sensor (based on HM01B0 ULP camera), 3) an ULP MCU (e.g., scalar, \riptide, or theoretical), and 4) a bluetooth (BLE) radio.
 % 
 Besides the transmit-all configuration, each system is modeled to run a neural network similar to those in \sonic to smartly discard uninteresting data, transmitting approximately every $20$ minutes (v. 5s interval of sensor readings).
 % 
-Further, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e. class label) or it could be a fragment of data deemed interesting.
+Further, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e., class label) or it could be a fragment of data deemed interesting.
 
 If the goal is to achieve a device lifetime of five years, while processing a QQVGA ($160\times120$) frame once every five seconds, \riptide-based systems achieve this target, while the transmit-all system and the \sonic-like, scalar-MCU system fall well short.
 % 
@@ -122,7 +122,7 @@ Performance is another dimension future designs could seek to optimize.
 % 
 CGRAs like \riptide already outperform (in-order) scalar and vector designs by unlocking a large amount instruction-level parallelism.
 % 
-But there are other ways to improve performance, including thread-level parallelism, speculation, caching (and other memory hierarchy optimizations) and compiler optimizations (e.g. loop unrolling, etc.).
+But there are other ways to improve performance, including thread-level parallelism, speculation, caching (and other memory hierarchy optimizations) and compiler optimizations (e.g., loop unrolling, etc.).
 % 
 Scaling up the performance of \riptide-like designs could make them competitive in different computing domains like wearables or mobile phones.
 
@@ -170,7 +170,7 @@ The CGRA needs to a provide a rich set of synchronization primitives so that cod
 \paragraph{Programming models}
 Memory management can be simplified with novel programming models.
 % 
-Using higher-level abstractions (e.g. functional languages or DSLs) might allow the compiler to generate code to manage a hierarchy of scratchpads.
+Using higher-level abstractions (e.g., functional languages or DSLs) might allow the compiler to generate code to manage a hierarchy of scratchpads.
 %
 These interfaces and/or programmer annotations might also allow the compiler to co-locate data with computation.
 % 

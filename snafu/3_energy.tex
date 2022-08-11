@@ -34,15 +34,15 @@ Like vector-dataflow,
 and routes intermediate values directly between operations (dataflow).
 %
 But \snafuframe \emph{spatially} implements vector-dataflow:
-\snafuframe \emph{buffers intermediate values locally} in each PE (vs.\ \manic's shared forwarding buffer)
-and \emph{each PE performs a single operation} (vs.\ \manic's shared pipeline).
+\snafuframe \emph{buffers intermediate values locally} in each PE (v.\ \manic's shared forwarding buffer)
+and \emph{each PE performs a single operation} (v.\ \manic's shared pipeline).
 %
 Note that this design is also a contrast with some prior CGRAs, which share PEs among
 multiple operations to increase performance and utilization.
 
 As a result, \snafuframe reduces both effects that limit \manic's energy savings.
 %
-We estimate that the reduction in switching activity accounts for the majority of the 41$\%$ of energy savings that \snafuframe achieves vs. \manic. 
+We estimate that the reduction in switching activity accounts for the majority of the 41$\%$ of energy savings that \snafuframe achieves v. \manic. 
 %
 The downside is that \snafu takes significantly more area
 than \manic.
@@ -91,7 +91,7 @@ Each PE uses local, asynchronous dataflow firing to tolerate variable latency.
 This design lets \snafuframe integrate arbitrary FUs with little energy or area overhead,
 adding just $\approx2\%$ system energy to \snafuarch. 
 %
-The cost of this design is some loss in performance vs.\ a fully dynamic CGRA.
+The cost of this design is some loss in performance v.\ a fully dynamic CGRA.
 %
 Moreover, asynchronous firing simplifies the compiler, as discussed
 above, because it is not responsible for operation timing.
@@ -147,7 +147,7 @@ Buffering at the producer PE means each value is buffered exactly once, and
 overwritten only when all dependent PEs are finished using it.
 %
 In \snafuarch, producer-side buffering saves $\approx7\%$ of system energy
-vs.\ consumer-side buffering.
+v.\ consumer-side buffering.
 %
 The cost is that a producer PE may stall if a dependent PE is not ready.
 %

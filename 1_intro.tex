@@ -2,18 +2,40 @@
 \label{chapter:intro}
 Ultra-low-power (ULP) sensor devices are increasingly being deployed for a variety of use-cases from in-body health sensing to civil infrastructure monitoring to tiny chip-scale satellites~\cite{kicksat}.
 % 
-These devices collect data from their deployed environment and must process the 
-data to support applications.
+% These devices collect data from their deployed environment and must process the data to support applications.
 % 
-Processing varies and may entail digital signal
-processing (DSP), computing statistics, sorting, or sophisticated computations
-such as machine learning (ML) inference using a deep neural network (DNN).
+These devices are composed of low-power sensors attached to an ULP microcontroller, which communicates to other edge devices or to the cloud via a low-power radio, all powered by a small battery or from energy harvested from the enviroment.
 % 
-As processing sophistication has increased, sensor device capability also
-has matured to include high-definition image sensors~\cite{naderiparizi2018towards} and multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume.
+The sensors on these devices are increasingly capable --- ranging from high-definition image sensors~\cite{naderiparizi2018towards} to multi-sensor arrays~\cite{laput2017synthetic} --- producing a growing volume of data.
+% 
+To make sense of the data, sophisticated processing, like machine learning (ML) inference using a deep neural network (DNN) or digital signal processing (DSP), is required.
+% 
+But sophisticated processing requires resources that existing ULP devices lack.
+% 
+In particular, ULP sensor systems are extremely energy-constrained --- batteries limit device lifetimes and energy harvested from the environment is extremely scarce.
+% 
+ % --- for devices powered by batteries, energy dictates lifetime and for devices harvesting energy from the environment, energy dictates performance by controlling the frequency of recharging.
+% 
+One solution is to offload processing, but communication uses much more energy than local compute.
+% 
+Thus, the energy-efficiency of onboard compute is the key determinant of application successs.
+% 
+However, existing, general-purposes systems suffer fundamental inefficiencies.
+% 
+And highly-specialized systems (i.e. ASICs) compromise on programmability, a requirement as applications emerge in the domain. 
+% 
+% So how can we perform sophisticated computations on simple, ultra-low-power systems?
+So how can we achieve extreme energy-efficiency to enable sophisticated computations on ultra-low-power systems without sacrificing programmability?
+% 
+% Processing varies and may entail digital signal
+% processing (DSP), computing statistics, sorting, or sophisticated computations
+% such as machine learning (ML) inference using a deep neural network (DNN).
+% 
+% As processing sophistication has increased, sensor device capability also
+% has matured to include high-definition image sensors~\cite{naderiparizi2018towards} and multi-sensor arrays~\cite{laput2017synthetic}, increasing sensed data volume.
 %
-This progress poses a challenge: how can we perform sophisticated computations
-on simple, ultra-low-power systems?
+% This progress poses a challenge: how can we perform sophisticated computations
+% on simple, ultra-low-power systems?
 % 
 The answer --- a new system stack --- is the objective of this work.
 
@@ -34,7 +56,7 @@ The answer --- a new system stack --- is the objective of this work.
 % The key insight is that new execution models can resolve the underlying tension between energy-efficiency and general-purpose programmability.
 
 \section{Challenges}
-There are a multitude of challenges to supporting sophisticated processing on ULP sensor devices.
+There are a multitude of challenges, detailed below, to supporting sophisticated processing on ULP sensor devices.
 % 
 These devices are severely resource- and energy-constrained, complicating application development and limiting the lifetimes of deployed devices.
 % 
@@ -66,7 +88,7 @@ Processing data locally minimizes the high energy cost of communication, reducin
 \subsubsection{Energy-efficiency is critical to end-to-end system performance}
 Energy efficiency is the primary determinant of end-to-end system performance in ULP embedded systems.
 % 
-For battery-powered devices~\cite{culler2002mica,rowe2011sensor}, energy efficiency determines device lifetime: once a single-charge battery has been depleted the device is dead and it is impractical to replace the battery on millions of deployed devices.
+For battery-powered devices~\cite{culler2002mica,rowe2011sensor}, energy efficiency determines device lifetime: once a single-charge battery has been depleted the device is dead and it is impractical to replace the battery on millions (or more~\cite{arm-trillions}) deployed devices.
 % 
 Even rechargeable batteries are limited in the number of recharge cycles, and a simple data-logging application can wear out the battery in just a few years~\cite{jackson_2019,nardello2019camaroptera}.
 % 
@@ -100,7 +122,7 @@ And third, \emph{pipeline-control} can burn significant energy as resources are 
 %
 Together, instruction fetch/decode, data supply, and pipeline-control can consume at least $54.4\%$ of the average execution energy across a variety of representative workloads for ULP devices.
 
-\subsubsection{Specialization can limit programmability}
+\subsubsection{Specialization \emph{can} limit programmability}
 To combat the energy costs of generality, some recent work has turned to
 microarchitectural specialization, making a system energy-efficient at the
 expense of generality and
@@ -134,16 +156,16 @@ A design that's highly configurable, but difficult to program from a high-level 
 % 
 Legacy software needs to be supported out-of-the-box with minimal changes so that developers can quickly adopt new hardware.
 % 
-However there are downsides (e.g. incomplete information on memory-ordering and parallelism) to sticking with established programming interfaces.
+However, there are downsides (e.g., incomplete information on memory-ordering and parallelism) to sticking with established programming interfaces.
 % 
-Therefore, choosing the right programming interface and building a compiler to target new hardware is as important as the hardware itself.
+Choosing the right programming interface and building a compiler to target new hardware is as important as the hardware itself.
 
 
 \figOverview
 
 \section{Objective of this work}
 
-This work proposes a complete system stack that leverages new execution models to maximize energy-efficiency without sacrificing programmability.
+This work proposes a complete system stack that leverages new execution models to maximize energy-efficiency without significantly sacrificing programmability.
 % 
 This approach enables new applications in the ULP domain as improved energy efficiency makes sophisticated workloads practical, while maintaining support for programmability allows for iteration, development of new algorithms, and quick deployment. 
 % 
@@ -154,7 +176,7 @@ Together these works support the following thesis:
 \begin{adjustwidth}{1cm}{1cm}
 High energy-efficiency can be achieved 
 % with new execution models integrated 
-across the system stack from software to silicon without compromising on programmability by leveraging new execution models to reduce instruction fetch/decode, pipeline-control, and data supply energies.
+across the system stack from software to silicon without signficantly compromising on programmability by leveraging new execution models to reduce instruction fetch/decode, pipeline-control, and data supply energies.
 % 
 
 \end{adjustwidth}
@@ -201,13 +223,13 @@ It is a prototype of the \manic architecture that demonstrates the energy-effici
 % 
 \msilicon is a complete, standalone system possessing a RISC-V scalar core, the \manic co-processor, a data cache, an instruction cache, and main memory composed of 64KB of SRAM and 256KB of non-volatile embedded MRAM.
 % 
-The design is implemented in Intel-16 (22nm) high-threshold-voltage process and achieves a max efficiency of 256 MOPS/mW drawing just 19$\mu$W at 4MHz.
+The design is implemented in Intel 22FFL high-threshold-voltage process and achieves a max efficiency of 256 MOPS/mW drawing just 19$\mu$W at 4MHz.
 % 
 
 \item[\textbf{[Architecture]}]
 \textbf{\snafu generates ULP CGRAs (\autoref{chapter:snafu}): }
 
-\snafu also represents new computer architecture in the ULP system stack.
+\snafu is another new computer architecture in the ULP system stack.
 % 
 \snafu generates ULP coarse-grain reconfigurable arrays (CGRAs) that implement spatial-vector-dataflow execution, building on \manic's vector-dataflow execution model.
 % 
@@ -240,7 +262,15 @@ Compared to \snafu, \riptide uses 25\% less energy and is also 17\% faster witho
 
 Together \sonic, \manic, \msilicon, \snafu, and \riptide form the new energy-efficient system stack.
 % 
-By maintaining programmability while achieving state-of-the-art energy-efficiency these new systems will make deployments last longer, applications easier to develop, and enable more sophisticated processing on-device.
+This stack is capable of running C programs within $2.3\times$ of the energy of ASICs, enabling sophisticated applications involving DNN inference to last 5 to 10 years on a single AA battery.
+% 
+This combination of programmbility and state-of-the-art energy efficiency represents a paradigm-shift for ULP sensor systems.
+% 
+Deployed devices do not need to be frequently replaced or recharged, reducing maintenance costs and carbon footprints.
+% 
+At the same time, applications can be updated in the field, allowing the device to adapt to environmental changes and improve onboard processing.
+% 
+% By maintaining programmability while achieving state-of-the-art energy-efficiency this stack will make deployments last longer, applications easier to develop, and enable more sophisticated processing on-device.
 % 
 In short, this new system stack will facilitate development of emerging applications in the ULP sensor domain.
 
@@ -255,6 +285,6 @@ The order of these chapters follows the timeline of development.
 % 
 This structure will make clear the connection between each work:
 % 
-\sonic, despite being the first to demonstrate DNN inference on an energy-harvesting device, exposed the drawbacks of existing ULP devices' scalar execution model; \manic solved these drawbacks with vector-dataflow execution; \snafu improved on \manic with spatial-vector-dataflow execution; and finally \riptide built on \snafu to further improve general-purpose programmability and overall system energy-efficiency.
+\sonic, despite being the first to demonstrate DNN inference on an energy-harvesting device, exposed the drawbacks of existing ULP devices' scalar execution model; \manic solved these drawbacks with vector-dataflow execution; \snafu improved on \manic with spatial-vector-dataflow execution; and \riptide built on \snafu to further improve general-purpose programmability and overall system energy-efficiency.
 % 
 Finally, the last two chapters discuss exciting future research directions in ULP computer architecture and CGRAs and then conclude.

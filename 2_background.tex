@@ -19,7 +19,7 @@ And the fourth expands on a specific class of spatial-dataflow architectures, ca
 % Lastly, there is a section that summarizes.
 
 \figDevice
-\section{Low-powered embedded devices}
+\section{Low-power embedded devices}
 
 Low-power embedded sensor devices as shown in \autoref{fig:device} are composed of: 1) low-powered sensors (e.g. HiMax HM01B0 camera~\cite{hm01b0}), 2) a low-powered radio (e.g. LoRaWAN~\cite{lorawan} or BLE~\cite{ble}), 3) an ULP microcontroller (e.g. ARM M0~\cite{cortexm0} or TI-MSP430~\cite{msp430fr5994}, 4) a power source like a coin-cell battery or capacitor, and 5) an optional energy harvester (e.g. solar cell or RF harvester~\cite{powercast}).
 % 
@@ -45,7 +45,7 @@ Some devices rely on batteries~\cite{culler2002mica,jackson_2019,rowe2011sensor}
 % 
 These devices can quickly deplete their battery even if the application is simply logging data.
 % 
-Battery lifetimes can be improved by adding a energy-harvester, like a solar cell or radio-frequency harvester, that can recharge the battery.
+Battery lifetimes can be improved by adding a energy harvester, like a solar cell or radio-frequency harvester, that can recharge the battery.
 % 
 However, rechargeable batteries have limited recharge cycles and may not be able to cope with extreme environmental conditions (e.g. too hot/cold temperatures).
 
@@ -63,10 +63,12 @@ This makes application performance dependent on the availability of energy in th
 Energy availability is not constant --- input power can vary with environmental conditions.
 % 
 For example, weather and time-of-day significantly (by several orders of magnitude) impact the amount of energy a solar cell can harvest.
+% 
+These operating conditions complicate execution and affect the device's ability to quickly react to changing environmental conditions.
 
 \subsection{Intermittent execution model}
 \label{chapter:background:intermittent}
-Systems that harvest energy and store that energy in a hardware-buffer (e.g. capacitor) usually operate intermittently.
+Systems that harvest energy and store that energy in a hardware buffer (e.g. capacitor) usually operate intermittently.
 % 
 This is because device operating power usually exceeds power harvested from the environment.
 % 
@@ -81,7 +83,7 @@ energy-harvesting devices ~\cite{mementos,dino,dewdrop,quickrecall,idetic,jerger
 In intermittent execution, software progresses in bursts, resetting
 at frequent power failures.
 % 
-Existing devices~\cite{wolverine,msp430fr5994} mix volatile state (e.g., registers and SRAM) and non-volatile memory (e.g., FRAM). 
+Existing devices~\cite{wolverine,msp430fr5994} mix volatile state (e.g. registers and SRAM) and non-volatile memory (e.g. FRAM). 
 % 
 A power failure clears volatile state while non-volatile memory persists.
 %
@@ -98,7 +100,9 @@ Prior work addressed progress and memory consistency using software
 checkpoints~\cite{dino,ratchet,clank}, non-volatile processors (NVPs)~\cite{nvp,ma2017incidental},
 and programming models based around atomic tasks~\cite{chain,alpaca,mayfly,alpaca}.
 % 
-Non-volatile processors may be a long-term solution, but require technology process changes, while software-checkpointing and task-based runtime systems can be deployed on existing devices.
+Non-volatile processors require technology process changes and constantly pay a tax for their non-volatility (i.e., non-volatile elements cost more energy than volatile elements).
+% 
+Software-checkpointing and task-based runtime systems, on the other hand, can be deployed on existing devices with limited impact on energy since the amount of volatile state is small.
 
 \subsubsection{Checkpointing systems}
 Checkpoint-based systems insert checkpoints into programs using compiler, runtime, and hardware support.
@@ -111,7 +115,9 @@ The interrupt writes back the volatile state of the program, including program c
 % 
 Then when power resumes, the runtime system restores the volatile state and jumps back to the place in execution where power failed.
 % 
-This system is often transparent to the programmer, but costs energy to save and restore state and may complicate (or even lead to wrong execution) the use of peripherals~\cite{surbatovich2021automatically} and interrupts.
+This system is often transparent to the programmer, but 
+% costs energy to save and restore state and 
+may complicate (or even lead to incorrect) use of peripherals~\cite{surbatovich2021automatically} and interrupts.
 
 \subsubsection{Task-based runtime systems}
 \label{chapter:background:intermittent:task}
@@ -151,8 +157,8 @@ ARM's Cortex M0~\cite{cortexm0} or TI's MSP430~\cite{msp430fr5994} are
 the most commonly used processors in existing ULP sensor
 systems~\cite{wisp,capybara,flicker,ufop,amulet,wolverine}.
 %
-Such MCUs' frequency are typically 1--16MHz, leaving a
-substantial performance gap compared to, e.g., a full-fledged, 2GHz Xeon-based
+Such MCUs' frequency is typically 1--16MHz, leaving a
+substantial performance gap compared to, e.g. a full-fledged, 2GHz Xeon-based
 system.  
 %
 The MCU usually also houses all the memory available to
@@ -164,16 +170,16 @@ A typical MSP430
 low-power MCU includes just 1--4KB of SRAM and 32--256KB of FRAM.
 % 
 While
-continuously powered (i.e. wired) embedded systems may interface with larger memories
+continuously powered (i.e., wired) embedded systems may interface with larger memories
 via a serial bus ($I^{2}C$ or SPI), most ULP sensor devices do
 not due to their high access energy and latency.
 %
-The typical operating power of an COTS ULP device is around 1--5mW.
+The typical operating power of an COTS ULP device is around 3--5mW.
 
 \subsubsection{Architecture}
 COTS ULP devices achieve ULP operation by being simple.
 % 
-They have an 3--5 stage, in-order scalar core, which may lack instruction and/or data caches.
+They have an 3 to 5 stage, in-order scalar core, which may lack instruction and/or data caches.
 % 
 Some MCUs also come with a vector co-processor such as TI's Low Energy Accelerator (LEA)~\cite{lea} or support for vector extensions like Arm's Neon~\cite{neon} vector ISA.
 % 
@@ -184,6 +190,8 @@ Despite these additional features, the energy consumption of the scalar core (an
 This is because the scalar execution model pays a high price for general-purpose programmability, constantly refetching and redecoding the same instructions and communicating intermediates via a centralized register file.
 % 
 The purpose of this thesis is to reduce this tax for general-purpose programmability.
+% 
+Chapters~\autoref{chapter:manic}, \autoref{chapter:snafu}, and \autoref{chapter:riptide} propose new computer architectures that maximize efficiency while maintaining a high-degree of programmability.
 
 \section{Edge inference}
 As ULP sensor devices become pervasive they will increasingly need to make intelligent decisions.
@@ -194,9 +202,9 @@ They are the standard for applications ranging from understanding speech to imag
 % 
 With their accuracy, however, comes a high computational cost.
 % 
-Neural networks have millions or billions of parameters and require billions or even trillions of operations.
+Neural networks require millions or billions of parameters and operations.
 % 
-This makes deploying neural networks are resource-constrained, energy-harvesting devices difficult.
+This makes deploying neural networks onto resource-constrained, energy-harvesting devices difficult.
 % 
 Fortunately there has been much work on reducing network footprint and improving the performance and energy-efficiency of inference.
 % 
@@ -214,13 +222,13 @@ Finally, networks can be redesigned~\cite{iandola:arxiv16:squeezenet,tan2019effi
 % 
 These networks leverage smaller convolutional filters, but make up for accuracy degradation by being wider or deeper.
 % 
-This is worthwhile because there is a quadratic relationship between convolutional filter size (i.e. side length) and computational cost.
+This is worthwhile because there is a quadratic relationship between convolutional filter size (i.e., side length) and computational cost.
 
 These algorithmic improvements sometimes come with modifications to the training regime to further increase accuracy.
 % 
 Networks can be fine-tuned during the final stages (final 20-30\% of epochs) of training to adapt to algorithmic changes.
 % 
-During fine-tuning, the forward direction (i.e. inference) adopts the algorithmic change (e.g. reduced precision or pruning), while the backward direction remains the same.
+During fine-tuning, the forward direction (i.e., inference) adopts the algorithmic change (e.g. reduced precision or pruning), while the backward direction remains the same.
 % 
 This allows the network to adjust its weights to the algorithmic change.
 
@@ -253,13 +261,13 @@ DNNs~\cite{jouppi:isca17:tpu}.
 The key to the efficiency of these architectures is to maximize data reuse and
 optimize data movement.
 % 
-For example, Eyeriss~\cite{chen:isca16:eyeriss} introduces row-stationary dataflow to maximize reuse on a spatial fabric, while MAERI~\cite{maeri} designs a new on-chip network specialized for DNN dataflows (including hard-to-accelerate LSTMS).
+For example, Eyeriss~\cite{chen:isca16:eyeriss} introduces row-stationary dataflow to maximize reuse on a spatial fabric, while MAERI~\cite{maeri} designs a new on-chip network specialized for several DNN dataflows (including hard-to-accelerate LSTMs).
 
-The circuits community has also responded, taping-out extremely specialized accelerators with orders of magnitude higher energy-efficiency.
+The circuits community has also responded, taping out extremely specialized accelerators with orders of magnitude higher energy-efficiency.
 %
-These designs use low-level VLSI techniques (e.g. sub-threshold computing~\cite{fick2017subthresholdinference}), custom analog or mixed-signal circuits~\cite{bankman2018always}, or exploit emerging technologies (e.g. ReRAM crossbars~\cite{xue201924,xue202015}) to achieve multiple TOPS/W.
+These designs use low-level VLSI techniques (e.g. sub-threshold computing~\cite{fick2017subthresholdinference}), custom analog or mixed-signal circuits~\cite{bankman2018always}, or exploit emerging technologies (e.g. ReRAM crossbars~\cite{xue201924,xue202015}) to achieve TOPS/W.
 % 
-Unfortunately this extreme energy-efficiency comes at the expense of programmability (and perhaps reliability in the case of analog circuits).
+Unfortunately this extreme energy efficiency comes at the expense of programmability (and perhaps reliability, in the case of analog circuits).
 % 
 In fact, some accelerators specialize to the particular NN architecture~\cite{bankman2018always}.
 % or even hard-code weights~\cite{something}.
@@ -281,9 +289,9 @@ These architectures exploit structure in the program (among data and control-flo
 
 \subsection{Vector architectures}
 \label{chapter:background:program:vector}
-Vector machines exploit data-parallelism to amortize instruction supply energy (i.e. fetch, decode, and issue) across many operations.
+Vector machines exploit data parallelism to amortize instruction supply energy (i.e., fetch, decode, and issue) across many operations.
 % 
-Early vector machines targeted super-computing~\cite{cray_patent}, but most commercially available architectures (e.g., AVX~\cite{avx} and GPUs~\cite{fermi}) today support vectors.
+Early vector machines targeted super computing~\cite{cray_patent}, but most commercially available architectures (e.g. AVX~\cite{avx} and GPUs~\cite{fermi}) today support vectors.
 % 
 These vector designs target performance and operate at a power budget
 orders-of-magnitude higher than that contributed by this thesis.
@@ -321,30 +329,29 @@ Some applications require long vectors, while others want moderate sizes.
 % 
 AVA trades additional vector length for fewer vector registers, spilling registers to memory as needed and then smartly pre-fetching them.
 % 
-Although AVA reduces energy and area, it's primary goal is performance (by supporting variable-sized vector lengths).
+Although AVA reduces energy and area, its primary goal is performance (by supporting variable-sized vector lengths).
 
 Finally, there has been much work on reducing the cost and improving the scalability of GPU register files.
 % 
 This includes virtualizing the RF~\cite{jeon2015gpu,vijaykumar2016zorua} so that physical registers can be shared, compressing registers~\cite{lee2015warped} to maximize utilization of the physical RF, and coalescing RF reads and writes~\cite{asghari2019corf} to minimize RF accesses. 
 % 
-Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require minimal additional hardware, but do not scale to ULP domain where energy-efficiency is higher priority than performance.
+Relative to the large (100s of KB), many-ported (32+ ports) register files of GPUs, these optimizations require minimal additional hardware, but do not scale to ULP domain where energy efficiency is higher priority than performance.
 
 \subsection{Dataflow architectures}
 Dataflow architectures, like vector machines, also have a long history~\cite{dennis1975preliminary,dennis1980data,dennis1988efficient,ttda} that includes changes to the programming and execution model to eliminate control and data movement overheads.
 % 
 % Although pure dataflow architecture have not enjoyed the same commercial success as vector machines,
 % 
-In particular, dataflow is prevalent today as part out-of-order (OoO) execution engines (i.e., restricted
-dataflow) that use \emph{operator fusion} to improve performance and reduce RF
+In particular, dataflow is prev.lent today as part out-of-order (OoO) execution engines, where restricted dataflow improves performance and reduces RF
 pressure~\cite{bracy2004dataflow,sassone2004dynamic,kim2002instruction,sembrant2015long,acsiliouglu2015lazy}.
 % 
-However, pure dataflow architectures have not found the same commercial success, but spatial-dataflow architectures still show great promise for improving energy-efficiency and performance.
+However, pure dataflow architectures have not found the same commercial success, but spatial-dataflow architectures still show great promise for improving energy efficiency and performance.
 
-Dennis proposed the first dataflow architecture in 1975, introducing a small set of primitives to implement arbitrary control-flow by conditionally routing values to consumers.
+Dennis proposed the first dataflow architecture in 1975, introducing a small set of primitives to implement arbitrary control-flow by conditionally routing values to consumers~\cite{dennis1975preliminary}.
 % 
-In 1990, the MIT tagged token dataflow machine showed how to practically implement dataflow in hardware.
+In 1990, the MIT tagged-token dataflow machine showed how to practically implement dataflow in hardware~\cite{nikhil1990executing}.
 % 
-The design relies on the use of a domain-specific language, called Id~\cite{id}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism.
+The design relies on the use of a domain-specific language, called Id~\cite{id}, to describe program dataflow and cap resource use to avoid resource-based deadlocks from unbounded parallelism~\cite{monsoon}.
 
 Later, Wavescalar~\cite{swanson2003wavescalar} and Trips~\cite{trips} identified dataflow locality as the key determinant of sequential code performance.
 % 
@@ -370,14 +377,10 @@ dataflow-like execution.
 % 
 ELM's complex register file hierarchy and forwarding
 mechanism are software-controlled, exposing microarchitectural details to the
-programmer and requiring expert-level, hand-coded assembly for maximum
-efficiency.
-% 
-Even with significant changes to the compiler toolchain, ELM poses
-a risk of unpredictable performance and high programming cost. 
+programmer and requiring significant changes to the compiler toolchain.
 
 \section{Coarse-grain reconfigurable arrays}
-Since Wavescalar, Trips, and ELM there has been a resurgence of spatial-dataflow architectures, called coarse-grain reconfigurable arrays (CGRAs), because they offer better energy-efficiency and performance with lower hardware complexity.
+Since Wavescalar, Trips, and ELM there has been a resurgence of spatial-dataflow architectures, called coarse-grain reconfigurable arrays (CGRAs), because they offer better energy efficiency and performance with lower hardware complexity.
 % 
 % CGRAs achieve high energy-efficiency and performance with lower hardware complexity.
 % 
@@ -403,7 +406,7 @@ CGRAs exist as standalone cores~\cite{trips,raw,swanson2003wavescalar,mishra2006
 co-processors~\cite{tan2018stitch,hauser1997garp,beret,seed,adres,charm,camel,goldstein2000piperench},
 components of a processor pipeline~\cite{dyser,dynaspam,chimera}
 or memory hierarchy~\cite{livia},
-or as accelerators~\cite{plasticine,wave,gorgon,capstan,q100,nowatzki:isca17:stream-dataflow,weng2020hybrid,dadu2019towards,polygraph,taskstream,voitsechov2014single,nguyen2021fifer,morphosys,ppa,fpca}.
+or as co-processors~\cite{plasticine,wave,gorgon,capstan,q100,nowatzki:isca17:stream-dataflow,weng2020hybrid,dadu2019towards,polygraph,taskstream,voitsechov2014single,nguyen2021fifer,morphosys,ppa,fpca}.
 %
 These contexts expose a wide range of hardware design choices, including PE
 operation set, PE complexity, and NoC topology.
@@ -415,12 +418,12 @@ PEs typically include functional units for arithmetic, logic,
 and memory access, but can also include 
 specialized functionality~\cite{snafu,weng2020dsagen,dadu2019towards,q100,gorgon,capstan,polygraph,taskstream}.
 % 
-Later chapters (~\autoref{chapter:snafu} and \autoref{chapter:riptide}) of this thesis will address CGRA design decisions in detail to maximize energy-efficiency.
+Later chapters (\autoref{chapter:snafu} and \autoref{chapter:riptide}) of this thesis will address CGRA design decisions in detail to maximize energy-efficiency.
 
 \subsection{Types of CGRAs}
-CGRA design can be categorized in four ways as identified by \cite{weng2020hybrid}.
+CGRA designs can be categorized in four ways, as identified by \cite{weng2020hybrid}.
 % 
-They are distinct by the way they schedule operations and whether PE resources are shared.
+They distiguished by how they schedule operations and whether PE resources are shared.
 % 
 Specifically the four types of CGRAs are: systolic (statically scheduled \& dedicated PEs), shared-systolic (statically scheduled \& PEs shared),  tagged-dataflow (dynamically scheduled \& PEs shared), and ordered-dataflow (dynamically scheduled \& dedicated PEs).
 
@@ -447,7 +450,7 @@ These designs tag data tokens and then match tags to distinguish between multipl
 % 
 This tagging mechanism maximizes performance, allowing speculation and the re-ordering of operations and even entire loop iterations.
 % 
-However, this sort of dynamic tracking of values requires a high power budget (hundreds of mW v. $\approx$1mW of ULP domain) and comes at a significant energy cost.
+However, this sort of dynamic tracking of values requires a high power budget (100s of mW v. $\approx$1mW of ULP domain) and comes at a significant energy cost.
 
 \paragraph{Ordered-dataflow}
 \label{chapter:background:cgra:ordered}
@@ -464,7 +467,7 @@ The CAD and circuit communities~\cite{ipa,cma,srp,karunaratne2017hycube} have al
 % 
 These designs are usually systolic or shared-systolic and operate at 10s of mW (still order of magnitude more than ULP domain).
 % 
-They use VLSI techniques to reduce power (e.g., low-voltage design, fine-grain clock/power gating) that are complementary to the CGRA designs (\snafu and \riptide) in this thesis.
+They use VLSI techniques to reduce power (e.g. low-voltage design, fine-grain clock/power gating) that are complementary to the CGRA designs (\snafu and \riptide) in this thesis.
 %
 This thesis focuses on {\em architecture} that minimizes energy and maintains flexibility.
 %
@@ -473,9 +476,9 @@ In fact, \autoref{chapter:snafu} describes \snafu, which has a goal of letting d
 \subsection{Compilation}
 Compiling for CGRAs is challenging.
 % 
-Some architectures requires domain-specific languages~\cite{id,delite}, while others place constraints on the types fo programs that can be compiled (i.e. no outer loops or memory ordering is not enforced).
+Some architectures require domain-specific languages~\cite{id,delite}, while others place constraints on the types of programs that can be compiled (i.e., no outer loops, or memory ordering is not enforced).
 % 
-This makes the compilation tractable, but also limits the applications supported.
+This makes compilation tractable, but also limits the applications supported.
 
 Compilation for CGRAs is similar to hardware synthesis.
 % 
@@ -496,9 +499,9 @@ fail or produce poor mappings.
 Recent work proposed graph convolutional networks as a
 solution~\cite{mirhoseini2020chip}.
 % 
-This thesis will (\autoref{chapter:snafu} and \autoref{chapter:riptide}) describe an integer-linear programming approach to mapping a program to PE resources.
+This thesis will (\autoref{chapter:snafu} and \autoref{chapter:riptide}) describe integer-linear programming and SAT-based approaches to mapping a program to PE resources.
 % 
-This is tractable because the compiler does not need to reason about timing or
+Mapping is tractable because the compiler does not need to reason about timing or
 utilization for the proposed architectures (\snafu and \riptide).
 
 \subsubsection{Dataflow control-flow models}
@@ -531,7 +534,7 @@ chooses between results using the branch decider.
 %
 Selection maximizes performance because the branch condition and each side of the branch execute speculatively in parallel.
 %
-Selection is common in recent CGRAs that focus on performance.
+% Selection is common in recent CGRAs that focus on performance.
 % 
 However, selection wastes energy by throwing away work.
 
@@ -561,11 +564,11 @@ and their design decisions do not translate well to the ULP domain.
 %
 The few CGRAs targeting ULP operation ($\approx$1\,mW)~\cite{ipa,cma,srp} are not flexible and leave energy savings on the table. 
 % 
-They places restrictions on programs, e.g. supporting only simple, single-nested loops.
+They places restrictions on programs, e.g., supporting only simple, single-nested loops.
 
-In contrast, this thesis presents \snafu and \riptide that are designed from the ground-up to minimize energy (even at the expense of area and performance) while maximizing flexibility.
+In contrast, this thesis presents \snafu and \riptide, which are designed from the ground-up to minimize energy (even at the expense of area and performance) while maximizing flexibility.
 % 
-\snafu and \riptide, like DSAGEN~\cite{weng2020dsagen}, generate CGRAs, but instead of targeting performance, target ULP operation.
+\snafu and \riptide, like DSAGEN~\cite{weng2020dsagen}, generate CGRAs, but instead of targeting performance, they target ULP operation.
 %
 They minimize PE energy by statically assigning operations
 to specific PEs and, unlike prior low-power

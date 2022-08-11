@@ -454,7 +454,7 @@ The fourth bar applies \riptide's ordering optimizations (\autoref{sec:compiler}
 The fifth bar adds programmer-inserted annotations on pointers (C's {\tt restrict} keyword)
 to better inform LLVM's alias analysis, reducing operation count by 16\%.
 % 
-%Annotations sometimes increase operations if multiple, mutually exclusive alias sets are identified (i.e. {\tt bfs}).
+%Annotations sometimes increase operations if multiple, mutually exclusive alias sets are identified (i.e., {\tt bfs}).
 % 
 The last bar removes control-flow operations that map to \riptide's NoC, reducing
 the number of operations on PEs by 35\%, demonstrating the benefit of

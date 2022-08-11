@@ -13,7 +13,7 @@ We now evaluate \snafuarch to show:
 \figSNAFUSensInputResults
 
 \subsection{Main results}
-\autoref{fig:snafu:primary} shows that \snafuarch is much more energy-efficient and performant vs.\ all baselines.
+\autoref{fig:snafu:primary} shows that \snafuarch is much more energy-efficient and performant v.\ all baselines.
 % 
 The figure shows average energy and speedup of \snafuarch normalized to the scalar baseline.
 % 
@@ -82,9 +82,9 @@ Given \snafuarch's tiny size, we judge this to be a good tradeoff.
 \paragraph{Benchmark analysis}
 \snafuarch is especially energy-efficient on dense linear algebra kernels and sort.
 % 
-\snafuarch uses on average 49\% less energy on average for DMM, DMV, and DConv vs.\ 35\% less on average for SMM, SMV, and SConv. 
+\snafuarch uses on average 49\% less energy on average for DMM, DMV, and DConv v.\ 35\% less on average for SMM, SMV, and SConv. 
 % 
-This is because the dense linear algebra kernels take full advantage of coalescing in the memory PEs and generally have fewer bank conflicts, reducing energy and increasing performance (5.8$\times$ vs.\ 3.8$\times$). 
+This is because the dense linear algebra kernels take full advantage of coalescing in the memory PEs and generally have fewer bank conflicts, reducing energy and increasing performance (5.8$\times$ v.\ 3.8$\times$). 
  
 Sort is another interesting benchmark because \manic barely outperforms the vector baseline, while \snafuarch reduces energy by 72\%.
 (The scalar baseline performs terribly due to a lack of a good branch predictor.)
@@ -111,7 +111,7 @@ For most applications, \snafuarch's benefits increase with input size.
 %
 As input size increases, \snafuarch generally widens the gap in energy-efficiency with the scalar baseline, from 67\% to 81\%.
 %
-\snafuarch also improves vs.\ the vector baseline from 39\% to 57\% and vs.\ \manic from 37\% to 41\% (not shown).
+\snafuarch also improves v.\ the vector baseline from 39\% to 57\% and v.\ \manic from 37\% to 41\% (not shown).
 % 
 The primary reason for this improvement is that, with larger input sizes, \snafuarch can more effectively amortize the overhead of (re)configuration.
 % 
@@ -147,11 +147,11 @@ We show the potential of further compiler optimizations through a case study on 
 %
 \autoref{fig:snafu:unroll} shows the normalized energy and speedup of \manic and \snafuarch with and without loop unrolling on four different applications.
 %
-With loop unrolling, \snafuarch executes four iterations of an inner loop in parallel (vs.\ one iteration without loop unrolling).
+With loop unrolling, \snafuarch executes four iterations of an inner loop in parallel (v.\ one iteration without loop unrolling).
 % 
-On average, with loop unrolling, \snafuarch's energy efficiency improves by 85\%, 71\%, 62\%, and 33\% vs.\ scalar, vector, \manic, and \snafuarch without unrolling.
+On average, with loop unrolling, \snafuarch's energy efficiency improves by 85\%, 71\%, 62\%, and 33\% v.\ scalar, vector, \manic, and \snafuarch without unrolling.
 % 
-The performance results are even more significant: with loop unrolling, \snafuarch's speedup improves to 19$\times$, 7.5$\times$, 11$\times$, and 2.2$\times$ vs.\
+The performance results are even more significant: with loop unrolling, \snafuarch's speedup improves to 19$\times$, 7.5$\times$, 11$\times$, and 2.2$\times$ v.\
 the same set of baselines.
 %
 These results make it clear that \snafuarch can effectively exploit instruction-level parallelism and that there is an opportunity for the compiler to further improve efficiency.

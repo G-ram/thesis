@@ -6,7 +6,7 @@ Regardless of the deployment, energy-efficiency is critical; for battery-powered
 % 
 Unfortunately, existing devices pay a severe energy tax for their programmability, wasting energy in instruction-fetch/decode, pipeline-control and data supply. 
 % 
-Further, offloading computation from an edge-device to the cloud is not practical as communication costs an order of magnitude more energy than local compute.
+Further, offloading computation from an edge-device to the cloud is not practical as communication costs an order-of-magnitude more energy than local compute.
 % 
 The solution is to redesign the ULP sensor system stack to increase the energy-efficiency of on-board compute and enable sophisticated processing of sensed data.
 % 
@@ -14,7 +14,7 @@ This thesis proposes such a stack --- from software to silicon --- that leverage
 % 
 Specifically it contributes 1) \sonic, a software framework that enables machine inference on intermittently-operating, energy-harvesting devices, 2) \manic, a vector-dataflow co-processor (and corresponding silicon prototype), 3) \snafu, an ULP coarse-grain-reconfigurable-array (CGRA) generation framework and architecture, and 4) \riptide, a co-designed dataflow compiler and energy-minimal CGRA. 
 % 
-\sonic was the first demonstration of machine inference on an intermittent device, but also exposed the flaws of existing ULP devices.
+\sonic was the first demonstration of machine inference on a commercial, intermittently-operating device, but also exposed the flaws of such devices.
 % 
 \manic fixed these problems by combining vector execution to amortize instruction fetch with dataflow execution to minimize data supply energy by forwarding intermediate values directly from producers to consumers.
 % 
@@ -24,5 +24,5 @@ Its generated CGRAs implement spatial-vector-dataflow execution that lays out co
 % 
 Finally, \riptide improves overall system efficiency by compiling and offloading to its CGRA, programs written in C with complex control-flow and irregular memory accesses. 
 % 
-Together these contributions form the basis of a new ULP sensor system stack that is $>2$ orders of magnitude more efficient than existing systems, enabling new emerging applications that require intelligence ``beyond-the-edge.''
+Together these contributions form the basis of a new ULP sensor system stack that is $>2$ orders-of-magnitude more efficient than existing systems, enabling new emerging applications that require intelligence ``beyond-the-edge.''
 \end{abstract}

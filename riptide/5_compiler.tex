@@ -80,7 +80,7 @@ producing a configuration bitstream in minutes.
 %\souradip{too much redundancy? details too early?}
 %The \fend compiles C code to LLVM-IR using \texttt{clang}, optimizes the 
 %application for code size (\texttt{-Oz}), and applies LLVM's normalization passes 
-%(e.g. \texttt{-simplifycfg}, \texttt{-loop-simplify}, etc.).
+%(e.g., \texttt{-simplifycfg}, \texttt{-loop-simplify}, etc.).
 %%
 %The \mend then applies its custom compiler passes on the input LLVM-IR (in 
 %order): 1) analyzing memory dependences and enforcing memory operation 
@@ -239,7 +239,7 @@ execution of loops~\cite{midkiff-padua,compiler-sync}.
 %Transitive reductions have been widely studied and applied in prior
 %work to optimize redundant synchronization instructions in automatic
 %parallelization techniques.
-% \souradip{mention some prior work here? only in related work? i.e. "here's what padua did before" here?}
+% \souradip{mention some prior work here? only in related work? i.e., "here's what padua did before" here?}
 %
 We apply TR to the OG, which converts a (potentially cyclic) ordering 
 graph into an acyclic graph of strongly connected components (the SCCDAG). 
@@ -330,7 +330,7 @@ With this constraint in place,
 %For each loop to consider, the compiler inserts two false nodes into 
 %the LSO graph, \texttt{source} and \texttt{sink}, that represent the 
 %loop header and latch respectively.
-%\souradip{is latch the right terminology? i.e. basic block that is
+%\souradip{is latch the right terminology? i.e., basic block that is
 %source of backedge}
 %%
 %All ordering edges in the SCC that are lexically backwards with respect 
@@ -546,7 +546,7 @@ stream if possible, and fuses the stream into the memory operator.
 % for e1 in edges:
 %   for e2 in edges:
 %     # Skip if edges can share same link 
-%     # (e.g. same source vertex & port)
+%     # (e.g., same source vertex & port)
 %     if can_share(e1, e2): continue
 %     # Incompatible edges can't share links
 %     add(~Mel[e1] | ~Mel[e2])
