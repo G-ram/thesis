@@ -1,5 +1,5 @@
 \section{RipTide Microarchitecture}
-\label{sec:arch}
+\label{riptide:arch}
 
 \riptide is an energy-minimal coarse-grained reconfigurable array (\autoref{fig:riptide:arch:block}).
 % 
@@ -11,7 +11,7 @@ A complete \riptide system contains a CGRA fabric, a RISC-V scalar core, and a 2
 
 \subsection{Tagless dataflow scheduling}
 
-\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{sec:background}).
+\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{riptide:background}).
 %
 By adding ordering operators where control may diverge,
 %
@@ -81,11 +81,11 @@ finish computation on an old configuration.
 \item \emph{Multiplier PEs} implement multiply, multiply + shift, multiply + fixed-point clip, and multiply + accumulate.
 
 \item \emph{Control-flow PEs} implement steer, invariant, carry, %select,
-  merge, and order (\autoref{sec:cf}) ---
+  merge, and order (\autoref{riptide:cf}) ---
 %
 but most of these are actually implemented in \riptide's NoC (see below).
 
-\item \emph{Stream PEs} implement common affine iterators (\autoref{sec:cf}).
+\item \emph{Stream PEs} implement common affine iterators (\autoref{riptide:cf}).
 \end{compactitem}
 
 \subsection{Bufferless NoC}

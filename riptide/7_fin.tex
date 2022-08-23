@@ -1,5 +1,5 @@
 \subsection{Control flow in the NoC}
-\label{sec:fin}
+\label{riptide:fin}
 
 Control-flow operators are simple to implement (often a single
 multiplexer), but there are many of them.
@@ -118,7 +118,7 @@ forever:
 
 \paragraph{Supported operations.}
 The CFM can be configured for routing or for the control operators in
-\autoref{sec:cf}.
+\autoref{riptide:cf}.
 %
 Routing, e.g., {\tt out = A}, is simple: just set {\tt cxn = A\_cxn}, {\tt
 noc\_valid = A\_valid}, and {\tt A\_ready = noc\_valid}.
@@ -127,7 +127,7 @@ Other operators are more involved, but each requires only a
 small state machine.
 %
 \autoref{lst:fin} is pseudocode for steer and carry operators
-(\autoref{sec:cf}).
+(\autoref{riptide:cf}).
 %
 A steer forwards {\tt A} if {\tt D} is true; otherwise,
 it discards {\tt A}.

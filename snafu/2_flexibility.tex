@@ -134,7 +134,7 @@ These applications split their dataflow graph into multiple sub-graphs.
 The CGRA executes them one at a time, efficiently switching between them via the configuration cache.
 %
 Note, however, that even with the configuration cache, each fabric configuration is intended to be re-used across many input values before switching,
-unlike prior CGRAs that multiplex configurations cycle-by-cycle (\autoref{snafu:motivation}).
+unlike prior CGRAs that multiplex configurations cycle-by-cycle (\autoref{background:cgras}).
 
 \subsection{\snafuframe's PE standard library}
 \snafuframe includes a library of PEs that we developed using the BYOFU custom

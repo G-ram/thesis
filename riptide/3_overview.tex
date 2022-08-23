@@ -1,17 +1,17 @@
 \section{RipTide Overview}
-\label{sec:overview}
+\label{riptide:overview}
 
 % \figRipTideSystem
 
 \riptide is a compiler and microarchitecture for ultra-low-power, energy-minimal CGRAs.
 %
-At its core is an ISA (\autoref{sec:cf}) that supports arbitrary control flow without expensive associative tag matching.
+At its core is an ISA (\autoref{riptide:cf}) that supports arbitrary control flow without expensive associative tag matching.
 % 
-The compiler (\autoref{sec:compiler}) transforms programs written in high-level C into dataflow graphs using this ISA.
+The compiler (\autoref{riptide:compiler}) transforms programs written in high-level C into dataflow graphs using this ISA.
 % 
 It also enforces memory ordering and optimizes programs by fusing loop induction variables into single stream operators.
 % 
-\riptide's CGRA fabric efficiently executes compiled programs (\autoref{sec:arch}).
+\riptide's CGRA fabric efficiently executes compiled programs (\autoref{riptide:arch}).
 % 
 It minimizes switching activity by assigning a single operation per PE.
 % 
@@ -23,7 +23,7 @@ energy-minimal CGRAs~\cite{snafu} and by 6.6$\times$ / 6.2$\times$
 v.\ a ULP scalar core.
 
 % \paragraph{\riptide's control-flow paradigm minimizes energy.}
-% \riptide introduces a new control-flow paradigm, discussed in \autoref{sec:cf}, that supports arbitrary programs without expensive tag-token matching hardware.
+% \riptide introduces a new control-flow paradigm, discussed in \autoref{riptide:cf}, that supports arbitrary programs without expensive tag-token matching hardware.
 % 
 % Specifically, \riptide adopts a steering ($\phi^{-1}$) control-flow model, which minimizes energy by gating disabled paths so that values are only sent where they will be actually used.
 % 
@@ -34,7 +34,7 @@ v.\ a ULP scalar core.
 
 % \paragraph{\riptidecomp compiles arbitrary C-code to energy-minimal and performant CGRA configurations.}
 %
-% \riptide's compiler (\autoref{sec:compiler}) leverages LLVM~\cite{llvm} and several
+% \riptide's compiler (\autoref{riptide:compiler}) leverages LLVM~\cite{llvm} and several
 % custom compiler passes to convert arbitrary programs to dataflow
 % graphs schedulable onto \riptide's CGRA hardware.
 %
@@ -49,7 +49,7 @@ v.\ a ULP scalar core.
 %% nzb: de-emph CGRA-generator
 %% 
 %% \paragraph{\riptideframe generates ULP CGRAs that run arbitrary programs}
-%% \riptideframe (\autoref{sec:arch}) extends the framework from \snafu ~\cite{snafu} to support the execution of arbitrary programs.
+%% \riptideframe (\autoref{riptide:arch}) extends the framework from \snafu ~\cite{snafu} to support the execution of arbitrary programs.
 %% % 
 %% This means modifying the NoC to support control flow, adding new processing elements to support control-flow and streaming operations, and making the framework even more flexible by allowing PEs to specify an arbitrary number of inputs and outputs.
 %% % 

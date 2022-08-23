@@ -4,7 +4,7 @@
 \newcommand{\bend}{backend\xspace}
 
 \section{RipTide Compiler}
-\label{sec:compiler}
+\label{riptide:compiler}
 
 \riptide compiles, optimizes, and maps high-level C code to \riptide's CGRA fabric. 
 %
@@ -24,9 +24,9 @@ The \fend uses clang to compile C to LLVM's intermediate representation (IR).
 %
 % The \mend optimizes the code in LLVM's IR, then translates to
 % target-specific IR, represented as a dataflow graph (DFG) of the operator
-% types from \autoref{sec:cf}, including control flow and memory ordering.  
+% types from \autoref{riptide:cf}, including control flow and memory ordering.  
 % 
-The \mend manipulates the LLVM IR to insert control-flow operators from  \autoref{sec:cf} and enforce memory ordering; then it translates the IR to a dataflow graph (DFG) representation and optimizes the DFG by transforming and fusing subgraphs, reducing operator count by 27\%
+The \mend manipulates the LLVM IR to insert control-flow operators from  \autoref{riptide:cf} and enforce memory ordering; then it translates the IR to a dataflow graph (DFG) representation and optimizes the DFG by transforming and fusing subgraphs, reducing operator count by 27\%
 (\autoref{fig:riptide:compiler}).
 %
 %The target-specific IR includes PE operations, but retains high-level
@@ -92,7 +92,7 @@ producing a configuration bitstream in minutes.
 %schedule the DFG and produce a bitstream for the application.
 
 \subsection{Memory-ordering analysis}
-\label{sec:compiler:enforce}
+\label{riptide:compiler:enforce}
 
 \newcommand{\rem}[1]{\textcolor{darkgreen}{#1}}
 
@@ -366,7 +366,7 @@ The \mend encodes ordering arcs as defs and uses of data values in the IR
 before lowering them as dependences in the DFG.
 %
 For a memory operator that must receive multiple control signals,
-the \mend inserts order operations (\autoref{sec:cf}) to consolidate those signals.
+the \mend inserts order operations (\autoref{riptide:cf}) to consolidate those signals.
 
 \subsection{Control-flow operator insertion}
 
@@ -456,7 +456,7 @@ Since the earlier iteration sends its control signal first and \riptide does not
 \figRipTideArch
 
 \subsection{Stream fusion}
-\label{sec:compiler:stream}
+\label{riptide:compiler:stream}
 
 \riptide performs target-specific operator fusion on the DFG to
 reduce required operations and routes by combining value {\em stream generators} with loop
@@ -577,11 +577,11 @@ stream if possible, and fuses the stream into the memory operator.
 % \figRipTideSATEnergy
 
 \subsection{Mapping DFGs to hardware}
-\label{sec:compiler:map}
+\label{riptide:compiler:map}
 \riptide's backend takes a DFG and a CGRA topology description and generates
 scalar code to invoke \riptide and a bitstream to configure the \riptide fabric.
 % 
-This involves finding a mapping of DFG nodes and edges to PEs, control-flow modules (\autoref{sec:fin}), and links.
+This involves finding a mapping of DFG nodes and edges to PEs, control-flow modules (\autoref{riptide:fin}), and links.
 % 
 Mapping can be difficult, and there is much prior work on heuristic methods
 that trade mapping quality for compilation speed~\cite{karunaratne2018dnestmap,hamzeh2012epimap,hamzeh2014branch,amp2020,4dcgra,himap,lee2021ultra,chordmap,pathseeker}.
@@ -601,10 +601,10 @@ Rather than optimize for initiation interval, it need only focus on finding a va
 %
 The SAT-based mapper runs quickly, taking <\,3\,min for our most complex benchmark,
 %DFS (45 vertices and 81 edges),
-whereas the ILP-based mapper yields 4.3\% avg.\ energy savings v.\ SAT (\autoref{sec:eval:compiler}).
+whereas the ILP-based mapper yields 4.3\% avg.\ energy savings v.\ SAT (\autoref{riptide:eval:compiler}).
 
 \paragraph{Problem description.}
-The constraints of the ILP and SAT formulations are similar (see~\autoref{sec:appendix} for a complete, formal description).
+The constraints of the ILP and SAT formulations are similar (see~\autoref{chapter:map} for a complete, formal description).
 % , though the objective of the ILP formulation is to minimize the average routing distance.
 %
 The formulations ensure that every DFG vertex is mapped to a hardware node, that every edge is mapped to a continuous route of hardware links, and that the inputs and outputs of a vertex match the incoming and outgoing links of a hardware node. 

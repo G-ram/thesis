@@ -1,5 +1,5 @@
 \section{Experimental Methodology}
-\label{sec:method}
+\label{riptide:method}
 
 We evaluate a complete \riptide system: the compiler built using LLVM and the
 microarchitecture fully implemented in RTL in Intel 22FFL,
@@ -12,7 +12,7 @@ an industrial, sub-28nm FinFET process.
 \riptide's compiler middle-end uses LLVM's
 flow-insensitive alias analyses for memory ordering.
 %
-We evaluate both \riptide's SAT and ILP mappers (see \autoref{sec:compiler:map}), but unless otherwise specified we use the ILP mapper.
+We evaluate both \riptide's SAT and ILP mappers (see \autoref{riptide:compiler:map}), but unless otherwise specified we use the ILP mapper.
 % 
 The ILP mapper uses CVXPY~\cite{cvxpy} and Gurobi 9.5~\cite{gurobi}.
 %

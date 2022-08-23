@@ -1,5 +1,5 @@
 \section{Evaluation}
-\label{sec:eval}
+\label{riptide:eval}
 
 \figRipTideEnergyResults
 
@@ -130,7 +130,7 @@ on \riptide, we can avoid these memory accesses by accumulating intermediate res
 \figRipTidePrimaryCompilerResults
 
 \paragraph{\riptide is tiny and has extremely low power consumption.}
-\label{sec:eval:power_area}
+\label{riptide:eval:power_area}
 The complete \riptide system (CGRA, memory, and scalar core) is $\approx 0.5\text{mm}^2$.
 \autoref{fig:riptide:eval:area} breaks down system area among its components.
 \riptide operates between 320\textmu W and 910\textmu W,
@@ -142,7 +142,7 @@ Overall, the complete system, including memory, achieves
 Without tuning, \riptide achieves 141 MOPS/mW on {\tt dmm}.
 
 \subsection{\riptide v. prior low-power CGRAs}
-\label{sec:eval:compare}
+\label{riptide:eval:compare}
 \autoref{tab:riptide:eval:compare} compares \riptide against several recent CGRAs.
 % 
 We compare designs across their general-purpose programmability, architectural parameters, and reported performance, power, and efficiency.
@@ -268,7 +268,7 @@ UE-CGRA has no routers, instead routing values through PEs.
 % HyCube fuses a crossbar switch into each PE, but there is less overall connectivity v. \riptide.
 % \brandon{multiple routers per PE?  or do they fuse a router into each PE?\cmark}
 % %
-% \riptide's NoC is more flexible and powerful, implementing dynamic flow control and control-flow operators (\autoref{sec:fin}).
+% \riptide's NoC is more flexible and powerful, implementing dynamic flow control and control-flow operators (\autoref{riptide:fin}).
 % 
 HyCube's NoC accounts for 24\% of fabric area, with each PE containing a $4\times4$ crossbar switch.
 % 
@@ -311,7 +311,7 @@ whereas HyCube maps multiple operations per PE to maximize utilization.
 %
 This tradeoff makes sense for \riptide
 because it targets applications
-that are limited by energy, not performance (\autoref{sec:background}).
+that are limited by energy, not performance (\autoref{riptide:background}).
 
 Combining \riptide's low frequency and high energy efficiency
 yields extremely low power consumption.
@@ -434,7 +434,7 @@ and this is the entire system, including the 256KB main memory.
 % We also provide as much information as possible for \riptide to enable future  comparisons.
 
 \subsection{Compiler characterization}
-\label{sec:eval:compiler}
+\label{riptide:eval:compiler}
 \riptide's compiler effectively optimizes dataflow graphs, reducing operation
 count by 27\% while enforcing memory ordering v.\ an unoptimized DFG without
 ordering.
@@ -462,7 +462,7 @@ The third bar adds unoptimized memory ordering, which {\em increases} operation 
 % 
 Mapping this graph to hardware is challenging due to its size.
 % 
-The fourth bar applies \riptide's ordering optimizations (\autoref{sec:compiler}), reducing operation count (v. the third bar) by 18\%.
+The fourth bar applies \riptide's ordering optimizations (\autoref{riptide:compiler}), reducing operation count (v. the third bar) by 18\%.
 % 
 The fifth bar adds programmer-inserted annotations on pointers (C's {\tt restrict} keyword)
 to better inform LLVM's alias analysis, reducing operation count by 16\%.
@@ -519,7 +519,7 @@ These observations help to explain why SAT performs well in \riptide.
 
 \figRipTideFINResults
 \subsection{Control flow in the NoC saves energy \& area}
-\label{sec:eval:fin}
+\label{riptide:eval:fin}
 \autoref{fig:riptide:eval:fin} quantifies the benefits of implementing control flow in the NoC.
 % \nzb{I think we should re-structure this section around explicit synthesis results for the different schemes, explaining what they are and discussing area first. Then jump to complete system results. Right now it is hard to follow.}
 % 
