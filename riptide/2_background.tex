@@ -57,7 +57,7 @@ value, but unfortunately existing architectures fail to meet the needs
 of these applications.
 %
 Application-specific integrated circuits (ASICs) offer high compute
-efficiency, but are too inflexible for most long-lived
+efficiency, but are too inflexible for most long-lived, 
 energy-constrained applications because they cannot adapt as
 applications change~\cite{hotmobile2021}.
 %
@@ -117,10 +117,10 @@ Hence, to minimize energy, one would ideally run an entire program on the CGRA.
 Two considerations prevent this.
 %
 First, any unsupported computations (e.g., outer loops, irregular memory access)
-must run on the core, creating a Amdahl bottleneck on end-to-end
+must run on the core, creating an Amdahl bottleneck on end-to-end
 efficiency.
 %
-Second, large computations cannot fit on CGRA and must be broken
+Second, large computations cannot fit on CGRAs and must be broken
 into smaller ones, with intermediate values spilled to scratchpads or main memory.
 %% Infrequently executed blocks are often executed
 %% on the core.
@@ -137,7 +137,7 @@ into smaller ones, with intermediate values spilled to scratchpads or main memor
 \subsection{Limitations of prior CGRAs}
 
 Prior CGRAs mostly target loop nests with easily analyzable, regular control;
-see the examples in \autoref{tab:background}.
+see the examples in \autoref{tab:riptide:background}.
 %
 Especially in the ultra-low-power (ULP) domain, 
 most CGRAs are ``systolic,'' i.e., statically
@@ -163,7 +163,7 @@ Resources are better spent on unrolling regular inner loops to improve performan
 %%     - extensive programmer annotations needed
 %%     - still focused on perf/area, utilization, still limited scope
 
-Revel~\cite{weng2020hybrid} and ultra-elastic CGRAs~\cite{torng2021ultra} stand out from prior work in recognizing and partially addressing these limitations (\autoref{tab:background}).
+Revel~\cite{weng2020hybrid} and ultra-elastic CGRAs~\cite{torng2021ultra} stand out from prior work in recognizing and partially addressing these limitations (\autoref{tab:riptide:background}).
 % Prior work has partially recognized and addressed these limitations.
 % 
 Revel~\cite{weng2020hybrid} supports outer loops with a hybrid architecture that maps tight inner loops to a systolic array and outer loops to a tagged-token dataflow fabric.
@@ -216,14 +216,13 @@ This means they cannot add expensive microarchitectural mechanisms
 or significantly increase program size.
 %
 \emph{\riptide reconciles these conflicting goals by offloading most control
-operations to its NoC,} where they reuse existing circuitry
-and do not consume scarce PEs.
+operations to its NoC,} where they reuse existing circuitry, do not consume scarce PE resources, and avoid expensive buffering.
 
 \snafu~\cite{snafu} is a recent framework for generating
 energy-minimal CGRAs.
 %
 \snafu adopts many microarchitectural techniques to save energy,
-but requires vector assembly and is thus limited to simple control flow (\autoref{tab:background}).
+but requires vector assembly and is thus limited to simple control flow (\autoref{tab:riptide:background}).
 %
 \riptide targets the same domain and uses \snafu as its baseline design.
 
@@ -249,7 +248,7 @@ and, to support large programs, they store the dataflow graph in memory and exec
 %
 In this respect, they resemble von Neumann cores, and unfortunately lose much of the energy benefits of CGRAs' spatial distribution.
 
-Some dataflow architectures have combined spatial and temporal execution~\cite{trips,raw,swanson2003wavescalar,mishra2006tartan,parashar2013triggered,voitsechov2014single,voitsechov2018inter} (see, e.g., Wavescalar in ~\autoref{tab:background}).
+Some dataflow architectures have combined spatial and temporal execution~\cite{trips,raw,swanson2003wavescalar,mishra2006tartan,parashar2013triggered,voitsechov2014single,voitsechov2018inter} (see, e.g., Wavescalar in ~\autoref{tab:riptide:background}).
 %
 These performance-oriented designs require expensive microarchitectural mechanisms
 to maintain performance with highly variable memory latency
@@ -257,7 +256,7 @@ to maintain performance with highly variable memory latency
 
 \paragraph{Relevance to \riptide: Balancing generality and efficiency.}
 %
-\riptide also targets executing arbitrary code written in high-level languages.
+\riptide also targets arbitrary code written in high-level languages.
 %
 But to maintain energy efficiency, \riptide spatially distributes instructions
 and avoids expensive microarchitectural mechanisms.
@@ -294,7 +293,7 @@ operations where necessary.
 %% - dimensions of cgra architecture
 
 \subsection{Dimensions of CGRA architecture}
-There are many dimensions of CGRA architecture that affect energy-efficiency, throughput, and programmability.
+There are many dimensions of CGRA architecture that affect energy efficiency, throughput, and programmability.
 % 
 \riptide is carefully designed along each dimension to reduce energy and maximize programmability.
 
@@ -308,7 +307,7 @@ Some~\cite{snafu,dally:ieee08:elm} expose low-level interfaces that require expe
 % 
 Others~\cite{plasticine} develop domain-specific languages~\cite{sujeeth2014delite} that simplify compilation and the architecture, but also limit the scope of supported applications.
 % 
-Still others take a more general-purpose approach~\cite{swanson2003wavescalar},
+Still others~\cite{swanson2003wavescalar} take a more general-purpose approach,
 compiling from languages originally developed for CPUs.
 % , compiling from languages like C.
 % 
@@ -316,7 +315,7 @@ compiling from languages originally developed for CPUs.
 We choose to compile from C because C is popular in embedded applications.
 
 \paragraph{PE type(s).}
-CGRAs offer a wide range of designs choices, including PE
+CGRAs offer a wide range of design choices, including PE
 operation set, PE complexity, and NoC.
 %
 A CGRA's PEs typically support arithmetic, logic, memory accesses,
@@ -344,7 +343,7 @@ In a performance-focused CGRA, the compiler must also reason
 about timing to maximize utilization and minimize
 initiation interval~\cite{pathseeker,chordmap,lee2021ultra,himap,4dcgra,amp2020,ureca,balasubramanian2018laser,pager2015software,hamzeh2012epimap,karunaratne2018dnestmap}.
 % 
-This analysis is further complicated by control flow (e.g., branching) and operations with variable latencies (e.g., memory operations).
+This analysis is further complicated by control flow (e.g., branches) and operations with variable latencies (e.g., loads).
 %
 With such a large search space, optimization-based methods often
 do not converge in a reasonable time~\cite{hybrid-sched,nowatzki2013general} and heuristic approaches can yield poor results.
@@ -597,10 +596,10 @@ in \riptide's execution model.
 %% \subsection{Solution: \riptide v.\ prior work}
 %% \riptide is our solution to the requirements of the ULP domain and the need for general-purpose programmability.
 %% %
-%% % \autoref{tab:snippets} shows that \riptide stands out v.\ prior work.
-%% It stands out from prior work as shown in \autoref{tab:snippet}.
+%% % \autoref{tab:riptide:snippets} shows that \riptide stands out v.\ prior work.
+%% It stands out from prior work as shown in \autoref{tab:riptide:snippet}.
 %% % 
-%% In particular, \riptide targets energy-efficiency and supports a wide-variety of program constructs directly from C.
+%% In particular, \riptide targets energy efficiency and supports a wide-variety of program constructs directly from C.
 %% % 
 %% Some CGRAs like HyCube~\cite{karunaratne2017hycube} (also related compilation schemes like~\cite{pathseeker,chordmap,lee2021ultra,himap,4dcgra,amp2020,ureca,balasubramanian2018laser,pager2015software,hamzeh2014branch,hamzeh2012epimap,karunaratne2018dnestmap}) target performance, only support simple affine loop-nests, have limited or no support for conditional execution, and require spatial and temporal scheduling of operations.
 %% % 

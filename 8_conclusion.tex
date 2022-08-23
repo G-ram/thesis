@@ -10,25 +10,44 @@ From software to silicon, we have contributed the following systems to meeting t
 
 \begin{itemize}
 
-\item \sonic is a machine inference software runtime system for intermittently-operating, energy-harvesting devices.
+\item \sonic is a machine inference software runtime system for intermittently operating, energy-harvesting devices.
 % 
 It leverages the regular structure of inference to reduce the costs of guaranteeing correct execution under frequent power failures.
 % 
-\sonic was the first to demonstrate of inference on intermittent, energy-harvesting devices and showed the importance of accurate, local inference.
+\sonic was the first to demonstrate inference on intermittent, energy-harvesting devices and showed the importance of accurate, local inference.
 % 
 It also exposed the inefficiencies of existing commercial devices and stressed the need for new architectures.
 
-\item \manic was our response to the need for new architectures.
+\item \manic was our first response to the need for new architectures.
 % 
-\manic developed vector-dataflow execution that amortized the cost of instruction fetch (vector execution) and minimized data supply energy (VRF accesses) by forwarding intermediates directly from producers to consumers (dataflow execution).
+\manic developed vector-dataflow execution to amortize the cost of instruction fetch (vector execution) and minimize data supply energy (VRF accesses) by forwarding intermediates directly from producers to consumers (dataflow execution).
 % 
-\msilicon showed the benefits of the vector-dataflow execution in a real testchip prototype, but also exposed the limitations of the implementation, wasting energy reconfiguring shared pipeline resources from cycle-to-cycle.
+\msilicon showed the benefits of the vector-dataflow execution in a real testchip prototype, but also exposed the limitations of the implementation, which wasted energy reconfiguring shared pipeline resources from cycle-to-cycle.
 
-\item \snafu generates ULP CGRAs that eliminate this cost of reconfiguring shared pipeline resources.
+% \item \snafu generates ULP CGRAs that address \manic's limitations.
 % 
-\snafu implements spatial-vector-dataflow execution where each PE is assigned a single operation for the duration of a kernel's execution.
+% \snafu implements spatial-vector-dataflow execution to eliminate the energy wasted reconfiguring shared pipeline resources, assigning a \emph{single} operation to each PE per kernel invocation.
 % 
-This along with \snafu's bufferless NoC and implementation of ordered dataflow minimize energy.
+% It implements a bufferless NoC to minimize data communication energy, and it implements asynchronous dataflow firing without expensive tag-token matching hardware to handle variable latency operations.
+% 
+% \snafu implements spatial-vector-dataflow execution to eliminate the energy wasted reconfiguring shared pipeline resources.
+% 
+% It  also implements a bufferless NoC to minimize data communication energy, and it implements asynchronous dataflow firing without expensive tag-token matching hardware to handle variable latency operations.
+% 
+% \snafu implements spatial-vector-dataflow execution, where each PE is assigned a single operation for the duration of a kernel's execution.
+% In spatial-vector-dataflow execution, a single operation is assigned to each PE for the duration of a kernel's execution, which minimizes gate toggling.
+% 
+% \item \snafu is designed from the ground-up to minimize enery while maximizing flexibility to address \manic's limiations.
+% 
+\item \snafu generates ULP CGRAs that address \manic's limitations.
+% 
+\snafu implements spatial-vector-dataflow execution, where each PE is assigned a single operation for the duration of a kernel's execution, to eliminate the cost of reconfiguring shared pipeline resources.
+% 
+% In spatial-vector-dataflow execution, each PE is assigned a single operation for the duration of a kernel's execution, which minimizes gate toggling.
+% 
+It also implements a bufferless NoC to reduce data supply energy and supports asynchronous dataflow without expensive tag-token matching.
+% 
+% This execution model, coupled with \snafu's implementation of a bufferless NoC and asynchronous dataflow without tag-token matching, are the primary ways \snafu minimizes energy.
 % 
 At the same time, \snafu maximizes flexibility by taking a ``bring-your-own-functional'' unit approach that allows designers to easily integrate custom operations.
 % 
@@ -36,17 +55,26 @@ At the same time, \snafu maximizes flexibility by taking a ``bring-your-own-func
 % 
 Through iterative and selective specialization, \snafu can further close the gap to ASIC designs.
 
-\item \riptide observes that the more computation offloaded to an ULP CGRA fabric the more efficient the overall system.
+\item \riptide observes that, the more computation offloaded to an ULP CGRA fabric, the more efficient the overall system.
+%
+It develops a dataflow compiler and ULP CGRA architecture that target programs written in C to reduce programmer effort (v. systems like \snafu that require hand-coded assembly) in offloading computation.
 % 
-It develops a dataflow compiler and ULP CGRA architecture that directly targets programs written in C to reduce programmer effort to offload computation.
+It introduces a general-purpose control-flow model to support a wide variety of program idioms, including irregular memory accesses and deeply-nested loops.
+%
+Control-flow operations are conveniently and efficiently implemented using existing resources in \riptide's on-chip network.
 % 
-It introduces a general-purpose control-flow model that supports arbitrary control-flow and irregular memory accesses, leveraging existing resources in the on-chip network to implement CF operations.
+% It develops a dataflow compiler and ULP CGRA architecture that target programs written from C to reduce programmer effort to offload computation.
+% 
+% It introduces a general-purpose control flow model that supports arbitrary control flow and irregular memory accesses, leveraging existing resources in the on-chip network to implement control-flow operations.
 % 
 \riptide achieves the best of both worlds --- it narrows the gap to ASIC designs even more than \snafu, while improving on programmability.
+% 
+Compared to COTS MCUs, \riptide demonstrates the significant progress made by this thesis, achieving 2--3 orders of magnitude better energy and performance.
+
 \end{itemize}
 
 These contributions form the basis of a new energy-minimal, ULP sensor system stack.
 % 
-They demonstrate that extreme energy-efficiency can be achieved without compromising on programmability.
+They show that extreme energy-efficiency can be achieved without signficantly compromising on programmability.
 %
-This is the power of rethinking the entire stack, optimizing at multiple levels at once, reduces energy, increases performance, and ultimately enables new applications.
+This is the power of rethinking the entire stack; optimizing at multiple levels at once, reduces energy, increases performance, and ultimately enables new applications.

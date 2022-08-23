@@ -59,7 +59,7 @@ Recent work has shown that coarse-grained reconfigurable
 arrays (CGRAs) can achieve energy efficiency competitive with ASICs
 while remaining programmable by software~\cite{snafu,nowatzki2017domain,weng2020dsagen}.
 %
-As shown in \autoref{fig:intro},
+As shown in \autoref{fig:riptide:intro},
 a CGRA
 % ~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx,torng2021ultra} 
  is an array of processing elements
@@ -74,7 +74,7 @@ Neumann architectures, specifically instruction fetch/control and data
 buffering in a centralized register file.
 
 In the context of ultra-low-power sensing applications,
-\snafu~\cite{snafu} is a CGRA framework designed from
+\snafu~\cite{snafu} is a CGRA-generation framework designed from
 the ground up to minimize energy, in contrast to prior,
 performance-focused CGRAs (\autoref{sec:background}).
 %
@@ -108,7 +108,7 @@ many prior CGRAs support only simple, regular control flow,
 e.g., inner loops with streaming memory accesses
 and no data-dependent control~\cite{plasticine,nowatzki:isca17:stream-dataflow,snafu}.
 %
-To support complex control flow, other CGRAs employ expensive hardware mechanisms, e.g.,
+To support complex control flow and maximize performance, other CGRAs employ expensive hardware mechanisms, e.g.,
 associative tags to distinguish loop iterations,
 large buffers to avoid deadlock,
 and dynamic NoC routing~\cite{monsoon,ttda,swanson2003wavescalar,voitsechov2014single}.
@@ -213,7 +213,7 @@ parallelize operations.
 %
 We observe that, with steering control flow and no program counter,
 conventional transitive reduction analysis fails to enforce all memory
-orderings, and we introduce \emph{path-sensitive transitive reduction}
+orderings, so we introduce \emph{path-sensitive transitive reduction}
 to infer orderings correctly.
 %
 \riptide implements arbitrary control flow without associative tags by
@@ -224,9 +224,10 @@ operators.
 %% and maps them onto a single PE.
 %
 \riptide maps programs onto the CGRA by formulating place-and-route as a
-SAT instance or integer linear program,
-which we show yields near-optimal energy and performance
-with reasonable compilation times ($<$\,3\,min) in our context.
+SAT instance or integer linear program.
+% which we show yields near-optimal energy and performance
+% with reasonable compilation times ($<$\,3\,min) in our context.
+The SAT formulation finds configurations quickly ($<$\,3\,min), while the ILP formulation yields configurations that use 4.3\% less energy.
 
 %% \paragraph{Contributions.}
 %% This paper contributes the following:
@@ -275,25 +276,36 @@ Intel 22FFL, an industrial sub-28nm FinFET process with compiled memories.
 %
 Including core and memory, \riptide's area is just $\approx 0.5$mm$^2$.
 %
-Across ten benchmarks, \riptide reduces energy by
-25\% v.\ \snafu, the state-of-the-art energy-minimal design,
-and improves performance by 17\% (\autoref{fig:intro:results}).
+Across ten benchmarks,
+ranging from linear algebra to graph search, % to digital signal processing,
+\riptide reduces energy by 25\% v.\ \snafu, the state-of-the-art energy-minimal design,
+and improves performance by 17\% (\autoref{fig:riptide:intro:results}).
 %
-At nominal voltage with random inputs, \riptide achieves 141MOPS/mW (including main memory) on {\tt dmm},
-which increases to 180MOPS/mW with software hand-tuning.
+At nominal voltage with random inputs, \riptide achieves 180\,MOPS/mW (including main memory) on {\tt dmm}.
+% , which increases to 180\,MOPS/mW with software hand-tuning.
 %
-Compared to equivalent ASICs for {\tt dmm}, {\tt sort}, and {\tt fft},
-\riptide consumes just 2.4$\times$ more energy.
+\riptide consumes just 2.4$\times$ more energy
+than equivalent ASICs for {\tt dmm}, {\tt sort}, and {\tt fft},
 %
-%% Versus prior CGRAs like HyCube~\cite{wang2019hycube} and UE-CGRA~\cite{torng2021ultra}, \riptide is 2.4$\times$ more efficient.
-% 
-On end-to-end neural network inference,
-\riptide consumes 1900$\times$ less energy than an off-the-shelf TI MSP430,
-490$\times$ less than an ARM Cortex-M3,
-and 6.5$\times$ less than our own energy-minimal scalar core.
+and \riptide achieves these benefits on software written in C.
+
+We identify several methodological challenges in measuring CGRA efficiency.
+%% and propose metrics that enable meaningful comparison.
 %
-\riptide achieves these benefits on software written in C,
-cf.\ hand-coded vector assembly in \snafu.
+The choice of metric can skew reported efficiency by more than 10$\times$ ---
+e.g., \riptide achieves 1970 fabric MIPS/mW on {\tt dmm},
+which is often reported as MOPS/mW in prior work.
+%
+Surveying prior work,
+%
+we find that \riptide is 2.4$\times$ more energy-efficient than prior, performance-oriented CGRAs
+with comparable data~\cite{wang2019hycube,torng2021ultra}.
+
+Finally, we compare \riptide to off-the-shelf ULP systems on end-to-end neural network inference.
+\riptide consumes 1900$\times$ less energy than an TI MSP430,
+490$\times$ less energy than an ARM Cortex-M3,
+and 6.5$\times$ less energy than our own energy-minimal scalar core
+--- and \riptide is 7.7$\times$ faster.
 
 \paragraph{Broader implications on architecture.}
 

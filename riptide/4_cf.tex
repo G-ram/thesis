@@ -1,4 +1,4 @@
-\section{RipTide Instruction Set}
+\section{RipTide Instruction Set Architecture}
 \label{sec:cf}
 
 
@@ -6,7 +6,7 @@
 
 \riptide provides a rich set of control-flow operators to support complex programs.
 % 
-Its ISA, shown in \autoref{tab:isa}, has six categories of operators: arithmetic, multiplier, memory, control flow, synchronization, and streams.
+Its ISA, shown in \autoref{tab:riptide:isa}, has six categories of operators: arithmetic, multiplier, memory, control flow, synchronization, and streams.
 %
 (Multiplication is split from other arithmetic because, to save area, only some PEs can perform multiplication.)
 %
@@ -17,11 +17,11 @@ We now highlight the control-flow, synchronization, and stream operators.
 %% % 
 %% These operators are universal, i.e., sufficient to implement \riptide's control-flow paradigm.
 %
-\riptide's operators are illustrated in \autoref{fig:cf:gates}.
+\riptide's operators are illustrated in \autoref{fig:riptide:cf:gates}.
 %
-Whenever a value is read by an operator, it is implied that the
+Whenever a value is read, it is implied that the
 operator waits until a valid token arrives for that value over the
-NoC. Tokens are buffered at the operator inputs if they are not
+NoC. Tokens are buffered at the inputs if they are not
 consumed or discarded.
 
 \figRipTideISA
@@ -42,7 +42,7 @@ Steers are necessary to implement conditional execution, as they gate the inputs
 % 
 Carry represents a loop-carried dependency and takes a decider, {\tt D}, and two data values, {\tt A} and {\tt B}.
 % 
-Carry has the internal state machine shown in \autoref{fig:cf:gates}.
+Carry has the internal state machine shown in \autoref{fig:riptide:cf:gates}.
 %
 In the {\em Initial} state, it waits for {\tt A}, and then passes it through and transitions to the {\em Block} state.
 %
@@ -52,6 +52,8 @@ It transitions back to {\em Initial} when {\tt D} is False, and begins waiting f
 
 Carry operators keep tokens ordered in loops, eliminating the need to tag tokens.
 %
+All backedges are routed through a carry operator in \riptide.
+%
 %% All loop-carried dependencies must go through a carry operator.
 %% Since loop-carried dependencies must go through a carry operator, these values never get reordered.
 % 
@@ -59,8 +61,7 @@ By not consuming {\tt A} while in {\em Block}, carry operators prevent
 outer loops from spawning a new inner-loop instance before the
 previous one has finished.
 %
-(Iterations from one inner-loop may safely run in parallel, but entire
-instances of the inner loop may not.)
+(Iterations from one inner-loop may be pipelined if they are independent, but entire instances of the inner loop will be serialized.)
 
 \paragraph{Invariant.}
 The invariant operator is a slight variation of carry.
@@ -108,7 +109,7 @@ A stream takes three inputs: {\tt start}, {\tt step}, and {\tt bound}.
 It initially sets its internal {\tt idx} to {\tt start},
 %
 and then begins iterating a specified arithmetic operator {\tt f}
-as {\tt idx' = f(idx, step)}.
+as \mbox{\tt idx' = f(idx, step)}.
 
 A stream operator produces two output tokens per iteration: {\tt idx} itself,
 and a control signal {\tt last}.

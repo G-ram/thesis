@@ -20,12 +20,12 @@ control.
 Thus, to implement each control-flow operator, \riptide manipulates a switch's
 routing and ready/valid signals to provide the desired functionality.
 
-\riptide's router microarchitecture is shown in \autoref{fig:arch:router}.
+\riptide's router microarchitecture is shown in \autoref{fig:riptide:arch:router}.
 % 
 The router shares routing configuration and its data and valid crossbars with
 the baseline NoC.
 %
-\riptide adds a control-flow module (CFM) at each output port.
+\riptide adds a control-flow module (CFM) at a configurable number of output ports (in our case, two output ports).
 % 
 The CFM determines when to send data to the output port and
 manipulates inputs to the data switch to select which data is sent.
@@ -34,7 +34,7 @@ manipulates inputs to the data switch to select which data is sent.
 
 %% \paragraph{Sketch of the CF module.}
 %% %
-%% The CF module (\autoref{fig:filter}) takes three inputs: {\tt A}, {\tt B}, and decider {\tt D} from the switch and produces {\tt out}.
+%% The CF module (\autoref{fig:riptide:filter}) takes three inputs: {\tt A}, {\tt B}, and decider {\tt D} from the switch and produces {\tt out}.
 %% %
 %% The CF module implements eight operations: no connection, direct connection, carry, invariant, steer, order, merge, and select.
 %% % 
@@ -156,7 +156,7 @@ See the pseudocode in \autoref{lst:fin:carry} for details.
 \paragraph{Control flow in the NoC adds small hardware overheads.}
 %
 Implementing control flow in the NoC is far more energy- and
-area- efficient than in a PE, saving an estimated 40\% energy and 22\% area v. CGRA with all CF operations mapped to PEs (All PEs in~\autoref{fig:eval:fin}).
+area- efficient than in a PE, saving an estimated 40\% energy and 22\% area v. CGRA with all CF operations mapped to PEs (All PEs in~\autoref{fig:riptide:eval:fin}).
 %
 The CFM deals only with narrow control signals and the 1b decider
 value {\tt D}.
@@ -197,7 +197,7 @@ software-supplied value that is not -1, 0, or 1, it currently requires \textmu c
 
 %% \paragraph{Steer} CF module waits for {\tt D\_valid} and {\tt A\_valid} and depending on configuration (True or False steer) and {\tt D} chooses whether to send data on the output port (raising or lowering {\tt noc\_ov}).
 
-%% \paragraph{Carry} CF module implements the state machine from \autoref{fig:cf:gates}. 
+%% \paragraph{Carry} CF module implements the state machine from \autoref{fig:riptide:cf:gates}. 
 %% % 
 %% The CF module starts in the initial state, waiting for {\tt A\_valid} and when valid sets {\tt Out = A}. 
 %% % 

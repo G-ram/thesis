@@ -677,8 +677,9 @@
 	"major_padding": 45,
 	"barwidth": 1.1,
 	"fontsize": 12,
-	"subplots": true,
-	"ylim": [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+	"ylim": 5,
 	"xlim": [2, 112],
-	"ylabel": "Normalized energy (v. RipTide)"
+	"ylabel": "Normalized energy (v. RipTide)",
+	"annotate_outliers": true,
+	"annotate_offset": 1
 }

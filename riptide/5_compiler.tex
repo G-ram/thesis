@@ -6,12 +6,12 @@
 \section{RipTide Compiler}
 \label{sec:compiler}
 
-\riptidecomp compiles, optimizes, and maps high-level C code to \riptide's CGRA fabric. 
+\riptide compiles, optimizes, and maps high-level C code to \riptide's CGRA fabric. 
 %
 %% The ability to compile high-level language code to a correct and highly
 %% efficient \riptide configuration is a primary contribution of this work.
 %
-%\riptidecomp maps operations onto hardware, producing an application bitstream
+%\riptide maps operations onto hardware, producing an application bitstream
 %for the CGRA.
 %
 %% \subsection{Compilation pipeline and infrastructure}
@@ -26,7 +26,8 @@ The \fend uses clang to compile C to LLVM's intermediate representation (IR).
 % target-specific IR, represented as a dataflow graph (DFG) of the operator
 % types from \autoref{sec:cf}, including control flow and memory ordering.  
 % 
-The \mend manipulates the LLVM IR to insert control-flow operators from  \autoref{sec:cf} and enforce memory ordering; then it translates the IR to a dataflow graph (DFG) representation and optimizes the DFG by transforming and fusing subgraphs, reducing operator count by 27\%. 
+The \mend manipulates the LLVM IR to insert control-flow operators from  \autoref{sec:cf} and enforce memory ordering; then it translates the IR to a dataflow graph (DFG) representation and optimizes the DFG by transforming and fusing subgraphs, reducing operator count by 27\%
+(\autoref{fig:riptide:compiler}).
 %
 %The target-specific IR includes PE operations, but retains high-level
 %information about control-flow.\brandon{anything besides cf and loops?}
@@ -41,7 +42,6 @@ The \bend takes the DFG as input and maps operators onto the CGRA,
 producing a configuration bitstream in minutes.
 % that is directly usable for configuring the CGRA.
 %
-\autoref{fig:compiler} illustrates the \mend's compiler passes. 
 %
 %We built the \fend and \mend using LLVM~\cite{llvm} and the \fend's
 %target-independent IR is LLVM IR.
@@ -57,22 +57,22 @@ producing a configuration bitstream in minutes.
 %often results in a set of operations that is closer to the set representing 
 %the ideal computation for any given program.
 %
-%\riptidecomp enjoy's LLVM's widespread adoption, existing analyses, and expressive
+%\riptide enjoy's LLVM's widespread adoption, existing analyses, and expressive
 %IR. 
 %
-%Using LLVM to build \riptidecomp has two main advantages: 1) LLVM's wide array
+%Using LLVM to build \riptide has two main advantages: 1) LLVM's wide array
 %of compiler analyses produce accurate and powerful information about the 
-%source code that is essential to generating efficient DFGs in \riptidecomp's \mend. 
+%source code that is essential to generating efficient DFGs in \riptide's \mend. 
 %%
-%2) By choosing LLVM-IR as the target-independent IR, \riptidecomp reuses an 
+%2) By choosing LLVM-IR as the target-independent IR, \riptide reuses an 
 %extremely robust and portable infrastructure, making \riptide more accessible
 %(and applicable to any frontend that supports LLVM-IR).
 %
-%\riptidecomp uses LLVM's control-flow graph (CFG) and loop normalization passes,
+%\riptide uses LLVM's control-flow graph (CFG) and loop normalization passes,
 %alias analyses, scalar evolution analysis, and several other low-level
 %analyses.
 %
-%\riptidecomp's IR builds on LLVM-IR, leveraging its ease of analysis, and adding
+%\riptide's IR builds on LLVM-IR, leveraging its ease of analysis, and adding
 %\riptide-specific information as needed. \souradip{this sentence
 %needs some depth and needs to be moved elsewhere} \brandon{still needs revision, but it's better now.} \brandon{What information are we adding to LLVM-IR in particular}
 %
@@ -80,7 +80,7 @@ producing a configuration bitstream in minutes.
 %\souradip{too much redundancy? details too early?}
 %The \fend compiles C code to LLVM-IR using \texttt{clang}, optimizes the 
 %application for code size (\texttt{-Oz}), and applies LLVM's normalization passes 
-%(e.g., \texttt{-simplifycfg}, \texttt{-loop-simplify}, etc.).
+%(e.g. \texttt{-simplifycfg}, \texttt{-loop-simplify}, etc.).
 %%
 %The \mend then applies its custom compiler passes on the input LLVM-IR (in 
 %order): 1) analyzing memory dependences and enforcing memory operation 
@@ -96,14 +96,14 @@ producing a configuration bitstream in minutes.
 
 \newcommand{\rem}[1]{\textcolor{darkgreen}{#1}}
 
-\riptidecomp maps sequential code onto a CGRA fabric in which many operations,
+\riptide maps sequential code onto a CGRA fabric in which many operations,
 including memory, may execute in parallel.  
 %
 For correctness, some memory operations must execute in a particular
 order.
 % 
-% \riptidecomp's \mend uses alias analysis to compute required orderings between memory operations, encodes these orderings as arcs in an ordering graph (OG), optimizes the ordering graph and then adds control-flow operations according to enforce orderings.
-\riptidecomp's \mend computes required orderings between memory operations present
+% \riptide's \mend uses alias analysis to compute required orderings between memory operations, encodes these orderings as arcs in an ordering graph (OG), optimizes the ordering graph and then adds control-flow operations according to enforce orderings.
+\riptide's \mend computes required orderings between memory operations present
 in the IR and adds control-flow operations to enforce those orderings. 
 
 %The compiler is given this responsibility in lieu of expensive and energy-inefficient 
@@ -114,7 +114,7 @@ in the IR and adds control-flow operations to enforce those orderings.
 % may access the same memory locations and may execute on the \riptide fabric
 % simultaneously, and hence must be ordered.
 
-% \riptidecomp computes ordering relations by analyzing memory dependences.  
+% \riptide computes ordering relations by analyzing memory dependences.  
 %
 % A \textit{memory dependence} is an ordered relation from one memory operation
 % (source) to another (destination) that access same memory location,
@@ -128,11 +128,11 @@ in the IR and adds control-flow operations to enforce those orderings.
 \paragraph{Constructing a memory-operation ordering graph.} 
 The first step to enforcing memory ordering is to construct an ordering graph (OG) that encodes dependences between memory operations.
 % 
-\riptidecomp uses alias analysis to identify memory operations
+\riptide uses alias analysis to identify memory operations
 that may or must access the same memory location (i.e., alias), adding an arc between the operations in the OG accordingly.
 %
-\riptidecomp makes no assumptions on the alias analysis and
-%% \riptidecomp can use a set of aliases produced by an arbitrary local alias 
+\riptide makes no assumptions on the alias analysis and
+%% \riptide can use a set of aliases produced by an arbitrary local alias 
 %% analysis (flow-insensitive or flow-sensitive). 
 %% \souradip{intraprocedural == single function, but we haven't mentioned
 %% that each application is just a single function yet.} \brandon{app == function is not fundamental... does ordering break if an app is not a single function?}
@@ -147,7 +147,7 @@ need not consider self-dependences because repeated instances of the
 same memory operation are always ordered on its CGRA fabric. %mapped into \riptide's CGRA fabric are always ordered.
 %\souradip{b/c no time multiplexing, but the \mend isn't supposed to be aware of that}
 %
-\autoref{fig:lso} shows a basic, unoptimized OG in the top left for an 
+\autoref{fig:riptide:lso} shows a basic, unoptimized OG in the top left for an 
 {\tt example} function.
 
 \paragraph{Pruning the ordering graph.} 
@@ -155,22 +155,22 @@ The OG as computed can be greatly simplified.
 % 
 Prior work has simplified the OG with improved alias analysis~\cite{hind-aa} and by leveraging new control-flow primitives~\cite{midkiff-padua,doacross}.
 % 
-These efforts are orthogonal to \riptidecomp.
+These efforts are orthogonal to \riptide.
 % 
-\riptidecomp simplifies the OG by eliminating redundant
+\riptide simplifies the OG by eliminating redundant
 ordering arcs that are already enforced by data and control dependences.
 %
 % \rem{A data dependence orders a pair of operations in \riptide 
 % because the destination will not execute before receiving an input token 
 % produced by the source.}
 % 
-\riptidecomp finds data dependences by walking LLVM's definition-use (def-use)
+\riptide finds data dependences by walking LLVM's definition-use (def-use)
 chain from source to destination and removes \emph{ordering} arcs for dependent operations~\cite{nachos}.
 %
-For instance, in \texttt{example}'s CFG from \autoref{fig:compiler}, 
-\textbf{S2} is data-dependent \textbf{L1}, so there need not
+For instance, in \texttt{example}'s CFG from \autoref{fig:riptide:compiler}, 
+\textbf{S2} is data-dependent on \textbf{L1}, so there need not
 be an ordering arc in the OG. This is reflected in the blue-outlined arc
-from \textbf{L1} to \textbf{S2} that is pruned in the OG in \autoref{fig:lso}.
+from \textbf{L1} to \textbf{S2} that is pruned in the OG in \autoref{fig:riptide:lso}.
 %
 %% Prior work~\cite{nachos} also removes ordering relations based on data dependences.
 Similarly, control dependences order some memory operations if the execution of
@@ -181,11 +181,11 @@ the destination is control-dependent on the source.
 %% destination cannot execute in \riptide until the source completes, resolving the
 %% branch.
 %
-\riptidecomp analyzes the CFG to identify control dependences
+\riptide analyzes the CFG to identify control dependences
 between memory operations and removes those orderings from the OG.
 %
-In \texttt{example}'s CFG from \autoref{fig:compiler}, the
-arc from \textbf{L0} to \textbf{S1} in \autoref{fig:lso} is pruned using this analysis.
+In \texttt{example}'s CFG from \autoref{fig:riptide:compiler}, the
+arc from \textbf{L0} to \textbf{S1} in \autoref{fig:riptide:lso} is pruned using this analysis.
 
 \figRipTideLSO
 
@@ -198,7 +198,7 @@ arc from \textbf{L0} to \textbf{S1} in \autoref{fig:lso} is pruned using this an
 Two dependent memory operations are transitively ordered if there is a path (of
 ordering arcs) in the OG from source to destination.
 %
-\riptidecomp finds and eliminates redundant arcs that are
+\riptide finds and eliminates redundant arcs that are
 transitively ordered by other control- and data-dependence orderings.
 %
 %The \mend first uses transitivity in the OG to identify more redundant 
@@ -223,7 +223,7 @@ transitively ordered by other control- and data-dependence orderings.
 %
 This reduces the number of operations required to enforce ordering by $18\%$ v. unoptimized ordering.
 
-To simplify its OG, \riptidecomp uses transitive reduction (TR)~\cite{aho-tr}, which prior work
+To simplify its OG, \riptide uses transitive reduction (TR)~\cite{aho-tr}, which prior work
 deployed to simplify ordering relation graphs for parallel
 execution of loops~\cite{midkiff-padua,compiler-sync}.
 %
@@ -239,7 +239,7 @@ execution of loops~\cite{midkiff-padua,compiler-sync}.
 %Transitive reductions have been widely studied and applied in prior
 %work to optimize redundant synchronization instructions in automatic
 %parallelization techniques.
-% \souradip{mention some prior work here? only in related work? i.e., "here's what padua did before" here?}
+% \souradip{mention some prior work here? only in related work? i.e. "here's what padua did before" here?}
 %
 We apply TR to the OG, which converts a (potentially cyclic) ordering 
 graph into an acyclic graph of strongly connected components (the SCCDAG). 
@@ -254,7 +254,7 @@ instead of being arbitrary.  Second, the inserted arcs must
 respect proper loop nesting, avoiding arcs directly from the inner to outer
 loop.  To handle these arcs, we add synthetic loop entry and exit nodes to
 each loop (shown as \texttt{src} and \texttt{sink} nodes at the bottom 
-of \autoref{fig:lso}). Any arc inserted % in the condensed SCC 
+of \autoref{fig:riptide:lso}). Any arc inserted % in the condensed SCC 
 that links an inner loop node to an outer loop node instead uses the inner 
 loop's exit as its destination.
 Symmetrically, an arc inserted that links an outer loop node to an inner loop
@@ -278,7 +278,7 @@ The problem is that a source and destination may be ordered along one
 (transitive) path, and ordering along another (direct) path may be removed as
 redundant.  Execution along the transitive path enforces ordering, but along the direct path does not, which is incorrect.
 %
-\autoref{fig:lso} shows a scenario where path-sensitivity is critical.
+\autoref{fig:riptide:lso} shows a scenario where path-sensitivity is critical.
 %
 The path, \textbf{SCC3}(\textbf{S2})$\rightarrow$\textbf{SCC1}(\textbf{L0}), should not be eliminated 
 in TR because the alternative path, \textbf{SCC3}(\textbf{S2})$\rightarrow$\textbf{SCC2}(\textbf{L1})$\rightarrow$\textbf{SCC1}(\textbf{L0}), does not  capture the direct control-flow path from \textbf{S2} to
@@ -287,7 +287,7 @@ in TR because the alternative path, \textbf{SCC3}(\textbf{S2})$\rightarrow$\text
 This problem arises due to \riptide's steering control and lack of a program
 counter to order memory operations.
 
-To correctly apply TR to remove redundant ordering arcs, \riptidecomp introduces
+To correctly apply TR to remove redundant ordering arcs, \riptide introduces
 \emph{path-sensitive} TR,
 %
 which confirms that a transitive ordering path
@@ -311,7 +311,7 @@ With this constraint in place,
 %\brandon{I'm not sure we have space for all of this.  I also do not understand it from skimming right now.  I am tired, so I will look again in the AM.  }
 %\souradip{agreed, but i don't think we can say "we sequentialize the memory operations of
 %the SCC" and be done with it}
-%\indent \textit{Second}, \riptidecomp handles the "expansion" of SCCs differently
+%\indent \textit{Second}, \riptide handles the "expansion" of SCCs differently
 %once the appropriate transitive ordering edges are removed.
 %%
 %In particular, replacing an SCC with a simple cycle of ordering edges
@@ -320,7 +320,7 @@ With this constraint in place,
 %be swapped.
 %% 
 %\souradip{realizing that I need more figs to describe this stuff ...}
-%Instead, \riptidecomp maintains ordering constraints for the memory 
+%Instead, \riptide maintains ordering constraints for the memory 
 %operations involved in the SCC in \textit{program order}. 
 %%
 %Additionally, since the internal memory operations represented 
@@ -330,7 +330,7 @@ With this constraint in place,
 %For each loop to consider, the compiler inserts two false nodes into 
 %the LSO graph, \texttt{source} and \texttt{sink}, that represent the 
 %loop header and latch respectively.
-%\souradip{is latch the right terminology? i.e., basic block that is
+%\souradip{is latch the right terminology? i.e. basic block that is
 %source of backedge}
 %%
 %All ordering edges in the SCC that are lexically backwards with respect 
@@ -359,10 +359,10 @@ With this constraint in place,
 \paragraph{Enforcing ordering constraints.} 
 Memory operators in \riptide 
 produce a control token on completion and can optionally consume a
-control token ($dep$ in~\autoref{tab:isa}) to enforce memory ordering.
+control token ($dep$ in~\autoref{tab:riptide:isa}) to enforce memory ordering.
 %
 The \mend encodes ordering arcs as defs and uses of data values in the IR
-(as seen in the IR transform of loads and stores in \autoref{fig:compiler})
+(as seen in the IR transform of loads and stores in \autoref{fig:riptide:compiler})
 before lowering them as dependences in the DFG.
 %
 For a memory operator that must receive multiple control signals,
@@ -382,11 +382,11 @@ The compiler uses the control dependence graph (CDG)~\cite{cytron} to
 insert steers.
 %
 For each consumer of a value, the compiler walks the CDG from the producer
-to consumer
+to the consumer
 %% the node that
 %% produces the value to the consumer's node.
 and inserts a steer operator at
-each node along the CDG traversal. 
+each node along the CDG traversal if it has not already been inserted by a different traversal. 
 %
 %% An inserted steer takes a data input that is either the value or the output of
 %% another steer operator inserted for the value in a parent node along the CDG
@@ -407,7 +407,7 @@ into the loop header.
 %
 A carry's data
 input comes from the loop backedge that produces the value.  An invariant's
-data input comes from the loop pre-header.
+data input comes from values defined outside the loop.
 %
 These operators should produce a token only if the next iteration of the loop is
 certain to execute; to ensure this behavior, the compiler sets their control
@@ -441,7 +441,7 @@ produce a token to the join point first.
 But for correctness, the one from the
 earlier iteration must produce the first token.
 %
-The compiler inserts a merge operator at a joint point in the CFG to ensure that 
+The compiler inserts a merge operator at a join point in the CFG to ensure that 
 tokens flow to the join point in iteration order.
 %
 The control signal {\tt D} for the merge operator is the decider of
@@ -458,7 +458,7 @@ Since the earlier iteration sends its control signal first and \riptide does not
 \subsection{Stream fusion}
 \label{sec:compiler:stream}
 
-\riptidecomp performs target-specific operator fusion on the DFG to
+\riptide performs target-specific operator fusion on the DFG to
 reduce required operations and routes by combining value {\em stream generators} with loop
 control logic and address computation logic.
 %
@@ -477,11 +477,11 @@ the stream's initial, step, and bound values.
 %(which can be a constant or 
 %loop-invariant symbol) as the inputs to the stream. 
 %
-\autoref{fig:compiler} shows stream compilation, where
+\autoref{fig:riptide:compiler} shows stream compilation, where
 the operators for loop iteration logic (outlined in blue in the 
 DFG) are fused into a stream operator.
 %
-\riptidecomp uses applies induction variable analysis~\cite{dragon,zima-scev} to 
+\riptide applies induction-variable analysis~\cite{dragon,zima-scev} to 
 find affine LGIVs. % and fuses them with loop logic.
 %
 %
@@ -507,7 +507,7 @@ find affine LGIVs. % and fuses them with loop logic.
 %        step operations, etc.).
 %\end{itemize}
 %
-\riptidecomp also identifies address computations, maps these to an affine
+\riptide also identifies address computations, maps these to an affine
 stream if possible, and fuses the stream into the memory operator.
 %
 
@@ -546,7 +546,7 @@ stream if possible, and fuses the stream into the memory operator.
 % for e1 in edges:
 %   for e2 in edges:
 %     # Skip if edges can share same link 
-%     # (e.g., same source vertex & port)
+%     # (e.g. same source vertex & port)
 %     if can_share(e1, e2): continue
 %     # Incompatible edges can't share links
 %     add(~Mel[e1] | ~Mel[e2])
@@ -578,7 +578,7 @@ stream if possible, and fuses the stream into the memory operator.
 
 \subsection{Mapping DFGs to hardware}
 \label{sec:compiler:map}
-\riptidecomp's backend takes a DFG and a CGRA topology description and generates
+\riptide's backend takes a DFG and a CGRA topology description and generates
 scalar code to invoke \riptide and a bitstream to configure the \riptide fabric.
 % 
 This involves finding a mapping of DFG nodes and edges to PEs, control-flow modules (\autoref{sec:fin}), and links.
@@ -588,12 +588,12 @@ that trade mapping quality for compilation speed~\cite{karunaratne2018dnestmap,h
 % 
 \riptide has two advantages v.\ this prior work.
 % 
-First, \riptide only needs to schedule operations in space, not time.
+First, \riptide does not time-multiplex operations, so it only needs to schedule operations in space, not time.
 %
-Prior compilers unroll loops to identify the initiation interval,
-increasing program size.
+Prior compilers unroll loops to reason about operation timing and identify the initiation interval, increasing program size.
+% Prior compilers reason about operation timing, unrolling loops to identify the initiation interval, which increases program size.
 % 
-Second, \riptide targets energy-efficiency, not performance.
+Second, \riptide targets energy efficiency, not performance.
 % 
 Rather than optimize for initiation interval, it need only focus on finding a valid solution, since leakage is insignificant. 
 
@@ -607,9 +607,9 @@ whereas the ILP-based mapper yields 4.3\% avg.\ energy savings v.\ SAT (\autoref
 The constraints of the ILP and SAT formulations are similar (see~\autoref{sec:appendix} for a complete, formal description).
 % , though the objective of the ILP formulation is to minimize the average routing distance.
 %
-The formulations ensure that every DFG is mapped to a hardware node, that every edge is mapped to a continuous route of hardware links, and that the inputs and outputs of a vertex match the incoming and outgoing links of a hardware node. 
+The formulations ensure that every DFG vertex is mapped to a hardware node, that every edge is mapped to a continuous route of hardware links, and that the inputs and outputs of a vertex match the incoming and outgoing links of a hardware node. 
 % 
-Further, they disallow the mapping of multiple DFG vertices to a single hardware node, the sharing of hardware links by multiple edges with different source vertices, and the mapping of an DFG edge through a control-flow module when a DFG vertex is mapped to that module.
+They further disallow the mapping of multiple DFG vertices to a single hardware node, the sharing of hardware links by multiple edges with different source vertices, and the mapping of a DFG edge through a control-flow module when a DFG vertex is mapped to that module.
 % 
 Together these are the necessary constraints to produce not only a valid mapping, but also a good mapping (SAT is close to ILP in terms of energy).
 % 
@@ -628,7 +628,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % \graham{cite solver}
 
 % \paragraph{SAT formulation.}
-% \autoref{tab:map:vars} lists the inputs to the ILP-based and SAT-based mappers as well as the variables that they solve for.
+% \autoref{tab:riptide:map:vars} lists the inputs to the ILP-based and SAT-based mappers as well as the variables that they solve for.
 % % 
 % The goal of either mapper is to solve for $M_{vn}$ and $M_{el}$, which map a DFG's vertices to hardware PEs and CF-modules (hardware nodes) and a DFG's edges to hardware links, respectively.
 % % 
@@ -638,7 +638,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % \nzb{This whole paragraph needs to move to the appendix. It's useless without the tables.}
 
 % \paragraph{SAT formulation.}
-% \autoref{tab:sat} lists the clauses of the SAT formulation.
+% \autoref{tab:riptide:sat} lists the clauses of the SAT formulation.
 % % 
 % There are three steps to finding a solution.
 % % The problem is solved in three steps.
@@ -654,7 +654,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % % This SAT solver will be open source at the time of publication.
 
 % \paragraph{ILP formulation.}
-% The objective of the ILP-based mapper is to minimize the average routing distance subject to the constraints listed in~\autoref{tab:ilp}.
+% The objective of the ILP-based mapper is to minimize the average routing distance subject to the constraints listed in~\autoref{tab:riptide:ilp}.
 % % 
 % We describe the ILP using CVXPY~\cite{cvxpy} and use Gurobi 9.5~\cite{gurobi} to find a solution.
 % \nzb{Likewise?}
@@ -675,7 +675,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % %
 % \rem{while also supporting operations with variable latency.}\nzb{Relevance of variable latency is unclear?}
 % % 
-% Second, \riptide targets energy-efficiency, not performance.
+% Second, \riptide targets energy efficiency, not performance.
 % % 
 % Rather than optimize for initiation interval, its mappers need only focus on finding a valid solution,
 % since leakage is insignificant and good solutions seem to be dense (SAT and ILP produce solutions similar in energy).

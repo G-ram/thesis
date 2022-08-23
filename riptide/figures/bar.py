@@ -89,6 +89,7 @@ def main(args):
 	annotate = get_param(cfg, 'annotate', False)
 	annotate_offset = get_param(cfg, 'annotate_offset', 4)
 	annotate_rotation = get_param(cfg, 'annotate_rotation', 0)
+	annotate_outliers = get_param(cfg, 'annotate_outliers', False)
 
 	if invert: invert = -1
 	else: invert = 1
@@ -219,13 +220,21 @@ def main(args):
 				if remaining_label not in labels: 
 					labels.append(remaining_label)
 
-			if annotate or minor_annotate:
+			if annotate or minor_annotate or annotate_outliers:
 				for p in bar:
 					height = p.get_y() + p.get_height()
-					s = f'{height:.2f}' if annotate else minor_label
-					rotation = annotate_rotation if annotate else minor_rotation
+					posy = height
+					ylim = get_param(cfg, 'ylim', None)
+					if type(ylim) is list:
+						ylim = ylim[bar_idx]
+					if annotate_outliers and (ylim is None or height < ylim): 
+						continue
+					if annotate_outliers: posy = ylim
+					ann = annotate_outliers or annotate
+					s = f'{height:.2f}' if ann else minor_label
+					rotation = annotate_rotation if ann else minor_rotation
 					ax.annotate(s,
-						xy=(p.get_x() + p.get_width() / 2, height),
+						xy=(p.get_x() + p.get_width() / 2, posy),
 						xytext=(0, annotate_offset),
 						fontsize=fontsize,
 						rotation=rotation,

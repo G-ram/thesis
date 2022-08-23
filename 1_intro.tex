@@ -136,14 +136,20 @@ The downsides of specialization are its high non-recurring engineering cost and 
 % 
 Given the emerging nature of applications in the ULP domain, specialization is premature.
 % 
-New energy-efficient, but highly-programmable architectures are needed.
+New architecture must be highly programmable, while at the same time being  extremely energy-efficient. 
+% High programmability, like extreme energy-efficiency, is a requirement for new architectures.
+% New energy-efficient, but highly-programmable architectures are needed.
 
 \subsubsection{Existing execution models are flawed}
-Furthermore, the trade-off between programmability and energy-efficiency is not as pronounced as fixed-function ASIC designs and COTS scalar designs would lead one to believe.
+Programmability and energy efficiency might seem to be wholly incompatible, considering the gap between fixed-function ASIC designs and COTS scalar designs.
 % 
-The fixed-function execution model of ASIC designs limits programmability, while the scalar execution model of COTS MCUs wastes significant energy.
+However, the trade-off is not as pronounced as these designs
+% The trade-off between programmability and energy-efficiency is not as pronounced as fixed-function ASIC designs and COTS scalar designs 
+would lead one to believe.
 % 
-These execution models are at the extremes; there is room in the middle for alternative execution models that balance programmability and energy-efficiency.
+Their execution models are at the extremes; the fixed-function execution model of ASIC designs limits programmability, while the scalar execution model of COTS MCUs wastes significant energy.
+% 
+There is room in the middle for alternative execution models that balance programmability and energy-efficiency.
 % 
 For example, one starting point is vector execution, which slightly reduces programmability, but amortizes instruction supply energy improving overall energy-efficiency.
 % 

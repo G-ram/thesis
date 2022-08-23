@@ -2,57 +2,61 @@
 \label{chapter:future}
 This thesis has contributed a new ULP system stack that opens up many future research directions.
 % 
-In particular, the success of \snafu and \riptide make it possible to consider research questions besides those to do with energy-efficiency.
+In particular, the success of \snafu and \riptide makes it possible to consider research questions besides those to do with energy efficiency.
 % 
 This chapter will discuss future work on improving area efficiency, performance, and compilation in the context of CGRAs.
 
-\figProgress
 \section{Quantifying the progress made}
+\figProgress
 \autoref{fig:progress} quantifies the significant progress that this thesis has made towards a new ULP, energy-minimal sensor system stack.
 %
-We compare an MSP430, Cortex-M3 (STM32L15RE~\cite{stm32l1}), and our scalar design to \riptide running neural network inference (network is a derivative of Lenet~\cite{lecun:ieee89:lenet}).
+We compare an MSP430, Cortex-M3 (STM32L15RE~\cite{stm32l1}), and our scalar design to \riptide running neural network inference (the network is a derivative of LeNet~\cite{lecun:ieee89:lenet}).
 % 
-For the MSP430 and the Cortex-M3, we run the network the on-device to measure latency and estimate power using the corresponding datasheet. 
+For the MSP430 and the Cortex-M3, we run the network on-device to measure latency and estimate power using a digital mulitimeter. 
 % 
 For our scalar design and \riptide, we implement each using a high-threshold voltage, industrial-grade process and use a post-synthesis annotated switching model to estimate power (same methodology as in~\autoref{riptide:method}).
 % 
 \autoref{fig:progress:energy} shows energy savings: our scalar design is already an aggressive baseline, saving $292\times$ energy v. MSP430 and Cortex-M3; \riptide improves even further, saving a massive $1913\times$.
 % 
-Even adjusting for process technology, \riptide saves $\approx 323 \times$ energy v. MSP430, suggesting that a signficant portion of energy savings comes from the architecture and not from process technology scaling.
+Even adjusting for process technology, \riptide saves $\approx 323 \times$ energy v. MSP430, suggesting that a significant portion of energy savings comes from the architecture and not from process technology scaling.
 % 
 \autoref{fig:progress:eff} and \autoref{fig:progress:perf} show similar trends in efficiency and speedup.
 % 
-\riptide achieves $64MOPS/mW$, $6.7\times$ greater than our scalar design, and 
-is $146\times$ faster than the MSP430.
-% Our scalar design is $11.7\times$ faster than the MSP430 and \riptide is $234.8\times$ faster.
+\riptide achieves $64MOPS/mW$, $6.7\times$ greater than our scalar design, which is already $73\times$ better than the Cortex-M3.
+% 
+It is also $146\times$, $12.5\times$, and $7.6\times$ faster than the MSP430, Cortex-M3, and our scalar design, respectively.
 % 
 Together the energy savings, efficiency, and speedup of \riptide v. MSP430, Cortex-M3, and our scalar design represent significant progress and make \riptide an ideal platform for new applications in the ULP domain.
 
 \figFutureModel
-\subsection{Is compute energy-efficiency still a bottleneck?}
-With the progress that has been made, the natural question is whether the energy-efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems.
+\subsection{Is compute energy efficiency still a bottleneck?}
+With the progress that has been made, the natural question is whether the energy efficiency of compute is still the bottleneck in \riptide-based ULP sensor systems.
 % 
-To answer this question, we modeled device lifetime of such systems as function of problem size.
+To answer this question, we modeled device lifetime of such systems as a function of problem size with goal of achieving a five year lifetime processing a QQVGA ($160\times120$) frame once every five seconds.
 %
-Device lifetime is directly related to energy-efficiency (in battery-powered systems) and problem size is a proxy for the amount of compute required and the amount of data that needs to be transmitted.
+Device lifetime is directly related to energy efficiency (in battery-powered systems), and problem size is a proxy for the amount of compute required and the amount of data that needs to be transmitted.
 % 
-\autoref{fig:future:model} shows two \riptide-based systems (red) as well as a system that transmits all data collected (blue), a system similar to \sonic that relies on a scalar MCU (green), and a theoretical system that achieves 10TOPS/W (black).
+\autoref{fig:future:model} shows two \riptide-based systems (red) as well as a system that transmits all data collected (blue), a system similar to \sonic that relies on a scalar MCU (green), and a hypothetical system that achieves 10TOPS/W (black).
 % 
-Each system is composed of 1) a single AA battery, 2) a theoretical sensor (based on HM01B0 ULP camera), 3) an ULP MCU (e.g., scalar, \riptide, or theoretical), and 4) a bluetooth (BLE) radio.
+Each system is composed of 1) a single AA battery, 2) a sensor (similar to the HM01B0 ULP camera), 3) an ULP MCU (e.g., scalar, \riptide, or hypothetical), and 4) a bluetooth (BLE) radio.
 % 
-Besides the transmit-all configuration, each system is modeled to run a neural network similar to those in \sonic to smartly discard uninteresting data, transmitting approximately every $20$ minutes (v. 5s interval of sensor readings).
+Besides the transmit-all configuration, each system is modeled to run a neural network similar to those in \sonic to smartly discard uninteresting data.
 % 
-Further, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e., class label) or it could be a fragment of data deemed interesting.
+Assuming interesting events are somewhat rare, this means these systems transmit infrequently, approximately every $20$ minutes (v. 5s interval of sensor readings).
+% 
+Finally, \riptide (Summary) models an application that only sends a short summary of captured data; this could be the result of classification (i.e., class label) or it could be a fragment of data deemed interesting.
 
-If the goal is to achieve a device lifetime of five years, while processing a QQVGA ($160\times120$) frame once every five seconds, \riptide-based systems achieve this target, while the transmit-all system and the \sonic-like, scalar-MCU system fall well short.
+% If the goal is to achieve a device lifetime of five years, while processing a QQVGA ($160\times120$) frame once every five seconds, 
+\riptide-based systems achieve the five-year lifetime target while processing QQVGA frames, while the transmit-all system and the \sonic-like, scalar-MCU system fall well short.
 % 
-In fact, the \riptide-based system (lighter red) actually gets quite close to the theoretical system that achieves a much higher efficiency of 10 TOPS/W.
+In fact, the \riptide-based system (lighter red) actually gets quite close to the hypothetical system that achieves a much higher efficiency of 10 TOPS/W.
 % 
-This suggests that the energy-efficiency of compute is no longer the bottleneck --- rather the energy-efficiency of the radio is now more important.
+This suggests that the energy efficiency of compute is no longer the bottleneck --- rather, the energy efficiency of the radio is now more important.
 % 
-\riptide (Summary) (dark red) further supports this conclusion; efficient onboard compute enables summarization/compression of sensor data, which minimizes communication energy and extends lifetime even more. 
+\riptide (Summary) (dark red) supports this conclusion; efficient onboard compute that summarizes and/or compresses sensor data, minimizes communication energy and extends lifetime even more. 
 % 
-Thus, future ULP sensor systems need only maintain \riptide's level of energy-efficiency, while addressing other open problems.
+Thus, \riptide has solved the problem of compute effiency for a variety of applications, opening the door to exploring to new problems.
+% future ULP sensor systems need only maintain \riptide's level of energy-efficiency, while addressing other open problems.
 
 \section{Future research directions}
 Many open problems remain in ULP sensor systems and specifically power-constrained CGRAs.
@@ -62,9 +66,9 @@ They can be classified into three categories: increasing area efficiency, scalin
 Progress on each of these fronts will be important to drive adoption.
 
 \subsection{Area}
-\riptide's programmability and energy-efficiency come at the cost of area.
+\riptide's programmability and energy efficiency come at the cost of area.
 % 
-\riptide is larger than several ASICs combined.
+\riptide is larger than several ASICs (e.g., {\tt dmm}, {\tt fft}, and {\tt sort}) combined.
 % 
 Thus, improving area efficiency is an important goal for future designs, especially to lower fabrication costs and make even larger, more-capable fabrics competitive.
 
@@ -73,9 +77,9 @@ Area efficiency can be improved by increasing resource utilization through time-
 % 
 \riptide only supports a single operation per PE, so resources are underutilized when operations fire rarely.
 % 
-This is especially true for operations in outer-loops.
+This is especially true for operations in outer loops.
 % 
-Instead by mapping and time-multiplexing multiple operations on the same PE, the PE's resources will be better utilized.
+Mapping and time-multiplexing multiple operations on the same PE, will significantly improve utilization.
 % 
 This increases area efficiency, makes it possible to map larger programs onto smaller fabrics, and potentially decreases compilation times by simplifying mapping constraints.
 
@@ -84,8 +88,12 @@ There are two possible approaches: fine-grain~\cite{weng2020hybrid} and coarse-g
 In the fine-grain approach, multiple operations share a single PE and incoming operands trigger reconfiguration of the PE.
 % 
 In the coarse-grain approach, a kernel is split into multiple subkernels with the CGRA switching between them when progress is stalled on the active subkernel.
+% 
+The key to amortizing the cost of coarse-grain reconfiguration
+% , especially for programs split between outer and inner loops, 
+is for the CGRA to buffer several inputs so when reconfiguration occurs, multiple instances of the subkernel can be initiated.
 
-There is a role for the compiler in each approach.
+There is a role for the compiler in both the fine- and coarse- grained approaches.
 % 
 For fine-grain multiplexing, the compiler needs to determine which operations should multiplex.
 % 
@@ -96,29 +104,29 @@ For coarse-grain multiplexing, the compiler needs to determine where to split a 
 \paragraph{Alternative control-flow models}
 Area efficiency can also be improved by reducing the resources needed by a program.
 % 
-In particular, supporting arbitrary control-flow requires allocating a significant amount of resources (especially routing) to control-flow operations.
+In particular, supporting arbitrary control flow requires allocating a significant amount of resources (especially routing) to control-flow operations.
 % 
 Alternative control-flow models, therefore, may improve area efficiency if they require fewer operations.
 % 
-\riptide's steering-based ($\phi^-1$) control-flow model requires steering gates for every incoming value in untaken branches.
+\riptide's steering-based ($\phi^{-1}$) control-flow model requires steering gates for every incoming value in untaken branches.
 % 
 Instead, there may be situations where selection ($\phi$) or even predication use less resources and/or achieve better performance.
 % 
-It is also possible for the compiler with hardware support to mix these control-flow models to minimize area, maximize resource utilization, or even increase performance.
+It is also possible to mix these control-flow models to minimize area, maximize resource utilization, or even increase performance.
 
 \paragraph{Optimizing the topology}
 Finally, an additional way to improve area efficiency is to optimize the CGRA topology and resource mix so that they better match the requirements of applications~\cite{revamp,melchert2021automated}.
 % 
 For example, a CGRA fabric could be specialized~\cite{weng2020dsagen} for a set of applications, like linear algebra kernels, to significantly reduce area ($>2\times$).
 % 
-This entails merging the computation graphs of a set of applications to form a minimally-sized common graph that can be used to generate CGRA hardware.
+This entails merging the computation graphs of a set of applications to form a minimally sized common graph that can be used to generate CGRA hardware.
 % 
 The common graph, however, is only as representative as the set of applications are.
 % 
 Thus, there is a trade-off between area and programmability that will require collaboration between hardware designers and application programmers to strike the right balance.
 
 \subsection{Performance}
-Performance is another dimension future designs could seek to optimize.
+Performance is another dimension future designs could seek to improve.
 % 
 CGRAs like \riptide already outperform (in-order) scalar and vector designs by unlocking a large amount instruction-level parallelism.
 % 
@@ -133,15 +141,15 @@ Multiple threads could be mapped to the same fabric, running in parallel on diff
 %
 Multiple threads could also be mapped to separate fabrics. 
 % 
-\riptide is tiny compared ($<0.5mm^2$) to even a wearable CPU and could be replicated hundreds of times to support many threads in parallel.
+\riptide is tiny ($<0.5mm^2$) compared to even a wearable CPU and could be replicated hundreds of times to support many threads in parallel.
 % 
-This design offers two significant benefits over vector-processors/GPUs.
+This design offers two significant benefits over vector processors/GPUs.
 % 
 First, threads would not run in lockstep.
 % % 
-This means threads would better exploit instruction level parallelism and would be able to diverge without under-utilizing resources.
+This means threads would better exploit instruction-level parallelism and would be able to diverge without under-utilizing resources.
 % It also means that threads could better exploit instruction level parallelism.
-Second, the design could scale better v. vector-processors/GPUs since it does not rely on a monolithic register file.
+Second, the design could scale better v. vector processors/GPUs, since it does not rely on a monolithic register file.
 % % 
 % Second, thread divergence is better supported since threads would not run in lockstep.
 % % 
@@ -149,7 +157,7 @@ Second, the design could scale better v. vector-processors/GPUs since it does no
 % 
 With that said, there are many interesting challenges with this design.
 % 
-Questions remain regarding thread scheduling and synchronization, memory hierarchy design, and the programming interface to name a few.
+Questions remain regarding thread scheduling and synchronization, memory-hierarchy design, and the programming interface, to name a few.
 
 \subsubsection{Programming the memory}
 As performance is scaled with more threads, memory becomes a bottleneck.
@@ -172,7 +180,7 @@ Memory management can be simplified with novel programming models.
 % 
 Using higher-level abstractions (e.g., functional languages or DSLs) might allow the compiler to generate code to manage a hierarchy of scratchpads.
 %
-These interfaces and/or programmer annotations might also allow the compiler to co-locate data with computation.
+These interfaces and/or programmer annotations might also allow the compiler to co-locate data with computation by suggesting efficient ways of partitioning data.
 % 
 This is especially important for future CGRA fabrics that might contains hundreds of PEs.
 % 
@@ -184,38 +192,41 @@ Speculation is another lever future CGRA designs could pull to improve performan
 The key is to dynamically eliminate sequentializing dependencies without costing significant resources or energy on misspeculations.
 
 \paragraph{Loop speculation}
-One form of speculation of interest is loop speculation --- speculating on the next iteration(s) of a loop.
+% One form of speculation of interest is loop speculation --- speculating on the next iteration(s) of a loop.
+Speculating on loop-carried dependencies would improve performance by minimizing initiation interval.
 % 
-This would improve performance and increase resource utilization as there would be more work in flight.
+It would also increase resource utilization as there would be more work in flight.
 % This would increase resource utilization as there would be more work in flight.
 % 
-Further, \riptide already maintains the order of loop iterations so misspeculations could be handled by restoring from a checkpoint of an earlier loop iteration.
+Further, \riptide already maintains the order of loop iterations so misspeculations could be handled by restoring fabric state from a checkpoint of an earlier loop iteration.
 % 
-However, there are some costs: values need to be tagged with the loop iteration and speculative stores would need to be buffered and subsequent loads checked against these buffered stores.
+However, memory accesses become more expensive: 
+% values need to be tagged with the loop iteration and 
+speculative stores would need to be buffered and subsequent loads checked against these buffered stores.
 
 \paragraph{Memory speculation}
 Another form of speculation that would boost performance is memory speculation.
 % 
  % and specifically speculating that memory operations will not alias.
 % 
-It is difficult for the compiler to prove memory operations will not alias, resulting in extra dependencies between the operations.
+It is difficult for the compiler to prove memory operations will not alias, resulting in extra dependencies between operations.
 % 
-This sequentialize code and may lengthen critical paths.
+These dependencies, like loop-carried dependencies in loop speculation, sequentialize execution and may lengthen critical paths.
 % 
-However, many memory operations, at runtime, will not access the same locations so enforcing the dependencies between them wastes time.
+However, many memory operations, at runtime, will not access the same locations,  so enforcing the dependencies between them wastes time and resources.
 % 
 Instead, a transactional memory system that speculates on whether memory operations will alias could make sense.
 % 
-Detecting true aliases and recovering after an aborted transaction, though, are challenging especially in CGRAs where there is no centralized control.
+Detecting true aliases and recovering after an aborted transaction, though, are challenging especially in CGRAs where, unlike e.g., OoO cores, there may be no centralized control to initiate a flush.
 
-\subsubsection{Compiler optimizations}
+\subsubsection{Code refactoring}
 The compiler can also play a role in increasing performance by automatically refactoring code.
 %
 To reduce the lengths of critical paths and/or loop initiation intervals, the compiler could flatten dependence chains and perform code-motion to reduce inner-loop work.
 % 
 There could be a feedback loop between the middle-end optimizer of the compiler and the backend-mapper (that solves for the mapping to CGRA hardware) to inform which of the transformations are undertaken.
 % 
-The compiler could also unroll loops to expose more instruction level parallelism or even auto-parallelize loops by duplicating loop bodies and splitting iteration spaces.
+The compiler could also unroll loops to expose more instruction-level parallelism or even auto-parallelize loops by duplicating loop bodies and splitting iteration spaces.
 % 
 These transformations trade more resources for additional performance so future compilers will need accurate cost models to make optimal decisions.
 
@@ -224,19 +235,21 @@ Improving compilation for CGRAs is another important topic for future work.
 % 
 While \riptide made significant progress on this, it has a few limitations, including no support for methods and single-entry-multi-exit loops, that could be addressed in future iterations of its compiler.
 % 
-There are also some more fundamental questions, regarding how programs are represented, how to accelerate the mapping of a program to hardware, and the correct programming interface.
+There are also some more fundamental questions regarding how programs are represented, how to accelerate the mapping of a program to hardware, and the correct programming interface.
 
 \subsubsection{Choosing the right IR}
-CGRA compilation is dependent on the composition of the CGRA fabric that is being targeted.
+CGRA compilation, like VLIW compilation, is dependent on the available hardware resources (i.e. composition of the CGRA fabric).
 % 
-This means that if there are several devices with different CGRA fabrics a program needs to be recompiled for each.
+% composition of the CGRA fabric that is being targeted.
+% 
+This means that if there are several devices with different CGRA fabrics, a program needs to be recompiled for each.
 % 
 Further low-level hardware details need to be exposed to the compiler so that it can correctly optimize and map a program.
 % 
 This complicates not only compiler development, but also increases compilation complexity and reduces portability since the programmer must compile for a specific fabric.
 
 
-Instead compilation could be split into two phases, one phase that is device-agnostic and another that optimizes for a specific device.
+Instead, compilation could be split into two phases, one phase that is device-agnostic and another that optimizes for a specific device.
 % 
 This is similar to the approach taken for Nvidia GPUs; first CUDA programs are compiled to PTX~\cite{ptx} (device-agnostic byte-code) and then the PTX is optimized on the host machine for the target device.
 % 
@@ -249,30 +262,35 @@ Then, mapping maps and optimizes the IR to a specific fabric.
 % 
 The key is developing an IR for a program that captures the right amount of information.
 % 
-Too simple and the mapper may not have enough information to perform low-level, device-specific optimizations.
+Too simple, and the mapper may not have enough information to perform low-level, device-specific optimizations.
 % 
-Too complex and the mapper will be complicated, making mapping slow and development costly.
+Too complex, and the mapper will be complicated, making mapping slow and development costly.
 %
 And at the same time, the IR should maintain backwards compatibility, while being extensible as hardware matures and gains new capabilities.
 % 
 % Thus careful design of the IR is fundamental for future compilation pipelines.
 
-\subsubsection{Scaling mapping}
-Mapping a program to a specific CGRA fabric is challenging since it reduces to finding a colored subgraph isomorphism between a program's computation graph and CGRA hardware resources.
+\subsubsection{Scalability}
+Mapping a program to a specific CGRA fabric is challenging, since it reduces to finding a colored subgraph isomorphism between a program's computation graph and CGRA hardware resources.
 % 
-For relatively small programs (small number of operations), \riptide's integer-linear programming-based mapper does well to find a valid mapping, but as program size increases mapping times increase superlinearly.
+For relatively small programs (small number of operations), \riptide's ILP- and SAT- based mappers do well to find valid mappings, but as program size increases mapping times increase superlinearly.
 % 
-For example, while DMV (12 operations) takes $<10s$ to map onto a $6\times6$ fabric, DFS ($\approx 50$ operations) takes over an hour.
+For example, while DMV (12 operations) takes $<10s$ to map onto a $6\times6$ fabric, DFS ($\approx 50$ operations) takes just under three minutes ($\approx 18\times$ more time for $4.1\times$ more operations) with SAT and more than an hour using ILP.
 % 
 New encoding methods and ways of solving the problem are required.
 % 
-One possibility is to reformulate the problem in terms of boolean satisifiability and use SAT-solvers to find a valid mapping.
+% One possibility is to reformulate the problem in terms of boolean satisifiability and use SAT-solvers to find a valid mapping.
 % 
-SAT may be a better approach since all variables are already binary in the ILP formulation.
+% SAT may be a better approach since all variables are already binary in the ILP formulation.
 % 
-Early results support this conclusion --- DFS takes just $\approx1.5m$ v. $\approx75m$ with ILP.
+% Early results support this conclusion --- DFS takes just $\approx1.5m$ v. $\approx75m$ with ILP.
+Heuristic based approaches 
+Luckily there is much prior work on place \& route for FPGAs and ASICs that extremely relevant.
 % 
-Custom search heuristics or changes to the encoding could reduce this time even more.
+Prior work on place and route for FPGAs and for ASICs is extremely relevant.
+%
+% that develop custom heuristic-based algorithms to quickly find valid mappings.
+% Custom search heuristics or changes to the encoding could reduce this time even more.
 % 
 This boost in performance will enable future compilers to use mapping in a feedback loop to choose which optimization passes to apply to maximize/minimize different applications objectives.
 
@@ -283,9 +301,9 @@ Program annotations or domain specific languages can better expose program struc
 % 
 Different programming interfaces may also simplify the programmer's job by providing higher-level primitives.
 
-However, rather than redesigning the entire system for a specific interface or DSL, they should build on and extend a general-purpose interface like what \riptide provides.
+However, rather than redesigning the entire system for a specific interface or DSL, future interfaces should build on top of general-purpose program support like what \riptide provides.
 % 
-DSLs can use the general-purpose interface as a crutch when programs only partially fit the the model of the DSL.
+The future DSL interfaces can use the general-purpose support as a crutch when programs only partially fit the the model of the DSL.
 % 
 This increases the applicability of DSLs and prevents one-off designs that require significant hardware changes when application requirements change.
 

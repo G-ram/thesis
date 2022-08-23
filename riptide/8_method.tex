@@ -7,7 +7,7 @@ an industrial, sub-28nm FinFET process.
 
 \paragraph{Compiler.}
 \riptide's compiler passes extend LLVM 12.0~\cite{llvm} and we compile workloads with
-(\texttt{-Oz}) to optimize code size.  
+\texttt{-Oz} to optimize code size.  
 % 
 \riptide's compiler middle-end uses LLVM's
 flow-insensitive alias analyses for memory ordering.
@@ -21,14 +21,14 @@ The SAT mapper uses CaDiCal~\cite{cadical} to rewrite and simplify the problem's
 \paragraph{Hardware.}
 \label{method:hardware}
 \riptide is implemented completely in RTL, including the 6$\times$6 CGRA, RISC-V
-(RV32IMCE) scalar core, and 256KB
+(RV32EMC) scalar core, and 256KB
 %(8$\times$32KB banks w/ work-conserving round-robin arbitration)
 SRAM main memory. 
 % 
 We use Cadence Xcelium to verify correctness and measure
 performance.
 % 
-We synthesize \riptide using Cadence Genus and an
+We synthesize \riptide using Cadence Genus and a
 high-threshold-voltage, FinFET PDK with compiled memories.
 % 
 To estimate power, we simulate full benchmarks post-synthesis and use Cadence
@@ -63,9 +63,9 @@ vectorize well).
 For \riptide, we compile and run the plain C implementation of each benchmark.
 %
 The exceptions are {\tt sort}, for which we use merge sort on the scalar core and
-radix sort for \riptide,
+radix sort for \riptide (because it maps entirely onto the fabric),
 %because it more easily maps to the CGRA fabric.
-and {\tt dmm}, in which, where explicitly noted, we hand-tune its software implementation to maximize efficiency.
+and {\tt dmm}, for which, where explicitly noted, we tune its C implementation to maximize efficiency.
 % 
 
 %\paragraph{Metrics}

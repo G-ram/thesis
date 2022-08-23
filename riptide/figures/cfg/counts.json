@@ -407,5 +407,7 @@
 	"subplots": false,
 	"ylim": 60,
 	"xlim": [2, 156],
-	"ylabel": "Number of generated PEs"
+	"ylabel": "Number of generated PEs",
+	"annotate_outliers": true,
+	"annotate_offset": 1
 }
