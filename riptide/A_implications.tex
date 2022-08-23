@@ -1,6 +1,16 @@
-\section{Implications for General-Purpose Architecture and Dark Silicon}
+\section{Conclusion \& Architectural Implications}
 \label{riptide:implications}
+This chapter presented \riptide, the final piece in the new ULP system stack.
+% 
+\riptide's dataflow compiler makes it easy for a programmer to access the energy-efficiency of it's co-designed CGRA.
+% 
+\riptide provides a rich set of control-flow operators, letting it support arbitrary control flow and memory access on the CGRA fabric. 
+% 
+It implements these primitives without tagged tokens and offloads most control operations into its programmable on-chip network, saving energy and hardware resources.
+% 
+\riptide compiles applications written in C while using $25\%$ less energy v. \snafu and $6.6\times$ less v. a von Neumann core.
 
+\paragraph[]{So where is the trade-off?}
 \autoref{fig:riptide:eval:energy} and \autoref{fig:riptide:eval:perf} compare the energy and performance for {\tt dmm} on \riptide v.\ an equivalent ASIC.
 %
 \riptide does not compromise much on energy or performance --- coming within 46\% and 3\%, respectively --- but it is not a free lunch.
@@ -14,7 +24,9 @@ The question is, is \riptide's programmability worth the extra area?
 %
 \riptide only supports one operation per PE, so entire PEs are consumed even if an operation fires rarely.
 %
-A future design could revisit this constraint to allow limited time-multiplexing,
+\autoref{chapter:future} will discuss future designs that address this constraint by
+% A future design could revisit this constraint to 
+allowing limited time-multiplexing,
 either at a fine~\cite{weng2020hybrid} or coarse~\cite{nguyen2021fifer} granularity.
 
 Regardless, the area difference shows potentially large cost savings from ASICs,
@@ -26,6 +38,7 @@ Standardized, pervasive tasks like JPEG compression and wireless communication p
 But if the computation is prone to change
 or used infrequently, then this cost advantage rapidly disappears.
 
+\paragraph{``Garden of ASICs''}
 Some have proposed that, with increasing transistor budgets and
 stagnating power budgets, processors should embrace extreme
 heterogeneity and assemble a large number of distinct
@@ -45,7 +58,7 @@ obsolescence is monotonic and likely inevitable,
 and programs must be somehow partitioned between ASICs
 and cores with accompanying data-coordination issues.
 
-\riptide suggests an alternative approach.
+\paragraph{\riptide suggests an alternative approach}
 %
 Rather than spend area on ASICs that will idle most of the time,
 instead build an energy-minimal, programmable dataflow fabric.
