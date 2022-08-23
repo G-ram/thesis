@@ -125,7 +125,7 @@ in the IR and adds control-flow operations to enforce those orderings.
 % required to ensure that parallel memory operations produce a
 % result consistent with a sequential execution of the program.
 
-\paragraph{Constructing a memory-operation ordering graph.} 
+\paragraph{Constructing a memory-operation ordering graph} 
 The first step to enforcing memory ordering is to construct an ordering graph (OG) that encodes dependences between memory operations.
 % 
 \riptide uses alias analysis to identify memory operations
@@ -150,7 +150,7 @@ same memory operation are always ordered on its CGRA fabric. %mapped into \ripti
 \autoref{fig:riptide:lso} shows a basic, unoptimized OG in the top left for an 
 {\tt example} function.
 
-\paragraph{Pruning the ordering graph.} 
+\paragraph{Pruning the ordering graph} 
 The OG as computed can be greatly simplified.
 % 
 Prior work has simplified the OG with improved alias analysis~\cite{hind-aa} and by leveraging new control-flow primitives~\cite{midkiff-padua,doacross}.
@@ -189,7 +189,7 @@ arc from \textbf{L0} to \textbf{S1} in \autoref{fig:riptide:lso} is pruned using
 
 \figRipTideLSO
 
-\paragraph{Transitive memory-ordering analysis.}
+\paragraph{Transitive memory-ordering analysis}
 %We commonly observe \textit{transitive} ordering constraints in a function's
 %OG [as shown in ...], where some edge, $e$ ($e_s$, $e_d$), is already ordered 
 %(with respect to the OG) because there exists in the OG some alternative path $e_s$, 
@@ -356,7 +356,7 @@ With this constraint in place,
 %\souradip{(ironically), text on SCC simplification needs to be simplified}
 
 
-\paragraph{Enforcing ordering constraints.} 
+\paragraph{Enforcing ordering constraints} 
 Memory operators in \riptide 
 produce a control token on completion and can optionally consume a
 control token ($dep$ in~\autoref{tab:riptide:isa}) to enforce memory ordering.
@@ -374,7 +374,7 @@ The compiler lowers its IR to use \riptide's control paradigm by inserting \ript
 control-flow operators into the DFG.
 %
 
-\paragraph{Steer.}
+\paragraph{Steer}
 %% A steer gates a value until downstream consumers
 %% are certain to execute.
 %
@@ -396,7 +396,7 @@ The steer's control input is the decider of the basic block that the steer depen
 and its data input is the value or the output of an earlier inserted steer.
 %
 
-\paragraph{Carry and invariant.}
+\paragraph{Carry and invariant}
 %% In a loop, a carry operator produces a
 %% token for a loop-carried dependence and an invariant operator produces a token for
 %% a loop-invariant value.
@@ -414,7 +414,7 @@ certain to execute; to ensure this behavior, the compiler sets their control
 signal to the decider of the block at the loop exit. 
 %
 
-\paragraph{Merge.}
+\paragraph{Merge}
 %% An order operator ensures values produced by different loop iterations remain in
 %% order.
 %\souradip{figure 4 needs to show order gates, no?}
@@ -452,8 +452,6 @@ nearest common dominator of the join point's predecessor basic blocks.
 Since the earlier iteration sends its control signal first and \riptide does not reorder tokens, the merge operator effectively blocks the later iteration until the earlier iteration resolves. % from sending a control signal and token to the order operator
 % until the earlier iteration completes. % and forwards its value token to the merge node.
 %
-
-\figRipTideArch
 
 \subsection{Stream fusion}
 \label{riptide:compiler:stream}
@@ -603,7 +601,7 @@ The SAT-based mapper runs quickly, taking <\,3\,min for our most complex benchma
 %DFS (45 vertices and 81 edges),
 whereas the ILP-based mapper yields 4.3\% avg.\ energy savings v.\ SAT (\autoref{riptide:eval:compiler}).
 
-\paragraph{Problem description.}
+\paragraph{Problem description}
 The constraints of the ILP and SAT formulations are similar (see~\autoref{chapter:map} for a complete, formal description).
 % , though the objective of the ILP formulation is to minimize the average routing distance.
 %
@@ -617,7 +615,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % 
 % The ILP formulation minimizes the average routing distance subject to these constraints
 
-% \paragraph{Finding a solution.}
+% \paragraph{Finding a solution}
 % The ILP-based solver uses CVXPY~\cite{cvxpy} and Gurobi 9.5~\cite{gurobi} to find a solution, while the SAT-based solver finds a solution in three steps.
 % % 
 % First, the mapper generates a DIMACS CNF file containing the formulation's clauses.
@@ -627,7 +625,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % Finally, the mapper invokes a new parallel SAT solver developed concurrently and based on YalSAT~\cite{yalsat} to find a valid mapping.
 % \graham{cite solver}
 
-% \paragraph{SAT formulation.}
+% \paragraph{SAT formulation}
 % \autoref{tab:riptide:map:vars} lists the inputs to the ILP-based and SAT-based mappers as well as the variables that they solve for.
 % % 
 % The goal of either mapper is to solve for $M_{vn}$ and $M_{el}$, which map a DFG's vertices to hardware PEs and CF-modules (hardware nodes) and a DFG's edges to hardware links, respectively.
@@ -637,7 +635,7 @@ Together these are the necessary constraints to produce not only a valid mapping
 % The remaining matrices $H_{nl}$, $H_{ln}$, $H_{rl}$, $H_{lr}$, describe the topology of the CGRA fabric by specifying the connectedness of links to hardware nodes and routers.
 % \nzb{This whole paragraph needs to move to the appendix. It's useless without the tables.}
 
-% \paragraph{SAT formulation.}
+% \paragraph{SAT formulation}
 % \autoref{tab:riptide:sat} lists the clauses of the SAT formulation.
 % % 
 % There are three steps to finding a solution.
@@ -653,13 +651,13 @@ Together these are the necessary constraints to produce not only a valid mapping
 % % 
 % % This SAT solver will be open source at the time of publication.
 
-% \paragraph{ILP formulation.}
+% \paragraph{ILP formulation}
 % The objective of the ILP-based mapper is to minimize the average routing distance subject to the constraints listed in~\autoref{tab:riptide:ilp}.
 % % 
 % We describe the ILP using CVXPY~\cite{cvxpy} and use Gurobi 9.5~\cite{gurobi} to find a solution.
 % \nzb{Likewise?}
 
-% \paragraph{Scalability.}
+% \paragraph{Scalability}
 % \nzb{Again, I don't think we've ever evaluated scalability? Unless by that we simply mean performance v.\ size of DFG for the ten programs we have?}
 % The scalability of mapping is a primary challenge in CGRA compilation~\cite{karunaratne2018dnestmap,hamzeh2012epimap,hamzeh2014branch,amp2020,4dcgra,himap,lee2021ultra,chordmap,pathseeker}.
 % % 

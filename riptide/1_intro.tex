@@ -1,105 +1,129 @@
-\section{Introduction}
-\label{riptide:intro}
+% \lettrine{R}{ecent} advances in machine learning,
+% sensor devices, and
+% embedded systems open the door
+% to a wide range of sensing applications,
+% such as
+% civil-infrastructure or wilderness monitoring,
+% public safety and security,
+% medical devices,
+% and chip-scale satellites~\cite{kicksat2}.
+% %
+% To achieve long (e.g., 5+ year) deployment lifetimes,
+% these applications rely on on-device processing
+% to limit off-device communication.
+% %
+% Computing at the extreme edge
+% calls for ultra-low-power ($<$1\,mW),
+% \emph{energy-minimal},
+% and \emph{programmable} processing~\cite{sonic}.
 
-\lettrine{R}{ecent} advances in machine learning,
-sensor devices, and
-embedded systems open the door
-to a wide range of sensing applications,
-such as
-civil-infrastructure or wilderness monitoring,
-public safety and security,
-medical devices,
-and chip-scale satellites~\cite{kicksat2}.
-%
-To achieve long (e.g., 5+ year) deployment lifetimes,
-these applications rely on on-device processing
-to limit off-device communication.
-%
+% \paragraph{Why programmable?} 
+% \label{intro:programmability}
+% The need for extreme energy efficiency suggests a role for
+% application-specific integrated circuits (ASICs), but ASICs
+% come with several major disadvantages.
+% %% that make programmable hardware a better option.
+% %
+% Computations in smart sensing applications are diverse, spanning deep
+% learning, signal processing, compression, encoding, decryption,
+% planning, control, and symbolic reasoning~\cite{Gobieski2018IntermittentDN}.
+% %
+% Only a programmable solution can support all of these, as it is
+% infeasible to build an ASIC for every conceivable task~\cite{edge-offload,moonwalk}.
+% %
+% Moreover, the rapid pace of change in these applications (e.g., due to
+% new machine learning algorithms~\cite{jouppi2021ten})
+% puts specialized hardware at risk of premature obsolescence, especially in
+% a multi-year deployment~\cite{edge-offload}.
+% %
+% Finally, by targeting all computations, programmable designs
+% can achieve much greater scale than specialized designs --- perhaps trillions of devices~\cite{arm-trillions}.
+% Scale reduces device cost,
+% makes advanced manufacturing nodes economically viable,
+% and mitigates carbon footprint~\cite{gupta2022chasing}.
+
+% Unfortunately, traditional programmable cores are very inefficient,
+% typically spending only 5\% to 10\% of their energy on useful work~\cite{manic,snafu,horowitz:isscc14:energy-keynote}.
+% %
+% The architect's challenge is thus to reconcile generality and efficiency.
+
+% \figRipTideIntro
+
+
+% \paragraph{CGRAs are both programmable and efficient}
+% %
+% Recent work has shown that coarse-grained reconfigurable
+% arrays (CGRAs) can achieve energy efficiency competitive with ASICs
+% while remaining programmable by software~\cite{snafu,nowatzki2017domain,weng2020dsagen}.
+% %
+% As shown in \autoref{fig:riptide:intro},
+% a CGRA
+% % ~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx,torng2021ultra} 
+%  is an array of processing elements
+% (PEs) connected by an on-chip network (NoC).
+% %
+% CGRAs are programmed by mapping a computation's dataflow
+% onto the array, i.e., by assigning operations to PEs and configuring
+% the NoC to route values between dependent operations.
+% %
+% A CGRA's efficiency derives from avoiding overheads intrinsic to von
+% Neumann architectures, specifically instruction fetch/control and data
+% buffering in a centralized register file.
+
+% In the context of ultra-low-power sensing applications,
+% \snafu~\cite{snafu} is a CGRA-generation framework designed from
+% the ground up to minimize energy, in contrast to prior,
+% performance-focused CGRAs (\autoref{riptide:background}).
+% %
+% \snafu CGRAs reduce energy by 5$\times$ v.\ ultra-low-power von Neumann
+% cores, and they come within 3$\times$ of ASIC energy efficiency.
+
+% %
+% %% generally: amdahl's law tell us we need to map everything,
+% %% but current cgras don't let us do that for a few reasons.
+% %% 
+% %% - control
+% %%   - only simple, regular control (like inner loops), or
+% %%   - complex, expensive hardware for dynamic tagging & conservative buffering
+% %%   - limited support for common control structures like nested loops
+
 Computing at the extreme edge
 calls for ultra-low-power ($<$1\,mW),
-\emph{energy-minimal},
-and \emph{programmable} processing~\cite{sonic}.
+\emph{extremely energy-efficient},
+and \emph{general-purpose} processing.
+% 
+Prior chapters have built out a new ULP sensor system stack that fits these requirements.
+% 
+\autoref{chapter:sonic} contributed \sonic, a software system, to enable inference on intermittent, energy-harvesting devices.
+%
+\autoref{chapter:manic} contributed \manic and \msilicon, a new vector-dataflow computer architecture and corresponding silicon prototype.
+%
+\autoref{chapter:snafu} contributed \snafu, a ULP CGRA architecture that implemented spatial-vector-dataflow execution, achieving energy efficiency competitive with ASICs while remaining programmable by software.
+% 
 
-\paragraph{Why programmable?} 
-\label{intro:programmability}
-The need for extreme energy efficiency suggests a role for
-application-specific integrated circuits (ASICs), but ASICs
-come with several major disadvantages.
-%% that make programmable hardware a better option.
-%
-Computations in smart sensing applications are diverse, spanning deep
-learning, signal processing, compression, encoding, decryption,
-planning, control, and symbolic reasoning~\cite{Gobieski2018IntermittentDN}.
-%
-Only a programmable solution can support all of these, as it is
-infeasible to build an ASIC for every conceivable task~\cite{edge-offload,moonwalk}.
-%
-Moreover, the rapid pace of change in these applications (e.g., due to
-new machine learning algorithms~\cite{jouppi2021ten})
-puts specialized hardware at risk of premature obsolescence, especially in
-a multi-year deployment~\cite{edge-offload}.
-%
-Finally, by targeting all computations, programmable designs
-can achieve much greater scale than specialized designs --- perhaps trillions of devices~\cite{arm-trillions}.
-Scale reduces device cost,
-makes advanced manufacturing nodes economically viable,
-and mitigates carbon footprint~\cite{gupta2022chasing}.
+% This chapter rounds out the stack, presenting \riptide, a dataflow compiler and energy-minimal CGRA architecture.
+% % Compilation, the subject of this chapter, is the final piece to this new system stack.
 
-Unfortunately, traditional programmable cores are very inefficient,
-typically spending only 5\% to 10\% of their energy on useful work~\cite{manic,snafu,horowitz:isscc14:energy-keynote}.
-%
-The architect's challenge is thus to reconcile generality and efficiency.
-
-\figRipTideIntro
+% \paragraph{CGRAs are both programmable and efficient}
+% CGRAs meet the system requirements of ULP sensor devices.
+% % 
+% \snafu (\autoref{chapter:snafu}) achieves energy efficiency competitive with ASICs while remaining programmable by software.
+% % 
+% This combination of efficiency and generality makes these designs viable
 
 
-\paragraph{CGRAs are both programmable and efficient.}
+% \paragraph{What's the problem?}
 %
-Recent work has shown that coarse-grained reconfigurable
-arrays (CGRAs) can achieve energy efficiency competitive with ASICs
-while remaining programmable by software~\cite{snafu,nowatzki2017domain,weng2020dsagen}.
-%
-As shown in \autoref{fig:riptide:intro},
-a CGRA
-% ~\cite{remarc,adres,matrix,dyser,revamp,opencgra,cgrame,wave,nguyen2021fifer,morphosys,mozart,ppa,fpca,plasticine,dadu2019towards,parashar2013triggered,capstan,nowatzki:isca17:stream-dataflow,goldstein2000piperench,trips,weng2020dsagen,weng2020hybrid,voitsechov2014single,mishra2006tartan,tan2018stitch,karunaratne2017hycube,voitsechov2018inter,evx,torng2021ultra} 
- is an array of processing elements
-(PEs) connected by an on-chip network (NoC).
-%
-CGRAs are programmed by mapping a computation's dataflow
-onto the array, i.e., by assigning operations to PEs and configuring
-the NoC to route values between dependent operations.
-%
-A CGRA's efficiency derives from avoiding overheads intrinsic to von
-Neumann architectures, specifically instruction fetch/control and data
-buffering in a centralized register file.
-
-In the context of ultra-low-power sensing applications,
-\snafu~\cite{snafu} is a CGRA-generation framework designed from
-the ground up to minimize energy, in contrast to prior,
-performance-focused CGRAs (\autoref{riptide:background}).
-%
-\snafu CGRAs reduce energy by 5$\times$ v.\ ultra-low-power von Neumann
-cores, and they come within 3$\times$ of ASIC energy efficiency.
-
-%
-%% generally: amdahl's law tell us we need to map everything,
-%% but current cgras don't let us do that for a few reasons.
-%% 
-%% - control
-%%   - only simple, regular control (like inner loops), or
-%%   - complex, expensive hardware for dynamic tagging & conservative buffering
-%%   - limited support for common control structures like nested loops
-
-\paragraph{What's the problem?}
-%
-Amdahl's Law tells us that to achieve significant end-to-end benefits,
+So what is missing from the stack?
+% 
+Well, Amdahl's Law tells us that to achieve significant end-to-end benefits,
 CGRAs must benefit the vast majority of program execution.
 %
 CGRAs must support a wide variety of program patterns at minimal programmer effort,
 % 
 and they must provide a complete compiler and hardware stack that makes it easy to convert arbitrary application code to an efficient CGRA configuration.
 %
-Unfortunately, prior CGRAs struggle to support common programming
+Unfortunately, prior CGRAs, including \snafu, struggle to support common programming
 idioms efficiently, leaving significant energy savings on the table.
 
 On the hardware side,
@@ -150,13 +174,13 @@ primitives that map well onto a CGRA.
 Vector assembly sidesteps irregular control,
 but makes programming cumbersome~\cite{snafu,yang2021spzip,nowatzki:isca17:stream-dataflow}.
 
-%% run arbitrary code to eliminate efficiency bottleneck
-%% provide rich operator set
-%% implement it efficiently in hardware, emph on CFiN
-%% compiler does stuff correctly & has new analysis
-%% results / broader implications
+% run arbitrary code to eliminate efficiency bottleneck
+% provide rich operator set
+% implement it efficiently in hardware, emph on CFiN
+% compiler does stuff correctly & has new analysis
+% results / broader implications
 
-\section*{\riptide's Approach and Contributions}
+\subsection{\riptide's Approach and Contributions}
 
 \riptide is a co-designed CGRA compiler and architecture that
 supports arbitrary control flow and memory access patterns
@@ -175,7 +199,7 @@ as commonly found in, e.g., sparse linear algebra.
 %
 These benefits are realized via the following contributions:
 
-\paragraph{\riptide's instruction set architecture supports complex control while minimizing energy.}
+\paragraph{\riptide's instruction set architecture supports complex control while minimizing energy}
 
 %% \riptide provides a rich operator set that enables complex control while
 %% minimizing energy.
@@ -192,7 +216,7 @@ between tokens from inner and outer loops.
 common programming idioms, such as its \emph{stream generator} that
 generates an affine sequence for, e.g., streaming memory accesses.
 
-\paragraph{\riptide's (almost) free lunch: offloading control flow into the on-chip network.}
+\paragraph{\riptide's (almost) free lunch: offloading control flow into the on-chip network}
 
 \riptide implements its new control flow primitives without wasting energy
 or PEs by leveraging existing NoC switches.
@@ -206,7 +230,7 @@ operations, so that \riptide can support deeply nested loops with complex
 control flow on a small CGRA fabric.
 
 
-\paragraph{\riptide compiles C programs to an efficient CGRA configuration.}
+\paragraph{\riptide compiles C programs to an efficient CGRA configuration}
 \riptide is easy to program: it compiles functions written in a high-level
 language (currently, C) and employs novel analyses to safely
 parallelize operations.
@@ -229,7 +253,7 @@ SAT instance or integer linear program.
 % with reasonable compilation times ($<$\,3\,min) in our context.
 The SAT formulation finds configurations quickly ($<$\,3\,min), while the ILP formulation yields configurations that use 4.3\% less energy.
 
-%% \paragraph{Contributions.}
+%% \paragraph{Contributions}
 %% This paper contributes the following:
 %% \begin{compactitem}
 %% \trim{\item \bigemph{Problem:} We identify control flow limitations as the
@@ -269,7 +293,7 @@ The SAT formulation finds configurations quickly ($<$\,3\,min), while the ILP fo
 %% \end{compactitem}
 
 \figRipTideIntroResults
-\paragraph{Summary of results.}
+\paragraph{Summary of results}
 %
 We implement a complete \riptide system in RTL and synthesize it in
 Intel 22FFL, an industrial sub-28nm FinFET process with compiled memories.
@@ -301,13 +325,13 @@ Surveying prior work,
 we find that \riptide is 2.4$\times$ more energy-efficient than prior, performance-oriented CGRAs
 with comparable data~\cite{wang2019hycube,torng2021ultra}.
 
-Finally, we compare \riptide to off-the-shelf ULP systems on end-to-end neural network inference.
-\riptide consumes 1900$\times$ less energy than an TI MSP430,
-490$\times$ less energy than an ARM Cortex-M3,
-and 6.5$\times$ less energy than our own energy-minimal scalar core
---- and \riptide is 7.7$\times$ faster.
+% Finally, we compare \riptide to off-the-shelf ULP systems on end-to-end neural network inference.
+% \riptide consumes 1900$\times$ less energy than an TI MSP430,
+% 490$\times$ less energy than an ARM Cortex-M3,
+% and 6.5$\times$ less energy than our own energy-minimal scalar core
+% --- and \riptide is 7.7$\times$ faster.
 
-\paragraph{Broader implications on architecture.}
+\paragraph{Broader implications on architecture}
 
 We perform an in-depth case study of {\tt dmm},
 comparing \riptide to an ASIC implemented in the same
@@ -320,15 +344,15 @@ the large advantages gained by software programmability, we argue that
 energy-minimal CGRAs like \riptide have a compelling edge over ASICs for
 the majority of computations.
 
-\paragraph{Road map.}
+\paragraph{Road map}
 %
-\autoref{riptide:background} covers background, and
-\autoref{riptide:overview} gives an overview of \riptide.
+% \autoref{riptide:background} covers background, and
+% \autoref{riptide:overview} gives an overview of \riptide.
 %
-Secs.~\autoref{riptide:cf}, \autoref{riptide:compiler}, and \ref{riptide:arch} present
+Secs.~\ref{riptide:cf}, \ref{riptide:compiler}, and \ref{riptide:arch} present
 \riptide's architecture, compiler, and microarchitecture, respectively.
 %
-Secs.~\autoref{riptide:method} and \autoref{riptide:eval} evaluate \riptide, and
+Secs.~\ref{riptide:method} and \ref{riptide:eval} evaluate \riptide, and
 \autoref{riptide:implications} concludes by discussing \riptide's broader implications.
 
 %

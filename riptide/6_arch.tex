@@ -1,5 +1,9 @@
+% \figRipTideArch
+
 \section{RipTide Microarchitecture}
 \label{riptide:arch}
+
+\figRipTideArchTop
 
 \riptide is an energy-minimal coarse-grained reconfigurable array (\autoref{fig:riptide:arch:block}).
 % 
@@ -11,7 +15,7 @@ A complete \riptide system contains a CGRA fabric, a RISC-V scalar core, and a 2
 
 \subsection{Tagless dataflow scheduling}
 
-\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{riptide:background}).
+\riptide implements asynchronous dataflow firing via \emph{ordered dataflow} (\autoref{background:cgras}).
 %
 By adding ordering operators where control may diverge,
 %
@@ -34,7 +38,7 @@ The PE includes a functional unit (FU) and the \textmu core.
 The \textmu core interfaces with the NoC, buffers
 output values, and interfaces with top-level fabric control for PE configuration.
 
-\paragraph{Functional units.}
+\paragraph{Functional units}
 The \textmu core exposes a generic interface using a
 latency-insensitive ready/valid protocol to make it easy to add new
 operators.
@@ -54,7 +58,9 @@ and output arrives on {\tt fu\_data} when {\tt fu\_valid} is high.
 %
 The remaining signals deal with top-level configuration and control.
 
-\paragraph{Communication.}
+\figRipTideArchPERouter
+
+\paragraph{Communication}
 The \textmu core decouples NoC communication from FU computation.
 % 
 The \textmu core tracks which inputs are valid, raises backpressure on
@@ -63,7 +69,7 @@ output channels, and sends results over the NoC.
 %
 Decoupling simplifies the FU.
 
-\paragraph{Configuration.}
+\paragraph{Configuration}
 The \textmu core handles PE and FU configuration, storing configuration state in a
 two-entry {\em configuration cache} that enables single-cycle reconfiguration. 
 % 
@@ -71,7 +77,7 @@ Additionally, the \textmu core enables the fabric to overlap
 reconfiguration of some PEs while others
 finish computation on an old configuration.
 
-\paragraph{PE types.}
+\paragraph{PE types}
 \riptide includes a heterogeneous set of PEs:
 \begin{compactitem}
 \item \emph{Memory PEs} issue loads and stores to memory and have a ``row buffer'' that coalesces non-aliasing subword loads.

@@ -4,6 +4,8 @@
 
 % \figRipTideCFExecute
 
+\figRipTideISA
+
 \riptide provides a rich set of control-flow operators to support complex programs.
 % 
 Its ISA, shown in \autoref{tab:riptide:isa}, has six categories of operators: arithmetic, multiplier, memory, control flow, synchronization, and streams.
@@ -24,19 +26,18 @@ operator waits until a valid token arrives for that value over the
 NoC. Tokens are buffered at the inputs if they are not
 consumed or discarded.
 
-\figRipTideISA
 \figRipTideCFGates
 
 \figRipTideCompiler
 
-\paragraph{Steer.} 
+\paragraph{Steer} 
 Steers ($\phi^{-1}$) come in two flavors --- True and False --- and take two inputs: a decider, {\tt D} and a data input, {\tt A}.
 % 
 If {\tt D} matches the flavor, then the gate passes {\tt A} through; otherwise, {\tt A} is discarded.
 % 
 Steers are necessary to implement conditional execution, as they gate the inputs to disabled branches.
 
-\paragraph{Carry.}
+\paragraph{Carry}
 \label{cf:carry}
 % Carry is the other fundamental control-flow operator.
 % 
@@ -63,14 +64,14 @@ previous one has finished.
 %
 (Iterations from one inner-loop may be pipelined if they are independent, but entire instances of the inner loop will be serialized.)
 
-\paragraph{Invariant.}
+\paragraph{Invariant}
 The invariant operator is a slight variation of carry.
 %
 It represents a loop invariant and can be implemented as a carry with a self-edge back to {\tt B}.
 %
 Invariants are used to generate a new loop-invariant token for each loop iteration.
 
-%% \paragraph{Select.}
+%% \paragraph{Select}
 %% The select operator is a ternary operator that chooses between two inputs given a condition.
 %
 % The select operator is a direct implementation of LLVM's {\tt select} ternary operator, choosing between two inputs given a condition.
@@ -80,7 +81,7 @@ Invariants are used to generate a new loop-invariant token for each loop iterati
 %% % 
 %% These enforce cross-iteration and memory ordering.
 
-\paragraph{Merge.}
+\paragraph{Merge}
 The merge operator enforces cross-iteration ordering by making sure that tokens from different loop iterations
 appear in the same order, regardless of the control path taken within by each loop iteration.
 %% the outputs of divergent control flow in a loop iteration do not reorder with another outputs from another iteration.
@@ -91,10 +92,10 @@ Merge is essentially a mux that passes through either {\tt A} or {\tt B}, depend
 %
 But note that only the value passed through is consumed.
 
-\paragraph{Order.}
+\paragraph{Order}
 The order operator is used to enforce memory ordering by guaranteeing that multiple preceding operations have executed.
 % 
-It takes two inputs, {\tt A} and {\tt B}, and fires as soon as both arrive, passing {\tt A} through.
+It takes two inputs, {\tt A} and {\tt B}, and fires as soon as both arrive, passing {\tt B} through.
 
 \subsection{Stream operators}
 \label{cf:streams}
