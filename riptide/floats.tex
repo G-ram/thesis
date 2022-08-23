@@ -1,18 +1,18 @@
 \newcommand{\figRipTideIntroResults}{
   \begin{figure}[t]
     \centering
-    \begin{minipage}{0.32\linewidth}
+    \begin{minipage}{0.25\linewidth}
     	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/loc_avg_legend-graph-crop.pdf}
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/loc_avg-graph-crop.pdf}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.32\linewidth}
+    \begin{minipage}{0.25\linewidth}
     	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/energy_avg-graph-crop.pdf}
     \end{minipage}
     \hfill
-    \begin{minipage}{0.32\linewidth}
+    \begin{minipage}{0.25\linewidth}
     	\centering
 	\includegraphics[width=\linewidth]{riptide/figures/pdf/perf_avg-graph-crop.pdf}
     \end{minipage}
@@ -27,7 +27,7 @@
 \newcommand{\figRipTideIntro}{
   \begin{figure}[t]
     \centering
-    \includegraphics[width=0.9\linewidth]{riptide/figures/pdf/new_overview.pdf}
+    \includegraphics[width=0.65\linewidth]{riptide/figures/pdf/new_overview.pdf}
     \caption{\riptide is a co-designed compiler and CGRA architecture
       that executes programs written in a \emph{high-level language}
       with \emph{minimal energy} and high performance.
@@ -65,10 +65,10 @@
 		\centering
 		\begin{subfigure}{0.49\linewidth}
 			\begin{Overpic}{
-		      \includegraphics[width=\linewidth]{riptide/figures/pdf/ctime-graph-crop.pdf}
+		      \includegraphics[width=0.85\linewidth]{riptide/figures/pdf/ctime-graph-crop.pdf}
 		    }
-		    \put (18,57){
-		    	\includegraphics[height=0.14in]{riptide/figures/pdf/ctime_tlegend-graph-crop.pdf}
+		    \put (17,57){
+		    	\includegraphics[height=0.2in]{riptide/figures/pdf/ctime_tlegend-graph-crop.pdf}
 		    }
 		  \end{Overpic}
 			\caption{Compilation time.}
@@ -77,7 +77,7 @@
 		\hfill
 		\begin{subfigure}{0.49\linewidth}
 			\vspace{-0.6em}
-			\includegraphics[width=\linewidth]{riptide/figures/pdf/sat-graph-crop.pdf}
+			\includegraphics[width=0.85\linewidth]{riptide/figures/pdf/sat-graph-crop.pdf}
 			\caption{Normalized energy.}
 			\label{fig:riptide:sat:energy}
 		\end{subfigure}
@@ -101,7 +101,7 @@
 \newcommand{\figRipTideCFGates}{
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{riptide/figures/pdf/cf.pdf}
+	\includegraphics[width=0.7\linewidth]{riptide/figures/pdf/cf.pdf}
 	\caption{Semantics of control-flow operators in \riptide.}
 	\label{fig:riptide:cf:gates}
 \end{figure}
@@ -119,7 +119,7 @@
 \newcommand{\figRipTideCompiler}{
 \begin{figure*}[t]
 	\centering
-	\includegraphics[width=\linewidth]{riptide/figures/pdf/compiler.pdf}
+	\includegraphics[width=0.75\linewidth]{riptide/figures/pdf/compiler.pdf}
 	\caption{\riptide's frontend and middle-end components. The frontend
     compiles C code to LLVM-IR using \texttt{clang}. The middle-end
     produces an optimized dataflow graph (DFG) that enforces memory ordering
@@ -131,7 +131,7 @@
 \newcommand{\figRipTideLSO}{
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.8\linewidth]{riptide/figures/pdf/lso.pdf}
+	\includegraphics[width=0.6\linewidth]{riptide/figures/pdf/lso.pdf}
 	\caption{\riptide's middle-end enforces memory ordering. For 
     \texttt{example}, an ordering graph (OG) that is 
     iteratively pruned and reduced.}
@@ -141,18 +141,10 @@
 
 \newcommand{\tabRipTideSnippets}{
 \begin{table*}[t]
-	\caption{Qualitative comparison of \riptide to prior work.
-          \riptide's goal is to \emph{minimize energy}
-          by executing \emph{entire functions} on the CGRA fabric.
-          To achieve this, \riptide supports arbitrary control flow and irregular memory access,
-          whereas prior CGRAs are limited to affine loops or a subset of common program idioms.
-          \riptide compiles lightly annotated C to an efficient CGRA configuration.
-        }
-	\label{tab:riptide:background}
 	\centering
 	\resizebox{\linewidth}{!}{
 		\scriptsize
-		\begin{tabular}{p{0.35in}P{1.25in}P{1.25in}P{1.25in}P{1.25in}P{1.25in}P{1.35in}}
+		\begin{tabular}{p{0.4in}P{1.25in}P{1.25in}P{1.25in}P{1.25in}P{1.25in}P{1.35in}}
 			\toprule & 
 			 	% \bf HyCube~\cite{karunaratne2017hycube} & 
 			 	\bf Revel~\cite{weng2020hybrid} & 
@@ -225,24 +217,14 @@
 			\bottomrule
 		\end{tabular}
 	}
-  %% \begin{tablenotes}
-  %% \scriptsize
-  %% \item \textbf{Legend}: 
-  %% \texttt{HL} = uses high-level language; 
-  %% \texttt{DLN} = deep loop nests; 
-  %% \texttt{IMA} = indirect memory accesses; 
-  %% \texttt{AL} = affine loops; 
-  %% \texttt{IAL} = irregular or affine loops;  
-  %%       \texttt{MO} = memory ordering; 
-  %% \item \texttt{OMO} = optimized \texttt{MO}; 
-  %% \texttt{CE} = conditional execution; 
-  %% \texttt{AP} = annotations for programming; 
-  %% \texttt{AT} = annotations for targeting/offloading 
-  %% \item \textbf{*} Scheduling listed as "spatial" or "temporal" are \textit{static} schedules.
-  %% \item \textbf{$\dagger$}: Limited support for constructs/idioms indicated using brackets (e.g. [\texttt{CE}])
-  %% \item \textbf{$\ddagger$}: We uses a compiler command-line option to specify which function(s) to target for \riptide. 
-  %% \item
-  %% \end{tablenotes}
+	\caption{\tmp{Qualitative comparison of \riptide to prior work.
+          \riptide's goal is to \emph{minimize energy}
+          by executing \emph{entire functions} on the CGRA fabric.
+          To achieve this, \riptide supports arbitrary control flow and irregular memory access,
+          whereas prior CGRAs are limited to affine loops or a subset of common program idioms.
+          \riptide compiles lightly annotated C to an efficient CGRA configuration.}
+        }
+	\label{tab:riptide:background}
 \end{table*}
 }
 
@@ -414,12 +396,9 @@
 
 \newcommand{\figRipTideISA}{
 \begin{table}[t]
-    \begin{center}
-      \caption{\riptide's instruction set architecture (ISA).}
-      \label{tab:riptide:isa}
-      \scriptsize
+			\centering
       \resizebox{\linewidth}{!}{%
-      \begin{tabular*}{4.0in}{lccl}
+      \begin{tabular}{lccl}
         \toprule 
         \textbf{Operator(s)}    & \textbf{Category} & \textbf{Symbol(s)}                                & \textbf{Semantics}                         \\
         \midrule 
@@ -432,8 +411,10 @@
         Merge, order            & Synchronization   & \texttt{M}, \texttt{O}                            & See \autoref{fig:riptide:cf:gates}                 \\ 
         Stream                  & Stream            & \texttt{STR}                                      & See \autoref{fig:riptide:cf:gates}                 \\ 
         \bottomrule 
-      \end{tabular*}}
-    \end{center}
+      \end{tabular}
+    }
+    \caption{\riptide's instruction set architecture (ISA).}
+    \label{tab:riptide:isa}
 \end{table}
 }
 
@@ -457,24 +438,25 @@
 
 \newcommand{\figRipTideArch}{
 \begin{figure*}[t]
-\begin{minipage}{0.3\linewidth}
+	\centering
+	\begin{minipage}{\linewidth}
 		\centering
-		\includegraphics[height=2in]{riptide/figures/pdf/block.pdf}
+		\includegraphics[height=2.5in]{riptide/figures/pdf/block.pdf}
 		\caption{\riptide's ULP CGRA fabric.}
 		\label{fig:riptide:arch:block}
 	\end{minipage}
-	\hfill
-	\hspace{4em}
-	\begin{minipage}{0.3\linewidth}
+
+	\vspace{1em}	
+
+	\begin{minipage}{0.49\linewidth}
 		\centering
-		\includegraphics[height=2in]{riptide/figures/pdf/pe.pdf}
+		\includegraphics[height=2.5in]{riptide/figures/pdf/pe.pdf}
 		\caption{PE microarchitecture}
 		\label{fig:riptide:arch:pe}
 	\end{minipage}
-	\hfill
-	\begin{minipage}{0.3\linewidth}
+	\begin{minipage}{0.49\linewidth}
 		\centering
-		\includegraphics[height=2in]{riptide/figures/pdf/router.pdf}
+		\includegraphics[height=2.5in]{riptide/figures/pdf/router.pdf}
 		\caption{Router microarchitecture}
 		\label{fig:riptide:arch:router}
 	\end{minipage}
@@ -568,7 +550,7 @@
 \newcommand{\figRipTideFINResults}{
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=\linewidth]{riptide/figures/pdf/fin-graph-crop.pdf}
+	\includegraphics[width=0.85\linewidth]{riptide/figures/pdf/fin-graph-crop.pdf}
 	\caption{Control flow in the NoC saves energy. \riptide uses 45\%, 40\%, and 27\% less energy than \riptide w/ No CFiN, a fabric where all CF ops are PEs (``All PEs''), and a fabric that fuses CF ops into PEs (``Fused'').  }
 	\label{fig:riptide:eval:fin}
 \end{figure}
@@ -577,11 +559,11 @@
 \newcommand{\figRipTideLoCResults}{
 \begin{figure}[htb]
 	\centering
-	\includegraphics[width=0.6\linewidth]{riptide/figures/pdf/loc_legend-graph-crop.pdf}
+	\includegraphics[width=0.55\linewidth]{riptide/figures/pdf/loc_legend-graph-crop.pdf}
 	
 	\vspace{0.1em}
 
-	\includegraphics[width=\linewidth]{riptide/figures/pdf/loc-graph-crop.pdf}
+	\includegraphics[width=0.85\linewidth]{riptide/figures/pdf/loc-graph-crop.pdf}
 	\caption{The number of code additions for ten benchmarks running on scalar, vector, \snafu, and \riptide. \riptide requires no hand-coded assembly unlike vector and \snafu.}
 	\label{fig:riptide:eval:loc}
 \end{figure}
@@ -633,21 +615,17 @@
 
 \newcommand{\figRipTideArea}{
   \begin{figure}[h]
-    \begin{minipage}{0.45\linewidth}
-      \caption{Area breakdown for a complete \riptide system.
-        Area is dominated by the CGRA fabric and main memory
-        (SRAM + arbitration logic),
-        eaching taking about half of the system.
-        The scalar core is just 2.5\% of system area.
-        The NoC takes 54\% of CGRA area,
-        and PEs (\textmu core + FUs) take 42\%.
-        }
+  	\centering
+    \includegraphics[width=0.4\linewidth]{riptide/figures/pdf/area_pie-crop.pdf}
+    \caption{Area breakdown for a complete \riptide system.
+      Area is dominated by the CGRA fabric and main memory
+      (SRAM + arbitration logic),
+      eaching taking about half of the system.
+      The scalar core is just 2.5\% of system area.
+      The NoC takes 54\% of CGRA area,
+      and PEs (\textmu core + FUs) take 42\%.
+      }
     \label{fig:riptide:eval:area}
-    \end{minipage}
-    \hfill
-    \begin{minipage}{0.49\linewidth}
-      \includegraphics[width=\linewidth]{riptide/figures/pdf/area_pie-crop.pdf}
-    \end{minipage}
   \end{figure}
 }
 
@@ -833,15 +811,7 @@
 \newcommand{\tabRipTideEvalCompare}{
   \begin{table*}[h]
     \centering
-    \caption{Comparison of \riptide to other low-power CGRAs.
-      \riptide supports a broader set of programs
-      while improving energy efficiency.
-      % \riptide's performance is lower than prior CGRAs;
-      % \tmp{this is primarily due to its lower frequency}.
-      }
-    \label{tab:riptide:eval:compare}
-    \footnotesize
-%%     \resizebox{0.8\linewidth}{!}{
+    \resizebox{\linewidth}{!}{
       \begin{tabular}{lcccc@{\hskip 2em}cc}
 	\toprule
 	& 
@@ -993,11 +963,11 @@
 	117 & 180\\
 	\bottomrule
       \end{tabular}
-%%     }
+    }
     
     \vspace{1pt}
     
-    %% 	\resizebox{0.6\linewidth}{!}{
+  	\resizebox{\linewidth}{!}{
     \begin{tabular}{c}
       $^\star$\,Silicon implementation. \quad
       $^\dagger$ Post-P\&R simulation. \quad
@@ -1007,7 +977,14 @@
       % $^2$dmm operations: $ops\,=\,2n^3$ where n is matrix dimension. \\
       % $^3$fft operations: $ops\,=\,2n(4nlog_2(n) - 6n + 8)$. where n is matrix dimension.\\
     \end{tabular}
-    %% 	}
+    	}
+    \caption{Comparison of \riptide to other low-power CGRAs.
+      \riptide supports a broader set of programs
+      while improving energy efficiency.
+      % \riptide's performance is lower than prior CGRAs;
+      % \tmp{this is primarily due to its lower frequency}.
+      }
+    \label{tab:riptide:eval:compare}
   \end{table*}
 }
 

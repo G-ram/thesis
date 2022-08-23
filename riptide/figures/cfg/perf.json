@@ -455,7 +455,7 @@
 	"sci_not": false,
 	"major": ["DMV", "DMM", "DConv", "SMV", "SMM", "SConv", "Sort", "FFT", "BFS", "DFS", "Avg"],
 	"width": 14,
-	"height": 4.5,
+	"height": 5,
 	"rect": [0, 0, 1, 0.9],
 	"minor_spacing": 2,
 	"major_spacing": 1.5,

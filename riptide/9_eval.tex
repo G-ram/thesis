@@ -546,34 +546,34 @@ The All PEs and Fused configurations add many control-flow PEs, wasting energy a
 % 
 \riptide is 22\% and 17\% smaller than All PEs and Fused, respectively.
 
-\subsection{End-to-end case study: \riptide makes saving energy easy}
-\label{eval:end2end}
-% 
-To evaluate the experience of developing for \riptide we deployed a full application --- DNN inference --- to the fabric.
-% 
-This experiment also allowed us to demonstrate the efficiency and performance of \riptide v.\ commercial, off-the-shelf ULP microcontrollers.
+% \subsection{End-to-end case study: \riptide makes saving energy easy}
+% \label{eval:end2end}
+% % 
+% To evaluate the experience of developing for \riptide we deployed a full application --- DNN inference --- to the fabric.
+% % 
+% This experiment also allowed us to demonstrate the efficiency and performance of \riptide v.\ commercial, off-the-shelf ULP microcontrollers.
 
-The DNN we chose is a derivative of LeNet~\cite{lecun:ieee89:lenet} and has four layers: two convolution layers separated into three sublayers followed by two fully connected layers.
-% 
-Every layer is offloaded to \riptide's fabric, including convolution, fully connected, activation, pooling, and normalization layers.
-% 
-It was a straightforward process once we had working scalar code ---
-% 
-the compiler worked out of the box.
+% The DNN we chose is a derivative of LeNet~\cite{lecun:ieee89:lenet} and has four layers: two convolution layers separated into three sublayers followed by two fully connected layers.
+% % 
+% Every layer is offloaded to \riptide's fabric, including convolution, fully connected, activation, pooling, and normalization layers.
+% % 
+% It was a straightforward process once we had working scalar code ---
+% % 
+% the compiler worked out of the box.
 
-\figRipTideProgress % nzb: This figure is misplaced after this paragraph because runs into the next page, leading into the section heading for the conclusion. I agree that typically you want to place figures after their first mention in text, but it does not work here because the figure ends up on a different page from all the text discussing it, and it structurally implies (incorrectly) that the figure belongs to the conclusion section. [t] or [b] placement is a possible compromise if you really hate it inline with text here.
+% \figRipTideProgress % nzb: This figure is misplaced after this paragraph because runs into the next page, leading into the section heading for the conclusion. I agree that typically you want to place figures after their first mention in text, but it does not work here because the figure ends up on a different page from all the text discussing it, and it structurally implies (incorrectly) that the figure belongs to the conclusion section. [t] or [b] placement is a possible compromise if you really hate it inline with text here.
 
-\autoref{fig:riptide:progress} shows the energy and performance of \riptide running inference v.\ two COTS MCUs --- TI MSP430FR5994~\cite{msp430fr5994} and Arm Cortex-M3~\cite{stm32l1} --- as well as our scalar design.
-%
-For the MSP430 and Cortex-M3, we run the network on real hardware and use a digital multimeter to measure current draw,
-which matches datasheets.
-% 
-\autoref{fig:riptide:progress:energy} shows the massive energy savings of \riptide.
-% 
-\riptide achieves 64MOPS/mW, which is 1900$\times$ more than the MSP430 (0.03 MOPS/mW), 490$\times$ more than the Cortex-M3 (0.13 MOPS/mW), and $6.6\times$ more  than our scalar design (9.5 MOPS/mW).
-% 
-Even accounting for technology scaling, \riptide still saves roughly 321$\times$ v.\ MSP430 and 83$\times$ energy v.\ Cortex-M3.
-%
-The reason for such poor efficiency in the MCUs v. \riptide and even our scalar design seems to be their non-volatile main memory.
-%
-\autoref{fig:riptide:progress:perf} shows that \riptide is also significantly faster: by $146\times$ v.\ MSP430, $13\times$ v.\ Cortex-M3, and $7.7\times$ v.\ our scalar design.
+% \autoref{fig:riptide:progress} shows the energy and performance of \riptide running inference v.\ two COTS MCUs --- TI MSP430FR5994~\cite{msp430fr5994} and Arm Cortex-M3~\cite{stm32l1} --- as well as our scalar design.
+% %
+% For the MSP430 and Cortex-M3, we run the network on real hardware and use a digital multimeter to measure current draw,
+% which matches datasheets.
+% % 
+% \autoref{fig:riptide:progress:energy} shows the massive energy savings of \riptide.
+% % 
+% \riptide achieves 64MOPS/mW, which is 1900$\times$ more than the MSP430 (0.03 MOPS/mW), 490$\times$ more than the Cortex-M3 (0.13 MOPS/mW), and $6.6\times$ more  than our scalar design (9.5 MOPS/mW).
+% % 
+% Even accounting for technology scaling, \riptide still saves roughly 321$\times$ v.\ MSP430 and 83$\times$ energy v.\ Cortex-M3.
+% %
+% The reason for such poor efficiency in the MCUs v. \riptide and even our scalar design seems to be their non-volatile main memory.
+% %
+% \autoref{fig:riptide:progress:perf} shows that \riptide is also significantly faster: by $146\times$ v.\ MSP430, $13\times$ v.\ Cortex-M3, and $7.7\times$ v.\ our scalar design.
