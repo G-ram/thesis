@@ -162,7 +162,7 @@ Questions remain regarding thread scheduling and synchronization, memory-hierarc
 \subsubsection{Programming the memory}
 As performance is scaled with more threads, memory becomes a bottleneck.
 % 
-New memory hierarchies and programming models need to be developed to minimize data movement and maximize utilization of available memory bandwidth.
+New memory hierarchies and programming models need to be developed to improve data placement, which will minimize data movement and maximize utilization of available memory bandwidth.
 
 \paragraph{Memory hierarchy}
 Future CGRA memory hierarchies will be composed of both caches and scratchpads.
@@ -220,15 +220,21 @@ Instead, a transactional memory system that speculates on whether memory operati
 Detecting true aliases and recovering after an aborted transaction, though, are challenging especially in CGRAs where, unlike e.g., OoO cores, there may be no centralized control to initiate a flush.
 
 \subsubsection{Code refactoring}
-The compiler can also play a role in increasing performance by automatically refactoring code.
-%
-To reduce the lengths of critical paths and/or loop initiation intervals, the compiler could flatten dependence chains and perform code-motion to reduce inner-loop work.
+The programmer and the compiler can also play a role in increasing performance, by applying known code transformations in the new context of CGRAs, to refactor code.
 % 
-There could be a feedback loop between the middle-end optimizer of the compiler and the backend-mapper (that solves for the mapping to CGRA hardware) to inform which of the transformations are undertaken.
+These transformations include loop-unrolling to increase instruction-level parallelism (which has been explored for CGRAs~\cite{karunaratne2017hycube}), automatic loop parallelization and vectorization, and code-motion to flatten dependence chains and reduce loop initiation intervals.
 % 
-The compiler could also unroll loops to expose more instruction-level parallelism or even auto-parallelize loops by duplicating loop bodies and splitting iteration spaces.
+\riptide provides evidence that these transformations can be effective; \riptide with hand-coded loop-unrolling on {\tt dmm} is $1.86\times$ faster and is 29\% more efficient than without.
 % 
-These transformations trade more resources for additional performance so future compilers will need accurate cost models to make optimal decisions.
+% To reduce the lengths of critical paths and/or loop initiation intervals, the compiler could flatten dependence chains and perform code-motion to reduce inner-loop work.
+
+The CGRA context does change the way these transformations are applied v. traditional compilers targetting von Neumann machines, as there is a strict limit to the number of operations that can be mapped onto the fabric.
+% 
+There will be a need for an accurate cost model with a feedback loop between the middle-end optimizer of a compiler and its backend-mapper (that solves for the mapping to CGRA hardware) to inform which of the transformations are undertaken.
+% 
+% The compiler could also unroll loops to expose more instruction-level parallelism or even auto-parallelize loops by duplicating loop bodies and splitting iteration spaces.
+% 
+% These transformations trade more resources for additional performance so future compilers will need accurate cost models to make optimal decisions.
 
 \subsection{Compilation}
 Improving compilation for CGRAs is another important topic for future work.
@@ -246,8 +252,7 @@ This means that if there are several devices with different CGRA fabrics, a prog
 % 
 Further low-level hardware details need to be exposed to the compiler so that it can correctly optimize and map a program.
 % 
-This complicates not only compiler development, but also increases compilation complexity and reduces portability since the programmer must compile for a specific fabric.
-
+This complicates not only compiler development, but also increases compilation complexity, reduces portability, and makes virtualization challenging since the programmer must compile for a specific fabric.
 
 Instead, compilation could be split into two phases, one phase that is device-agnostic and another that optimizes for a specific device.
 % 
@@ -275,24 +280,29 @@ Mapping a program to a specific CGRA fabric is challenging, since it reduces to 
 % 
 For relatively small programs (small number of operations), \riptide's ILP- and SAT- based mappers do well to find valid mappings, but as program size increases mapping times increase superlinearly.
 % 
-For example, while DMV (12 operations) takes $<10s$ to map onto a $6\times6$ fabric, DFS ($\approx 50$ operations) takes just under three minutes ($\approx 18\times$ more time for $4.1\times$ more operations) with SAT and more than an hour using ILP.
+For example, while DMV (12 operations) takes $\approx10s$ to map onto a $6\times6$ fabric, DFS (50 operations) takes just under three minutes ($\approx 18\times$ more time for $4.1\times$ more operations) with SAT and more than an hour using ILP.
 % 
-New encoding methods and ways of solving the problem are required.
+New encoding methods and ways of solving these constraint-based problem are required.
 % 
 % One possibility is to reformulate the problem in terms of boolean satisifiability and use SAT-solvers to find a valid mapping.
 % 
 % SAT may be a better approach since all variables are already binary in the ILP formulation.
 % 
 % Early results support this conclusion --- DFS takes just $\approx1.5m$ v. $\approx75m$ with ILP.
-Heuristic based approaches 
-Luckily there is much prior work on place \& route for FPGAs and ASICs that extremely relevant.
+
+Heuristic-based approaches have also showed promise for CGRAs~\cite{himap,lee2021ultra,4dcgra,amp2020,chordmap,pathseeker} and are widely used for place \& route for ASIC design and FPGAs~\cite{chen2006fpga}.
 % 
-Prior work on place and route for FPGAs and for ASICs is extremely relevant.
+However, they may require an overprovisioning of resources --- routes in particular --- and may be suboptimal v. constraint-based formulations.
+% Luckily there is much prior work on place \& route for FPGAs and ASICs that extremely relevant.
+% % 
+% Prior work on place and route for FPGAs and for ASICs is extremely relevant.
 %
 % that develop custom heuristic-based algorithms to quickly find valid mappings.
 % Custom search heuristics or changes to the encoding could reduce this time even more.
 % 
-This boost in performance will enable future compilers to use mapping in a feedback loop to choose which optimization passes to apply to maximize/minimize different applications objectives.
+This might be a necessary tradeoff, though, as a boost in compilation performace can enable future compilers to use mapping in a feedback loop to choose which optimization (e.g., loop unrolling, loop vectorization, etc.) passes to apply to maximize/minimize different application objectives.
+% 
+Further, depending on the optimization, the suboptimality of heuristic-based mapping may be moot.
 
 \subsubsection{Changing the programming interface}
 The programming interface also affects compilation by dictating the amount and type of information supplied to the compiler.
