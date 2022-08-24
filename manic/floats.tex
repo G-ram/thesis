@@ -414,29 +414,32 @@ ICache Associativity                   & 1/2/4/8                  & 2           
 \centering
 \resizebox{\linewidth}{!}{
 \begin{tabular}{c|ccccc}
-&    \textbf{2017~\cite{keller2017risc}}    &    \textbf{2018~\cite{karnik2018cm}}    &    \textbf{2019~\cite{bol201919}}    &    \textbf{2020~\cite{prabhat202027}}    &    \textbf{This work}    \\
-\hline
-\textbf{Architecture}    &    \thead{Scalar \& \\ Vector}    &    Scalar    &    Scalar    &    \thead{Scalar w/ \\ SIMD ext.}    &    \thead{Scalar \& \\ Vector-dataflow}    \\
-\hline
-\textbf{ISA}    &    RISC-V    &    Thumb-2    &    Thumb-2    &    Thumb-2    &    RISC-V    \\
-\hline
-\textbf{Process (nm)}    &    28 FD-SOI    &    14 Tri-gate    &    28 FD-SOI    &    65 LP    &    22 bulk FF    \\
-\hline
-\textbf{Core Area ($mm^2$)}    &    1.07    &    6.25    &    0.675    &    6    &    0.57    \\
-\hline
-\textbf{Voltage (V)}    &    0.48-1.0    &    0.4-1.0    &    0.4    &    0.4-0.75    &    \thead{0.4-1.05 Core \\ 1.1 MRAM}    \\
-\hline
-\textbf{Frequency (MHz)}    &    20-797    &    0.2-950    &    40-80    &    0.8-38    &    4-48.9    \\
-\hline
-\textbf{Memory (KB)}    &    56 SRAM    &    64+64+384 SRAM    &    32+32 SRAM    &    \thead{128 ROM, \\ 16+4 SRAM}    &    \thead{64 SRAM, \\ 256 MRAM}    \\
-\hline
-\textbf{Power Budget (mW)}    &    1-200    &    1-20    &    1    &    1-4    &    \thead{0.019-2 w/o MRAM \\ 1-2 w/ MRAM}    \\
-\hline
-\textbf{Average Power (\textmu W)}    &    50000    &    80    &    144    &    47    &    \thead{19.1 w/o MRAM \\ @ 4MHz\footnotemark[1] \\ 1.7mW w/ MRAM @ 49MHz\footnotemark[1]} \\
-\hline
-\textbf{\thead{Peak Efficiency \\ (MOPS/mW)\footnotemark[2]}}   &    \thead{41.8 \\ MFlops/mW}    &    Not reported    &    97    &    Not reported    &    \thead{256 w/o MRAM \\ 33.2 w/ MRAM}    \\
-\hline
-\textbf{\thead{Best Active \\ Energy (pJ/Cycle)}}|    &    Not reported    &    6.2    &    3    &    10.9    &    \thead{3.7 w/o MRAM \\ 29 w/ MRAM} \\                  
+\toprule
+&    \textbf{2017~\cite{keller2017risc}}    &    \textbf{2018~\cite{karnik2018cm}}    &    \textbf{2019~\cite{bol201919}}    &    \textbf{2020~\cite{prabhat202027}}    &    \textbf{This work}    \\[1ex]
+% \hline
+\midrule
+\textbf{Architecture}    &    \thead{Scalar \& \\ Vector}    &    Scalar    &    Scalar    &    \thead{Scalar w/ \\ SIMD ext.}    &    \thead{Scalar \& \\ Vector-dataflow}    \\[1ex]
+% \hline
+\textbf{ISA}    &    RISC-V    &    Thumb-2    &    Thumb-2    &    Thumb-2    &    RISC-V    \\[1ex]
+% \hline
+\textbf{Process (nm)}    &    28 FD-SOI    &    14 Tri-gate    &    28 FD-SOI    &    65 LP    &    22 bulk FF    \\[1ex]
+% \hline
+\textbf{Core Area ($mm^2$)}    &    1.07    &    6.25    &    0.675    &    6    &    0.57    \\[1ex]
+% \hline
+\textbf{Voltage (V)}    &    0.48-1.0    &    0.4-1.0    &    0.4    &    0.4-0.75    &    \thead{0.4-1.05 Core \\ 1.1 MRAM}    \\[1ex]
+% \hline
+\textbf{Frequency (MHz)}    &    20-797    &    0.2-950    &    40-80    &    0.8-38    &    4-48.9    \\[1ex]
+% \hline
+\textbf{Memory (KB)}    &    56 SRAM    &    64+64+384 SRAM    &    32+32 SRAM    &    \thead{128 ROM, \\ 16+4 SRAM}    &    \thead{64 SRAM, \\ 256 MRAM}    \\[1ex]
+% \hline
+\textbf{Power Budget (mW)}    &    1-200    &    1-20    &    1    &    1-4    &    \thead{0.019-2 w/o MRAM \\ 1-2 w/ MRAM}    \\[1ex]
+% \hline
+\textbf{Average Power (\textmu W)}    &    50000    &    80    &    144    &    47    &    \thead{19.1 w/o MRAM \\ @ 4MHz\footnotemark[1] \\ 1.7mW w/ MRAM @ 49MHz\footnotemark[1]} \\[1ex]
+% \hline
+\textbf{\thead{Peak Efficiency \\ (MOPS/mW)\footnotemark[2]}}   &    \thead{41.8 \\ MFlops/mW}    &    Not reported    &    97    &    Not reported    &    \thead{256 w/o MRAM \\ 33.2 w/ MRAM}    \\[1ex]
+% \hline
+\textbf{\thead{Best Active \\ Energy (pJ/Cycle)}}|    &    Not reported    &    6.2    &    3    &    10.9    &    \thead{3.7 w/o MRAM \\ 29 w/ MRAM} \\[1ex]                  
+\bottomrule
 \multicolumn{6}{l}{\footnotesize \footnotemark[1] Over all benchmarks
 \footnotemark[2] 32b operations
 }
