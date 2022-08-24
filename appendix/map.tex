@@ -1,197 +1,279 @@
 \chapter{Constraint-based scheduling} 
 \label{chapter:map}
 
-\section{\snafu's ILP for mapping}
+\section{\snafu's mapper}
 \label{appendix:snafu:ilp}
-The following describes the integer linear program for \snafu's mapper.
+% The following describes the integer linear program for \snafu's mapper.
 % 
-It is based on prior work~\cite{nowatzki2013general}.
-
-\begin{table}[htb]
-	\centering
-	\resizebox{0.75\linewidth}{!}{
-		\begin{tabular}{ll}
-			\toprule
-			\bf Variables  					& \bf Explanation \\
-			\midrule
-			\multicolumn{2}{l}{\bf Inputs: Program} \\
-			$V$ 							& Set of program vertices \\
-			$E$ 							& \thead[l]{Set of program edges \\
-			Each edge is a tuple of the form, $(v_{src},v_{dst})$, \\
-			(source vertex, destination vertex)} \\
-			\midrule
-			\multicolumn{2}{l}{\bf Inputs: CGRA} \\
-			$N$ 							& Set of CGRA nodes (PEs) \\
-			$R$ 							& Set of CGRA routers \\
-			$L$ 							& Set of CGRA NoC links \\
-			$H_{nl}[N,L]$ 					& 
-				\thead[l]{Node-to-link matrix \\ 
-				$H_{nl}(n, l) = 1$ if link $l$ originates from node $n$} \\
-			$H_{rl}[R,L]$ 					& 
-				\thead[l]{Router-to-link matrix \\ 
-				$H_{rl}(n, l) = 1$ if link $l$ originates from router $r$} \\
-			$H_{ln}[L,N]$ 					& 
-				\thead[l]{Router-to-node matrix \\ 
-				$H_{ln}[l, n] = 1$ if link $l$ is an input to node $n$} \\
-			$H_{lr}[L,R]$ 					& 
-				\thead[l]{Link-to-router matrix \\ 
-				$H_{lr}[l, r] = 1$ if link $l$ is an input to router $r$} \\
-			\midrule
-			\multicolumn{2}{l}{\bf Inputs: Compatibility} \\
-			$C_{vn}[V,N]$ 					& \thead[l]{Vertex-node compatibility matrix \\
-			$C_{vn}[v,n]=1$ if vertex $v$ can be mapped to node $n$} \\
-			\toprule
-			\multicolumn{2}{l}{\bf Outputs} \\
-			$M_{vn}[V,N]$ & Mapping of program vertices to CGRA nodes\\
-			$M_{el}[E,L]$ & Mapping of program edges to CGRA links\\
-			\bottomrule
-		\end{tabular}
-	}
-	\caption{Variables for \snafu's ILP.}
-	\label{tab:snafu:appendix:ilp:vars}
-\end{table}
-
-\paragraph{Helper functions}
-\begin{equation*}
-src(e) = v_{src}
-\end{equation*}
-\begin{equation*}
-dst(e) = v_{dst}
-\end{equation*}
-
-\paragraph{Integer linear program}
-
-\begin{equation*}
-\text{minimize }\sum_e \sum_l M_{el}[e,l] \text{ subject to}
-\end{equation*}
-
-\begin{enumerate}
-\item $M_{vn} \le C_{vn}$
-
-\textbf{Explanation:} Vertex is mapped to a compatible node.
-\item $\forall v, \, \sum\limits_n M_{vn}[v,n] = 1$
-
-\textbf{Explanation:} Every vertex is mapped to one node.
-\item $\forall n, \, \sum\limits_v M_{vn}[v,n] \le 1$
-
-\textbf{Explanation:} No node has multiple vertices mapped to it.
-\item $M_{el} H_{lr} = M_{el} H_{rl}^T$
-
-\textbf{Explanation:} If edge is mapped to incoming link of a router, then it also has to be mapped to an outgoing link of the router (preservation of flow).
-\item $\forall e, \, M_{el}[e]H_{ln} = M_{vn}[dst(e)]$ 
-
-\textbf{Explanation:} If a vertex is mapped to a node, then the inputs to the vertex must be mapped to incoming links of that node.
-\item $\forall e, \, M_{el}[e]H_{nl}^T = M_{vn}[src(e)]$
-
-\textbf{Explanation:} If a vertex is mapped to a node, then the outputs of the vertex must be mapped to outgoing links of that node.
-\item $\forall e_1, e_2 | src(e_1) \ne src(e_2), \, M_{el}[e_1] + M_{el}[e_2] \le 1$
-
-\textbf{Explanation:} If edges do not originate from the same node, they can not share links.
-\end{enumerate}
-
-Please note that we adopt numpy-like indexing; for example, $M_{el}[e]$ returns a $1\times |L|$ vector, representing the link assignments for edge $e$.
-% 
-Also, $M_{el}[:,l]$ extracts a $|E|\times 1$ column vector and represents the assignment of link, $l$, across all edges.
-
-\section{\riptide's ILP for mapping}
-\label{appendix:riptide:ilp}
+% It is based on prior work~\cite{nowatzki2013general}.
 
 \begin{table}[h]
-	\centering
-	\resizebox{0.75\linewidth}{!}{
-		\begin{tabular}{ll}
+  \centering
+
+  \resizebox{0.65\linewidth}{!}{
+    \begin{tabular}{ll}
 			\toprule
-			\bf Variables  					& \bf Explanation \\
+			\bf Input & \bf Explanation \\
 			\midrule
-			\multicolumn{2}{l}{\bf Inputs: Program} \\
-			$V$ 							& Set of program vertices \\
-			$E$ 							& \thead[l]{Set of program edges \\
-			Each edge is a tuple of the form, $(v_{src},p_{src}, v_{dst}, p_{dst})$, \\
-			(source vertex, source port, destination vertex, destination port)} \\
-			\midrule
-			\multicolumn{2}{l}{\bf Inputs: CGRA} \\
-			$N$ 							& Set of CGRA nodes (PEs) \\
-			$F$ 							& Set of control-flow nodes in NoC, $F \subset N$ \\
-			$R$ 							& Set of CGRA routers \\
-			$L$ 							& Set of CGRA NoC links \\
-			$H_{nl}[N,L]$ 					& 
-				\thead[l]{Node-to-link matrix \\ 
-				$H_{nl}(n, l) = 1$ if link $l$ originates from node $n$} \\
-			$H_{rl}[R,L]$ 					& 
-				\thead[l]{Router-to-link matrix \\ 
-				$H_{rl}(n, l) = 1$ if link $l$ originates from router $r$} \\
-			$H_{ln}[L,N]$ 					& 
-				\thead[l]{Router-to-node matrix \\ 
-				$H_{ln}[l, n] = 1$ if link $l$ is an input to node $n$} \\
-			$H_{lr}[L,R]$ 					& 
-				\thead[l]{Link-to-router matrix \\ 
-				$H_{lr}[l, r] = 1$ if link $l$ is an input to router $r$} \\
-			\midrule
-			\multicolumn{2}{l}{\bf Inputs: Compatibility} \\
-			$C_{vn}[V,N]$ 					& \thead[l]{Vertex-node compatibility matrix \\
-			$C_{vn}[v,n]=1$ if vertex $v$ can be mapped to node $n$} \\
-			$C_{el}[E,L]$ 					& \thead[l]{Edge-link compatibility matrix \\
-			$C_{el}[E,L]=1$ if edge $e$ can be mapped to link $l$} \\
+			$V$ & Set of DFG vertices \\
+			$E$ & Set of DFG edges \\
+			$N$ & Set of hardware nodes (PEs) \\
+			$R$ & Set of hardware routers \\
+			$L$ & Set of hardware links \\
+			$C_{vn}(V, N) = 1$ if $v$ can map to $n$ & Vertex-node compatibility matrix \\
+			$H_{ln}(L, N) = 1$ if $l$ originates from $n$ & Link-to-node matrix \\
+			$H_{nl}(N, L) = 1$ if $l$ comes from $n$ & Node-to-link matrix \\
+			$H_{lr}(L, R) = 1$ if $l$ originates from $r$ & Link-to-router matrix \\
+			$H_{rl}(R, L) = 1$ if $l$ comes from $r$ & Router-to-link matrix \\
 			\toprule
-			\multicolumn{2}{l}{\bf Outputs} \\
-			$M_{vn}[V,N]$ & Mapping of program vertices to CGRA nodes\\
-			$M_{el}[E,L]$ & Mapping of program edges to CGRA links\\
+			\bf Variable & \bf Explanation \\
+			\midrule
+			$M_{vn}(V,N) = 1$ if $v$ is mapped to $n$& Vertex-to-node matrix \\
+			$M_{el}(E,L) = 1$ if $e$ is mapped to $l$& Edge-to-link matrix \\
+			\bottomrule
+	\end{tabular}
+  }
+  \caption{Inputs \& variables of \snafu's ILP formulation.}
+  \label{tab:snafu:map:vars}
+\end{table}	
+
+\autoref{tab:snafu:map:vars} lists the inputs and variables of the \snafu's ILP formulation for mapping.
+% 
+The goal of the mapper is to solve for $M_{vn}$ and $M_{el}$, which map a DFG's vertices to hardware PEs (hardware nodes) and a DFG's edges to hardware links, respectively.
+% 
+Matrix $C_{vn}$ captures the compatibility of a DFG's vertex-to-hardware node (i.e., a memory operation must be mapped to a memory PE).
+% 
+Matrices $H_{nl}$, $H_{ln}$, $H_{rl}$, $H_{lr}$, describe the topology of the CGRA fabric by specifying the connectedness of links to hardware nodes and routers.
+
+\begin{table*}[h]
+\centering
+\resizebox{0.5\linewidth}{!}{
+	\begin{tabular}{ll}
+		\bf Objective: &
+		\textbf{\textit{minimize}} $\sum_{e \in E, l \in L} M_{el}(e, l)$ \textit{subject to}
+	\end{tabular}
+}
+
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{lp{3.5in}}
+	\toprule
+		\bf Constraint & \bf Explanation \\
+	\midrule
+		$\forall v \in V, n \in N, M_{vn}(v,n) \le C_{vn}(v,n)$ &
+			Vertices are mapped to compatible nodes \\[2ex]	
+		$\forall v \in V, \sum_{n \in N} M_{vn}(v,n) = 1$ &
+			Every vertex must be mapped to a node \\[2ex]
+		$\forall n \in N, \sum_{v \in V} M_{vn}(v,n) \le 1$ &
+			No node can be used by more than one vertex \\[2ex]	
+		$\forall e \in E, r \in R, \sum_{l\in L}M_{el}(e,l)H_{lr}(l,r) = \sum_{l \in L}M_{el}(e,l)H_{rl}(r,l)$ &
+			Flow into a router must equal the flow out \\[2ex]
+		$\forall e \in E, n \in N, \sum_{l \in L}M_{e,l}(e)H_{nl}(n, l) = M_{vn}(src(e),n)$ &
+			If a vertex is mapped to a node, then the output edges are mapped to outgoing links\\[5ex]
+		$\forall e \in E, n \in N, \sum_{l \in L}M_{e,l}(e)H_{ln}(l, n) = M_{vn}(dst(e),n)$ &
+			If a vertex is mapped to a node, then the input edges are mapped to incoming links\\[5ex]
+		$\forall l \in L, e_1 \in E, M_{el}(e_1,l) + max_{e_2 \in E | src(e_1) \ne src(e_2)} M_{el}(e_2,l)\le 1$ &
+			Edges that do not share the same source are not mapped to the same links\\
+	\midrule
+	\end{tabular}
+}
+\resizebox{0.8\linewidth}{!}{
+	\begin{tabular}{l|l}
+		$src(e) := v \in V $ and v is the source of e &
+		$dst(e) := v \in V $ and v is the destination of e
+	\end{tabular}
+}
+\caption{\snafu's ILP formulation.}
+\label{tab:snafu:ilp}
+\end{table*}
+
+\autoref{tab:snafu:ilp} describes \snafu's (binary) ILP formulation for mapping.
+% 
+The formulation minimizes average routing distance given the constraints in the table.
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\section{\riptide's mapper}
+\label{appendix:riptide}
+
+\begin{table}[h]
+  \centering
+
+  \resizebox{0.7\linewidth}{!}{
+    \begin{tabular}{ll}
+			\toprule
+			\bf Input & \bf Explanation \\
+			\midrule
+			$V$ & Set of DFG vertices \\
+			$E$ & Set of DFG edges \\
+			$N$ & Set of hardware nodes (PEs \& CF-modules) \\
+			$F$ & Set of CF-modules $F \subset N$ \\
+			$R$ & Set of hardware routers \\
+			$L$ & Set of hardware links \\
+			$C_{el}(E, L) = 1$ if $e$ can map to $l$ & Edge-link compatibility matrix \\
+			$C_{vn}(V, N) = 1$ if $v$ can map to $n$ & Vertex-node compatibility matrix \\
+			$H_{ln}(L, N) = 1$ if $l$ originates from $n$ & Link-to-node matrix \\
+			$H_{nl}(N, L) = 1$ if $l$ comes from $n$ & Node-to-link matrix \\
+			$H_{lr}(L, R) = 1$ if $l$ originates from $r$ & Link-to-router matrix \\
+			$H_{rl}(R, L) = 1$ if $l$ comes from $r$ & Router-to-link matrix \\
+			\toprule
+			\bf Variable & \bf Explanation \\
+			\midrule
+			$M_{vn}(V,N) = 1$ if $v$ is mapped to $n$& Vertex-to-node matrix \\
+			$M_{el}(E,L) = 1$ if $e$ is mapped to $l$& Edge-to-link matrix \\
 			\bottomrule
 		\end{tabular}
-	}
-	\caption{Variables for \riptide's ILP.}
-	\label{tab:riptide:appendix:ilp:vars}
+  }
+	\caption{Inputs \& variables of \riptide's ILP \& SAT formulations.}
+	\label{tab:riptide:map:vars}
 \end{table}
 
-\paragraph{Helper functions}
-\begin{equation*}
-src(e) = v_{src}
-\end{equation*}
-\begin{equation*}
-dst(e) = v_{dst}
-\end{equation*}
-\begin{equation*}
-oport(e) = p_{src}
-\end{equation*}
+\autoref{tab:riptide:map:vars} lists the inputs and variables of \riptide's SAT and ILP formulations for mapping.
+% 
+The inputs and variables are quite similar to those for \snafu's formulation.
+% 
+The goal of the mappers is to solve for $M_{vn}$ and $M_{el}$, which map a DFG's vertices to hardware nodes and a DFG's edges to hardware links, respectively. 
+% 
+However, there are two primary additions v. \snafu's formulation.
+% 
+First, \riptide adds matrix $C_{el}$, which captures the compatibility of a DFG's edge-to-hardware link, and is used to ensure that incoming and outgoing ports match.
+% 
+This is unnecessary in \snafu because all operations in \snafu have a single outgoing value and the \snafu $\mu$core includes a router that makes an all-to-all connection between incoming network ports and internal FU ports.
+% 
+Second, \riptide makes a distinction between PEs and CF-modules (both hardware nodes) because CF-modules, when unused, can pass through a signal.
 
-\paragraph{Integer linear program}
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{ILP formulation}
 
-\begin{equation*}
-\text{minimize }\sum_e \sum_l M_{el}[e,l] \text{ subject to}
-\end{equation*}
+\begin{table*}[h]
+\centering
+\resizebox{0.5\linewidth}{!}{
+	\begin{tabular}{ll}
+		\bf Objective: &
+		\textbf{\textit{minimize}} $\sum_{e \in E, l \in L} M_{el}(e, l)$ \textit{subject to}
+	\end{tabular}
+}
 
-\begin{enumerate}
-\item $M_{vn} \le C_{vn}$
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{lp{3.5in}}
+	\toprule
+		\bf Constraint & \bf Explanation \\
+	\midrule
+		$\forall e \in E, l \in L, M_{el}(e,l) \le C_{el}(e,l)$ &
+		Edges are mapped to compatible links \\[2ex]	
+		$\forall v \in V, n \in N, M_{vn}(v,n) \le C_{vn}(v,n)$ &
+		Vertices are mapped to compatible nodes \\[2ex]
+		$\forall v \in V, \sum_{n \in N} M_{vn}(v,n) = 1$ &
+		Every vertex must be mapped to a node \\[2ex]
+		$\forall n \in N, \sum_{v \in V} M_{vn}(v,n) \le 1$ &
+		No node can be used by more than one vertex \\[2ex]
+		$\forall e \in E, r \in R, \sum_{l\in L}M_{el}(e,l)H_{lr}(l,r) = \sum_{l \in L}M_{el}(e,l)H_{rl}(r,l)$ &
+		Flow into a router must equal the flow out \\[2ex]
+		$\forall e \in E, n \in N | n \notin F, \sum_{l \in L}M_{e,l}(e)H_{nl}(n, l) = M_{vn}(src(e),n)$ &
+		If a vertex is mapped to a non-CF node, then the output edges are mapped to outgoing links\\[5ex]
+		$\forall e \in E, n \in N | n \notin F, \sum_{l \in L}M_{e,l}(e)H_{ln}(l, n) = M_{vn}(dst(e),n)$ &
+		If a vertex is mapped to a non-CF node, then the input edges are mapped to incoming links\\[5ex]
+		$\forall l \in L, e_1 \in E, M_{el}(e_1,l) + max_{e_2 \in E | src(e_1) \ne src(e_2)} M_{el}(e_2,l)\le 1$ &
+		Edges that do not share the same source are not mapped to the same links\\[5ex]
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{ln}(l,n) + \sum_{v \in V}M_{vn}(v,n) \ge \sum_{l \in L} M_{el}(e,l)H_{nl}(n,l)$ &
+		Unused CF-modules can pass through edges \\[2ex]
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{ln}(l,n) \le \sum_{v \in V}M_{vn}(v,n) + \sum_{l \in L} M_{el}(e,l)H_{nl}(n,l)$ &
+		Unused CF-modules can pass through edges \\[2ex]
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{nl}(n, l) \ge M_{vn}(src(e), n)$ &
+		If a vertex is mapped to a CF node, then the output edges are mapped to outgoing links\\[5ex]
+		$\forall e \in E, n \in F, \sum_{l \in L} M_{el}(e,l)H_{ln}(l, n) \ge M_{vn}(dst(e), n)$ &
+		If a vertex is mapped to a CF node, then the input edges are mapped to incoming links\\
+	\midrule
+	\end{tabular}
+}
+\resizebox{0.8\linewidth}{!}{
+	\begin{tabular}{l|l}
+		$src(e) := v \in V $ and v is the source of e &
+		$dst(e) := v \in V $ and v is the destination of e
+	\end{tabular}
+}
+\caption{\riptide's ILP formulation.}
+\label{tab:riptide:ilp}
+\end{table*}
 
-\textbf{Explanation:} Vertex is mapped to a compatible node.
-\item $M_{el} \le C_{el}$
+\autoref{tab:riptide:ilp} describes \riptide's (binary) ILP formulation.
+% 
+It is similar to \snafu's formulation, sharing several constraints and the same objective of minimizing average routing distance.
+% 
+However, \riptide's formulation draws a distinction between CF-modules and PEs that requires additional constraints to allow unused CF-modules to pass through values and used CF-modules to effectively act in the formulation as if they were PEs.
+% 
+It also ensures that ports match by constraining edges to certain hardware links according to matrix, $C_{el}$.
 
-\textbf{Explanation:} Edge is mapped to a compatible link (ports of producer \& consumer match).
-\item $\forall n, \, \sum\limits_v M_{vn}[v,n] \le 1$
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+\subsection{SAT formulation}
 
-\textbf{Explanation:} No node has multiple vertices mapped to it.
-\item $M_{el} H_{lr} = M_{el} H_{rl}^T$
+\begin{table*}[h]
+\centering
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{lp{3.5in}}
+	\toprule
+		\bf Clause & \bf Explanation \\
+	\midrule
+	$\forall e \in E, l \in L | C_{el}(e,l) = 0, \neg M_{el}(e,l)$ & 
+			Edges are mapped to compatible links \\[2ex] 
+	$\forall v \in V, n \in N | C_{vn}(v,n) = 0, \neg M_{vn}(v,n)$ &	
+			Vertices are mapped to compatible nodes \\[2ex]	
+	$\forall v \in V, ExactlyOne(\{M_{vn}(v,n) | n \in N\})$ &
+			Every vertex must be mapped to a node \\[2ex]
+	$\forall n \in N, AtMostOne(\{M_{vn}(v,n) | v \in V\})$ &
+			No node can be used by more than one vertex	\\[2ex]
+	$\forall r \in R, e \in E, \lor_{l|H_{rl}(r,l)} M_{el}(e,l) \iff \lor_{H_{lr}(l,r)} M_{el}(e,l)$ &
+			An edge mapped to incoming link to a router must also be mapped to an outgoing link \\[4ex]
+	$\forall r \in R, e \in E, AtMostOne(\{M_{el}(e,l)| l \in L \; and \; H_{rl}(r,l)\})$ &
+			An edge can only be mapped to a single outgoing link of a router \\[4ex]
+	$\forall e \in E, n \in N | n \notin F, \lor_{l|H_{nl}(n,l)} M_{el}(e,l) \iff M_{vn}(src(e), n)$ &
+			If a vertex is mapped to a non-CF node, then the input edges are mapped to incoming links\\[4ex]
+	$\forall e \in E, n \in N | n \notin F, \lor_{l|H_{ln}(l,n)} M_{el}(e,l) \iff M_{vn}(dst(e), n)$ &
+			If a vertex is mapped to a non-CF node, then the output edges are mapped to outgoing links\\[4ex]
+	$\forall l \in L, e_1 \in E, e_2 \in E | src(e_1) \neq src(e_2), \neg M_{el}(e_1,l) \lor \neg M_{el}(e_2, l)$ &
+			Edges that do not share the same source are not mapped to the same links\\[4ex]
+	$\forall e \in E, n \in F, K_{nl}(e,n) \lor \neg M_{vn}(src(e), n)$ &
+			If a vertex is mapped to a CF node, then the output edges are mapped to outgoing links\\[4ex]
+	$\forall e \in E, n \in F, K_{ln}(e,n) \lor \neg M_{vn}(dst(e), n)$ &
+			If a vertex is mapped to a CF node, then the input edges are mapped to incoming links\\[4ex]
+	$(\forall e \in E, n \in F, (K_{ln}(e,n) \lor K_{n} \lor \neg K_{nl}(e,n) )\land$
+ 	&
+			Unused CF-modules can pass through edges\\
+	\hspace{4em}$(\neg K_{ln}(e,n) \lor K_{n}(n) \lor K_{nl}(e,n)) \land$
+	$(\neg K_{ln}(e,n) \lor \neg M_{vn}(src(e), n))$ & \\
+	$\forall e \in E, n \in F, l \in L | H_{ln}(l,n), \neg M_{el}(e,l) \lor K_{ln}(e)$ &
+			An edge mapped to an output link of CF-module cannot be mapped to an input of the CF-module\\
+	\midrule
+	\end{tabular}
+}
 
-\textbf{Explanation:} If edge is mapped to incoming link of a router, then it also has to be mapped to an outgoing link of the router (preservation of flow).
-\item $\forall e, n |n \notin F, \, M_{el}[e]H_{ln}[:,n] = M_{vn}[dst(e)]$ 
+\resizebox{\linewidth}{!}{
+  \begin{tabular}{l|l|l}
+		$src(e) := v \in V $ and v is the source of e &
+		$dst(e) := v \in V $ and v is the destination of e&
+		$K_{nl}(e,n) := \lor_{l|H_{nl}(n,l)}M_{el}(e,l)$ \\
+	\end{tabular}
+}
+\resizebox{0.5\linewidth}{!}{
+  \begin{tabular}{l|l}
+		$K_{ln}(e,n) := \lor_{l|H_{ln}(l, n)}M_{el}(e,l)$&
+		$K_{n}(n) := \lor_{v\in V}M_{vn}(v,n)$\\
+	\end{tabular}
+}
+\caption{\riptide's SAT formulation.}
+\label{tab:riptide:sat}
+\end{table*}
 
-\textbf{Explanation:} If a vertex is mapped to a node (not control-flow node in NoC), then the inputs to the vertex must be mapped to incoming links of that node.
-\item $\forall e,n|n \notin F, \, M_{el}[e]H_{nl}^T[:,n] = M_{vn}[src(e)]$
+\autoref{tab:riptide:sat} describes \riptide's SAT formulation.
+% 
+Since there is no objective, the formulation may yield longer routes, duplicate routes or routes with cycles.
+% 
+We post-process the routes to find the shortest between two nodes.
 
-\textbf{Explanation:} If a vertex is mapped to a node (not control-flow node in NoC), then the outputs of the vertex must be mapped to outgoing links of that node.
-\item $\forall e, n |n \in F, \, M_{el}[e]H_{ln}[:,n] \ge M_{vn}[dst(e)]$ 
-
-\textbf{Explanation:} If a vertex is mapped to a control-flow node in NoC, then the inputs to the vertex must be mapped to incoming links of that node.
-\item $\forall e,n|n \in F, \, M_{el}[e]H_{nl}^T[:,n] \ge M_{vn}[src(e)]$
-
-\textbf{Explanation:} If a vertex is mapped to a control-flow node in NoC, then the outputs of the vertex must be mapped to outgoing links of that node.
-\item $\forall e_1, e_2 | src(e_1) \ne src(e_2)  \bigcup oport(e_1) \ne oport(e_2), \, M_{el}[e_1] + M_{el}[e_2] \le 1$
-
-\textbf{Explanation:} If edges do not originate from the same node or do not have the same ouput port, they can not share links.
-\item $\forall n |n \in F, \, M_{el}H_{ln}[:,n] + \sum\limits_v M_{vn}[v,n] \ge M_{el}H_{nl}^T[:,n]$ 
-
-\textbf{Explanation:} If a vertex is not mapped to a control-flow node in NoC, then a value can be passed through, so if edge is mapped to incoming link then it is also mapped to outgoing link.
-\item $\forall n |n \in F, \, M_{el}H_{ln}[:,n] \le \sum\limits_v M_{vn}[v,n] + M_{el}H_{nl}^T[:,n]$ 
-
-\textbf{Explanation:} If a vertex is not mapped to a control-flow node in NoC, then a value can be passed through, so if edge is mapped to incoming link then it is also mapped to outgoing link.
-\end{enumerate}
