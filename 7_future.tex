@@ -55,7 +55,7 @@ This suggests that the energy efficiency of compute is no longer the bottleneck 
 % 
 \riptide (Summary) (dark red) supports this conclusion; efficient onboard compute that summarizes and/or compresses sensor data, minimizes communication energy and extends lifetime even more. 
 % 
-Thus, \riptide has solved the problem of compute effiency for a variety of applications, opening the door to exploring to new problems.
+Thus, \riptide has solved the problem of compute efficiency for a variety of applications, opening the door to exploring to new problems.
 % future ULP sensor systems need only maintain \riptide's level of energy-efficiency, while addressing other open problems.
 
 \section{Future research directions}
@@ -228,7 +228,7 @@ These transformations include loop-unrolling to increase instruction-level paral
 % 
 % To reduce the lengths of critical paths and/or loop initiation intervals, the compiler could flatten dependence chains and perform code-motion to reduce inner-loop work.
 
-The CGRA context does change the way these transformations are applied v. traditional compilers targetting von Neumann machines, as there is a strict limit to the number of operations that can be mapped onto the fabric.
+The CGRA context does change the way these transformations are applied v. traditional compilers targeting von Neumann machines, as there is a strict limit to the number of operations that can be mapped onto the fabric.
 % 
 There will be a need for an accurate cost model with a feedback loop between the middle-end optimizer of a compiler and its backend-mapper (that solves for the mapping to CGRA hardware) to inform which of the transformations are undertaken.
 % 
@@ -261,11 +261,11 @@ This is similar to the approach taken for Nvidia GPUs; first CUDA programs are c
 For CGRAs, compilation would be split between dataflow compilation and mapping.
 % 
 % Dataflow compilation is device agnostic, while mapping optimizes and maps a program to a specific device.
-Dataflow compilation converts a program to an intermediate representation (IR) that can be targeted to many different CGRA fabrics.
+Dataflow compilation converts a program to an intermediate representation (IR) that can be targeted to many different CGRAs with potentially different ISAs.
 % 
-Then, mapping maps and optimizes the IR to a specific fabric.
+Then, mapping schedules and optimizes the IR to a specific fabric and its ISA.
 % 
-The key is developing an IR for a program that captures the right amount of information.
+The key is developing an IR for a program that captures the right amount of information to facilitate this mapping.
 % 
 Too simple, and the mapper may not have enough information to perform low-level, device-specific optimizations.
 % 
@@ -300,20 +300,20 @@ However, they may require an overprovisioning of resources --- routes in particu
 % that develop custom heuristic-based algorithms to quickly find valid mappings.
 % Custom search heuristics or changes to the encoding could reduce this time even more.
 % 
-This might be a necessary tradeoff, though, as a boost in compilation performace can enable future compilers to use mapping in a feedback loop to choose which optimization (e.g., loop unrolling, loop vectorization, etc.) passes to apply to maximize/minimize different application objectives.
+This might be a necessary tradeoff, though, as a boost in compilation performance can enable future compilers to use mapping in a feedback loop to choose which optimization (e.g., loop unrolling, loop vectorization, etc.) passes to apply to maximize/minimize different application objectives.
 % 
 Further, depending on the optimization, the suboptimality of heuristic-based mapping may be moot.
 
 \subsubsection{Changing the programming interface}
 The programming interface also affects compilation by dictating the amount and type of information supplied to the compiler.
 % 
-Program annotations or domain specific languages can better expose program structure, enabling the compiler to reduce memory dependences (by simplifying alias analysis), increase parallelization, or pipeline loops to name a few optimizations. 
+Program annotations or domain specific languages (DSLs) can better expose program structure, enabling the compiler to reduce memory dependences (by simplifying alias analysis), increase parallelization, or pipeline loops to name a few optimizations. 
 % 
 Different programming interfaces may also simplify the programmer's job by providing higher-level primitives.
 
-However, rather than redesigning the entire system for a specific interface or DSL, future interfaces should build on top of general-purpose program support like what \riptide provides.
+However, rather than redesigning the entire system for a specific interface or DSL, future interfaces should be built on top of systems with general-purpose program support like what \riptide provides.
 % 
-The future DSL interfaces can use the general-purpose support as a crutch when programs only partially fit the the model of the DSL.
+Compilers can use the general-purpose support as a crutch when programs only partially fit a future DSL's model.
 % 
 This increases the applicability of DSLs and prevents one-off designs that require significant hardware changes when application requirements change.
 
