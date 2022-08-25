@@ -252,7 +252,7 @@ This means that if there are several devices with different CGRA fabrics, a prog
 % 
 Further low-level hardware details need to be exposed to the compiler so that it can correctly optimize and map a program.
 % 
-This complicates not only compiler development, but also increases compilation complexity, reduces portability, and makes virtualization challenging since the programmer must compile for a specific fabric.
+This complicates not only compiler development, but also increases compilation complexity, reduces portability, and makes virtualization (which is especially important in the modern datacenter computing context) challenging since the programmer must compile for a specific fabric.
 
 Instead, compilation could be split into two phases, one phase that is device-agnostic and another that optimizes for a specific device.
 % 

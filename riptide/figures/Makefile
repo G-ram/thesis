@@ -7,7 +7,7 @@ PDFS := execute.pdf cf.pdf overview.pdf router.pdf pe.pdf block.pdf \
 	loc-graph.pdf loc_legend-graph.pdf ctime-graph.pdf sat-graph.pdf \
 	progress_eff-graph.pdf progress_perf-graph.pdf progress_energy-graph.pdf \
 	program_1.pdf program_2.pdf program_3.pdf program_4.pdf \
-	program_5.pdf program_6.pdf program_7.pdf lightning.pdf watch.pdf wave.pdf \
+	program_5.pdf program_6.pdf program_7.pdf lightning.pdf watch.pdf \
 	area_pie.pdf
 
 PDFDIR := pdf
@@ -108,9 +108,6 @@ $(PDFDIR)/lightning.pdf: pdf/doc_data.txt
 
 $(PDFDIR)/watch.pdf: pdf/doc_data.txt
 	cp $(PDFDIR)/figures_35.pdf $(PDFDIR)/watch.pdf
-
-$(PDFDIR)/wave.pdf: wave.eps
-	epstopdf --output $@ $<
 
 $(PDFDIR)/area_pie.pdf: pie.py
 	python3 pie.py --dest=$(PDFDIR)/area_pie.pdf
