@@ -3,6 +3,10 @@ TEX=tex
 
 all : paper.pdf
 
+.PHONY : title
+title:
+	$(MAKE) -C title
+
 .PHONY: figures
 figures:
 	$(MAKE) -C figures
@@ -11,11 +15,11 @@ figures:
 	$(MAKE) -C snafu/figures
 	$(MAKE) -C riptide/figures
 
-fast : figures
+fast : figures title
 	pdflatex $(PAPERNAME) </dev/null | tail -n 32
 	killall -s 1 -r mupdf ; true
 
-paper.pdf : figures
+paper.pdf : figures title
 	pdflatex $(PAPERNAME) </dev/null | tail -n 32
 	killall -s 1 -r mupdf ; true
 	bibtex -min-crossrefs=30000 $(PAPERNAME) </dev/null >/dev/null
@@ -26,6 +30,7 @@ paper.pdf : figures
 
 clean :
 	$(MAKE) -C figures clean
+	$(MAKE) -C title clean
 	$(MAKE) -C sonic/figures clean
 	$(MAKE) -C manic/figures clean
 	$(MAKE) -C snafu/figures clean

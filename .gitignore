@@ -12,6 +12,15 @@ paper.lof
 paper.lot
 *-crop.pdf
 *~*
+title/title.bbl
+title/title.blg
+title/title.log
+title/title.out
+title/title.pdf
+title/title.loc
+title/title.lof
+title/title.lot
+title/title.toc
 figures/pdf
 figures/figures-crop.pdf
 figures/bld
